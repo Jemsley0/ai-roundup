@@ -1,3 +1,15 @@
 @use "./variables.scss" as *;
 
-// put your custom CSS here!
+// Site subtitle, rendered under the page title in the left sidebar.
+// The @quartz-community/page-title plugin has no subtitle option, so this
+// attaches it to .page-title rather than forking the plugin.
+.page-title::after {
+  content: "ai and technology for the data engineering gaze";
+  display: block;
+  margin-top: 0.3rem;
+  font-family: var(--bodyFont);
+  font-size: 0.8rem;
+  font-weight: $normalWeight;
+  line-height: 1.35;
+  color: var(--gray);
+}
