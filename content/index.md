@@ -75,14 +75,23 @@ Reminder that reading used to be fun. Try something not about AI. Could be the m
 
 <div style="display:flex;gap:1.25rem;flex-wrap:wrap;align-items:flex-start;margin-top:1rem;">
 <a href="https://openlibrary.org/works/OL98484W" style="text-decoration:none;">
-<img src="https://covers.openlibrary.org/b/id/280246-L.jpg" alt="Cover of Player Piano by Kurt Vonnegut" title="Player Piano, Kurt Vonnegut (1952)" loading="lazy" style="height:210px;width:auto;border-radius:3px;box-shadow:0 2px 8px rgba(0,0,0,0.25);" />
+<img src="https://covers.openlibrary.org/b/id/280246-L.jpg" alt="Cover of Player Piano by Kurt Vonnegut" title="Player Piano, Kurt Vonnegut (1952)" loading="lazy" style="height:200px;width:auto;border-radius:3px;box-shadow:0 2px 8px rgba(0,0,0,0.25);" />
 </a>
 <a href="https://openlibrary.org/works/OL134601W" style="text-decoration:none;">
-<img src="https://covers.openlibrary.org/b/id/8376548-L.jpg" alt="Cover of Lonesome Dove by Larry McMurtry" title="Lonesome Dove, Larry McMurtry (1985)" loading="lazy" style="height:210px;width:auto;border-radius:3px;box-shadow:0 2px 8px rgba(0,0,0,0.25);" />
+<img src="https://covers.openlibrary.org/b/id/8376548-L.jpg" alt="Cover of Lonesome Dove by Larry McMurtry" title="Lonesome Dove, Larry McMurtry (1985)" loading="lazy" style="height:200px;width:auto;border-radius:3px;box-shadow:0 2px 8px rgba(0,0,0,0.25);" />
 </a>
 <a href="https://openlibrary.org/works/OL43797138W" style="text-decoration:none;">
-<img src="https://covers.openlibrary.org/b/id/15108531-L.jpg" alt="Cover of Seascraper by Benjamin Wood" title="Seascraper, Benjamin Wood (2025)" loading="lazy" style="height:210px;width:auto;border-radius:3px;box-shadow:0 2px 8px rgba(0,0,0,0.25);" />
+<img src="https://covers.openlibrary.org/b/id/15108531-L.jpg" alt="Cover of Seascraper by Benjamin Wood" title="Seascraper, Benjamin Wood (2025)" loading="lazy" style="height:200px;width:auto;border-radius:3px;box-shadow:0 2px 8px rgba(0,0,0,0.25);" />
+</a>
+<a href="https://openlibrary.org/works/OL1449790W" style="text-decoration:none;">
+<img src="https://covers.openlibrary.org/b/id/12661786-L.jpg" alt="Cover of The Little Virtues by Natalia Ginzburg" title="The Little Virtues, Natalia Ginzburg (1962)" loading="lazy" style="height:200px;width:auto;border-radius:3px;box-shadow:0 2px 8px rgba(0,0,0,0.25);" />
+</a>
+<a href="https://openlibrary.org/works/OL2937539W" style="text-decoration:none;">
+<img src="https://covers.openlibrary.org/b/id/746912-L.jpg" alt="Cover of Einstein's Dreams by Alan Lightman" title="Einstein's Dreams, Alan Lightman (1992)" loading="lazy" style="height:200px;width:auto;border-radius:3px;box-shadow:0 2px 8px rgba(0,0,0,0.25);" />
+</a>
+<a href="https://openlibrary.org/works/OL471565W" style="text-decoration:none;">
+<img src="https://covers.openlibrary.org/b/id/15244938-L.jpg" alt="Cover of And Then There Were None by Agatha Christie" title="And Then There Were None, Agatha Christie (1939)" loading="lazy" style="height:200px;width:auto;border-radius:3px;box-shadow:0 2px 8px rgba(0,0,0,0.25);" />
 </a>
 </div>
 
-*Player Piano*, Kurt Vonnegut, 1952. *Lonesome Dove*, Larry McMurtry, 1985. *Seascraper*, Benjamin Wood, 2025. Covers via [Open Library](https://openlibrary.org/).
+Covers via [Open Library](https://openlibrary.org/).
