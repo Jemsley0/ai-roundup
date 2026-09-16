@@ -2,12 +2,15 @@
 title: Jems Roundup
 ---
 
-<p align="center">
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="96" height="96" role="img" aria-label="A cowboy hat above a bandana">
-  <g fill="currentColor"><path d="M22 25V16c0-5 4.5-9 10-9s10 4 10 9v9z"/><path d="M18 42h28c0 0-4 11-14 20-10-9-14-20-14-20z"/></g>
-  <path d="M4 25 Q32 43 60 25" stroke="currentColor" stroke-width="8" fill="none" stroke-linecap="round"/>
+<div style="float: left; margin: 0 1.5rem 1rem 0;">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="88" height="88" role="img" aria-label="A cowboy hat, mustache, and bandana">
+  <path d="M22 21V12c0-5 4.5-9 10-9s10 4 10 9v9z" fill="currentColor"/>
+  <path d="M4 21 Q32 37 60 21" stroke="currentColor" stroke-width="7" fill="none" stroke-linecap="round"/>
+  <path d="M17 39.5 Q25 34.5 32 39.5" stroke="currentColor" stroke-width="5.5" fill="none" stroke-linecap="round"/>
+  <path d="M47 39.5 Q39 34.5 32 39.5" stroke="currentColor" stroke-width="5.5" fill="none" stroke-linecap="round"/>
+  <path d="M22 47h20L32 62z" fill="currentColor"/>
 </svg>
-</p>
+</div>
 
 # A daily read on AI and data
 
@@ -29,20 +32,22 @@ Radar entries are always specific, adoptable things. If a team could not pilot o
 
 ## Topics
 
-Recurring threads, each collecting the items that belong to it across every edition. The first two are being trialled as **living pages** with a current-state summary, open questions, and a full timeline; the rest are still one-paragraph definitions.
+Recurring threads. Each one is a **full top-down read** of every edition that touched the topic, so you can consume by topic instead of by day: a current-state summary, the open questions, then every dated item written out in full, newest first, with links back to the source edition.
 
-- [[Topics/Agentic SDLC Governance|Agentic SDLC Governance]]. How orgs run many coding agents at once, and the control plane underneath. *Living page.*
-- [[Topics/Data Platform and Ingestion|Data Platform and Ingestion]]. Snowflake, dbt, the semantic layer, and agent-written pipelines. *Living page.*
-- [[Topics/AI Safety and Interpretability|AI Safety and Interpretability]]. The accumulating case that interpretability lags capability.
+- [[Topics/Agentic SDLC Governance|Agentic SDLC Governance]]. How orgs run many coding agents at once, and the control plane underneath.
+- [[Topics/Data Platform and Ingestion|Data Platform and Ingestion]]. Snowflake, dbt, the semantic layer, and agent-written pipelines.
+- [[Topics/AI Safety and Interpretability|AI Safety and Interpretability]]. The accumulating case that interpretability lags capability, and the policy response.
 - [[Topics/Agent Memory and Context Engineering|Agent Memory and Context Engineering]]. What agents retain, retrieve, and forget.
+- [[Topics/Token Cost and Model Routing|Token Cost and Model Routing]]. What actually drives agent cost, and which interventions survive benchmarking.
+- [[Topics/Semantic Layer and Knowledge Graphs|Semantic Layer and Knowledge Graphs]]. Portable semantics, ontologies, and the context layer over both.
+- [[Topics/Vector Databases and Retrieval|Vector Databases and Retrieval]]. Similarity versus structure, and where each one fails.
 - [[Topics/MCP|MCP]]. The protocol's move from tool-calling spec to infrastructure.
-- [[Topics/Semantic Layer and Knowledge Graphs|Semantic Layer and Knowledge Graphs]]. Portable semantics, ontologies, and context layers.
-- [[Topics/Token Cost and Model Routing|Token Cost and Model Routing]]. Routing cheap work to cheap models, and what it saves.
+- [[Topics/AI Research Provenance Disputes|AI Research Provenance Disputes]]. Credit, attribution, and announced versus checkable results.
 - [[Topics/Content Provenance and Crawler Controls|Content Provenance and Crawler Controls]]. Who may read the web, and how you prove what a file is.
-- [[Topics/Vector Databases and Retrieval|Vector Databases and Retrieval]]. Retrieval infrastructure and the Postgres consolidation.
-- [[Topics/AI Research Provenance Disputes|AI Research Provenance Disputes]]. Credit, attribution, and announced-versus-checkable results.
-- [[Topics/Humanoid Robotics|Humanoid Robotics]]. Shipments, deployments, and the cage-free turn.
-- [[Topics/GPT-6 Astra|GPT-6 Astra]] · [[Topics/DeepSeek|DeepSeek]] · [[Topics/Cognition|Cognition]]. Individual models and labs worth their own thread.
+- [[Topics/GPT-6 Astra|GPT-6 Astra]]. Benchmark gains diverging from practical quality.
+- [[Topics/Humanoid Robotics|Humanoid Robotics]]. Shipments, deployments, and the precision gap.
+- [[Topics/DeepSeek|DeepSeek]]. The price-per-capability move that retired its own flagship.
+- [[Topics/Cognition|Cognition]]. Devin, SWE-2, and the clearest revenue evidence for coding agents.
 
 ## Every edition
 
