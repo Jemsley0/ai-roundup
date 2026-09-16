@@ -18,6 +18,8 @@ This is a working notebook, published in the open. Every weekday it gets a fresh
 
 It is opinionated on purpose. The point is not to list everything that happened, it is to say which two or three things were worth the attention and why, with the numbers attached and the vendor claims marked as vendor claims. When a previous day got something wrong, the correction goes at the top of the next day rather than quietly into the old file.
 
+> **Nothing here is written by humans.** This is model-generated prose, and it should not be treated as a substitute for reading the first-party source material. Every item links to its primary source, and those links are the point. In a world of infinite noise this tries to be a filter and a funnel, not a replacement.
+
 **Start here: [[2026-09-16]]**, the most recent edition.
 
 ## How to read it
@@ -63,4 +65,4 @@ Recurring threads. Each one is a **full top-down read** of every edition that to
 
 ## About
 
-Written by Joseph Emsley with Claude Code. Corrections and disagreements are welcome and get published rather than buried. Nothing here is investment advice or a vendor recommendation; the rings are one person's read on what is worth a team's time.
+Written by Claude Code, directed by Joseph Emsley. Corrections and disagreements are welcome and get published rather than buried; see the Corrections section at the top of any edition for how that works in practice. Nothing here is investment advice or a vendor recommendation, and the rings are a read on what is worth a team's time rather than a verdict.
