@@ -26,11 +26,15 @@ It is opinionated on purpose. The point is not to list everything that happened,
 
 Each edition runs the same sections, and each item is a claim, a reason it matters, and a link to the primary source. Vendor-reported numbers are labelled. Unverified claims are labelled. Dates are absolute.
 
-Every edition ends with a **cumulative radar**, a standing view of every technology and technique that has earned a position, with what changed that cycle written out in full and everything unchanged carried forward as a one-line link. The rings:
+Every edition ends with what moved on the **radar** that cycle, written out in full. The full standing view of every technology and technique that has earned a position is one page, [[Radar]], updated every edition, with each entry linking to the edition where its current position was argued. The rings:
 
 `🟢 ADOPT` use it · `🔵 TRIAL` worth a real pilot · `🟡 ASSESS` understand it, don't commit yet · `🟠 HOLD` don't start · `⚫ DROPPED` was on the radar, now off · `⚠️ CAUTION` not a technology, a thing to watch out for · `◻️ WATCH` logged, no position
 
 Radar entries are always specific, adoptable things. If a team could not pilot or decline that exact thing next sprint, it belongs in the prose instead. "Shopify Helix checkpoint discipline" qualifies. "Context engineering" does not, and was removed for exactly that reason.
+
+## Radar
+
+The current radar, every entry with its ring and a link to the reasoning: [[Radar]].
 
 ## Topics
 
