@@ -13,3 +13,21 @@
   line-height: 1.35;
   color: var(--gray);
 }
+
+// The sidebar wordmark replaces the plain "Jems Roundup - Yeehaw" text link.
+// The text stays in the DOM for screen readers and keeps the tab title and
+// Open Graph metadata intact; only the visual rendering is swapped. The SVG is
+// generated from Impact glyph outlines converted to paths, so it needs no font.
+.page-title a {
+  display: block;
+  width: 100%;
+  max-width: 14rem;
+  aspect-ratio: 1204 / 456;
+  // Path is relative to the compiled stylesheet, which Quartz emits at the
+  // site root (index-<hash>.css), not in static/. So this must stay
+  // "static/yeehaw.svg" and not "yeehaw.svg".
+  background: url("static/yeehaw.svg") no-repeat center / contain;
+  text-indent: -9999px;
+  overflow: hidden;
+  white-space: nowrap;
+}
