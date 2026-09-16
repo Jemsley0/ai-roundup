@@ -132,6 +132,55 @@ plugins:
     enabled: true
   - source: "@quartz-community/explorer"
     enabled: true
+    options:
+      # Nav order: Home, Radar, the Topics folder, then editions newest first.
+      # Without this, Radar sorts alphabetically below every dated note and falls
+      # below the fold of the scrollable list, and Home never appears at all.
+      sortFn: |-
+        (a, b) => {
+          const rank = (n) => {
+            const name = n.displayName || n.slugSegment || "";
+            if (name === "Home") return 0;
+            if (name === "Radar") return 1;
+            if (n.isFolder) return 2;
+            return 3;
+          };
+          const ra = rank(a);
+          const rb = rank(b);
+          if (ra !== rb) return ra - rb;
+          const cmp = (x, y) =>
+            (x.displayName || "").localeCompare(y.displayName || "", undefined, {
+              numeric: true,
+              sensitivity: "base",
+            });
+          const isDate = (n) => /^\d{4}-\d{2}-\d{2}$/.test(n.displayName || "");
+          if (isDate(a) && isDate(b)) return cmp(b, a);
+          return cmp(a, b);
+        }
+      # The root index page becomes the tree root itself, so it is never rendered
+      # as a child. Inject an explicit Home entry pointing at the site root.
+      # The stub carries no-op sort/filter/map because the trie recurses into
+      # every child with those methods after this runs.
+      mapFn: |-
+        (node) => {
+          if (
+            Array.isArray(node.slugSegments) &&
+            node.slugSegments.length === 0 &&
+            !node.children.some((c) => (c.displayName || "") === "Home")
+          ) {
+            node.children.push({
+              slugSegments: ["index"],
+              slugSegment: "index",
+              displayName: "Home",
+              isFolder: false,
+              data: { slug: "", title: "Home" },
+              children: [],
+              sort() {},
+              filter() {},
+              map() {},
+            });
+          }
+        }
     layout:
       position: left
       priority: 50
