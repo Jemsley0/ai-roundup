@@ -13,24 +13,134 @@ Movement in the warehouse and transformation layer: Snowflake's semantic, govern
 
 Snowflake spent September moving the agent problem into the warehouse rather than leaving it to a separate governance vendor. Cortex AI Gateway is the centre of that: one control plane over models, data, 100-plus MCP servers, and enterprise tools, with policy and audit enforced at the tool-call level, covering third-party agents like Claude Code and Cursor alongside first-party Cortex functions. Core gateway is public preview; the cost, policy, and audit features around it are private preview.
 
-dbt's Snowflake-native CI story is now the most directly actionable thing in this layer: Slim CI, defer-to-production, failed-execution recovery, and concurrent execution all went GA on Sep 10 for dbt Projects on Snowflake. That has a real adoption cost attached, not just a flag, because all four depend on the `2026_06` behaviour-change bundle.
+dbt's Snowflake-native CI story is the most directly actionable thing in this layer: Slim CI, defer-to-production, failed-execution recovery, and concurrent execution all went GA on Sep 10 for dbt Projects on Snowflake. That has a real adoption cost attached, not just a flag, because all four depend on the `2026_06` behaviour-change bundle which changes how the underlying objects version.
 
-The ingestion layer is the quietest part and the one with the clearest direction: as pipeline authoring gets cheap enough for agents to do, the bottleneck moves upstack to modelling and semantics, which is why the semantic-layer items keep outnumbering the ingestion items.
+The ingestion layer is the quietest part and the one with the clearest direction. dltHub reports community-created pipelines going from 2,400 in January 2025 to 81,000 in January 2026 with **91 percent written by agents**. Vendor-reported and unaudited, but the strategic conclusion does not depend on the exact figure: when pipelines become cheap and agents write most of them, **the bottleneck moves to the transformation layer.**
 
 ## Open questions
 
 - Does the Cortex AI Gateway boundary hold? It governs the routing path, not entitlement, so Cortex database roles remain the access layer. Whether that stays a clean separation or becomes two overlapping permission systems is unresolved.
 - No independent measurement of Snowflake's dynamic model routing exists. The 3x and 25 percent token-efficiency claims are internal testing.
 - `interactive_table` cannot carry a model contract. Whether that is a beta gap or a structural limit decides whether it can ever sit anywhere but the serving edge.
-- Open Semantic Interchange still has no vendor shipping native import/export, and Microsoft is still absent while shipping a competing ontology layer in Fabric IQ.
+- Open Semantic Interchange still has no vendor shipping native import or export, and Microsoft is still absent while shipping a competing ontology layer in Fabric IQ.
+- The Snowflake string and binary column size change has an unpinned date. The version floor (`dbt-snowflake` v1.10.6) is real; the deploy date is not confirmable from the release notes.
 
-## Timeline
+## 2026-09-16
 
-- **2026-09-16.** Cortex AI Gateway reaches public preview: one auto-provisioned `SNOWFLAKE` gateway per account, role-granted model access, per-user quotas, custom-budget integration, trace tables, `AI_GATEWAY_USAGE_HISTORY`. Dynamic model routing ships across the gateway, CoCo, CoWork, and third-party agents. `EXPLAIN CHANGES` for dynamic tables and App Runtime go GA; Horizon Catalog Explorer becomes the default Snowsight browser. dbt adds an `interactive_table` materialization in beta, backs `state:*` selectors with dbt State, and turns platform AI features on by default. ([[2026-09-16]])
-- **2026-09-15.** dbt ships Analyst Read to all accounts and splits Semantic Layer failures into distinct `[WAREHOUSE_AUTHENTICATION_FAILED]` and `[WAREHOUSE_PERMISSION_DENIED]` prefixes instead of one indistinguishable message. Model query history goes GA for Redshift and Databricks. Microsoft Fabric IQ Ontology moves further into preview with sharing, permissions, rules that can initiate business processes, and an MCP server. ([[2026-09-15]])
-- **2026-09-14.** dbt Projects on Snowflake CI capabilities go GA (Slim CI, defer to production, failed-execution recovery, concurrent execution), gated on the `2026_06` behaviour-change bundle which moves dbt project objects to a single mutable live version. Snowflake CLI plus the new system functions make this a full CI/CD story rather than a warehouse feature. ([[2026-09-14]])
-- **2026-09-11.** Open Semantic Interchange becomes an Apache project, with reference converters merged for dbt MetricFlow, GoodData, Salesforce, and Apache Polaris, and no vendor shipping native import or export. dlt sits at 1.30.0 (Apache 2.0, ~5.8k stars, Python 3.10 to 3.14). The context-layer-over-semantic-layer pattern consolidates across Atlan, Looker BI Agents, and SAP Knowledge Graph. ([[2026-09-11]])
-- **2026-09-03.** Snowflake Advanced Semantics and Semantic Studio in private preview since the June Summit: level-of-detail calculations, composable semantic definitions, and an AI-assisted semantic model IDE with CoCo integration. ([[2026-09-03]])
+**Snowflake put Cortex AI Gateway into public preview, and it is much bigger than the release note implies.** The release note reads like a modest routing-and-quota feature. It is the public-preview surfacing of a product line Snowflake launched at Black Hat on Jul 28, and the full shape changes the assessment. The gateway is positioned as "the connective layer for all trusted agent activity," and it governs four things, not one: **models, data, MCP servers, and enterprise tools.**
+
+The MCP part is what the release note omits entirely. The gateway manages **100-plus MCP servers**, including bring-your-own and VPC-connected ones, with automatic discovery and monitoring, and it enforces identity, policy, and audit **at the tool-call level**, a capability that came from Snowflake's integration of Natoma, a centralised MCP gateway. Tool-call-level enforcement is a materially different control than model-access-level enforcement, and it is what makes this comparable to the agent-governance vendors on the radar rather than a warehouse feature.
+
+The third-party coverage is the other surprise. It governs first-party Snowflake agents (CoCo, CoWork) and third-party ones: Amazon Bedrock, Azure AI Foundry, ChatGPT, **Claude Code, Cursor**, and custom LangChain or LlamaIndex applications. An organisation can therefore put its coding-agent traffic behind the same policy and audit plane as its Cortex functions, which is a real answer to a question most teams currently answer with "we don't know what our coding agents are reaching."
+
+**Availability is fragmented and worth getting straight.** The core gateway object is **public preview**: one per account, auto-provisioned, named `SNOWFLAKE`, with role-granted model access, per-user quotas, custom-budget integration as a shared resource, per-gateway trace tables, and the `AI_GATEWAY_USAGE_HISTORY` view covering gateway, user, model, and token consumption. It speaks OpenAI Chat Completions and Anthropic Messages formats and works with coding agents including OpenCode. In **private preview** around it: Access Governance and Sprawl Control, Context-Aware Access Policies that evaluate identity, network, and client context jointly, AI Cost Control with unified consumption visibility by team, agent, or workload plus budget guardrails, Agent Action Auditability with real-time tool-call capture, and a Wide Model Catalog covering GPT, Gemini, Claude, Grok, Mistral, and GLM with geographic residency controls. **Generally available**: Agent Identity, and ransomware protection via multi-party approval.
+
+**The boundary matters and is easy to misread:** "the gateway governs the path traffic takes, not the set of models a user is entitled to." Requests still need access to the models themselves, so the database roles behind Cortex functions remain the entitlement layer. Practically, the gateway is an additive control plane, not a replacement for grants. You still design the role hierarchy; the gateway constrains and observes what flows through it. For a team that already does grants through Terraform to roles rather than individuals, the pilot shape is obvious: put the gateway object under Terraform alongside the existing role definitions, point one non-critical agent workload at it, and use the trace tables to answer what that agent actually calls. ([Snowflake release note](https://docs.snowflake.com/en/release-notes/2026/other/2026-09-15-cortex-ai-gateway), [Black Hat announcement](https://www.snowflake.com/en/blog/enterprise-ai-security-agentic-mcp-governance/))
+
+**Dynamic model routing shipped alongside it.** It routes requests automatically on cost, latency, capability, and data residency, sending simple or repetitive work to efficient models and reasoning-heavy work to frontier ones, and re-adapting when model pricing changes without an application rebuild. Administrators still choose which models and providers are available. Snowflake's internal testing claims agents building data pipelines with dynamic routing hit **up to 3x greater token efficiency** than a frontier-only route, and engineering teams completed identical work at **25 percent greater token efficiency** on a mixed-model approach. Both vendor-reported. The direction matches the independent Spotify Portal result already at adopt, which is the reason to take the mechanism seriously while discounting the multiplier. ([Techzine](https://www.techzine.eu/news/analytics/143712/snowflake-lets-cortex-ai-gateway-choose-models-itself/))
+
+**Snowflake also shipped `EXPLAIN CHANGES` for dynamic tables and made Horizon Catalog Explorer the default.** `EXPLAIN CHANGES` predicts a dynamic table's refresh behaviour before it happens, for a manual refresh or as part of a DDL change, without applying the change, which is a dry run for the thing dynamic tables are most often surprising about. Horizon Catalog Explorer replaces Database Explorer as the default object-browsing experience in Snowsight, keeping existing tabs and actions. App Runtime went GA.
+
+**dbt added an `interactive_table` materialization in beta, and the Snowflake feature underneath it has sharp edges.** Start with the Snowflake side. **Interactive tables and interactive warehouses are a matched pair**, both in public preview, aimed at sub-second query latency at high concurrency. The table is a specialised storage layout; the warehouse is a specialised engine with extra metadata, better indexing, and dedicated local caching. They only deliver the latency together, so an interactive table queried from a standard warehouse buys very little. Target workloads are explicitly narrow: live dashboards serving thousands of concurrent users, data-powered APIs needing predictable latency, alerting, and some agentic workloads. The query shape that benefits is a `SELECT` with a selective `WHERE`, optionally a `GROUP BY` on a few dimensions, repeated many times. One published benchmark measured 144ms on a standard warehouse against 41ms on an interactive one, roughly 3.5x. Snowflake's docs decline to give a number and say "sub-second."
+
+**The constraints are where the decision gets made.** Interactive warehouses cap query timeout at **5 seconds**, auto-retrying anything longer on a fallback standard warehouse. Minimum auto-suspend is **24 hours**, and billing has a **one-hour minimum** then per-second granularity, with suspend-and-resume starting a new minimum billable period. Read those together: this is not a warehouse you spin up per query, it is one you leave on, which makes it a standing cost line rather than an elastic one. Interactive tables require a `CLUSTER BY` at creation, reject DML (`UPDATE`, `DELETE`), reject `CALL`, reject the `->>` pipe operator, cannot participate in streams, and cannot take `ALTER TABLE` structural changes.
+
+**The dbt materialization is open source, Apache 2.0, in `dbt-labs/dbt-adapters`.** It landed in PR #2142, requires dbt v2 with dbt-snowflake v1.13+, and is beta in both the v1 and v2 engines. It shipped with 418 unit tests and 86 live Snowflake functional tests, and it also fixed a real pre-existing bug where `cluster_by`, `target_lag`, and `snowflake_initialization_warehouse` were compared without normalisation on dynamic tables, firing needless `ALTER` statements on every run. If you use dynamic tables today, that fix alone is worth the version bump. Config surface: `cluster_by` is **required**. `target_lag` is the switch between the two modes, since without it you get a static interactive table that only rebuilds when dbt runs, and with it Snowflake refreshes automatically, making it a dynamic interactive table, at which point dbt requires either `refresh_warehouse` or `snowflake_warehouse` at parse time. Three warehouse configs let you split the work: `snowflake_warehouse` for DDL, `refresh_warehouse` so automatic refreshes can run smaller, and `snowflake_initialization_warehouse` so the initial build can run larger than steady state. `on_configuration_change` alters in place for `target_lag` value changes, `refresh_warehouse`, and `snowflake_initialization_warehouse`, but does a `CREATE OR REPLACE` rebuild for `cluster_by` and any static-to-dynamic flip.
+
+**Five limitations to know before anyone proposes this in a design review.** Column drops are unsupported. **Model contracts are unsupported**, which rules the materialization out for any contract model. Interactive tables cannot be cloned or created in a personal database. Converting one to an `incremental` model needs `--full-refresh`. And the footgun: a dynamic interactive table downstream of a plain `table` model can serve **stale data**, because `CREATE OR REPLACE` on the upstream model destroys Snowflake's change-tracking history. The workaround is a post-hook on the upstream model re-enabling change tracking:
+
+```sql
+{{ config(
+    materialized='table',
+    post_hook="alter table {{ this }} set change_tracking = true",
+) }}
+```
+
+That failure is silent. It does not error, it does not warn, the downstream table just stops reflecting reality. Anyone adopting this needs a freshness test on the interactive table specifically, not a trust in the refresh schedule. Where it is genuinely useful: a dashboard or API layer at the very edge of the warehouse, fed by a small number of wide pre-aggregated tables with a known query shape, where you are already paying for a warm standard warehouse. Where it is a mistake: anywhere in the transformation graph, anywhere a contract is required, and anywhere the query shape is unpredictable. ([dbt Snowflake configs](https://docs.getdbt.com/reference/resource-configs/snowflake-configs), [PR #2142](https://github.com/dbt-labs/dbt-adapters/pull/2142), [Snowflake interactive analytics](https://docs.snowflake.com/en/user-guide/interactive))
+
+**dbt's other September items and one default flip.** dbt State now backs the `state:*` selectors as a comparison source in beta, with lag-tolerance recommendations and an **Explain tab on run details that says why each model was rebuilt, reused, or cloned**, which is the difference between trusting state-based selection and reverse-engineering it. Analyst Read reached all accounts. And **AI features in the dbt platform are now enabled by default**, which is a change you want to know about before someone notices it rather than after. ([dbt release notes](https://docs.getdbt.com/docs/dbt-versions/dbt-cloud-release-notes))
+
+Source note: [[2026-09-16]]
+
+## 2026-09-15
+
+**dbt shipped Analyst Read to all accounts, plus distinct Semantic Layer error prefixes for Snowflake.** Authentication and permission failures through the Semantic Layer now return `[WAREHOUSE_AUTHENTICATION_FAILED]` or `[WAREHOUSE_PERMISSION_DENIED]` instead of one indistinguishable message. Small, but it is the difference between a grep-able alert and a human reading a stack trace. Model query history for Redshift and Databricks also went GA. ([dbt release notes](https://docs.getdbt.com/docs/dbt-versions/release-notes))
+
+**Microsoft Fabric IQ Ontology moved further into preview, with sharing, permissions, and rules.** Ontologies define entity types, properties, and relationships, bind to real OneLake data, and can be bootstrapped from existing Power BI semantic models. Two details matter beyond the announcement: rules let the ontology itself initiate business processes via alerts and actions, and there is a Fabric IQ Ontology MCP server for Copilot Studio. Same shape as the context-layer-over-semantic-layer architecture, from the vendor whose absence was the main objection to Open Semantic Interchange.
+
+Source note: [[2026-09-15]]
+
+## 2026-09-14
+
+**Backfill: dbt Projects on Snowflake went GA with Slim CI, defer-to-production, failed-execution recovery, and concurrent execution on Sep 10, the most directly actionable data-platform item in weeks.** dbt Projects on Snowflake itself is not new, having gone GA on November 10, 2025, as a way to build, run, and monitor dbt projects natively inside Snowflake's Workspaces editor without a separate orchestrator such as Airflow or dbt Cloud. Snowflake's own framing of the problem it solves: logs and performance data scattered across an orchestrator plus Snowflake's query logs make debugging harder than it needs to be, and standing up a new team's pipeline access on external infrastructure is slower than doing it inside the platform the team already has.
+
+**What went GA is four capabilities aimed at the CI/CD half of the workflow.** **Slim CI** imports dbt artifacts from the latest successful production run, then uses `--state` and `--select state:modified+` to build and test only changed resources plus everything downstream, instead of a full rebuild on every pull request. **Defer to production** resolves references to upstream models a branch has not built yet by pointing at the existing production relation, so a PR touching one model does not also have to materialize everything it depends on. **Concurrent execution** lets independent slices of the same deployed dbt project object run at the same time on different cadences, using `DEFAULT_WRITEBACK` settings or distinct `--target-path` and `--log-path` values so parallel runs do not overwrite each other. **Failed-execution recovery** reuses artifacts from a failed run and reruns only the errored resources and their downstream dependencies via a `result:error+` selector. Together these replace the artifact store most teams hand-roll to get slim-CI and defer-to-prod behavior out of dbt Core or dbt Cloud. Snowflake now holds the state instead of a team-maintained S3 bucket or dbt Cloud's artifact cache.
+
+**There is a real adoption cost attached, not just a flag to flip.** All four capabilities depend on the **`2026_06` behavior change bundle**, which moves dbt project objects to a single mutable live version instead of the versioned-object model dbt Projects on Snowflake shipped with at its original GA. Until that bundle is generally enabled account-wide, teams have to opt in explicitly, and any existing versioned dbt project objects need a one-time migration via `SYSTEM$MIGRATE_DBT_PROJECT`. That is the detail worth checking before turning this on. It is not purely additive; it changes how the underlying objects version.
+
+**The Snowflake CLI integration is what makes this a full CI/CD story** rather than a warehouse feature on its own. Snowflake CLI plus these system functions let a team separate deployment from execution, spin up an isolated database per pull request, pull the artifacts for a specific query or the most recent run, and record the Git branch and commit against each deployment so a dbt project object stays traceable back to the commit that produced it. `AUTO_COMPILE = FALSE` is available for teams that want compilation out of the default path for governance reasons, useful when the role deploying dbt projects is more restricted than the role writing them. ([Snowflake release note](https://docs.snowflake.com/en/release-notes/2026/other/2026-09-10-dbt-artifacts-slim-ci-defer-to-production-ga), [dbt Projects on Snowflake docs](https://docs.snowflake.com/en/user-guide/data-engineering/dbt-projects-on-snowflake))
+
+**A Snowflake behaviour change scheduled for this month can break incremental dbt models on older adapters.** Snowflake is increasing the default column size for string and binary data types in September 2026, and **dbt-snowflake below v1.10.6 may fail to build certain incremental models** when it deploys. The exact deploy date could not be confirmed from the release notes, so treat the date as unpinned but the version floor as real.
+
+**Snowflake also put External Secret Providers into preview**, letting queries pull secrets from AWS Secrets Manager, Azure Key Vault, or GCP Secret Manager instead of duplicating sensitive values inside Snowflake. **dbt Core is at 2.0.0-rc.2**, adding ClickHouse unit-test support, better statement splitting for backslash escapes, expanded ClickHouse table, materialized-view, and projection handling, and improved Databricks full-refresh and metadata behaviour.
+
+Source note: [[2026-09-14]]
+
+## 2026-09-11
+
+**No developments in the warehouse layer, so this window carried a full readout on dlt instead.**
+
+**Current state.** dlt (data load tool, from dltHub) is at **1.30.0**, released 11 August 2026, with a 1.30.1a0 pre-release cut on 10 September. Apache 2.0, about 5.8k GitHub stars, Python 3.10 to 3.14 with 3.14 flagged experimental. It hit 1.0.0 production-stable in September 2024 and the project dates back to 2018, so it is mature rather than emerging.
+
+**What it is.** A declarative Python library for extract-and-load: you describe a source and it handles schema inference, type coercion, pagination, and incremental state. Sources cover REST APIs, SQL databases, cloud filesystems (S3, GCS, Azure), DataFrames, and Arrow tables. Destinations number 20-plus and switch on a single parameter, including Snowflake, Databricks, BigQuery, Postgres, Redshift, DuckDB, Athena, ClickHouse, MotherDuck, filesystem, Iceberg, and Delta. The design details that matter operationally: **schema contracts with three enforcement modes** (evolve, freeze, discard), decorators for declaring merge strategy, primary keys, and data-quality rules, and Ibis integration for Python-to-SQL transformation.
+
+**Recent releases.** 1.30.0 added cross-destination joins, meaning datasets on different platforms joined together, plus Snowflake nested-type support, input and output lineage tracking in traces, and changed failed load packages to no longer auto-abort by default. 1.29.0 brought a ClickHouse staging-optimised replace strategy, AWS Secrets Manager integration, and explicit joins in the Relation API. 1.28.0 fixed replace and refresh truncation behaviour and added refreshable cloud credentials for long-running loads. The lineage-in-traces and Snowflake nested-type items are the two most relevant to a data-platform context.
+
+**The number that actually matters.** dltHub reports the community created **2,400 pipelines in January 2025**, almost entirely hand-written, and **81,000 in January 2026, with 91 percent written by agents.** That is 34x year-over-year growth, with agents now building roughly 10x more pipelines per month than human developers. Vendor-reported and unaudited, and they have an obvious interest in the framing. But the strategic conclusion does not depend on the exact figure: **when pipelines become cheap and agents write most of them, the bottleneck moves to the transformation layer**, meaning turning a firehose of new and constantly-changing sources into a clean consistent model the business can read. That is a direct argument that modelling capacity, not ingestion capacity, becomes the constraint.
+
+**Commercial side.** The library stays Apache 2.0. dltHub is the managed offering, with managed runtime, observability, data-quality metrics and checks, hosted Marimo notebooks, an AI Workbench, and collaboration workflows, from \$1,190 per month, with dltHub Transformation in public preview. The company positions the whole thing as "Claude/Codex/Cursor-native data engineering," and the library docs claim it is "built from the ground up for LLMs and coding agents," which given the 91 percent figure is less marketing than description. Funding is modest for the profile: \$8M in August 2025, about \$14.2M total across three rounds. ([dlt on PyPI](https://pypi.org/project/dlt/), [GitHub](https://github.com/dlt-hub/dlt), [dltHub on agent-built pipelines](https://dlthub.com/blog/dlthub-for-teams))
+
+**Open Semantic Interchange became an Apache project** the same window, with reference converters merged for dbt MetricFlow, GoodData, Salesforce, and Apache Polaris, and no vendor shipping native import or export. Full treatment in [[Topics/Semantic Layer and Knowledge Graphs|Semantic Layer and Knowledge Graphs]].
+
+Source note: [[2026-09-11]]
+
+## 2026-09-10
+
+**Second quiet day in a row.** dbt Core 2.0.0-rc.2 was the only movement: ClickHouse unit-test support, better statement splitting for backslash escapes, expanded ClickHouse table, materialized-view, and projection handling, improved Databricks full-refresh and metadata behavior, invocation IDs in default Databricks query comments, and preserved run-operation connection names. On the platform side, broader permissions, clearer Snowflake error messages, safer schedule validation, and Explain visibility for dbt State runs. ([dbt Core updates](https://releasebot.io/updates/dbt-labs/dbt-core))
+
+Source note: [[2026-09-10]]
+
+## 2026-09-09
+
+**Quiet day, nothing shipped.** The month's real item was dbt: dbt Core 2.0 progressing through release candidates, with 2.0.0-rc.2 improving Databricks full-refresh and metadata behavior, and model query history for Redshift and Databricks going GA. **dbt Core 2.0 itself, the Apache-2.0 Rust-based Fusion foundation with Snowflake, BigQuery, Databricks, and Redshift adapters at launch, has been in alpha since June**, so this is progress toward a known release rather than news. ([dbt Core v2 announcement](https://docs.getdbt.com/blog/dbt-core-v2-is-here))
+
+Source note: [[2026-09-09]]
+
+## 2026-09-08
+
+**Databricks Model Serving added Google Gemini 3.8 Flash as a hosted model via the Foundation Model APIs**, and Genie One and Genie Agents can now use OpenAI-hosted models when partner-powered AI is enabled. Databricks is opening its serving layer to non-Databricks frontier models rather than routing everything through its own. Genie One also gained public web search with cited sources, closing a real gap against chat-native competitors for anything needing current information. ([Databricks release notes](https://docs.databricks.com/aws/en/release-notes/product/2026/september))
+
+**Snowflake's Cortex AI Guardrails prompt-injection protection extended to the AWS_EU, AWS_JP, and AWS_APJ cross-region settings**, and the AIM Agent for Data Warehouses picked up SAS-workload migration support.
+
+Source note: [[2026-09-08]]
+
+## 2026-09-04
+
+**Databricks added Unity Gateway spend tracking and hard caps for external model providers** (Bedrock, Azure AI Foundry), not just Databricks-hosted models. Closes a real gap for anyone routing agent workloads through Bedrock from a Databricks control plane. ([Databricks release notes](https://docs.databricks.com/aws/en/release-notes/product/))
+
+**Snowflake is increasing the default column size for string and binary types this month.** dbt-snowflake versions below v1.10.6 can fail to build certain incremental models once the change lands. This is the first appearance of the action item that is still open.
+
+Source note: [[2026-09-04]]
+
+## 2026-09-03
+
+**Snowflake's Advanced Semantics and Semantic Studio were in private preview** since the June Summit announcement: level of detail calculations, composable semantic definitions, and an AI-assisted semantic model IDE with CoCo integration.
+
+**Snowflake Horizon Context was the more structurally interesting move.** Semantics get enforced **at query time inside the governance engine**, not copied or cached the way Semantic Views works today. Worth understanding before it reaches GA, since it changes where the source of truth for semantics actually lives. ([Snowflake blog](https://www.snowflake.com/en/blog/horizon-context-governed-context/))
+
+**Bedrock Managed Knowledge Base launched**, aimed at cutting the hand-rolled retrieval infrastructure tax for enterprise RAG. Also new that cycle: **AWS Agent Registry reached GA**, auto-discovering AgentCore runtimes and gateways org-wide, and Bedrock AgentCore Evaluations extended to TypeScript agent frameworks (Strands, LangGraph, OpenAI Agents, Vercel AI SDK) alongside Python. ([AWS News Blog](https://aws.amazon.com/blogs/machine-learning/get-to-your-first-working-agent-in-minutes-announcing-new-features-in-amazon-bedrock-agentcore/))
+
+Source note: [[2026-09-03]]
 
 ## On the radar
 
@@ -45,9 +155,9 @@ The ingestion layer is the quietest part and the one with the clearest direction
 
 ## Open action items
 
-- Pin `dbt-snowflake` to v1.10.6 or later ahead of Snowflake's default string and binary column size change. Carried from [[2026-09-14]], still open.
+- Pin `dbt-snowflake` to v1.10.6 or later ahead of Snowflake's default string and binary column size change. Opened [[2026-09-04]], carried through [[2026-09-14]], still open.
 - AI features in the dbt platform are now on by default. Confirm that is wanted before it surprises someone. Opened [[2026-09-16]].
 
 ## Related
 
-[[Topics/Semantic Layer and Knowledge Graphs|Semantic Layer and Knowledge Graphs]] · [[Topics/Token Cost and Model Routing|Token Cost and Model Routing]] · [[Topics/MCP|MCP]] · [[Topics/Vector Databases and Retrieval|Vector Databases and Retrieval]]
+[[Topics/Semantic Layer and Knowledge Graphs|Semantic Layer and Knowledge Graphs]] · [[Topics/Token Cost and Model Routing|Token Cost and Model Routing]] · [[Topics/MCP|MCP]] · [[Topics/Vector Databases and Retrieval|Vector Databases and Retrieval]] · [[Topics/Agentic SDLC Governance|Agentic SDLC Governance]]
