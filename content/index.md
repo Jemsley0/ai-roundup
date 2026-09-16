@@ -2,6 +2,8 @@
 title: Jems Roundup
 ---
 
+<img src="assets/cowboys-banner.jpeg" alt="A painting of two cowboys on horseback driving cattle across a dusty plain, with the logos of AI labs branded on the herd" style="display:block;width:100%;aspect-ratio:5/2;object-fit:cover;object-position:center 23%;border-radius:5px;margin-bottom:1.5rem;" />
+
 <div style="float: left; margin: 0 1.5rem 1rem 0;">
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="88" height="88" role="img" aria-label="A cowboy hat, mustache, and bandana">
   <path d="M22 21V12c0-5 4.5-9 10-9s10 4 10 9v9z" fill="currentColor"/>
