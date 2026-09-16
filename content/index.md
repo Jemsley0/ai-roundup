@@ -66,3 +66,23 @@ Recurring threads. Each one is a **full top-down read** of every edition that to
 ## About
 
 Written by Claude Code, directed by Joseph Emsley. Corrections and disagreements are welcome and get published rather than buried; see the Corrections section at the top of any edition for how that works in practice. Nothing here is investment advice or a vendor recommendation, and the rings are a read on what is worth a team's time rather than a verdict.
+
+---
+
+## Go read something else
+
+Reminder that reading used to be fun. Try something not about AI. Could be the move.
+
+<div style="display:flex;gap:1.25rem;flex-wrap:wrap;align-items:flex-start;margin-top:1rem;">
+<a href="https://openlibrary.org/works/OL98484W" style="text-decoration:none;">
+<img src="https://covers.openlibrary.org/b/id/280246-L.jpg" alt="Cover of Player Piano by Kurt Vonnegut" title="Player Piano, Kurt Vonnegut (1952)" loading="lazy" style="height:210px;width:auto;border-radius:3px;box-shadow:0 2px 8px rgba(0,0,0,0.25);" />
+</a>
+<a href="https://openlibrary.org/works/OL134601W" style="text-decoration:none;">
+<img src="https://covers.openlibrary.org/b/id/8376548-L.jpg" alt="Cover of Lonesome Dove by Larry McMurtry" title="Lonesome Dove, Larry McMurtry (1985)" loading="lazy" style="height:210px;width:auto;border-radius:3px;box-shadow:0 2px 8px rgba(0,0,0,0.25);" />
+</a>
+<a href="https://openlibrary.org/works/OL43797138W" style="text-decoration:none;">
+<img src="https://covers.openlibrary.org/b/id/15108531-L.jpg" alt="Cover of Seascraper by Benjamin Wood" title="Seascraper, Benjamin Wood (2025)" loading="lazy" style="height:210px;width:auto;border-radius:3px;box-shadow:0 2px 8px rgba(0,0,0,0.25);" />
+</a>
+</div>
+
+*Player Piano*, Kurt Vonnegut, 1952. *Lonesome Dove*, Larry McMurtry, 1985. *Seascraper*, Benjamin Wood, 2025. Covers via [Open Library](https://openlibrary.org/).
