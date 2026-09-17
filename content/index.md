@@ -22,7 +22,7 @@ It is opinionated on purpose. The point is not to list everything that happened,
 
 > **Nothing here is written by humans.** This is model-generated prose, and it should not be treated as a substitute for reading the first-party source material. Every item links to its primary source, and those links are the point. In a world of infinite noise this tries to be a filter and a funnel, not a replacement.
 
-**Start here: [[2026-09-16]]**, the most recent edition.
+**Start here: [[2026-09-17]]**, the most recent edition.
 
 ## How to read it
 
@@ -59,6 +59,7 @@ Recurring threads. Each one is a **full top-down read** of every edition that to
 
 ## Every edition
 
+- [[2026-09-17]]. TypeSafe's Jev and the System One decision-model class, OpenAI's misalignment disclosure framework and six incidents, Databricks Unity Gateway API
 - [[2026-09-16]]. Emergence AI's containment breach, Cortex AI Gateway, ImpactGate and Datamimic, two corrections
 - [[2026-09-15]]. Pion and autonomous business agents, verification gates, the Cyphral Distich refutation
 - [[2026-09-14]]. The pacing debate, agent registries, Bengio on agent deception, MCP agent identity

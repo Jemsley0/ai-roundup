@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, token-cost, model-routing]
-updated: 2026-09-16
+updated: 2026-09-17
 living: true
 ---
 
@@ -15,13 +15,29 @@ There is now a general test for whether a cost intervention is credible: **it ha
 
 The dominant cost driver is quadratic context accumulation, not per-token price. A 10-step agent loop costs roughly 23x a single pass, and a 20-step loop about 85x, because the whole message history is re-serialised at every step. Prompt caching is the largest single lever, at roughly 90 percent below uncached input. Cheap-model routing is the one behavioural pattern at adopt, because it changes the price of tokens you were going to send anyway.
 
-The newest direction is the model deciding how hard to try, rather than a router deciding which model to call. Cognition's SWE-2 exposes selectable reasoning effort and cut average steps from 127 to 53 at medium. Snowflake now sells the routing decision as a managed feature with residency and capability as inputs alongside cost.
+The newest direction was the model deciding how hard to try, rather than a router deciding which model to call. Cognition's SWE-2 exposes selectable reasoning effort and cut average steps from 127 to 53 at medium. Snowflake now sells the routing decision as a managed feature with residency and capability as inputs alongside cost.
+
+As of 2026-09-17 there is a third direction, and it passes the credibility test on the second clause more completely than anything else in this thread. TypeSafe's Jev does not generate text at all. It returns a typed value from a single parallel pass, prices input at \$0.042 per million tokens, and charges nothing for output because there is effectively none. Reducing output is one of the three things a credible cost intervention can do, and taking it to zero is the limit case. The vendor-reported multiples, 40x to 200x faster and 40x to 400x cheaper than frontier models at equivalent intelligence, are large enough to discount heavily and still matter. The routing question this raises is not which model is cheapest but which decisions in a workflow ever needed a text generator, and the honest answer for triage, classification, and branch selection is that most of them did not. Note the boundary: this replaces the cheap end of a routing table, it does not compete at the expensive end.
 
 ## Open questions
 
 - Every routing efficiency number in this thread except Spotify's and Quesma's is vendor-reported. Snowflake's 3x and Cognition's 64 percent both need independent eval.
 - Selectable reasoning effort and external routing solve overlapping problems. Nobody has published what happens when you use both.
 - Prompt caching is the biggest lever and gets the least attention. There is no good public writeup of cache-hit-rate engineering for agent loops.
+- Nobody has published an independent evaluation of a decision-only model against a frontier model on the same routing or triage task. Agreement rate matters far more than the speed multiple, and only the vendor has measured it.
+- If output tokens go to zero for a whole class of calls, the cost model for an agent loop changes shape rather than scale, and none of the existing per-step cost estimates in this thread account for that.
+
+## 2026-09-17
+
+**TypeSafe's Jev prices input at \$0.042 per million tokens and charges nothing for output, because it generates no text.** Output is a typed value from one of three primitives: Choice (pick a category), Score (a number on a scale), or Noul (a probability from 0 to 1), each returned with a calibrated confidence figure from a single parallel pass rather than token by token. Vendor-reported performance: 70ms to 500ms end to end, 40x to 200x faster and 40x to 400x cheaper than frontier models at equivalent intelligence, and 193.6x faster and 444.6x cheaper on TypeSafe's own workflow evaluation. Early access, text input only, and a 255-choice cardinality ceiling above which it falls back to two-stage scoring.
+
+Against the general test this page uses, Jev reduces output rather than reducing bytes on one input channel, which is why it is worth taking seriously where terminal-output compression was not. The genuine secondary saving is that it removes the retry-and-parse wrapper a caller needs around a frontier model asked for structured output, because the model cannot emit a value outside the declared schema. That is also the claim most likely to be repeated wrongly. TypeSafe lists a 0 percent hallucination rate, and that is a statement about types, not facts: Jev cannot return a malformed answer and can still return a confidently wrong one. ([TypeSafe announcement](https://typesafe.ai/blog/introducing-system-one-models-and-jev), [System One docs](https://docs.typesafe.ai/concepts/system-one))
+
+**A ternary-weight compression paper beat the apparent information-theoretic bound by measuring the weights instead of assuming them.** "Breaking the 1.58-bit Barrier for Ternary LLMs" introduces BITCOS, compressing ternary weights from 1.58 to 1.48 bits each. The 1.58 figure is log base 2 of 3, the entropy of three states under a uniform distribution, and the authors' observation is that the distribution is not uniform: across 29 ternary models, zeros account for up to 51.5 percent of all weights, so they design distribution-adaptive encoding layouts to match. Ternary weights make each multiply an add, a subtract, or a no-op, so inference gets cheap on ordinary processors, and memory bandwidth is usually the binding constraint anyway. This is the same axis as "Intelligence per Watt" from the previous cycle, which is still climbing at 159 points: cost per unit of capability measured in hardware terms rather than in vendor pricing. 128 points. ([arXiv 2609.16338](https://arxiv.org/abs/2609.16338), [HN](https://news.ycombinator.com/item?id=49732931))
+
+**A free frontier-class endpoint appeared and burned 2 billion tokens in a day.** Union Alpha is an anonymous stealth model on OpenRouter as `stealth/union-alpha`, multimodal, 262,144-token context, up to 131,072 completion tokens, tool calling and structured output, priced at zero for both prompt and completion during a preview of about a week. No named lab, no parameter count, no architecture paper, no weights. Relevant here only as a distortion: for one week the marginal cost of a frontier-class coding call is zero, which is long enough to change how people evaluate and short enough that nothing built on it survives. ([OpenRouter listing](https://openrouter.ai/stealth/union-alpha))
+
+Source note: [[2026-09-17]]
 
 ## 2026-09-16
 
@@ -82,6 +98,7 @@ Source note: [[2026-09-08]]
 ## On the radar
 
 - `🟢 ADOPT` **Cheap-model routing (Spotify Portal)**. [[2026-09-11]]
+- `🔵 TRIAL` `⚠️` **TypeSafe Jev and the System One decision-model class**, free output because there is none; the advertised 0 percent hallucination rate is schema enforcement, not factual accuracy. [[2026-09-17]]
 - `🔵 TRIAL` **Snowflake dynamic model routing**. [[2026-09-16]]
 - `🔵 TRIAL` `⚠️` **Cognition SWE-2 selectable reasoning effort**, vendor-reported figures only. [[2026-09-14]]
 - `🔵 TRIAL` **Gemini 3.8 Live Extended Thinking**. [[2026-09-16]]

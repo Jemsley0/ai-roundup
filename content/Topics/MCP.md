@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, mcp]
-updated: 2026-09-16
+updated: 2026-09-17
 living: true
 ---
 
@@ -17,13 +17,24 @@ The forward item to plan around is **agent identity via Workload Identity Federa
 
 Two adoption facts sit in tension. There are more than 10,000 active public MCP servers and the protocol has been donated to the Linux Foundation's Agentic AI Foundation, and yet an empirical study of 2,853 repositories found nobody in the sample using Claude Code's persistent subagent memory at all, and an Ask HN thread on production MCP use read as an open question rather than a settled one.
 
-The newest shape is governance. Snowflake's Cortex AI Gateway manages 100-plus MCP servers with policy and audit enforced at the tool-call level, which is a materially different control than model-access-level enforcement.
+The newest shape is governance, and as of 2026-09-17 both major warehouses sell it. Snowflake's Cortex AI Gateway manages 100-plus MCP servers with policy and audit enforced at the tool-call level, which is a materially different control than model-access-level enforcement. Databricks' Unity Gateway API reached general availability the following day and makes an external MCP server a registered catalog object with full create-read-update-delete through Terraform, the command-line interface, and four language software development kits. The two approaches differ in emphasis rather than in intent: Snowflake's strength is runtime enforcement per tool call, Databricks' is that the registration itself is infrastructure as code from day one. Either way, the layer that decides which MCP servers an agent may reach is now a governed warehouse object rather than a connection string in a config file, and neither vendor waited for the spec to say anything about it.
 
 ## Open questions
 
 - Production adoption is still not well evidenced. Server count is not usage.
 - MCP does not specify how much tool metadata and output must be exposed to the model, so implementations serialise full schemas and outputs into the context window, where they compete with everything else. There is no standard answer to this and it is a direct token-cost problem.
-- Tool-call-level policy enforcement is arriving from vendors before the spec has anything to say about it.
+- Tool-call-level policy enforcement is arriving from vendors before the spec has anything to say about it, and now from two vendors with different enforcement points.
+- Registering an MCP server as a warehouse catalog object and standardising agent identity through Workload Identity Federation are solving overlapping problems from opposite directions. Nobody has said how the two compose, or which one is authoritative when they disagree.
+
+## 2026-09-17
+
+**Databricks made an external MCP server a governed catalog object, managed through Terraform.** The Unity Gateway API reached general availability on Sep 16 with create, read, update, list, and delete across three object types: model services, model provider services, and MCP services. Client support is broad on day one: the Terraform provider from 1.132.0, the command-line interface from v1.17.0, the Python software development kit from 0.136.0, Go from v0.178.0, Java from 0.153.0, and JavaScript from 0.19.0, with Declarative Automation Bundles support in beta through the command-line interface.
+
+The significance for this page is not the feature list but what it does to the registration problem. The agent-and-skill-registry consolidation logged on [[2026-09-09]] identified the pattern as "register once, discover by natural-language search, reach through a single gate that records everything," and every implementation of it so far has been a standalone gateway product. Databricks put the registry inside the catalog that already holds the data, governed by the same privileges, declared in the same infrastructure-as-code repository as the tables. That is a materially different answer to who owns the registry, and it arrived one day after Snowflake's equivalent. ([Databricks release notes](https://docs.databricks.com/aws/en/release-notes/product/), [Unity Gateway API reference](https://docs.databricks.com/api/workspace/aigateway))
+
+**Komodor's platform ships more than 50 packaged agents, skills, integrations, and MCP servers behind one governance backbone.** Role-based policies define who may invoke an agent and which credentials and tools it may use, guardrails check inputs, tool calls, and model responses before execution, and every run is audited against a spending limit. Agents run on-premise or on any cloud against any model and provider while sharing one organisational context. This is the registry-plus-gateway pattern sold as a vertically packaged product for Kubernetes-shaped operations rather than as a substrate, and it is the first instance in this log where the MCP servers ship pre-populated rather than being something the buyer registers. ([Komodor](https://www.globenewswire.com/news-release/2026/09/16/3363246/0/en/komodor-launches-agentic-operations-platform-combining-ready-to-run-automation-with-a-comprehensive-backbone-for-custom-agents.html))
+
+Source note: [[2026-09-17]]
 
 ## 2026-09-16
 
@@ -86,6 +97,7 @@ Source note: [[2026-09-03]]
 - `🟡 ASSESS` **Context layer over semantic layer, exposed to agents via MCP**. [[2026-09-11]]
 - `🟡 ASSESS` **Cymphony + agent/skill registry consolidation**. [[2026-09-09]]
 - `🔵 TRIAL` **Snowflake Cortex AI Gateway**, which governs 100-plus MCP servers at the tool-call level. [[2026-09-16]]
+- `🔵 TRIAL` **Databricks Unity Gateway API**, which registers an MCP service as a Terraform-managed catalog object. [[2026-09-17]]
 
 ## Related
 

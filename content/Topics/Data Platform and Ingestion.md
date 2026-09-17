@@ -1,17 +1,19 @@
 ---
 type: topic
-tags: [topic, data-platform, dbt, snowflake]
-updated: 2026-09-16
+tags: [topic, data-platform, dbt, snowflake, databricks]
+updated: 2026-09-17
 living: true
 ---
 
 # Data Platform and Ingestion
 
-Movement in the warehouse and transformation layer: Snowflake's semantic, governance, and agent-control features, dbt's 2.0 progression and its Snowflake-native CI story, and the ingestion shift toward agent-written pipelines.
+Movement in the warehouse and transformation layer: Snowflake's and Databricks' semantic, governance, and agent-control features, dbt's 2.0 progression and its Snowflake-native CI story, and the ingestion shift toward agent-written pipelines.
 
 ## Where this stands
 
-Snowflake spent September moving the agent problem into the warehouse rather than leaving it to a separate governance vendor. Cortex AI Gateway is the centre of that: one control plane over models, data, 100-plus MCP servers, and enterprise tools, with policy and audit enforced at the tool-call level, covering third-party agents like Claude Code and Cursor alongside first-party Cortex functions. Core gateway is public preview; the cost, policy, and audit features around it are private preview.
+Both major warehouses have now moved the agent problem inside the warehouse rather than leaving it to a separate governance vendor, and they did it within two days of each other. Snowflake's Cortex AI Gateway went to public preview on Sep 15: one control plane over models, data, 100-plus MCP servers, and enterprise tools, with policy and audit enforced at the tool-call level, covering third-party agents like Claude Code and Cursor alongside first-party Cortex functions. Core gateway is public preview; the cost, policy, and audit features around it are private preview. Databricks' Unity Gateway API reached general availability on Sep 16, managing model services, model provider services, and MCP services with full create-read-update-delete through the Terraform provider, the command-line interface, and four language software development kits.
+
+The architectural question is answered and the emphases differ. Snowflake's strength is runtime enforcement per tool call; Databricks' is that registration is infrastructure as code on day one across six clients, so model and MCP-server access is granted to roles in the same repository as table grants rather than configured in a console. For anyone who already manages warehouse grants through Terraform, that is the difference between a feature and a fit.
 
 dbt's Snowflake-native CI story is the most directly actionable thing in this layer: Slim CI, defer-to-production, failed-execution recovery, and concurrent execution all went GA on Sep 10 for dbt Projects on Snowflake. That has a real adoption cost attached, not just a flag, because all four depend on the `2026_06` behaviour-change bundle which changes how the underlying objects version.
 
@@ -24,6 +26,24 @@ The ingestion layer is the quietest part and the one with the clearest direction
 - `interactive_table` cannot carry a model contract. Whether that is a beta gap or a structural limit decides whether it can ever sit anywhere but the serving edge.
 - Open Semantic Interchange still has no vendor shipping native import or export, and Microsoft is still absent while shipping a competing ontology layer in Fabric IQ.
 - The Snowflake string and binary column size change has an unpinned date. The version floor (`dbt-snowflake` v1.10.6) is real; the deploy date is not confirmable from the release notes.
+- Nobody has published a comparison of the two warehouse gateways on the thing that matters, which is what each one can actually stop. Snowflake enforces per tool call, Databricks registers and governs the object, and those are not the same guarantee.
+- Attribute-based access control now extends to views, which closes the gap where a mask on a table was bypassed by a view over it. Whether existing column-level tagging schemes were relying on that gap without knowing is not something a release note can answer.
+
+## 2026-09-17
+
+**Databricks put the Unity Gateway API into general availability, managed through Terraform.** Create, read, update, list, and delete across three object types: model services, model provider services, and MCP services. Client support on day one is broad: the Terraform provider from 1.132.0, the Databricks command-line interface from v1.17.0, the Python software development kit from 0.136.0, Go from v0.178.0, Java from 0.153.0, and JavaScript from 0.19.0, with Declarative Automation Bundles support in beta through the command-line interface.
+
+Read against Snowflake's Cortex AI Gateway preview from the previous day, this is the same architectural bet placed twice: the layer governing how applications and agents reach models belongs inside the warehouse, behind the privilege model that already exists, not in a separate vendor. The distinguishing property here is the infrastructure-as-code surface. An external MCP server becomes a registered catalog object declared in the same repository as everything else, which is a materially different operational story from a connection string in a config file, and it makes model access reviewable in a pull request. ([Databricks release notes](https://docs.databricks.com/aws/en/release-notes/product/), [Unity Gateway API reference](https://docs.databricks.com/api/workspace/aigateway))
+
+**Attribute-based access control reached views in beta, and Data Classification can now scan them.** Row filters and column masks previously stopped at tables and now extend to views, so a policy can govern sensitive data exposed through a view rather than only at its source. Requires Databricks Runtime 19 or above, and an account administrator must enable the "ABAC on Views" preview from the account console's Previews page. Data Classification picked up Unity Catalog views the same day, classifying view columns for sensitive data with the same detection engine it uses on tables.
+
+Together these close the most common hole in a column-level tagging scheme: the tag sits on the table, the consumer reads a view, and the mask never fires. Anyone whose sensitive-data controls are defined at the table level should assume that gap existed until now and check which views sit over tagged columns. ([Databricks release notes](https://docs.databricks.com/aws/en/release-notes/product/))
+
+**Three smaller Databricks items, all dated Sep 15.** Sharing foreign Delta tables through OpenSharing reached general availability, covering tables federated from OneLake, a Hive metastore, or AWS Glue, without copying data into the platform; this completes the set alongside foreign Iceberg tables and foreign schemas, which both went generally available on Sep 11. Continuous Lakeflow pipelines can now carry a maintenance window, specified as a day of the week, a start hour, and a time zone, so restart-requiring platform updates such as new runtime versions land inside a one-hour slot rather than arriving unannounced; configurable from the Jobs user interface, the Pipelines user interface, or the Jobs REST API. And the Lakebase snapshots application programming interface went to beta, with create, get, list, and delete on point-in-time snapshots of a project branch plus restore by creating a new branch from a snapshot. ([Databricks release notes](https://docs.databricks.com/aws/en/release-notes/product/))
+
+**Snowflake shipped nothing of substance in this window.** The only entry dated Sep 16 is CoCo Desktop v1.21.5. The Cortex AI Gateway preview, `EXPLAIN CHANGES` for dynamic tables, and Horizon Catalog Explorer becoming the default object browser remain the freshest items, all dated Sep 15. ([Snowflake release notes](https://docs.snowflake.com/en/release-notes/new-features))
+
+Source note: [[2026-09-17]]
 
 ## 2026-09-16
 
@@ -58,7 +78,7 @@ The third-party coverage is the other surprise. It governs first-party Snowflake
 
 That failure is silent. It does not error, it does not warn, the downstream table just stops reflecting reality. Anyone adopting this needs a freshness test on the interactive table specifically, not a trust in the refresh schedule. Where it is genuinely useful: a dashboard or API layer at the very edge of the warehouse, fed by a small number of wide pre-aggregated tables with a known query shape, where you are already paying for a warm standard warehouse. Where it is a mistake: anywhere in the transformation graph, anywhere a contract is required, and anywhere the query shape is unpredictable. ([dbt Snowflake configs](https://docs.getdbt.com/reference/resource-configs/snowflake-configs), [PR #2142](https://github.com/dbt-labs/dbt-adapters/pull/2142), [Snowflake interactive analytics](https://docs.snowflake.com/en/user-guide/interactive))
 
-**dbt's other September items and one default flip.** dbt State now backs the `state:*` selectors as a comparison source in beta, with lag-tolerance recommendations and an **Explain tab on run details that says why each model was rebuilt, reused, or cloned**, which is the difference between trusting state-based selection and reverse-engineering it. Analyst Read reached all accounts. And **AI features in the dbt platform are now enabled by default**, which is a change you want to know about before someone notices it rather than after. ([dbt release notes](https://docs.getdbt.com/docs/dbt-versions/dbt-cloud-release-notes))
+**dbt's other September items and one default flip.** dbt State now backs the `state:*` selectors as a comparison source in beta, with lag-tolerance recommendations and an **Explain tab on run details that says why each model was rebuilt, reused, or cloned**, which is the difference between trusting state-based selection and reverse-engineering it. Analyst Read reached all accounts. And **AI features in the dbt platform are now enabled by default**, which is a change worth checking deliberately rather than discovering later. ([dbt release notes](https://docs.getdbt.com/docs/dbt-versions/dbt-cloud-release-notes))
 
 Source note: [[2026-09-16]]
 
@@ -128,7 +148,7 @@ Source note: [[2026-09-08]]
 
 **Databricks added Unity Gateway spend tracking and hard caps for external model providers** (Bedrock, Azure AI Foundry), not just Databricks-hosted models. Closes a real gap for anyone routing agent workloads through Bedrock from a Databricks control plane. ([Databricks release notes](https://docs.databricks.com/aws/en/release-notes/product/))
 
-**Snowflake is increasing the default column size for string and binary types this month.** dbt-snowflake versions below v1.10.6 can fail to build certain incremental models once the change lands. This is the first appearance of the action item that is still open.
+**Snowflake is increasing the default column size for string and binary types this month.** dbt-snowflake versions below v1.10.6 can fail to build certain incremental models once the change lands. This is the first appearance of this action item.
 
 Source note: [[2026-09-04]]
 
@@ -145,6 +165,7 @@ Source note: [[2026-09-03]]
 ## On the radar
 
 - `🔵 TRIAL` **Snowflake Cortex AI Gateway**. [[2026-09-16]]
+- `🔵 TRIAL` **Databricks Unity Gateway API**, Terraform-managed model services, model provider services, and MCP services. [[2026-09-17]]
 - `🔵 TRIAL` **Snowflake dynamic model routing**. [[2026-09-16]]
 - `🔵 TRIAL` **dbt Projects on Snowflake CI capabilities**. [[2026-09-14]]
 - `🔵 TRIAL` **Snowflake Advanced Semantics / Semantic Studio**. [[2026-09-03]]
@@ -155,8 +176,10 @@ Source note: [[2026-09-03]]
 
 ## Open action items
 
-- Pin `dbt-snowflake` to v1.10.6 or later ahead of Snowflake's default string and binary column size change. Opened [[2026-09-04]], carried through [[2026-09-14]], still open.
-- AI features in the dbt platform are now on by default. Confirm that is wanted before it surprises someone. Opened [[2026-09-16]].
+- Teams on `dbt-snowflake` should be pinned to v1.10.6 or later ahead of Snowflake's default string and binary column size change. First noted [[2026-09-04]], restated [[2026-09-14]].
+- AI features in the dbt platform are now enabled by default, so it is worth checking whether that is wanted in an account. First noted [[2026-09-16]].
+- Databricks Apps turns on by default from Sep 18 for workspaces with the compliance security profile enabled. First noted [[2026-09-17]].
+- Attribute-based access control on views and Data Classification for views both require account-admin preview enablement and Databricks Runtime 19 or above, and are worth enabling in a non-production account where column masks are currently bypassed by views. First noted [[2026-09-17]].
 
 ## Related
 
