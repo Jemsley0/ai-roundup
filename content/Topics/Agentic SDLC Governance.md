@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, agentic-sdlc, governance]
-updated: 2026-09-16
+updated: 2026-09-17
 living: true
 ---
 
@@ -15,6 +15,10 @@ The category went from "a pattern three companies published about" to "a named c
 
 The term "governance layer" hides four separable problems, and vendors rarely say which one they solve: **what can this agent reach** (access and permissions), **what did it actually do** (audit and system of record), **what is it allowed to do without asking** (policy and approval gates), and **what did it cost and was it worth it** (attribution and ROI). Most products do one or two well.
 
+As of 2026-09-17 a fifth problem has separated out, and it is the one nothing on this page previously addressed: **where does the agent's code actually execute**. Coder's Agent Relay splits the agent loop from the tool calls, leaving inference with Anthropic while every filesystem read, credential use, and internal-service call happens inside a sandboxed ephemeral workspace on the buyer's own infrastructure, under network policy declared once at the environment level and inherited by every workspace. That is a different axis from all four of the above: it does not change what the agent may do, it changes whose machine it does it on. For a regulated org the execution boundary is often the binding constraint, and until now the honest answer to "where does the agent run" was "on a developer's laptop, with whatever that laptop can reach."
+
+Specification is also finally getting tooling rather than commentary. Forrester's 41 percent unclear-success-criteria figure has sat on this page for two weeks as a diagnosis with no product attached to it; OpenSpec is the first widely adopted answer, and its distinguishing property is that spec deltas land in the same pull request as the code, so drift is reviewable rather than discovered later.
+
 Two independent results now say the same thing about verification: put the control outside the model, and vary the **evidence source** rather than the model doing the checking. A cross-model vote over shared evidence approves 62.9 percent of unsafe agent proposals; the same vote over an independent source approves 22.9 percent.
 
 The throughput story is real and decays at every gate: agent-driven activity is up **180 percent at the commit level, 50 percent at the project level, and 30 percent at actual releases.**
@@ -26,6 +30,27 @@ The throughput story is real and decays at every gate: agent-driven activity is 
 - The gates that exist all target correctness. ImpactGate is the first to target structural decay, and there is no equivalent for fabricated fixtures, silently narrowed scope, or tests written to the implementation.
 - Does telling an agent the gate threshold in advance change its planning? Untested, and cheap to test.
 - Gartner's position that applying *uniform* governance across all agents leads to failure is the counterweight to centralising everything, and nobody has published a tiering scheme that operationalises it.
+- Self-hosted agent execution moves the trust boundary without shrinking it: the loop and the prompt still leave the building. Nobody has published what an audit trail correlating a local workspace to a vendor-side session is actually sufficient to prove.
+- Shadow testing an agent version against live inputs is the first canary pattern applied to judgement rather than to a service. There is no published method for deciding when two agents' judgements differ enough to block a promotion.
+- OpenSpec has 68,000 stars and a self-reported 265,000 monthly developers, and no published evidence that spec-driven development changes outcomes. The adoption number and the efficacy question are completely separate.
+
+## 2026-09-17
+
+**Coder brought Claude Code to Agent Relay, and the split it draws is the most reusable idea in this section.** Anthropic keeps the agent loop and the inference. Every tool call executes inside a Coder workspace on the customer's own infrastructure, so the agent's filesystem, credentials, and access to internal services stay in the customer-controlled environment. Each workspace starts a Claude Code runner that opens an outbound connection to Anthropic's backend, and workspaces are sandboxed, ephemeral, and scoped to a single session. Network policy, permitted data sources, and egress are defined once at the environment level and inherited by every workspace, with optional process-level enforcement that blocks and logs every request the agent makes. Every run produces an audit record of workspace provisioning and lifecycle, correlated to the Claude Code session and the user it served. Anthropic keeps billing and account administration.
+
+This lands on the **what can this agent reach** problem from a direction nothing else on this page takes: rather than enumerating permitted tools, it puts the agent inside a network where the unpermitted things are unreachable. The trust boundary is not eliminated, since the loop and the prompt still leave the building, but the blast radius of a compromised or misbehaving session is bounded by a network policy rather than by the agent's own compliance. Early access with selected design partners, no named customers and no adoption figures. ([Coder](https://www.globenewswire.com/news-release/2026/09/15/3362210/0/en/coder-brings-claude-code-to-agent-relay-unlocking-agentic-development-for-the-world-s-most-regulated-enterprises.html))
+
+**Komodor shipped an Agentic Operations Platform, generally available immediately, and its shadow-testing mechanism is worth stealing independent of the product.** More than 50 out-of-the-box specialist agents, skills, integrations, and MCP servers across site-reliability troubleshooting and alert intelligence, cost optimisation for cloud and observability and Kubernetes, and software operations covering change intelligence, continuous-integration health, and production readiness. The governance backbone is the part that belongs here: role-based policies defining who may invoke an agent and which credentials and tools it may use, guardrails that check inputs, tool calls, and model responses before execution, human approval gates on risky actions, spending limits, audit trails, persistent memory and knowledge graphs shared across agents and incidents, and shadow testing to compare agent versions before promotion. Agents run on-premise or on any cloud, against any model and provider, sharing one organisational context.
+
+Shadow testing is canary deployment applied to an agent's judgement instead of to a service: run the new version against live inputs without letting it act, and compare its decisions against the incumbent's before promoting it. That is the first mechanism in this log that treats an agent version change as a risk requiring evidence, which is the gap every "we upgraded the model and things got worse" story sits in. The packaged agents assume a Kubernetes-shaped operational world, so the product's value depends heavily on how much of a buyer's operations looks like that. ([Komodor](https://www.globenewswire.com/news-release/2026/09/16/3363246/0/en/komodor-launches-agentic-operations-platform-combining-ready-to-run-automation-with-a-comprehensive-backbone-for-custom-agents.html))
+
+**OpenSpec is the first adopted answer to the specification half of Forrester's negative-ROI breakdown.** It adds an `openspec/` folder to a repository holding a spec library in `openspec/specs/` and a changes system in `openspec/changes/`, where each feature gets a proposal, a design, implementation tasks, and spec deltas that merge back into the library once shipped. Everything is markdown and checked into git, with claimed support for Claude Code, Cursor, Copilot, and 30-plus other tools. 68,000 GitHub stars and, self-reported, more than 265,000 developers a month. The stated premise is that the bottleneck is underspecification rather than model capability, which is the same claim Forrester's 41 percent figure makes from the ROI side.
+
+The property worth evaluating is narrower than the pitch: spec deltas are reviewable in the same pull request as the code. Every spec-driven agent workflow that keeps its plan outside version control produces specification drift that nobody notices until the spec and the system disagree in production. Putting the delta in the diff makes drift a review finding. Adopting it means committing to a file layout across a repository, which is why this sits at assess rather than trial. 48 points, 12 comments. ([GitHub](https://github.com/Fission-AI/OpenSpec), [openspec.dev](https://openspec.dev/), [HN](https://news.ycombinator.com/item?id=49734264))
+
+**The PS5 Linux lead quit, and the failure was coordination rather than capability.** Andy "TheFlow0" Nguyen left the project after modders using language models found the last working PlayStation 5 Pro hypervisor bug, agreed to sit on it until Grand Theft Auto 6 shipped, and reported it to Sony for a two-factor-authentication bug bounty within a day. His description of the scene: "just a bunch of noobs using LLMs and writing hacks they don't even understand," and "slop kiddies" for the reporters. The repository stays live under GPL v3.0, but PlayStation 5 Pro support was never published, so a successor starts from scratch. The transferable point for this section is that when contribution cost collapses, the binding constraint becomes trust, and none of the governance layers on this page govern that. Every control here assumes the agent's operator is aligned with the project. ([GamingOnLinux](https://www.gamingonlinux.com/2026/09/ps5-linux-dev-quits-after-the-only-hypervisor-bug-left-was-reported-to-sony/), [Gadget Review](https://www.gadgetreview.com/ps5-linux-dev-quits-after-slop-kiddies-hand-sony-the-last-exploit))
+
+Source note: [[2026-09-17]]
 
 ## 2026-09-16
 
@@ -135,8 +160,11 @@ Source note: [[2026-09-03]]
 
 - `🔵 TRIAL` **Independent-evidence-source verification gates**. [[2026-09-15]]
 - `🔵 TRIAL` **ImpactGate structural-decay merge gate**. [[2026-09-16]]
+- `🔵 TRIAL` **Coder Agent Relay self-hosted Claude Code execution**. [[2026-09-17]]
 - `🔵 TRIAL` **Shopify Helix checkpoint discipline**. [[2026-09-11]]
 - `🟡 ASSESS` **Datamimic deterministic synthetic test data over MCP**. [[2026-09-16]]
+- `🟡 ASSESS` **Komodor Agentic Operations Platform**. [[2026-09-17]]
+- `🟡 ASSESS` **OpenSpec spec-driven development framework**. [[2026-09-17]]
 - `🟡 ASSESS` **Agentic SDLC Control Plane**. [[2026-09-15]]
 - `🟡 ASSESS` **Atlassian Agent Context Controls + DX for Agentic Development**. [[2026-09-11]]
 - `🟡 ASSESS` **Meta Muse Sentinel architecture**. [[2026-09-09]]
