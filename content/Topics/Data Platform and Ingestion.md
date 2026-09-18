@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, data-platform, dbt, snowflake, databricks]
-updated: 2026-09-17
+updated: 2026-09-18
 living: true
 ---
 
@@ -15,6 +15,10 @@ Both major warehouses have now moved the agent problem inside the warehouse rath
 
 The architectural question is answered and the emphases differ. Snowflake's strength is runtime enforcement per tool call; Databricks' is that registration is infrastructure as code on day one across six clients, so model and MCP-server access is granted to roles in the same repository as table grants rather than configured in a console. For anyone who already manages warehouse grants through Terraform, that is the difference between a feature and a fit.
 
+Access control is the layer moving fastest now that the gateway question is settled, and Databricks is moving faster. Attribute-based access control reached views in beta on Sep 15, closing the gap where a column mask on a table was bypassed by a view over it. Metastore-level attribute-based access control followed on Sep 17, also beta: a row filter, column mask, GRANT or DENY attaches once at the metastore and applies across every catalog, instead of being replicated per catalog. For anyone managing grants as code, that changes the shape of the policy repository rather than adding a feature to it, because the unit of definition stops being the catalog.
+
+Snowflake's contribution in the same window is narrower and structural. Apache Iceberg partition evolution went to general availability on Sep 18, so partitioning can change without rewriting the table. Partition choice stops being a one-way door at creation time, which removes the main reason large Iceberg tables get rebuilt.
+
 dbt's Snowflake-native CI story is the most directly actionable thing in this layer: Slim CI, defer-to-production, failed-execution recovery, and concurrent execution all went GA on Sep 10 for dbt Projects on Snowflake. That has a real adoption cost attached, not just a flag, because all four depend on the `2026_06` behaviour-change bundle which changes how the underlying objects version.
 
 The ingestion layer is the quietest part and the one with the clearest direction. dltHub reports community-created pipelines going from 2,400 in January 2025 to 81,000 in January 2026 with **91 percent written by agents**. Vendor-reported and unaudited, but the strategic conclusion does not depend on the exact figure: when pipelines become cheap and agents write most of them, **the bottleneck moves to the transformation layer.**
@@ -26,8 +30,22 @@ The ingestion layer is the quietest part and the one with the clearest direction
 - `interactive_table` cannot carry a model contract. Whether that is a beta gap or a structural limit decides whether it can ever sit anywhere but the serving edge.
 - Open Semantic Interchange still has no vendor shipping native import or export, and Microsoft is still absent while shipping a competing ontology layer in Fabric IQ.
 - The Snowflake string and binary column size change has an unpinned date. The version floor (`dbt-snowflake` v1.10.6) is real; the deploy date is not confirmable from the release notes.
+- Metastore-level and view-level attribute-based access control now overlap. Which wins when both match a column, and whether the precedence is documented rather than emergent, is not answerable from the release notes.
+- Iceberg partition evolution removes the rewrite cost of changing partitioning, but not the cost of the resulting mixed-layout table. No published guidance yet on read performance across a table whose partitions span two schemes.
 - Nobody has published a comparison of the two warehouse gateways on the thing that matters, which is what each one can actually stop. Snowflake enforces per tool call, Databricks registers and governs the object, and those are not the same guarantee.
 - Attribute-based access control now extends to views, which closes the gap where a mask on a table was bypassed by a view over it. Whether existing column-level tagging schemes were relying on that gap without knowing is not something a release note can answer.
+
+## 2026-09-18
+
+**Snowflake shipped partition evolution for Apache Iceberg tables to general availability on Sep 18.** Partitioning can now change without rewriting the table. Why it matters: partition choice stops being a one-way door at table creation, which removes the main reason large Iceberg tables get rebuilt. [Snowflake release notes](https://docs.snowflake.com/en/release-notes/new-features)
+
+**Snowpark Container Services got backup instance types on Sep 17, generally available.** A service can fall back to an alternate instance type when the primary type is unavailable. Why it matters: it removes a capacity-related failure mode for long-running container services, which bites hardest on the specialised GPU instance types.
+
+**Databricks put metastore-level attribute-based access control policies into beta on Sep 17.** A row filter, column mask, GRANT or DENY can now attach at the metastore level and apply across every catalog, rather than being replicated per catalog. Why it matters: this is the piece that was missing from the view-level attribute-based access control beta on Sep 15. One policy definition, one place, consistent across catalogs, which is a different unit of management from anything previously available here. [Databricks release notes](https://docs.databricks.com/aws/en/release-notes/product/2026/september)
+
+**Two smaller Databricks items.** Databricks Apps is on by default for workspaces with the compliance security profile enabled as of Sep 18, so the change flagged on Sep 17 is live rather than pending. Moonshot AI's Kimi K2.7 retires on Oct 30, 2026 with Kimi K3 named as the migration target, giving anything pinned to K2.7 on Databricks model serving about six weeks.
+
+Source note: [[2026-09-18]]
 
 ## 2026-09-17
 
@@ -178,8 +196,10 @@ Source note: [[2026-09-03]]
 
 - Teams on `dbt-snowflake` should be pinned to v1.10.6 or later ahead of Snowflake's default string and binary column size change. First noted [[2026-09-04]], restated [[2026-09-14]].
 - AI features in the dbt platform are now enabled by default, so it is worth checking whether that is wanted in an account. First noted [[2026-09-16]].
-- Databricks Apps turns on by default from Sep 18 for workspaces with the compliance security profile enabled. First noted [[2026-09-17]].
+- Databricks Apps is on by default for workspaces with the compliance security profile enabled as of Sep 18, so this is now live and should be verified rather than anticipated. First noted [[2026-09-17]].
 - Attribute-based access control on views and Data Classification for views both require account-admin preview enablement and Databricks Runtime 19 or above, and are worth enabling in a non-production account where column masks are currently bypassed by views. First noted [[2026-09-17]].
+- Metastore-level attribute-based access control policies entered beta on Sep 17, 2026 and are worth enabling alongside those view-level policies, since one metastore-level definition replaces per-catalog replication. First noted [[2026-09-18]].
+- Anything pinned to Kimi K2.7 on Databricks model serving needs migrating to Kimi K3 before Oct 30, 2026. First noted [[2026-09-18]].
 
 ## Related
 

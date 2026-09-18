@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, agentic-sdlc, governance]
-updated: 2026-09-17
+updated: 2026-09-18
 living: true
 ---
 
@@ -15,11 +15,15 @@ The category went from "a pattern three companies published about" to "a named c
 
 The term "governance layer" hides four separable problems, and vendors rarely say which one they solve: **what can this agent reach** (access and permissions), **what did it actually do** (audit and system of record), **what is it allowed to do without asking** (policy and approval gates), and **what did it cost and was it worth it** (attribution and ROI). Most products do one or two well.
 
-As of 2026-09-17 a fifth problem has separated out, and it is the one nothing on this page previously addressed: **where does the agent's code actually execute**. Coder's Agent Relay splits the agent loop from the tool calls, leaving inference with Anthropic while every filesystem read, credential use, and internal-service call happens inside a sandboxed ephemeral workspace on the buyer's own infrastructure, under network policy declared once at the environment level and inherited by every workspace. That is a different axis from all four of the above: it does not change what the agent may do, it changes whose machine it does it on. For a regulated org the execution boundary is often the binding constraint, and until now the honest answer to "where does the agent run" was "on a developer's laptop, with whatever that laptop can reach."
+As of 2026-09-17 a fifth problem has separated out: **where does the agent's code actually execute**. Coder's Agent Relay splits the agent loop from the tool calls, leaving inference with Anthropic while every filesystem read, credential use, and internal-service call happens inside a sandboxed ephemeral workspace on the buyer's own infrastructure, under network policy declared once at the environment level and inherited by every workspace. That is a different axis from all four of the above: it does not change what the agent may do, it changes whose machine it does it on. For a regulated org the execution boundary is often the binding constraint.
 
-Specification is also finally getting tooling rather than commentary. Forrester's 41 percent unclear-success-criteria figure has sat on this page for two weeks as a diagnosis with no product attached to it; OpenSpec is the first widely adopted answer, and its distinguishing property is that spec deltas land in the same pull request as the code, so drift is reviewable rather than discovered later.
+The fourth problem, attribution, finally has a published method behind it rather than a vendor product. Anthropic's R&D Automation Index, published 2026-09-17, decomposes engineering work into a task tree, scores each leaf on a stated AL0-to-AL5 automation scale, and weights by person-time to produce a comparable aggregate. Anthropic ran it over roughly 15,000 tasks in 542 nodes and 378 leaf categories and reported that Claude leads 26 percent of its AI research and development. The significance for this page is not the number, which is one lab's, but that the method is vendor-independent and reproducible at team scale. Ramp Labs' agent-ROI attribution and Forrester's unclear-success-criteria finding have both sat here as diagnoses; this is the first instrument for answering the underlying question.
 
-Two independent results now say the same thing about verification: put the control outside the model, and vary the **evidence source** rather than the model doing the checking. A cross-model vote over shared evidence approves 62.9 percent of unsafe agent proposals; the same vote over an independent source approves 22.9 percent.
+Specification is also getting tooling rather than commentary. OpenSpec is the first widely adopted answer to the 41 percent figure, and its distinguishing property is that spec deltas land in the same pull request as the code, so drift is reviewable rather than discovered later.
+
+Verification gates now split into two kinds, and Bend marks the boundary. Every gate on this page so far checks something after generation: a cross-model vote over independent evidence, a structural-decay threshold, a shadow-tested agent version. Bend's `LAWS.bend` inverts that by demanding mathematical proof that declared invariants still hold on every edit, so an agent that breaks one cannot compile and must retry. That is strictly stronger than any post-hoc check and strictly narrower, since it only covers properties expressible as a law, and it costs a language migration to get.
+
+Two independent results say the same thing about post-hoc verification: put the control outside the model, and vary the **evidence source** rather than the model doing the checking. A cross-model vote over shared evidence approves 62.9 percent of unsafe agent proposals; the same vote over an independent source approves 22.9 percent.
 
 The throughput story is real and decays at every gate: agent-driven activity is up **180 percent at the commit level, 50 percent at the project level, and 30 percent at actual releases.**
 
@@ -28,11 +32,25 @@ The throughput story is real and decays at every gate: agent-driven activity is 
 - Does the control plane consolidate into tools teams already run (Atlassian, GitHub) or into a new procurement category? Forrester's Q4 Wave will push the second answer regardless of which is true.
 - Nobody has published a credible cost model for the Verification Tax. Every vendor quotes throughput gains and none quotes the gate cost.
 - The gates that exist all target correctness. ImpactGate is the first to target structural decay, and there is no equivalent for fabricated fixtures, silently narrowed scope, or tests written to the implementation.
+- Anthropic's index is reproducible in principle, but the one published run cost a weekly 20 percent staff sample across a month. Nobody has published a cheap approximation, and without one the method stays a frontier-lab exercise.
+- An automation-level score says how much work an agent leads, not whether the output was any good. Pairing the index with a quality or rework measure is the obvious next step and nobody has done it.
 - Does telling an agent the gate threshold in advance change its planning? Untested, and cheap to test.
 - Gartner's position that applying *uniform* governance across all agents leads to failure is the counterweight to centralising everything, and nobody has published a tiering scheme that operationalises it.
 - Self-hosted agent execution moves the trust boundary without shrinking it: the loop and the prompt still leave the building. Nobody has published what an audit trail correlating a local workspace to a vendor-side session is actually sufficient to prove.
 - Shadow testing an agent version against live inputs is the first canary pattern applied to judgement rather than to a service. There is no published method for deciding when two agents' judgements differ enough to block a promotion.
 - OpenSpec has 68,000 stars and a self-reported 265,000 monthly developers, and no published evidence that spec-driven development changes outcomes. The adoption number and the efficacy question are completely separate.
+- Proof-gated codegen only covers what you can state as a law. Nobody has published which classes of real defect are actually expressible that way, which decides whether the approach is a niche or a direction.
+- An open-source core sharing 90 percent of a commercial agent platform's kernel is an unusual distribution bet in this category. Whether it produces portability or just a cheaper on-ramp to one vendor is untested.
+
+## 2026-09-18
+
+**Huawei Cloud launched AgentArts globally at HUAWEI CONNECT 2026 on Sep 18, with an open-source edition.** The platform is built around four stated capabilities: production-grade long-running tasks, enterprise-grade security, industry-specific knowledge, and end-to-end observability. Huawei describes the approach as "harness engineering," which is the first time a vendor in this category has named the thing the others sell without naming it. The open-source edition, openJiuwen, shares more than 90 percent of its kernel with the enterprise edition. A companion portal called AgentArts Orchard integrates the full-stack agentic cloud services with skill-based and command-line-based functions, covering intent understanding through application deployment. Huawei says AgentArts already serves over 100 enterprises, a vendor figure, and that it will be commercially available outside China from Dec 30. Dr. Peter Zhou also announced the global launch of the latest AI Cluster Service at the same keynote. Why it matters: the capability list maps almost exactly onto the control-plane entries already on this page, but the open-core distribution is a materially different bet from every Western vendor here, and availability outside China is three months out. [Huawei Cloud](https://europeanbusinessmagazine.com/huawei-cloud-rolls-out-enterprise-ai-products-across-the-board-building-an-open-agentic-cloud)
+
+**Bend 2 reached 521 points on Hacker News on Sep 17 with a merge gate built on proof rather than tests.** The mechanism is a file called `LAWS.bend` in which you declare rules the application must not break. The compiler then demands mathematical proof that those laws still hold whenever the code is edited, so an agent that introduces a violation cannot compile, and retries until it cannot. The project's framing is explicit: humans eventually stop reading code, so the laws file becomes the ambiguity-free channel for stating intent to the systems writing it. It targets C-equivalent single-core speed through strong types, purity and linearity, with a GPU path. Why it matters: every verification gate on this page checks evidence or structure after generation. This makes the violating state unrepresentable instead, which is a categorically stronger guarantee over a much narrower set of properties, and adopting it means adopting a language. [bendlang/bend](https://github.com/bendlang/bend)
+
+**Anthropic's R&D Automation Index, published Sep 17, is the first reusable instrument for the attribution problem.** Decompose engineering work into a hierarchical task tree, score each leaf on an AL0-to-AL5 automation scale where AL3 is collaboration and AL4 is the model leading under human supervision, then weight by person-time to aggregate. Anthropic's own run covered roughly 15,000 granular tasks in a tree of 542 nodes and 378 leaf categories, identified by sampling 20 percent of staff weekly through Jul 2026 against Slack and internal documentation, and reported Claude leading 26 percent of its AI research and development as of Aug 2026 with more than 90 percent at collaborate-or-higher and nothing fully autonomous. Anthropic's stated limitations apply to anyone reusing it: judge models can replicate their own errors, the figures are one-week snapshots, and the safety-versus-capability classification is ambiguous. Why it matters here: the ROI and attribution face of the governance layer has had vendor dashboards and no method. This is a method, and it is not tied to a product. [Anthropic](https://www.anthropic.com/institute/measuring-pace-of-ai-development)
+
+Source note: [[2026-09-18]]
 
 ## 2026-09-17
 
@@ -90,7 +108,7 @@ Source note: [[2026-09-14]]
 
 ## 2026-09-11
 
-**Atlassian shipped a governance layer for agentic engineering across Jira and DX, and it was the category's most directly usable release so far.** The capabilities split cleanly into three groups. *Grounding*: **Code Context** provides secure intelligence across multi-repository codebases via the Teamwork Graph (open beta, rolling out to paid customers), and **Agent Context Controls** let platform teams govern which Jira and Confluence spaces agents may access (GA in coming months). *Autonomy*: agent loops in Jira automate backlog-to-pull-request, **Standards** lets an org define coding standards once and map them across repositories, and AI review puts a dedicated agent on pull requests checking against those standards, all three in private early access. *Measurement*: **DX for Agentic Development** measures AI impact across throughput, quality, adoption, and cost (GA this quarter), and a Jira Agent Usage Dashboard correlates agent sessions to work items (GA in coming months).
+**Atlassian shipped a governance layer for agentic engineering across Jira and DX (the developer-experience vendor), and it was the category's most directly usable release so far.** The capabilities split cleanly into three groups. *Grounding*: **Code Context** provides secure intelligence across multi-repository codebases via the Teamwork Graph (open beta, rolling out to paid customers), and **Agent Context Controls** let platform teams govern which Jira and Confluence spaces agents may access (GA in coming months). *Autonomy*: agent loops in Jira automate backlog-to-pull-request, **Standards** lets an org define coding standards once and map them across repositories, and AI review puts a dedicated agent on pull requests checking against those standards, all three in private early access. *Measurement*: **DX for Agentic Development** measures AI impact across throughput, quality, adoption, and cost (GA this quarter), and a Jira Agent Usage Dashboard correlates agent sessions to work items (GA in coming months).
 
 **Agent Context Controls is the reach-and-access half, and the detail is the whole point.** The permission boundary is set centrally by the people who own the tooling, rather than inherited from whichever user happened to authorise the agent. That is precisely the failure Cymphony documented: an external collaborator stood up an unsanctioned Claude instance that used the collaborator's own access to scan thousands of sensitive files. If an agent's reach is a property of the platform rather than a side effect of a user's credentials, that class of incident becomes structurally harder.
 
@@ -161,7 +179,10 @@ Source note: [[2026-09-03]]
 - `🔵 TRIAL` **Independent-evidence-source verification gates**. [[2026-09-15]]
 - `🔵 TRIAL` **ImpactGate structural-decay merge gate**. [[2026-09-16]]
 - `🔵 TRIAL` **Coder Agent Relay self-hosted Claude Code execution**. [[2026-09-17]]
+- `🔵 TRIAL` **Anthropic R&D Automation Index**, a task tree scored on an AL0 to AL5 automation scale and weighted by person-time. [[2026-09-18]]
 - `🔵 TRIAL` **Shopify Helix checkpoint discipline**. [[2026-09-11]]
+- `🟡 ASSESS` **Bend `LAWS.bend` proof-gated agent codegen**. [[2026-09-18]]
+- `🟡 ASSESS` **Huawei Cloud AgentArts and openJiuwen**. [[2026-09-18]]
 - `🟡 ASSESS` **Datamimic deterministic synthetic test data over MCP**. [[2026-09-16]]
 - `🟡 ASSESS` **Komodor Agentic Operations Platform**. [[2026-09-17]]
 - `🟡 ASSESS` **OpenSpec spec-driven development framework**. [[2026-09-17]]
@@ -175,4 +196,4 @@ Source note: [[2026-09-03]]
 
 ## Related
 
-[[Topics/MCP|MCP]] · [[Topics/Agent Memory and Context Engineering|Agent Memory and Context Engineering]] · [[Topics/Token Cost and Model Routing|Token Cost and Model Routing]] · [[Topics/AI Safety and Interpretability|AI Safety and Interpretability]] · [[Topics/Cognition|Cognition]]
+[[Topics/MCP|MCP]] · [[Topics/Agent Memory and Context Engineering|Agent Memory and Context Engineering]] · [[Topics/Token Cost and Model Routing|Token Cost and Model Routing]] · [[Topics/AI Safety and Interpretability|AI Safety and Interpretability]] · [[Topics/Cognition|Cognition]] · [[Topics/AI-Led AI Development|AI-Led AI Development]] · [[Topics/Sovereign AI Compute|Sovereign AI Compute]]
