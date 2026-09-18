@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, robotics]
-updated: 2026-09-16
+updated: 2026-09-18
 living: true
 ---
 
@@ -15,13 +15,24 @@ The real numbers finally landed and they reframe the projections. H1 2026 global
 
 The most informative capability data point is not a humanoid announcement at all. Robocurve ran GPT-6 Astra and Claude Fable 5.1 on real bimanual arms: Astra hit 19/20 on a block-in-bowl task, and **both models collapsed to 2/20 on precision puzzle insertion.** Set that against Tiangong Ultra running 100m faster than Usain Bolt's record. Sprinting on a prepared track is a narrow task; precision manipulation is the one that gates real work.
 
+A second shift, visible as of 2026-09-18, is in what a humanoid launch is *for*. ugo's Nova is pitched explicitly as a data-collection platform: a wheeled dual-arm design whose stated purpose is converting human work into training data for physical AI base models, with mass production not until 2027. That is a more honest framing than most launches in this category, and it fits the deployment-lags-funding pattern the shipment figures already show. It also puts a Japanese state-backed entrant into a market that is 93 to 97 percent Chinese by volume.
+
 The newest product shift is regulatory rather than mechanical. Agility's Digit 5 is pitched as the first humanoid engineered for cage-free cooperative work, which changes deployment economics far more than any spec on the sheet.
 
 ## Open questions
 
 - Barclays' 60,000-unit figure needs H2 to triple H1. By year-end that is either the first straightforwardly falsified forecast in this category or a confirmed ramp.
 - Nothing published explains the precision-manipulation collapse. It is the binding constraint and it gets the least coverage.
+- Data-collection-first humanoids only pay off if the collected data transfers to other bodies. Nobody has published cross-embodiment transfer results from a wheeled dual-arm platform to a legged one.
 - Cage-free safety certification is the actual unlock, and there is no public information on what standard Digit 5's independent safety controller is certified against.
+
+## 2026-09-18
+
+**ugo announced the ugo Nova semi-humanoid on Sep 16, built for data collection rather than for the task.** It is a wheeled dual-arm design with two seven-axis arms plus additional joints in the head and waist, designed and manufactured entirely in Japan, with mass production scheduled to begin in 2027. The stated purpose is converting human work directly into high-quality training data for physical AI base models, rather than performing a named job. The AI Robot Association will propose it under a project commissioned by NEDO, Japan's New Energy and Industrial Technology Development Organization, to develop a domestically produced general-purpose robot. Why it matters: the pitch is a data platform, not a labour-replacement product, which is a more honest framing than most humanoid launches and is consistent with the deployment-lags-funding pattern in this category. It is also a state-backed non-Chinese entrant in a market that H1 2026 shipment data puts at 93 to 97 percent Chinese. [ugo](https://ugo.plus/information/2026/09/16/ugo-nova/)
+
+The IEEE-RAS Humanoids 2026 conference ran Sep 15 to Sep 18 in Santa Clara and produced no product news.
+
+Source note: [[2026-09-18]]
 
 ## 2026-09-16
 

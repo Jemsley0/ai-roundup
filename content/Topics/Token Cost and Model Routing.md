@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, token-cost, model-routing]
-updated: 2026-09-17
+updated: 2026-09-18
 living: true
 ---
 
@@ -19,13 +19,29 @@ The newest direction was the model deciding how hard to try, rather than a route
 
 As of 2026-09-17 there is a third direction, and it passes the credibility test on the second clause more completely than anything else in this thread. TypeSafe's Jev does not generate text at all. It returns a typed value from a single parallel pass, prices input at \$0.042 per million tokens, and charges nothing for output because there is effectively none. Reducing output is one of the three things a credible cost intervention can do, and taking it to zero is the limit case. The vendor-reported multiples, 40x to 200x faster and 40x to 400x cheaper than frontier models at equivalent intelligence, are large enough to discount heavily and still matter. The routing question this raises is not which model is cheapest but which decisions in a workflow ever needed a text generator, and the honest answer for triage, classification, and branch selection is that most of them did not. Note the boundary: this replaces the cheap end of a routing table, it does not compete at the expensive end.
 
+As of 2026-09-18 a fourth direction appears, and it is the first one that attacks memory rather than tokens. Edge0's prerouter predicts a mixture-of-experts model's next-layer routing one token ahead, so the reads for the needed experts start from SSD before the current layer finishes and overlap with compute instead of stalling it. Measured on a Mac mini M4 Pro: 20.4 tok/s in 2.9 GiB of peak active memory for a 35B model, against 3.9 tok/s and 18.2 GiB fully resident, staying within a few points of the fp16 teacher across five public benchmarks. Separately, PrismML's Bonsai 2 27B puts a 27B model in 5.9GB at 1.76 effective bits using ternary weights with FP16 group-wise scaling, retaining a claimed 98.2 percent of aggregate benchmark performance under Apache 2.0. Neither reduces calls, output, or re-sent context, so neither passes the credibility test above on its own terms. What they change is which model you can afford to run where, which moves the cheap end of a routing table onto hardware you already own.
+
+The pricing floor also moved. Qwen3.8-Omni-Flash, released Sep 18, takes text, image, audio and video in one request at \$0.15 per million input tokens and \$0.47 per million output, with cache hits at \$0.016 per million, and Qwen reports audio input costs more than 98 percent lower per hour than its predecessor. Every figure is the vendor's. The routing consequence is narrow and real: audio and video triage stops being the step you avoid on cost grounds.
+
 ## Open questions
 
+- Neither local-inference result has been reproduced on non-Apple hardware, and the prerouter's value on server-side storage tiering, where it would matter far more, is entirely untested.
+- Bonsai 2's 98.2 percent retention is an aggregate. The per-task regressions decide whether it can sit in a routing table at all, and no breakdown is published.
 - Every routing efficiency number in this thread except Spotify's and Quesma's is vendor-reported. Snowflake's 3x and Cognition's 64 percent both need independent eval.
 - Selectable reasoning effort and external routing solve overlapping problems. Nobody has published what happens when you use both.
 - Prompt caching is the biggest lever and gets the least attention. There is no good public writeup of cache-hit-rate engineering for agent loops.
 - Nobody has published an independent evaluation of a decision-only model against a frontier model on the same routing or triage task. Agreement rate matters far more than the speed multiple, and only the vendor has measured it.
 - If output tokens go to zero for a whole class of calls, the cost model for an agent loop changes shape rather than scale, and none of the existing per-step cost estimates in this thread account for that.
+
+## 2026-09-18
+
+**A Sep 16 paper makes a 35B mixture-of-experts model run from SSD at usable speed, and the mechanism is a routing predictor.** Edge0's contribution is a per-layer "prerouter," a small neural head that predicts the *next* layer's routing decisions one token ahead. That matters because naive SSD offload does not work on its own: layer N+1's experts must be chosen before layer N has produced output, so the storage reads cannot start early enough to hide behind compute. Predicting one token ahead lets the reads overlap with compute instead of stalling it. An unmerged recovery LoRA compensates for the quality loss from int4 quantization and from replacing the routing. Measured: 20.4 tok/s in 2.9 GiB of peak active memory on a Mac mini M4 Pro, against 3.9 tok/s and 18.2 GiB fully resident, staying within a few points of the fp16 teacher across five public benchmarks. Why it matters: the constraint on local inference has been memory capacity, and this reframes it as a prefetch scheduling problem, which applies to any expert-sparse model served from slower storage including server-side tiering. [arXiv:2609.18063](https://arxiv.org/abs/2609.18063) · [Edge0 on GitHub](https://github.com/Edge0-AI/edge0)
+
+**PrismML released Ternary Bonsai 2 27B on Sep 17 under Apache 2.0.** It compresses Qwen3.8 27B to ternary weights (−1, 0, +1) with FP16 group-wise scaling, landing at 1.76 effective bits per weight and a 5.9GB total footprint, 9x smaller than full precision while retaining a claimed 98.2 percent of aggregate benchmark performance. The retention gap against full precision closed from 95 percent on the first Bonsai 27B to over 98 percent here in two months. Custom low-bit kernels run it on NVIDIA GPUs via CUDA and on Mac, iPhone and iPad via MLX. Why it matters: same ternary direction as the BITCOS compression paper from [[2026-09-17]], but shipped with open weights and working kernels, which makes it testable rather than interesting. [PrismML](https://prismml.com/news/bonsai-2-27b)
+
+**Qwen3.8-Omni-Flash landed on Sep 18 and reset the floor for audio and video input.** Text, image, audio and video in a single request, 1M-token context window (991K input, 131K output, 262K reasoning), text-only output. Input \$0.15 per million tokens, output \$0.47 per million, cache hits \$0.016 per million. Qwen reports audio input costs down more than 98 percent per hour against its predecessor and audio-visual input down more than 93 percent per hour, plus a 19.5-point average agent gain and a rise from 63.4 to 67.8 on OmniVideoBench. All vendor-reported, with no independent results at publication. Weights are closed and self-hosting is not offered. Why it matters for routing: a whole class of multimodal triage step becomes economically ordinary, but there is no version you can pin against a change you did not ask for. [Qwen release writeup](https://www.marktechpost.com/2026/09/18/alibaba-qwen-releases-qwen3-8-omni-flash/)
+
+Source note: [[2026-09-18]]
 
 ## 2026-09-17
 
@@ -102,9 +118,12 @@ Source note: [[2026-09-08]]
 - `🔵 TRIAL` **Snowflake dynamic model routing**. [[2026-09-16]]
 - `🔵 TRIAL` `⚠️` **Cognition SWE-2 selectable reasoning effort**, vendor-reported figures only. [[2026-09-14]]
 - `🔵 TRIAL` **Gemini 3.8 Live Extended Thinking**. [[2026-09-16]]
+- `🔵 TRIAL` `⚠️` **Qwen3.8-Omni-Flash**, vendor-reported figures only and closed weights, so no pinnable version. [[2026-09-18]]
+- `🟡 ASSESS` **One-token-ahead prerouter expert prefetch (Edge0)**. [[2026-09-18]]
+- `🟡 ASSESS` **Ternary weights with FP16 group-wise scaling (Bonsai 2 27B)**. [[2026-09-18]]
 - `⚫ DROPPED` **Terminal-output compression (RTK et al.)**. [[2026-09-11]]
 - `⚠️ CAUTION` **Optimising context for economy alone**. [[2026-09-11]]
 
 ## Related
 
-[[Topics/Agent Memory and Context Engineering|Agent Memory and Context Engineering]] · [[Topics/Data Platform and Ingestion|Data Platform and Ingestion]] · [[Topics/Cognition|Cognition]] · [[Topics/DeepSeek|DeepSeek]]
+[[Topics/Agent Memory and Context Engineering|Agent Memory and Context Engineering]] · [[Topics/Data Platform and Ingestion|Data Platform and Ingestion]] · [[Topics/Cognition|Cognition]] · [[Topics/DeepSeek|DeepSeek]] · [[Topics/Sovereign AI Compute|Sovereign AI Compute]]

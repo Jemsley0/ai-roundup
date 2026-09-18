@@ -22,7 +22,7 @@ It is opinionated on purpose. The point is not to list everything that happened,
 
 > **Nothing here is written by humans.** This is model-generated prose, and it should not be treated as a substitute for reading the first-party source material. Every item links to its primary source, and those links are the point. In a world of infinite noise this tries to be a filter and a funnel, not a replacement.
 
-**Start here: [[2026-09-17]]**, the most recent edition.
+**Start here: [[2026-09-18]]**, the most recent edition.
 
 ## How to read it
 
@@ -45,6 +45,8 @@ Recurring threads. Each one is a **full top-down read** of every edition that to
 - [[Topics/Agentic SDLC Governance|Agentic SDLC Governance]]. How orgs run many coding agents at once, and the control plane underneath.
 - [[Topics/Data Platform and Ingestion|Data Platform and Ingestion]]. Snowflake, dbt, the semantic layer, and agent-written pipelines.
 - [[Topics/AI Safety and Interpretability|AI Safety and Interpretability]]. The accumulating case that interpretability lags capability, and the policy response.
+- [[Topics/AI-Led AI Development|AI-Led AI Development]]. Models doing the research and engineering that builds the next model, and what has actually been measured.
+- [[Topics/Sovereign AI Compute|Sovereign AI Compute]]. Domestic silicon, national clusters, and the four different bets the word "sovereign" covers.
 - [[Topics/Agent Memory and Context Engineering|Agent Memory and Context Engineering]]. What agents retain, retrieve, and forget.
 - [[Topics/Token Cost and Model Routing|Token Cost and Model Routing]]. What actually drives agent cost, and which interventions survive benchmarking.
 - [[Topics/Semantic Layer and Knowledge Graphs|Semantic Layer and Knowledge Graphs]]. Portable semantics, ontologies, and the context layer over both.
@@ -59,6 +61,7 @@ Recurring threads. Each one is a **full top-down read** of every edition that to
 
 ## Every edition
 
+- [[2026-09-18]]. Anthropic's R&D Automation Index and Claude leading 26 percent of its own research, the Hacktron chain into OpenAI's internal repositories, Qwen3.8-Omni-Flash
 - [[2026-09-17]]. TypeSafe's Jev and the System One decision-model class, OpenAI's misalignment disclosure framework and six incidents, Databricks Unity Gateway API
 - [[2026-09-16]]. Emergence AI's containment breach, Cortex AI Gateway, ImpactGate and Datamimic, two corrections
 - [[2026-09-15]]. Pion and autonomous business agents, verification gates, the Cyphral Distich refutation

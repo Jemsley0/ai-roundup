@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, content-provenance, crawler-controls]
-updated: 2026-09-16
+updated: 2026-09-18
 living: true
 ---
 
@@ -15,6 +15,8 @@ Cloudflare has split crawler purpose into three separate controls, Search, Train
 
 On the artifact side, Apple Reference Image signs photos at the sensor before any processing, which is a direct architectural argument against C2PA's model of attaching provenance metadata after capture and certifying the edit history from that point forward. The claimed advantage is that a compromise anywhere in a C2PA editing chain is undetectable to a viewer.
 
+The argument those controls answer is now on the litigation record in an unusually direct form. Unsealed filings in the New York Times case, reported Sep 17, contain a Jan 2023 internal Microsoft memo by Dr. Brent Hecht, Microsoft's Director of Applied Science, calling the scraping practice "the largest theft of labor in human history" and "an astonishing theft of unprecedented proportions," and arguing that large AI models "are a product that destroys its supply chain." The filings also record OpenAI's Nick Turley describing it as an "existential threat to publishers," and state that OpenAI's mid-training datasets alone contain more than 91,692 copies of works from the New York Times, the Daily News and the Center for Investigative Reporting. The complaint alleges paywall bypass, mass scraping, and deliberate stripping of copyright notices. What makes this different from the usual filing is the source: the most quotable condemnation comes from inside the defendant's own partner, written years before the suit.
+
 The collateral damage is already visible. The Internet Archive's Wayback Machine is under waves of high-volume automated traffic, its protections are catching real people, and it cannot automate bot detection.
 
 ## Open questions
@@ -22,7 +24,14 @@ The collateral damage is already visible. The Internet Archive's Wayback Machine
 - Both sides constrain what an agent doing live retrieval can reach and what it can trust once it gets there. No agent framework currently models partial reachability as a first-class condition.
 - Apple Reference Image covers the main sensor only, with no signature on ultrawide or telephoto shots, which bounds what it can prove. Whether that is a v1 gap or structural is unstated.
 - Cloudflare's Accountable designation depends on operators self-committing. There is no published mechanism for verifying compliance or de-listing an operator that stops honouring it.
+- The Hecht memo is an internal dissent from a partner, not a party admission by OpenAI. How much evidentiary weight that carries is a live legal question and nothing on this page can settle it.
 - News sites blocking the Wayback Machine because AI companies circumvent their blocks by reading archived copies is a genuine tragedy-of-the-commons with no proposed fix.
+
+## 2026-09-18
+
+**Unsealed filings in the New York Times case show a Microsoft director calling OpenAI's scraping "the largest theft of labor in human history."** Dr. Brent Hecht, Microsoft's Director of Applied Science, wrote in a Jan 2023 internal memo that the practice was "an astonishing theft of unprecedented proportions" and could create a "doom loop," arguing that large AI models "are a product that destroys its supply chain." The filings also record OpenAI's Nick Turley describing it as an "existential threat to publishers," and state that OpenAI's mid-training datasets alone contain more than 91,692 copies of works published by the New York Times, the Daily News and the Center for Investigative Reporting. The complaint alleges that the companies obtained and used the content by bypassing paywalls undetected, building training datasets through mass scraping, and deliberately stripping copyright notices from training data. Why it matters: this is the argument the Cloudflare training opt-out and the Apple provenance work are both engineered responses to, now on the record in an internal memo from inside the defendant's own partner, which changes its evidentiary weight in the litigation rather than just its rhetorical weight. [TechCrunch](https://techcrunch.com/2026/09/17/microsoft-exec-called-ai-scraping-the-largest-theft-of-labor-in-human-history-new-unredacted-filings-reveal/) · [Washington Post](https://www.washingtonpost.com/business/2026/09/17/microsoft-exec-called-ai-largest-theft-labor-history-court-records-show/)
+
+Source note: [[2026-09-18]]
 
 ## 2026-09-16
 

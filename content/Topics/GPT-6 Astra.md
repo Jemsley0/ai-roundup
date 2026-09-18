@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, gpt-6-astra]
-updated: 2026-09-16
+updated: 2026-09-18
 living: true
 ---
 
@@ -15,13 +15,23 @@ Trial with a caution attached, and the caution is the point. Astra saturates nar
 
 The caution comes from Ronacher's sustained hands-on critique, which is the most grounded assessment available and argues Astra is getting *worse* for software engineering as its benchmarks improve, because training rewards token efficiency and task completion with no real signal for human-understandable code. The number that got quoted: an unattended run went 35 hours, burned \$1,200 in API costs, and produced 75,000 lines of largely unusable code.
 
+As of 2026-09-18 Astra is also a platform rather than only a model. Astra for Law, launched Sep 17, is explicitly not a new model: it is GPT-6 Astra wrapped in a purpose-built legal search index and an instruction layer for legal analysis. That architecture is worth noting separately from the product, because it is the alternative to a domain fine-tune, and OpenAI measured the difference. At highest reasoning effort the configuration passed the correctness check on 54.0 percent of questions against 38.7 percent for GPT-6 Astra with web search alone, and found 24 percent more reference cases on case-law questions. The uncomfortable part for the vendors in that market is that two of them, Harvey and Legora, are named as API customers for the thing that competes with them.
+
 Astra is also entangled with the provenance thread. It is the model behind the Navier-Stokes claim and the soficity claim, and the second of those came with an allegation that OpenAI ingested unpublished work from private ChatGPT conversations.
 
 ## Open questions
 
 - If agentic-benchmark improvement does not predict coding-quality improvement, what does? Ronacher's critique has no quantitative counterpart.
 - The Critical cyber designation gates the sharpest capabilities behind a vetted coalition. There is no public information on who is in Daybreak or what they can do with it.
+- A vertical retrieval index plus instructions beat the same model with general web search by a wide margin on legal questions. Nobody has published whether that margin holds in a domain with less structured, less exhaustively published source material.
+- The Astra for Law correctness numbers are OpenAI's own, measured on OpenAI's own eval. No independent legal-accuracy evaluation exists.
 - Astra's capability claims and its training-provenance questions are not separable, and nobody has proposed a way to separate them.
+
+## 2026-09-18
+
+**OpenAI launched Astra for Law on Sep 17, and it is explicitly not a new model.** It is GPT-6 Astra wrapped in a purpose-built legal search index and an instruction layer for legal analysis. The index covers United States case law, statutes, regulations, court rules and administrative decisions across more than 230 million URLs, refreshed daily, which OpenAI says reaches more than 99.9 percent of published US precedential case law. At highest reasoning effort it passed the correctness check on 54.0 percent of questions against 38.7 percent for GPT-6 Astra with web search alone, which OpenAI frames as a 40 percent relative improvement, and it found 24 percent more reference cases on case-law-focused questions. Access is a Trusted Access program inside ChatGPT and Codex for selected firms; an API model named `gpt-6-astra-law` is promised with no date and no pricing attached. Harvey and Legora are named as API customers, and 26 partner plugins ship alongside from Thomson Reuters, Harvey, Legora and iManage. Why it matters: the architecture is a vertical retrieval index plus instructions rather than a fine-tune, which is a reusable pattern, and OpenAI is now selling that wrapper to the vendors who were the wrapper. [SiliconANGLE](https://siliconangle.com/2026/09/17/openai-launches-astra-for-law-a-gpt-6-configuration-for-legal-research/) · [LawSites](https://www.lawnext.com/2026/09/openai-releases-astra-for-law-a-gpt-6-model-configured-for-legal-work.html)
+
+Source note: [[2026-09-18]]
 
 ## 2026-09-14
 
