@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, mcp]
-updated: 2026-09-17
+updated: 2026-09-18
 living: true
 ---
 
@@ -17,7 +17,7 @@ The forward item to plan around is **agent identity via Workload Identity Federa
 
 Two adoption facts sit in tension. There are more than 10,000 active public MCP servers and the protocol has been donated to the Linux Foundation's Agentic AI Foundation, and yet an empirical study of 2,853 repositories found nobody in the sample using Claude Code's persistent subagent memory at all, and an Ask HN thread on production MCP use read as an open question rather than a settled one.
 
-The newest shape is governance, and as of 2026-09-17 both major warehouses sell it. Snowflake's Cortex AI Gateway manages 100-plus MCP servers with policy and audit enforced at the tool-call level, which is a materially different control than model-access-level enforcement. Databricks' Unity Gateway API reached general availability the following day and makes an external MCP server a registered catalog object with full create-read-update-delete through Terraform, the command-line interface, and four language software development kits. The two approaches differ in emphasis rather than in intent: Snowflake's strength is runtime enforcement per tool call, Databricks' is that the registration itself is infrastructure as code from day one. Either way, the layer that decides which MCP servers an agent may reach is now a governed warehouse object rather than a connection string in a config file, and neither vendor waited for the spec to say anything about it.
+The newest shape is governance, and as of 2026-09-18 three vendors sell it. Snowflake's Cortex AI Gateway manages 100-plus MCP servers with policy and audit enforced at the tool-call level, which is a materially different control than model-access-level enforcement. Databricks' Unity Gateway API reached general availability the following day and makes an external MCP server a registered catalog object with full create-read-update-delete through Terraform, the command-line interface, and four language software development kits. AWS's Bedrock AgentCore Gateway is the third and, on protocol maturity, the furthest along: it is a managed MCP server in its own right rather than a governor of other people's servers, it has taken the 2026-07-28 revision with four protocol versions coexisting on a single gateway and clients selecting per request, and it can front an external MCP server as an HTTP passthrough target so third-party servers sit behind the same authentication, policy and observability surface. The three differ in emphasis rather than in intent: Snowflake enforces at runtime per tool call, Databricks makes registration infrastructure as code from day one, AWS terminates the protocol itself and can refuse any traffic that bypassed it. Either way, the layer that decides which MCP servers an agent may reach is now a governed platform object rather than a connection string in a config file, and none of the three waited for the spec to say anything about it.
 
 ## Open questions
 
@@ -25,6 +25,18 @@ The newest shape is governance, and as of 2026-09-17 both major warehouses sell 
 - MCP does not specify how much tool metadata and output must be exposed to the model, so implementations serialise full schemas and outputs into the context window, where they compete with everything else. There is no standard answer to this and it is a direct token-cost problem.
 - Tool-call-level policy enforcement is arriving from vendors before the spec has anything to say about it, and now from two vendors with different enforcement points.
 - Registering an MCP server as a warehouse catalog object and standardising agent identity through Workload Identity Federation are solving overlapping problems from opposite directions. Nobody has said how the two compose, or which one is authoritative when they disagree.
+- The spec removed protocol-level sessions for horizontal scalability, and AgentCore Gateway's implementation shows what that costs in practice: cross-version translation cannot carry elicitation and sampling calls from servers to clients when an older client reaches a 2026-07-28 target. Whether other implementations hit the same wall, or found a way through it, is unpublished.
+- Running four protocol revisions on one gateway solves the migration problem by deferring it. Nobody has said what the deprecation path looks like, or who is expected to move first.
+
+## 2026-09-18
+
+**AWS published how AgentCore Gateway implements the MCP 2026-07-28 revision, and it is the most detailed account of the stateless shift from any implementer so far.** A single `UpdateGateway` call moves a gateway to the new revision, and four revisions (2025-03-26, 2025-06-18, 2025-11-25, 2026-07-28) then coexist on that gateway with clients selecting per request. The statelessness change is handled by carrying protocol version, client info and capabilities in each request's `_meta` parameter rather than relying on a one-time handshake. Multi-round-trip requests, which the spec introduced to replace server-initiated requests, are implemented per request through an `InputRequiredResult` and an opaque `requestState` token, retiring the persistent server-sent-event stream that elicitation and sampling previously needed. Structured tool output carries a result envelope with time-to-live and cache-scope hints for cacheable operations. Header binding for `Mcp-Method` and `Mcp-Name` is enforced, with a mismatch rejected as `-32020`. One gap is stated plainly: the cross-version translation does not support elicitation and sampling calls from servers to clients when an older client connects to a 2026-07-28 target, which is the exact flow multi-round-trip requests were designed to carry. ([AWS blog](https://aws.amazon.com/blogs/machine-learning/how-agentcore-gateway-supports-the-mcp-2026-07-28-spec/))
+
+**Gateway is also an answer to tool overload and to the bypass problem, both of which the spec leaves open.** Semantic tool discovery ships as a built-in tool, `x_amz_bedrock_agentcore_search`, so an agent queries for the tool it needs in natural language instead of having every registered tool serialised into its context window. That is a direct response to the token-cost question standing open on this page, and it is a vendor answer rather than a spec one. Separately, since June 2026 an AgentCore Runtime can be configured to accept invocations only when they originate from your gateway, enforced through an `aws:SourceArn` resource-based policy condition for Signature Version 4 runtimes and `allowedWorkloadConfiguration` for JSON Web Token runtimes. Every gateway logged on this page governs what an agent may reach through it; this is the first that also closes the path around it. Tool indexing for the search tool is priced separately at \$0.02 per 100 tools per month, with Search invocations at \$0.025 per 1,000 against \$0.005 per 1,000 for ListTools, InvokeTool and Ping. ([Gateway introduction](https://aws.amazon.com/blogs/machine-learning/introducing-amazon-bedrock-agentcore-gateway-transforming-enterprise-ai-agent-tool-development/), [AgentCore release notes](https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/release-notes.html), [AgentCore pricing](https://aws.amazon.com/bedrock/agentcore/pricing/))
+
+**The Sep 1 Consent Portal removes the piece of OAuth infrastructure every MCP integration was building by hand.** Connecting an agent to GitHub, Salesforce or Slack previously meant building, hosting and maintaining custom OAuth callback infrastructure to complete OAuth 2.0 three-legged authorization. Each gateway now gets a hosted portal with its own web client and credential provider list at a `portalUrl`, where a user reviews and approves the requested access before the agent proceeds, plus a self-service connection-status view that needs no administrator. It is generally available in every commercial region where AgentCore Identity runs, managed through create, get, list, update and delete consent-portal operations, and it requires a gateway with JSON Web Token inbound authentication as its source plus an identity provider whose permitted scopes include `openid`. AWS calls out agent integrated-development-environment clients specifically, since those cannot natively present an OAuth consent URL. ([AWS what's new](https://aws.amazon.com/about-aws/whats-new/2026/09/amazon-bedrock-agentcore/))
+
+Source note: [[2026-09-18]]
 
 ## 2026-09-17
 
@@ -92,12 +104,14 @@ Source note: [[2026-09-03]]
 
 ## On the radar
 
+- `🔵 TRIAL` **Snowflake Cortex AI Gateway**, which governs 100-plus MCP servers at the tool-call level. [[2026-09-16]]
+- `🔵 TRIAL` **Databricks Unity Gateway API**, which registers an MCP service as a Terraform-managed catalog object. [[2026-09-17]]
+- `🔵 TRIAL` `⚠️` **Amazon Bedrock AgentCore Gateway**, a managed MCP server on the 2026-07-28 revision with four revisions coexisting per gateway; cost is spread across several separate per-call meters. [[2026-09-18]]
+- `🔵 TRIAL` **AgentCore Gateway dimensional rate limits**, scoped by JSON Web Token claim, IAM principal, target, tool or model, with `rate=0` as a kill switch; documented to fail open. [[2026-09-18]]
 - `🟡 ASSESS` **MCP agent identity (Workload Identity Federation + DPoP)**. [[2026-09-14]]
 - `🟡 ASSESS` **Datamimic deterministic synthetic test data over MCP**. [[2026-09-16]]
 - `🟡 ASSESS` **Context layer over semantic layer, exposed to agents via MCP**. [[2026-09-11]]
 - `🟡 ASSESS` **Cymphony + agent/skill registry consolidation**. [[2026-09-09]]
-- `🔵 TRIAL` **Snowflake Cortex AI Gateway**, which governs 100-plus MCP servers at the tool-call level. [[2026-09-16]]
-- `🔵 TRIAL` **Databricks Unity Gateway API**, which registers an MCP service as a Terraform-managed catalog object. [[2026-09-17]]
 
 ## Related
 

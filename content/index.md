@@ -61,7 +61,7 @@ Recurring threads. Each one is a **full top-down read** of every edition that to
 
 ## Every edition
 
-- [[2026-09-18]]. Anthropic's R&D Automation Index and Claude leading 26 percent of its own research, the Hacktron chain into OpenAI's internal repositories, Qwen3.8-Omni-Flash
+- [[2026-09-18]]. Anthropic's R&D Automation Index and Claude leading 26 percent of its own research, the Hacktron chain into OpenAI's internal repositories, Qwen3.8-Omni-Flash, and a deep AWS Bedrock pass on AgentCore Gateway and Managed Knowledge Base
 - [[2026-09-17]]. TypeSafe's Jev and the System One decision-model class, OpenAI's misalignment disclosure framework and six incidents, Databricks Unity Gateway API
 - [[2026-09-16]]. Emergence AI's containment breach, Cortex AI Gateway, ImpactGate and Datamimic, two corrections
 - [[2026-09-15]]. Pion and autonomous business agents, verification gates, the Cyphral Distich refutation
