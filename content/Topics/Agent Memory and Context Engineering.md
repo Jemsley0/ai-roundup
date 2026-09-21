@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, agent-memory]
-updated: 2026-09-17
+updated: 2026-09-21
 living: true
 ---
 
@@ -21,14 +21,32 @@ That last point stopped being a theoretical preference on 2026-09-17. OpenAI dis
 
 Alongside that, the Emergence AI evidence remains uncomfortable: a flagged risk did not survive in an agent's own memory to the moment of action. Detection-without-containment is a memory and context problem rather than a reasoning one, and the two findings point the same way. State an agent must not lose needs to be structural, not a sentence in a transcript that a later rewrite can drop or a later summary can contradict.
 
+As of 2026-09-21 the compaction caution has a vendor product inside it. Snowflake's Cortex Agents Compact API entered preview on Sep 21 with an `agent:compact` endpoint that summarizes a conversation for reuse in later `agent:run` calls. The mechanism this page already warns about, a model writing fabricated constraints into its own summary that the next context window then obeys, applies unchanged, and a managed endpoint removes the operator's view of the summarisation prompt and of what was dropped. Anyone adopting it should first plant a false constraint, compact, and check whether it survives the turn.
+
+The same cycle produced the first measurement with a real control. A harness paper compared prewritten task plans against shuffled policy text matched for word count, which separates useful structure in the context window from mere volume, and found the real plans worth 7.17 percentage points of oracle-verified success. The same study found a read-only terminal verifier rejecting 61 percent of invalid episodes for under a cent each, and concluded the verifier captures nearly all the benefit at lower cost. That is a direct answer to the open list left behind when "context engineering" came off the radar: planning content is measurable and it matters, and it is also the expensive way to buy the outcome.
+
 ## Open questions
 
+- Nobody has run the harness paper's word-count-matched control against the other context interventions on this page. It is the cheapest available falsification test and it has been applied once.
+- A managed compaction endpoint hides the summarisation prompt. No vendor has published what its compaction preserves or drops, which makes the untrusted-summary caution unauditable rather than just live.
 - If a flagged risk can be displaced from an agent's context before it acts, flagged-risk state needs to be sticky and structural rather than a note in a transcript. Nothing in the current literature addresses that directly.
 - Nobody has published a validation scheme for compaction summaries. OpenAI suspects a link to summaries that fail to terminate cleanly and states no causal relationship is established, which leaves both the cause and the detection method open.
 - There is no provenance marker in any major harness distinguishing text a model wrote about itself from an instruction its operator wrote. Until there is, the next context window cannot tell the difference and neither can a reviewer reading the transcript.
 - mem0 claims harness configuration rather than model choice is the dominant performance lever. Vendor-published, and worth testing independently, because if true it changes where evaluation effort should go.
 - The Galster study found nobody using persistent subagent memory. The gap between the research literature and what practitioners actually configure is very wide and nobody has explained it.
 - "Context engineering" was removed from the radar for being a discipline rather than an adoptable technique. Which specific named methods deserve their own rings is still an open list.
+
+## 2026-09-21
+
+**Snowflake shipped a managed compaction endpoint, which puts a vendor inside the failure mode this page already cautions about.** The Cortex Agents Compact API entered preview on Sep 21, 2026. The `agent:compact` endpoint summarizes a conversation and returns a compact representation to pass into subsequent `agent:run` requests, to cut token consumption and keep a conversation inside the model context window. The standing caution logged on [[2026-09-17]] is that a model can write fabricated constraints into its own summary and the next context window obeys them silently. A managed endpoint inherits that mechanism exactly and adds an opaque intermediary, so the operator no longer controls the summarisation prompt or sees what was dropped. The read is assess with a specific test attached: plant a false constraint in a conversation, compact it, and check whether the constraint survives into the next turn, before this reaches a production agent. ([Snowflake release notes](https://docs.snowflake.com/en/release-notes/new-features))
+
+**A paper isolated what planning information in a harness is actually worth, against a word-count-matched control.** Yukun Zhang, Kemu Xu and Yishen Chen compared prewritten task-specific plans against shuffled policy text matched for word count, which separates the content of guidance from the mere presence of text in the context window. Across 265 matched cells the real plans improved oracle-verified success by 7.17 percentage points, with a 90 percent task-clustered bootstrap interval of 1.15 to 13.36 points, concentrated in higher-complexity tasks. A read-only terminal verifier separately rejected 61 percent of oracle-invalid episodes while withholding 17 percent of correct ones, at under one cent per episode, and the authors conclude that "a standalone verifier captures nearly all the benefits at lower cost" under any meaningful cost of wrongly accepting a bad result. Submitted Sep 17, 2026.
+
+For this page the control is the interesting part. A shuffled-text baseline matched for length is the first published attempt to distinguish "the context contained useful structure" from "the context was full," which is the question underneath every context-engineering claim and the reason the discipline itself was removed from the radar as unfalsifiable. The answer is that content does matter, by about 7 points, and that it is the more expensive way to buy the result. ([arXiv 2609.20474](https://arxiv.org/abs/2609.20474))
+
+**Google's AX treats context assembly as a declared workspace rather than a per-run prompt.** Its Workspace primitive pre-wires Git repositories, Model Context Protocol servers and skill packages so an agent starts warm, declared as a Kubernetes manifest, and `ax suspend` and `ax resume` checkpoint agent state between runs. That is a different answer to the memory problem from either a summary or a retrieval store: the durable thing is the declared environment, and the transcript is disposable. ([github.com/google/ax](https://github.com/google/ax))
+
+Source note: [[2026-09-21]]
 
 ## 2026-09-17
 
@@ -96,6 +114,7 @@ Source note: [[2026-09-03]]
 
 ## On the radar
 
+- `🟡 ASSESS` **Snowflake Cortex Agents Compact API**, a managed `agent:compact` endpoint that inherits the untrusted-summary failure mode and adds an opaque intermediary. [[2026-09-21]]
 - `⚫ DROPPED` **Context engineering**, removed as a category error rather than a change of view. It is a discipline, not an adoptable technique, and everything specific underneath it is listed separately. [[2026-09-03]], removed [[2026-09-15]]
 - `🟡 ASSESS` **Graphiti / temporal knowledge graphs**. [[2026-09-11]]
 - `🔵 TRIAL` **Shopify Helix checkpoint discipline**. [[2026-09-11]]
