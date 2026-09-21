@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, research-provenance]
-updated: 2026-09-16
+updated: 2026-09-21
 living: true
 ---
 
@@ -17,11 +17,24 @@ Twenty-five Fields Medallists have now signed a declaration against how labs tre
 
 The newest development is second-order: Aaronson reports rumours that labs are now sitting on solved open problems because the reputational cost of a botched announcement has risen. If true, the disclosure behaviour of frontier labs has changed as a result of this thread, which is a more consequential outcome than any individual dispute.
 
+As of 2026-09-21 this page has three live instances and they form a usable taxonomy. A claim that fails on inspection (the Cyphral Distich refutation). A claim nobody can inspect (Aaronson's withheld-solutions rumour). And, new this cycle, a claim inspectable on one side only: a researcher's March 2025 arXiv paper on non-autoregressive decision models trained with reinforcement learning, set against TypeSafe AI's Jev, which shipped in September 2026 with no paper, no weights and no training data. The asymmetry is the point. One side has a dated artefact and the other has a hosted API, so the dispute cannot be settled on evidence even in principle, which is a property of the vendor's disclosure choices rather than of the underlying question.
+
+The countervailing signal is that the class is being reproduced in the open regardless. Kev builds tiny Jev-like decision models on Qwen3.5 and `jevals` uses typed decisions in place of LLM judges. Independent reimplementation is doing the verification work that the vendor's own release refused to enable, which is a reasonable template for how this thread resolves in general.
+
 ## Open questions
 
+- TypeSafe AI has not responded publicly to the priority claim. Whether a paper follows, and whether it cites the March 2025 work, is the fact that would settle this.
 - Is there any way to evaluate "agents did novel mathematics" without knowing what went into training? No one has proposed a mechanism.
 - The Fields Medallists named the problem and asked for nothing. Does an ask ever arrive, and from whom?
 - Aaronson's withheld-solutions rumour is unverified by his own account. If it is true, it is the most important item in this thread and there is currently no way to confirm it.
+
+## 2026-09-21
+
+**A researcher published a priority claim against TypeSafe AI's Jev and it took 1,318 points, the second-largest item of the window.** Nandakishor M of Convai Innovations says he published non-autoregressive decision models trained with reinforcement learning in an arXiv paper in March 2025, and that TypeSafe AI presented the same concept in September 2026 as a new scientific breakthrough. The stated objection is disclosure as much as precedence: Jev shipped with no technical paper, no open weights and no open training data, so there is no artefact against which an independent reader can compare the two claims. TypeSafe AI's own framing is a training method it calls reinforcement learning for calibrated decisions, with vendor-reported multiples of roughly 100x faster and 100x cheaper than conventional models on classification and routing-shaped work.
+
+This is the third instance of the pattern this page exists for, and the cleanest structurally. The Cyphral Distich refutation was a claim that failed on inspection. Aaronson's withheld-solutions rumour is a claim nobody can inspect. This one is a claim that can be inspected on one side only: the prior art is on arXiv with a date on it, and the thing it is being compared against is a hosted API with no paper. That asymmetry is the finding, rather than which party is right about precedence. The class itself is meanwhile being reproduced in the open by third parties, with Kev building tiny Jev-like decision models on Qwen3.5 (197 points on Sep 21) and `jevals` replacing LLM judges with typed Jev decisions, which is what independent verification of the underlying idea looks like even while the vendor's specific claims stay unverifiable. ([DEV Community](https://dev.to/nandakishor_m_6cc0adfde9f/i-built-non-autoregressive-decision-models-a-year-ago-then-a-frontier-lab-called-it-a-18me))
+
+Source note: [[2026-09-21]]
 
 ## 2026-09-16
 
@@ -65,7 +78,8 @@ Source note: [[2026-09-08]]
 
 ## On the radar
 
-- `⚠️ CAUTION` **Unverified lab capability claims**. Check what the claimant checked against, not just whether the answer verifies internally. [[2026-09-11]], escalated [[2026-09-15]]
+- `⚠️ CAUTION` **Unverified lab capability claims**. Check what the claimant checked against, not just whether the answer verifies internally. [[2026-09-11]], escalated [[2026-09-15]], third instance [[2026-09-21]]
+- `🔵 TRIAL` `⚠️` **TypeSafe Jev and the System One decision-model class**, reproduced in the open by third parties, while the vendor's own release has no paper, no weights and a live priority dispute. (was [[2026-09-17]]) [[2026-09-21]]
 
 ## Related
 

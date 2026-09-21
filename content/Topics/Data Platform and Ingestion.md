@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, data-platform, dbt, snowflake, databricks, bedrock]
-updated: 2026-09-18
+updated: 2026-09-21
 living: true
 ---
 
@@ -21,12 +21,16 @@ Access control is the layer moving fastest now that the gateway question is sett
 
 Snowflake's contribution in the same window is narrower and structural. Apache Iceberg partition evolution went to general availability on Sep 18, so partitioning can change without rewriting the table. Partition choice stops being a one-way door at creation time, which removes the main reason large Iceberg tables get rebuilt.
 
+The largest item in this layer since this page began landed on 2026-09-16 and was missed here until 2026-09-21: **dbt v2.0 and dbt State are both generally available**, announced at dbt Summit, with v2.0 adapters at general availability for Snowflake, BigQuery, Redshift and Databricks. The two-engine era is over and the Fusion name is retired. The practical split is that dbt State is the payoff and dbt v2.0 is the cost. dbt State works against dbt v1.7 through v2.0 and skips or clones nodes when neither logic nor data changed, so it lands independently of any engine migration and is the largest warehouse-cost lever in a dbt project. The v2.0 migration carries an audit burden instead, because the install paths changed: `pip install dbt` now installs v2, and dbt v1 is moving from `dbt-core` to `dbt-oss`. Alongside both, a new Semantic Layer YAML specification is on the Latest release track, which is a migration paid for later if existing semantic models drift from it.
+
 dbt's Snowflake-native CI story is the most directly actionable thing in this layer: Slim CI, defer-to-production, failed-execution recovery, and concurrent execution all went GA on Sep 10 for dbt Projects on Snowflake. That has a real adoption cost attached, not just a flag, because all four depend on the `2026_06` behaviour-change bundle which changes how the underlying objects version.
 
 The ingestion layer is the quietest part and the one with the clearest direction. dltHub reports community-created pipelines going from 2,400 in January 2025 to 81,000 in January 2026 with **91 percent written by agents**. Vendor-reported and unaudited, but the strategic conclusion does not depend on the exact figure: when pipelines become cheap and agents write most of them, **the bottleneck moves to the transformation layer.**
 
 ## Open questions
 
+- dbt State's cost saving depends entirely on how much of a project's DAG is genuinely unchanged between runs, and nobody has published that distribution for a real project. The lever's size is unmeasured outside vendor framing.
+- The new dbt Semantic Layer YAML specification has no published migration path from the current specification, and no statement on whether both will be supported indefinitely.
 - Does the Cortex AI Gateway boundary hold? It governs the routing path, not entitlement, so Cortex database roles remain the access layer. Whether that stays a clean separation or becomes two overlapping permission systems is unresolved.
 - No independent measurement of Snowflake's dynamic model routing exists. The 3x and 25 percent token-efficiency claims are internal testing.
 - `interactive_table` cannot carry a model contract. Whether that is a beta gap or a structural limit decides whether it can ever sit anywhere but the serving edge.
@@ -39,6 +43,26 @@ The ingestion layer is the quietest part and the one with the clearest direction
 - Nobody has published a same-corpus retrieval-quality comparison between Bedrock Managed Knowledge Base's agentic retriever and its standard Retrieve path. Without one there is no basis for the 5x per-call premium.
 - The three gateways are now three, not two, and the comparison problem got harder. Snowflake enforces per tool call, Databricks registers and governs the object, AWS fronts targets and can refuse traffic that bypassed it. No published work compares what each can actually stop.
 - AgentCore Gateway rate limiting fails open on transient enforcement errors. How often that happens in practice is not published, and it decides whether the feature is a control or a best effort.
+
+## 2026-09-21
+
+**dbt v2.0 is generally available and Fusion is gone as a separate name.** Announced at dbt Summit in Las Vegas on Sep 16, 2026, dbt v2.0 is the next major version running on a single Rust engine, deployable on a laptop, in a virtual private cloud, or on the dbt platform. The naming reorganisation changes the install paths with it: dbt v2, also called dbt OSS and Apache 2.0 licensed, replaces both "Fusion" and "dbt Core v2.x" and installs with `pip install dbt`; dbt v1 replaces "dbt Core v1.x", stays open source, and installs with `pip install dbt-core`, migrating to `pip install dbt-oss`. Adapters for dbt v2.0 reached general availability for Snowflake, BigQuery, Redshift and Databricks for both local and platform use, with DuckDB local-only. The direct read for this stack is adopt on a plan. The single-engine story ends the two-engine ambiguity that has made every dbt version conversation conditional since Fusion previewed, and Snowflake and Databricks adapters at general availability removes the blocker that mattered here. What it would take is a version and install-path audit across every repository and continuous-integration image, because `pip install dbt` now means something different from what it meant a week earlier. ([dbt release notes](https://docs.getdbt.com/docs/dbt-versions/release-notes), [dbt v2.0 is GA](https://docs.getdbt.com/blog/dbt-v2-is-ga))
+
+**dbt State is generally available and it is the reason to care about v2.0.** It skips or clones nodes when neither the logic nor the data has changed, works locally against dbt v1.7 through v2.0, on the dbt platform, and with external orchestrators, and the interface now carries lag-tolerance recommendations. The standalone dbt State app at `app.state.dbt.com` is being retired. The read is adopt. Backwards compatibility to v1.7 means this does not have to wait for a v2.0 migration, and "do not rebuild what did not change" is the single largest warehouse-cost lever available in a dbt project. What it would take is wiring it into orchestrator-driven runs rather than only the platform scheduler, and choosing a lag tolerance per model group.
+
+**The rest of the Summit set is preview and beta, and one piece points straight at the semantic layer.** dbt Charts is in public beta, converting YAML to dashboards. Lake Compute is in private beta as a DuckDB-based engine for Apache Iceberg tables. Wizard Desktop is in private beta as a native application with rendered tables, charts and inline diffs. ClickHouse connections for dbt v2.0 on the platform are in private beta, and an Apache Spark adapter for dbt v2.0 local use is in beta. Alongside these, the new Semantic Layer YAML specification is available on the Latest release track, and Fivetran announced a Fivetran Context Layer. The read is watch, except the Semantic Layer specification, which is assess now: a new specification for semantic definitions is a migration paid for later if the current YAML drifts from it. What it would take is reading the new specification against existing semantic models before anything else is added to them. The Summit's stated theme was "agents and context engineering" as the successor to analytics engineering, which is vendor positioning, but the Context Layer and the new specification are its concrete expression.
+
+**Snowflake shipped the Cortex Agents Compact API in preview on Sep 21.** The `agent:compact` endpoint summarizes a conversation and returns a compact representation to pass into subsequent `agent:run` requests, to cut token consumption and keep a conversation inside the model context window. The read is assess, with a specific caution attached. Context compaction as an untrusted input is already a standing caution, because a model can write fabricated constraints into its own summary and the next context window obeys them silently. A managed compaction endpoint inherits that failure mode and puts a vendor between the operator and the summary. What it would take is a test that plants a false constraint in a conversation, compacts it, and checks whether the constraint survives into the next turn. ([Snowflake release notes](https://docs.snowflake.com/en/release-notes/new-features))
+
+**Snowflake also brought database roles in backups to general availability on Sep 18.** The read is watch. It closes a restore-time gap rather than enabling anything new, and it matters only at the point where a restored database's grants are expected to still work.
+
+**The new AgentCore Runtime went generally available on Sep 18, and the cold-start numbers are the reason to move.** AWS reports a P75 cold start of 1.9 to 2.0 seconds for container images from 200 MB to 2 GB, against 5.4 to 30 seconds on V1, achieved by snapshotting the prepared agent environment once and restoring subsequent instances from that snapshot rather than repeating initialization. Elastic memory management starts a session with a minimal footprint, allocates as the workload grows, and reclaims unused memory during the session instead of holding it until termination, so billing follows actual consumption rather than peak allocation. Available in `us-east-1`, `us-east-2`, `us-west-2`, `eu-west-1` and `ap-northeast-1`. Adoption requires setting `platformVersion` to `V2` when creating or updating a runtime. The read is adopt, and it is a one-line change. Both figures are vendor-reported, but a 3x-to-15x cold-start improvement and per-session memory reclaim are the two things that make an agent runtime affordable to leave running. ([AWS what's new](https://aws.amazon.com/about-aws/whats-new/2026/09/new-agentcore-runtime-generally-available/))
+
+**Two smaller AgentCore items.** AgentCore Evaluations now evaluates agents built with the TypeScript versions of Strands Agents, LangGraph and OpenAI Agents, plus the TypeScript-only Vercel AI SDK. And runtime agents can deliver spans to the agent's own Amazon CloudWatch log group in a `spans` log stream instead of the shared `aws/spans` group, arriving alongside the agent's structured logs and standard output. The read is adopt the span logging change: one log group per agent instead of a shared one is the difference between a usable trace and a grep across every agent in the account. ([AgentCore release notes](https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/release-notes.html))
+
+**Databricks has nothing dated inside the window, and two changes land within the next week and a half.** Secrets in Unity Catalog becomes available by default for workspaces with the compliance security profile enabled in late September 2026, storing and governing secrets as securable objects. Also in late September, Genie Agents will be restricted to using only the data sources explicitly attached under an agent's Sources. Both are watch-then-verify, and the Genie restriction is the one that can break something, because an agent relying on ambient access to a catalog will stop working when it lands. What it would take is listing the attached Sources on every Genie Agent now rather than after the change. Separately, Chat in Genie One can now use Databricks-managed Model Context Protocol connectors for Google Drive, Gmail, Microsoft 365, Atlassian and Slack. ([Databricks release notes](https://docs.databricks.com/aws/en/release-notes/product/2026/september))
+
+Source note: [[2026-09-21]]
 
 ## 2026-09-18
 
@@ -195,6 +219,8 @@ Source note: [[2026-09-03]]
 
 ## On the radar
 
+- `🟢 ADOPT` **dbt State**, skips or clones nodes when neither logic nor data has changed, and works against dbt v1.7 through v2.0 so it does not require the engine migration. [[2026-09-21]]
+- `🔵 TRIAL` **dbt v2.0 single-engine migration**, one Rust engine with Snowflake, BigQuery, Redshift and Databricks adapters at general availability; the install paths changed, so `pip install dbt` now means v2. [[2026-09-21]]
 - `🔵 TRIAL` **Snowflake Cortex AI Gateway**. [[2026-09-16]]
 - `🔵 TRIAL` **Databricks Unity Gateway API**, Terraform-managed model services, model provider services, and MCP services. [[2026-09-17]]
 - `🔵 TRIAL` `⚠️` **Amazon Bedrock AgentCore Gateway**, a managed Model Context Protocol server fronting Lambda, OpenAPI, Runtime, HTTP passthrough and inference targets; cost is spread across several separate per-call meters rather than one line item. [[2026-09-18]]
@@ -210,6 +236,11 @@ Source note: [[2026-09-03]]
 
 ## Open action items
 
+- Audit every repository and continuous-integration image for dbt install paths before upgrading, because `pip install dbt` now installs v2 and dbt v1 is moving from `dbt-core` to `dbt-oss`. First noted [[2026-09-21]].
+- Read the new dbt Semantic Layer YAML specification before extending existing semantic models. First noted [[2026-09-21]].
+- Setting `platformVersion` to `V2` on an existing AgentCore runtime picks up the new runtime's cold-start and elastic-memory behaviour, and runtime spans can be delivered to the agent's own Amazon CloudWatch log group instead of the shared `aws/spans` group. First noted [[2026-09-21]].
+- List the explicitly attached Sources on every Databricks Genie Agent before the late-September 2026 restriction lands, since an agent relying on ambient catalog access will stop working. First noted [[2026-09-21]].
+- Before the Snowflake Cortex `agent:compact` endpoint reaches a production agent, plant a false constraint in a conversation, compact it, and check whether the constraint survives into the next turn. First noted [[2026-09-21]].
 - Teams on `dbt-snowflake` should be pinned to v1.10.6 or later ahead of Snowflake's default string and binary column size change. First noted [[2026-09-04]], restated [[2026-09-14]].
 - AI features in the dbt platform are now enabled by default, so it is worth checking whether that is wanted in an account. First noted [[2026-09-16]].
 - Databricks Apps is on by default for workspaces with the compliance security profile enabled as of Sep 18, so this is now live and should be verified rather than anticipated. First noted [[2026-09-17]].

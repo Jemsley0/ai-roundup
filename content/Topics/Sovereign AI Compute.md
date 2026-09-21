@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, sovereign-ai-compute]
-updated: 2026-09-18
+updated: 2026-09-21
 living: true
 ---
 
@@ -25,14 +25,34 @@ The policy layer cuts both ways. China's State Council Decree No. 841, effective
 
 The honest summary: the hardware bets are further along than the export-control framing usually assumes, and the "sovereign" label is doing a lot of work across four very different propositions.
 
+As of 2026-09-21 a fifth bet has separated out from the four above, and it is about cost structure rather than hardware or capital. Naive AI, seven months old and fewer than 100 employees, reached a \$1.42B valuation on \$400M raised across three rounds, building its model on an existing Chinese open-weight release with its differentiation in mid-training and post-training rather than pre-training. If that works, the capital required to found a competitive national lab falls by an order of magnitude and permissive Chinese weights become strategic infrastructure for other countries' companies.
+
+Which is exactly why the same window's licence news matters more than the model it attaches to. Alibaba published Qwen-Image-2.1 on Sep 20 under a research-only licence after the previous generation shipped under Apache 2.0. The open-weights posture of Chinese labs is a lever, not a standing commitment, and it moved in both directions on the same day: StepFun released Step 5 Preview at \$1.00 input and \$2.70 output per million tokens with open weights promised for Oct 15, while Qwen tightened. A sovereignty argument resting on permissive Chinese weights now requires reading each release.
+
+On the policy side, the US proposed a bilateral AI incident-notification mechanism to China on Sep 20 and stated that export controls on advanced chips and semiconductor manufacturing equipment were not on the agenda for those talks. The instrument that actually determines compute sovereignty is being held outside the dialogue offered about it.
+
 ## Open questions
 
+- Naive AI has not shipped its model, so the not-pre-training thesis is priced but untested. The release is expected imminently and is the only thing that will settle whether mid-training and post-training are a sufficient differentiator.
+- Qwen relicensed one product line and not, so far, the others. Whether the research-only licence is a line-specific decision or the start of a house change is unstated, and it is the load-bearing question for anyone depending on Qwen weights.
 - Z.ai's numbers are the only published account of large-scale Chinese-accelerator inference and they are self-reported. No independent measurement of utilisation or per-token cost on that cluster exists, and the comparison to NVIDIA is the load-bearing claim.
 - FUJITSU-MONAKA ships in Nov 2026. There is no published independent benchmark, so the inference-per-watt case against incumbent parts is currently a specification argument.
 - Composable Disaggregated Infrastructure and Compute Express Link are how MONAKA claims to address inference memory shortages. Nobody has published what disaggregated memory actually costs in latency for a serving workload.
 - Anchoring 2GW of national capacity to a single vendor's platform removes a geographic dependency and deepens a supplier one. No government in this thread has published which of the two it was trying to reduce.
 - "Sovereign" is used for data residency, model ownership, silicon provenance, and operator nationality interchangeably. No shared definition exists, which makes the funding figures in this thread non-comparable.
 - An open-source agent platform kernel shared with a commercial edition is either a portability story or a cheaper on-ramp to one vendor's cloud. Huawei's December availability date is the first point at which anyone outside China can test which.
+
+## 2026-09-21
+
+**StepFun released Step 5 Preview on Sep 20 and the interesting part for this thread is the cost claim, not the capability claim.** A 600B-total, 27B-active sparse mixture of experts with a 1M-token context and native image input, at \$1.00 per million input tokens and \$2.70 per million output, with an Artificial Analysis Intelligence Index score of 44, and open weights scheduled for Oct 15, 2026. The announcement is titled "Advancing the Pareto Frontier," which is a claim about intelligence per dollar rather than about a top score. Every figure other than the pricing is vendor-reported. Where it lands in the four bets on this page: it is not a silicon story or a capital story, it is the third Chinese lab in a month to compete on price and open weights rather than on benchmark leadership, and the open-weights date is what converts it from a hosted service into something a buyer outside China can actually run. Until Oct 15 the only access is a Chinese-hosted API, which for a sovereignty thesis is the opposite of the point. ([MarkTechPost](https://www.marktechpost.com/2026/09/20/stepfun-launches-step-5-preview/))
+
+**Alibaba moved Qwen-Image-2.1 off Apache 2.0 onto a research-only licence on the same day, which cuts against the same thesis.** The weights are published on Hugging Face and ModelScope, but the Qwen Research License Agreement dated Sep 20, 2026 grants rights for non-commercial purposes only and requires a separately requested licence for commercial use. The previous Qwen-Image generation was Apache 2.0. The model itself is consumer image generation and out of scope, but the licence regression is directly on-thread: the open-weights posture of Chinese labs is a strategic lever rather than a standing commitment, and it moved in both directions within hours on the same day. Anyone whose sovereignty argument rests on permissive Chinese weights now has to read each release rather than assume a house position. ([Qwen-Image-2.1](https://github.com/QwenLM/Qwen-Image-2.1))
+
+**A seven-month-old Beijing startup reached a \$1.42B valuation on the premise that it will not pre-train its model.** Naive AI was founded in February 2026 by Tsinghua professor Jifeng Dai, has raised \$400M across three rounds (\$100M, \$180M and \$120M) from investors including Tencent, and has fewer than 100 employees. The model, also called Naive, is being built on an existing Chinese open-weight model, with the company's differentiation concentrated in mid-training and post-training, and is expected to ship as open weights. This is a fifth bet, distinct from the four already on this page, and it is a bet about the cost structure of sovereignty rather than about hardware or capital. If the pre-training run is a commodity input rentable from someone else's permissive release, the capital required to found a competitive national lab falls by an order of magnitude, and the open-weight releases from Qwen, DeepSeek and StepFun become strategic infrastructure for other people's companies rather than marketing. It also makes the Qwen licence regression above materially more consequential, since that infrastructure is only load-bearing while the licence holds. ([The Information](https://www.theinformation.com/articles/tsinghua-professors-stealth-llm-startup-hits-1-4-billion-valuation))
+
+**The US proposed a bilateral AI incident-notification mechanism with China, and explicitly kept export controls off that table.** Treasury Secretary Scott Bessent closed roughly eight hours of talks with Vice Premier He Lifeng in New York on Sunday, Sep 20, by proposing a new US-China AI dialogue including a notification system for AI-related incidents rising to a national-security level, to be put to Trump and Xi at their summit this week. US Trade Representative Jamieson Greer stated that export controls on advanced AI chips and semiconductor manufacturing equipment were not on the agenda for the AI mechanism talks. Trump and Xi first discussed AI consultations in Beijing in May 2026 and that forum was never formalised. For this page the second sentence is the one that matters: the instrument that actually shapes compute sovereignty is being held outside the dialogue that is being offered about it. ([CNN](https://edition.cnn.com/2026/09/20/business/us-china-trade-talks-ai-intl-hnk))
+
+Source note: [[2026-09-21]]
 
 ## 2026-09-18
 
@@ -77,6 +97,7 @@ Source note: [[2026-09-08]]
 
 ## On the radar
 
+- `🔵 TRIAL` `⚠️` **StepFun Step 5 Preview**, 600B total and 27B active at a 1M-token context for \$1.00 input and \$2.70 output per million tokens, with open weights scheduled for Oct 15, 2026; until then the only access is a Chinese-hosted API. [[2026-09-21]]
 - `🟡 ASSESS` **Huawei Cloud AgentArts and openJiuwen**, nothing available outside China until Dec 30, 2026. [[2026-09-18]]
 
 ## Related

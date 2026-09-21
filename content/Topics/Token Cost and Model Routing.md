@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, token-cost, model-routing]
-updated: 2026-09-18
+updated: 2026-09-21
 living: true
 ---
 
@@ -23,8 +23,14 @@ As of 2026-09-18 a fourth direction appears, and it is the first one that attack
 
 The pricing floor also moved. Qwen3.8-Omni-Flash, released Sep 18, takes text, image, audio and video in one request at \$0.15 per million input tokens and \$0.47 per million output, with cache hits at \$0.016 per million, and Qwen reports audio input costs more than 98 percent lower per hour than its predecessor. Every figure is the vendor's. The routing consequence is narrow and real: audio and video triage stops being the step you avoid on cost grounds.
 
+As of 2026-09-21 there is a fifth direction and it breaks an assumption the other four share. A paper on provider-side token inflation shows a dishonest hosted provider can stretch outputs more than 10.2 times the clean baseline while keeping task utility, by suppressing end-of-sequence probability at any of four levels of its own pipeline, and that a single controlled-lengthening probe detects it at 85.1 percent with under 2 percent false positives. Applied to production, it flagged 7 of 15 real APIs, on the authors' own classification and with nobody named. The credibility test governing this page (reduce calls, reduce output, or reduce re-sent context) presumes output length is a model property. If it is partly a provider choice, a router optimising on reported token counts is optimising a number the counterparty can move.
+
+The price floor also moved again, this time at the long-context end. StepFun's Step 5 Preview, released Sep 20, is 600B total and 27B active with a 1M-token context at \$1.00 input and \$2.70 output per million tokens, with open weights due Oct 15, 2026. Since the dominant cost driver here is quadratic context accumulation across a long loop, a 1M-context model at roughly a third of frontier pricing changes the arithmetic on precisely the workload that costs the most. Every capability figure is vendor-reported and there is no pinnable version until the weights ship. Snowflake, separately, now sells context compaction as a managed endpoint, which reduces re-sent context and so passes the credibility test, at the cost of hiding the summarisation prompt behind a vendor.
+
 ## Open questions
 
+- The token-inflation audit has been run once, by its authors, against unnamed providers. Nobody has published a reproduction, and no provider has published a commitment or attestation about output-length integrity.
+- Step 5 Preview's pricing is verifiable and its capability figures are not. The Oct 15, 2026 weights release is the point at which the intelligence-per-dollar claim becomes independently testable.
 - Neither local-inference result has been reproduced on non-Apple hardware, and the prerouter's value on server-side storage tiering, where it would matter far more, is entirely untested.
 - Bonsai 2's 98.2 percent retention is an aggregate. The per-task regressions decide whether it can sit in a routing table at all, and no breakdown is published.
 - Every routing efficiency number in this thread except Spotify's and Quesma's is vendor-reported. Snowflake's 3x and Cognition's 64 percent both need independent eval.
@@ -32,6 +38,18 @@ The pricing floor also moved. Qwen3.8-Omni-Flash, released Sep 18, takes text, i
 - Prompt caching is the biggest lever and gets the least attention. There is no good public writeup of cache-hit-rate engineering for agent loops.
 - Nobody has published an independent evaluation of a decision-only model against a frontier model on the same routing or triage task. Agreement rate matters far more than the speed multiple, and only the vendor has measured it.
 - If output tokens go to zero for a whole class of calls, the cost model for an agent loop changes shape rather than scale, and none of the existing per-step cost estimates in this thread account for that.
+
+## 2026-09-21
+
+**A paper showed that a hosted provider can inflate your token bill more than tenfold without degrading output quality, and that a single probe detects it.** Leilei Chen and seven co-authors set out the threat model for pay-per-token services where a dishonest provider lengthens outputs for billing gain. They identify five attacks operating at the query, prompt, representation and model levels of the provider-controlled pipeline, all working by sharply reducing end-of-sequence token probability, and measure output inflation at more than 10.2 times the clean baseline while task utility is retained. Detection is a lightweight single probe applying a controlled lengthening intervention, requiring no trusted reference model and no historical data, reporting an 85.1 percent average detection rate with false-positive rates below 2 percent across open-weight models. Applied to production services it flagged 7 of 15 real model APIs for suspicious behaviour; that is the authors' own classification, no providers are named, so read it as evidence the audit finds things rather than as a count of confirmed fraud. Submitted Sep 17, 2026.
+
+This is the first item on this page that attacks the meter rather than the workload. Every intervention logged here so far assumes the token count is an honest measurement of work done, and the credibility test that governs this page (reduce calls, reduce output, or reduce re-sent context) presumes the same. If output length is partly a provider choice rather than a model property, the second clause of that test is not fully under the buyer's control, and a routing layer that optimises on reported token counts is optimising on a number the counterparty can move. The probe is cheap enough to sit in a router, which makes this actionable rather than theoretical. ([arXiv 2609.20370](https://arxiv.org/abs/2609.20370))
+
+**StepFun's Step 5 Preview moved the frontier price floor, and the announcement says so in its title.** Released Sep 20, 2026: a 600B-total, 27B-active sparse mixture of experts with a 1M-token context window and native image input, at \$1.00 per million input tokens and \$2.70 per million output on `platform.stepfun.ai`, with an Artificial Analysis Intelligence Index score of 44 and open weights scheduled for Oct 15, 2026. "Advancing the Pareto Frontier" is a claim about cost per unit of intelligence rather than about top-line capability. Every figure except the pricing is vendor-reported. For routing purposes the combination that matters is the price and the 1M context together, because the dominant cost driver on this page is quadratic context accumulation across a long agent loop, and a long-context model at a third of frontier pricing changes the arithmetic on exactly that workload. The caveat until Oct 15 is that there is no version to pin and the only access is a Chinese-hosted API. ([MarkTechPost](https://www.marktechpost.com/2026/09/20/stepfun-launches-step-5-preview/))
+
+**Snowflake's Cortex Agents Compact API is the managed form of the third credible intervention.** Preview on Sep 21, 2026. The `agent:compact` endpoint summarizes a conversation and returns a compact representation for subsequent `agent:run` calls, which reduces re-sent context and therefore passes this page's credibility test on the third clause. The caution is not economic but correctness: context-compaction summaries are untrusted input, a model can write fabricated constraints into its own summary, and a managed endpoint hides the summarisation prompt. Worth a test that plants a false constraint and checks whether it survives compaction, before the saving is banked. ([Snowflake release notes](https://docs.snowflake.com/en/release-notes/new-features))
+
+Source note: [[2026-09-21]]
 
 ## 2026-09-18
 
@@ -113,8 +131,11 @@ Source note: [[2026-09-08]]
 
 ## On the radar
 
+- `🔵 TRIAL` `⚠️` **StepFun Step 5 Preview**, 600B total and 27B active at a 1M-token context for \$1.00 input and \$2.70 output per million tokens; every capability figure is vendor-reported and open weights are not due until Oct 15, 2026. [[2026-09-21]]
+- `🟡 ASSESS` **Single-probe token-inflation audit**, a controlled lengthening intervention detecting provider-side output inflation with no trusted reference model and no historical data. [[2026-09-21]]
+- `🟡 ASSESS` **Snowflake Cortex Agents Compact API**, reduces re-sent context, and hides the summarisation prompt behind a vendor. [[2026-09-21]]
 - `🟢 ADOPT` **Cheap-model routing (Spotify Portal)**. [[2026-09-11]]
-- `🔵 TRIAL` `⚠️` **TypeSafe Jev and the System One decision-model class**, free output because there is none; the advertised 0 percent hallucination rate is schema enforcement, not factual accuracy. [[2026-09-17]]
+- `🔵 TRIAL` `⚠️` **TypeSafe Jev and the System One decision-model class**, free output because there is none, and now reproduced in the open by third parties; the advertised 0 percent hallucination rate is schema enforcement rather than factual accuracy, and the vendor's own release has no paper, no weights and a live priority dispute. (was [[2026-09-17]]) [[2026-09-21]]
 - `🔵 TRIAL` **Snowflake dynamic model routing**. [[2026-09-16]]
 - `🔵 TRIAL` `⚠️` **Cognition SWE-2 selectable reasoning effort**, vendor-reported figures only. [[2026-09-14]]
 - `🔵 TRIAL` **Gemini 3.8 Live Extended Thinking**. [[2026-09-16]]

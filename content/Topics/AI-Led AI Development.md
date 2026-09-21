@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, ai-led-ai-development]
-updated: 2026-09-18
+updated: 2026-09-21
 living: true
 ---
 
@@ -21,14 +21,28 @@ The third data point is not from a lab at all, and it is the one that constrains
 
 What this page cannot yet say is whether any of this is compounding. Two labs reporting that models do a lot of their engineering is not evidence that the models are getting better at doing it faster, and only Anthropic has committed to a method that could show the difference.
 
+As of 2026-09-21 this thread has its first third-party measurement rather than a self-report. AI-generated code reached 17.25 percent of Linux kernel patches in September, on the Lunduke Journal's own counting, against roughly 8 percent in June and effectively zero in early February. The classification method is unpublished, so the level is soft, but the slope is the informative part and the venue is what makes it worth logging: a project with adversarial review, no deadline, no commercial reason to accept agent output, and maintainers who have publicly rejected agent-written patches.
+
+That sharpens the gap already standing on this page. Anthropic's 26 percent and Z.ai's Infra Agent result both measure a lab's model working on the lab's own product. This measures uptake in a hostile venue. Neither measures whether the work was good, and nobody has paired any of the three with a revert, defect or rework rate.
+
 ## Open questions
 
+- The Lunduke counts have no published classification method, so the 17.25 percent figure cannot be audited or reproduced. Whether "AI-generated" means a declared trailer, a maintainer's judgement, or a heuristic is unstated.
+- Nobody has published an acceptance-to-revert ratio for AI-generated kernel patches, which is the one number that would separate uptake from churn in the clearest available venue.
 - Anthropic's 26 percent went from effectively zero in six months. There is no stated republication cadence, so it is currently a trajectory of two points with no promise of a third.
 - An automation level measures how much work a model leads, not whether the output was good. Nobody has paired an automation index with a rework, defect, or revert measure, which is what would distinguish acceleration from churn.
 - Z.ai's Infra Agent result and Anthropic's index measure different things (production optimisation versus research task coverage) and neither maps onto the other. There is no shared unit for this thread.
 - Both published accounts are self-reported by the lab whose model is the subject. No third party has independently measured how much of any lab's engineering work its own model performs.
 - The Opus 5 exploit result shows the capability exists outside a lab's own oversight envelope. No lab has published what its monitoring does when that capability is exercised without a research pretext.
 - If a model's contribution to its successor is mostly infrastructure and tooling rather than research insight, the ceiling is very different from the one the recursive-self-improvement framing implies. Nothing published separates the two.
+
+## 2026-09-21
+
+**AI-generated code reached 17.25 percent of all Linux kernel patches in September, with 1,634 AI-written submissions in a single week.** The figures are the Lunduke Journal's own counts drawn from submission metadata, posted Sep 20. The same source recorded roughly 8 percent in June 2026 and effectively zero in the first week of February 2026, which is a trajectory rather than a snapshot. The absolute percentage depends entirely on how a patch is classified as AI-generated and the source has not published that method, so treat the level as soft and the slope as the finding.
+
+The reason it belongs on this page rather than in general practitioner coverage is what the kernel is as a test case. Every other data point in this thread is a lab measuring its own model's contribution to its own work: Anthropic's 26 percent, Z.ai's Infra Agent result. This is a third-party count against a project with adversarial review, no product deadline, no commercial incentive to accept agent output, and maintainers who have publicly rejected agent-written patches. The share still moved from nothing to roughly a sixth of all submissions in seven months. What it does not measure is whether the patches were good, which is the same gap that sits under every other measurement here: an acceptance count is not a quality measure, and nobody is pairing either one with a revert or defect rate. ([Lunduke Journal](https://lunduke.substack.com/p/ai-generated-patches-to-linux-kernel))
+
+Source note: [[2026-09-21]]
 
 ## 2026-09-18
 
@@ -61,7 +75,7 @@ Source note: [[2026-09-09]]
 ## On the radar
 
 - `🔵 TRIAL` **Anthropic R&D Automation Index**, a task tree scored on an AL0 to AL5 automation scale and weighted by person-time. [[2026-09-18]]
-- `🟡 ASSESS` **Interpretability lagging capability**, one cumulative entry, ten data points. [[2026-09-18]]
+- `🟡 ASSESS` **Interpretability lagging capability**, one cumulative entry, eleven data points. [[2026-09-21]]
 
 ## Related
 

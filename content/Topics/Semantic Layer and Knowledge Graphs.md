@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, semantic-layer]
-updated: 2026-09-16
+updated: 2026-09-21
 living: true
 ---
 
@@ -17,12 +17,25 @@ One of the three main sources behind that consensus quietly uses a stricter defi
 
 On portability: Open Semantic Interchange is now an Apache incubating project (Apache Ossie) with 60-plus participants, and it is held at assess for two specific reasons that have not changed. No vendor ships native import or export, and Microsoft is not participating while shipping a competing ontology layer in Fabric IQ.
 
+As of 2026-09-21 the context-layer-over-semantic-layer architecture has a fourth implementation, and it arrived from the transformation layer rather than from BI or the catalog. dbt shipped a new Semantic Layer YAML specification on its Latest release track and Fivetran announced a Context Layer, both at dbt Summit on Sep 16, with the conference framing analytics engineering's successor as context engineering outright. The framing is vendor positioning. The specification is a real obligation, because a new YAML specification on the default release track is a migration paid for later if existing semantic models drift from it, and it is worth reading against those models before anything more is added to them.
+
+The structural note is that the tool defining the metrics is now also offering the context layer over them, which is a different proposition from Atlan, Looker or SAP wrapping someone else's definitions. It also does nothing for the portability problem, since a dbt-specific YAML specification is the opposite direction from Open Semantic Interchange.
+
 ## Open questions
 
+- The new dbt Semantic Layer YAML specification has no published migration path from the current one, and no statement on how long both will be supported. Nor has anyone said how it relates to Open Semantic Interchange, which it appears to cut against.
 - A portability standard the largest BI vendor ignores is a partial standard. Phase 2 targets native support across 50-plus platforms through Q4 2026, and nothing has shipped yet.
 - The 38 percent accuracy gain claimed for agents with unified multi-dimensional context over agents working from semantic definitions alone is vendor-adjacent and unaudited. If it replicates it is the strongest argument in this whole topic.
 - Microsoft sat out OSI and showed up for the pacing debate. Fabric IQ Ontology plus an MCP server is the same architecture OSI's absence-of-Microsoft objection was about, arriving proprietary.
 - Nobody has reconciled the strict-ontology position with the loose-knowledge-graph one. They imply different amounts of work by an order of magnitude.
+
+## 2026-09-21
+
+**dbt published a new Semantic Layer YAML specification and Fivetran announced a Context Layer, both at dbt Summit on Sep 16, 2026.** The new specification is available on the dbt platform's Latest release track. Fivetran's Context Layer was announced alongside the general availability of dbt v2 and dbt State, framed as making enterprise data agent-ready. The Summit's stated theme was blunt about the positioning: agents and context engineering as "the new analytics engineering," with analytics engineers described as evolving into context engineers as the work shifts from modelling data for dashboards to modelling context for agents.
+
+Two separate things are worth holding apart here. The vendor framing is marketing and should be read as such. The specification is not: a new YAML specification for semantic definitions, shipped on the release track that accounts follow by default, is a migration that gets paid for later if existing semantic models drift away from it. The direct read is assess now rather than watch, and what it would take is reading the new specification against existing semantic models before anything further is added to them. For this page the more interesting structural point is that the "context layer wrapping the semantic layer" architecture logged on [[2026-09-11]] across Atlan, Looker BI Agents and SAP Knowledge Graph now has a fourth implementation from the transformation layer rather than from the BI or catalog layer, which is the first time it has been offered by the tool that defines the metrics in the first place. ([dbt release notes](https://docs.getdbt.com/docs/dbt-versions/release-notes), [Fivetran](https://www.fivetran.com/press/fivetran-dbt-labs-announces-new-capabilities-to-make-enterprise-data-agent-ready-at-dbt-summit-2026))
+
+Source note: [[2026-09-21]]
 
 ## 2026-09-16
 

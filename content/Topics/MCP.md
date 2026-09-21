@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, mcp]
-updated: 2026-09-18
+updated: 2026-09-21
 living: true
 ---
 
@@ -19,14 +19,29 @@ Two adoption facts sit in tension. There are more than 10,000 active public MCP 
 
 The newest shape is governance, and as of 2026-09-18 three vendors sell it. Snowflake's Cortex AI Gateway manages 100-plus MCP servers with policy and audit enforced at the tool-call level, which is a materially different control than model-access-level enforcement. Databricks' Unity Gateway API reached general availability the following day and makes an external MCP server a registered catalog object with full create-read-update-delete through Terraform, the command-line interface, and four language software development kits. AWS's Bedrock AgentCore Gateway is the third and, on protocol maturity, the furthest along: it is a managed MCP server in its own right rather than a governor of other people's servers, it has taken the 2026-07-28 revision with four protocol versions coexisting on a single gateway and clients selecting per request, and it can front an external MCP server as an HTTP passthrough target so third-party servers sit behind the same authentication, policy and observability surface. The three differ in emphasis rather than in intent: Snowflake enforces at runtime per tool call, Databricks makes registration infrastructure as code from day one, AWS terminates the protocol itself and can refuse any traffic that bypassed it. Either way, the layer that decides which MCP servers an agent may reach is now a governed platform object rather than a connection string in a config file, and none of the three waited for the spec to say anything about it.
 
+As of 2026-09-21 the protocol has its first widely read argument for retirement rather than reform, and it is worth separating from the governance thread above. The claim is that MCP solved a capability gap that has closed, since agents can now write their own integration code against HTTP APIs and command-line tools. That is correct about the thin end of the protocol's use, a tool whose entire schema is larger than the single call it wraps. It says nothing about discovery, per-tool authorization and audit, which is what every gateway product on this page is actually sold on, and which a shell makes harder rather than easier.
+
+The direction of travel in implementations is the opposite of retirement. Google's AX makes Model Context Protocol server attachment a declared property of a Kubernetes workspace manifest, applied by a controller, which is the same move Databricks made from the warehouse side by registering an MCP service as a catalog object. Databricks also began shipping first-party managed connectors into Genie One for Google Drive, Gmail, Microsoft 365, Atlassian and Slack, and will restrict Genie Agents to explicitly attached sources in late September 2026. Server attachment is becoming infrastructure as code in two independent stacks at once.
+
 ## Open questions
 
+- The retirement argument and the governance products are both growing at once, and nobody has priced the trade. If direct HTTP and command-line access is cheaper for the model but removes per-tool authorization and audit, what the safe subset looks like is unpublished.
 - Production adoption is still not well evidenced. Server count is not usage.
 - MCP does not specify how much tool metadata and output must be exposed to the model, so implementations serialise full schemas and outputs into the context window, where they compete with everything else. There is no standard answer to this and it is a direct token-cost problem.
 - Tool-call-level policy enforcement is arriving from vendors before the spec has anything to say about it, and now from two vendors with different enforcement points.
 - Registering an MCP server as a warehouse catalog object and standardising agent identity through Workload Identity Federation are solving overlapping problems from opposite directions. Nobody has said how the two compose, or which one is authoritative when they disagree.
 - The spec removed protocol-level sessions for horizontal scalability, and AgentCore Gateway's implementation shows what that costs in practice: cross-version translation cannot carry elicitation and sampling calls from servers to clients when an older client reaches a 2026-07-28 target. Whether other implementations hit the same wall, or found a way through it, is unpublished.
 - Running four protocol revisions on one gateway solves the migration problem by deferring it. Nobody has said what the deprecation path looks like, or who is expected to move first.
+
+## 2026-09-21
+
+**"Why MCP Was Always a Bad Idea" drew 221 points and 183 comments on Sep 20, and it is the first serious public argument for retirement rather than reform.** Maharshi Patel's case is that MCP was designed for a period when models could not be trusted to write their own integration code, describing it as "a horrible protocol built for a time when LLMs weren't that smart, and we've outgrown it." Agents can now write scripts and call HTTP APIs and command-line tools directly, so on that reading the protocol layer is overhead. The argument holds where MCP is weakest, which is a tool whose entire surface is one HTTP call and whose schema is larger than the call it describes. It is weakest itself on the three things enterprises actually adopted MCP for, and which every governance product on this page sells: discovery, per-tool authorization, and audit. None of those get cheaper by replacing a protocol with a shell, and a shell is a strictly larger attack surface than a typed tool list. Worth reading as a statement of where the protocol's value is not, rather than as a prediction. ([Maharshi Patel](https://maharship.com/blog/why-mcp-was-always-a-bad-idea/))
+
+**Google's AX makes Model Context Protocol servers part of a declarative workspace rather than a per-agent config file.** AX is Apache 2.0, Kubernetes-native, and at 4.6k stars after 556 points on Hacker News on Sep 20. Its Workspace primitive pre-wires Git repositories, Model Context Protocol servers and skill packages so an agent starts warm, declared as an `ax.io/v1alpha1` manifest alongside a Gateway primitive that locks outbound traffic to an explicit host allowlist and a Model primitive holding provider credentials in Kubernetes secrets. For this page the relevant part is that server attachment becomes a declared property of the workspace, checked into a repository and applied by a controller, rather than a JSON file on a developer's laptop. That is the same direction as Databricks registering an MCP service as a catalog object, arriving from the Kubernetes side instead of the warehouse side. The project's README warns of "major breaking changes likely prior to stable release." ([github.com/google/ax](https://github.com/google/ax))
+
+**Databricks added managed Model Context Protocol connectors to Genie One, and will restrict Genie Agents to explicitly attached sources.** Chat in Genie One can now use Databricks-managed connectors for Google Drive, Gmail, Microsoft 365, Atlassian and Slack, which is the first instance on this page of a warehouse vendor shipping first-party connectors to general productivity systems rather than governing third-party servers. In late September 2026, separately, Genie Agents will be restricted to using only the data sources explicitly attached under an agent's Sources. The second is the more consequential: ambient access to a catalog stops being the default, and an agent relying on it will stop working. ([Databricks release notes](https://docs.databricks.com/aws/en/release-notes/product/2026/september))
+
+Source note: [[2026-09-21]]
 
 ## 2026-09-18
 
@@ -115,4 +130,4 @@ Source note: [[2026-09-03]]
 
 ## Related
 
-[[Topics/Agentic SDLC Governance|Agentic SDLC Governance]] · [[Topics/Semantic Layer and Knowledge Graphs|Semantic Layer and Knowledge Graphs]] · [[Topics/Agent Memory and Context Engineering|Agent Memory and Context Engineering]] · [[Topics/Data Platform and Ingestion|Data Platform and Ingestion]]
+[[Topics/Agentic SDLC Governance|Agentic SDLC Governance]] · [[Topics/Semantic Layer and Knowledge Graphs|Semantic Layer and Knowledge Graphs]] · [[Topics/Agent Memory and Context Engineering|Agent Memory and Context Engineering]] · [[Topics/Data Platform and Ingestion|Data Platform and Ingestion]] · [[Topics/Agent Supply Chain Security|Agent Supply Chain Security]]
