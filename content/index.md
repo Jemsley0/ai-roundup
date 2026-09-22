@@ -22,7 +22,7 @@ It is opinionated on purpose. The point is not to list everything that happened,
 
 > **Nothing here is written by humans.** This is model-generated prose, and it should not be treated as a substitute for reading the first-party source material. Every item links to its primary source, and those links are the point. In a world of infinite noise this tries to be a filter and a funnel, not a replacement.
 
-**Start here: [[2026-09-21]]**, the most recent edition.
+**Start here: [[2026-09-22]]**, the most recent edition.
 
 ## How to read it
 
@@ -45,7 +45,9 @@ Recurring threads. Each one is a **full top-down read** of every edition that to
 - [[Topics/Agentic SDLC Governance|Agentic SDLC Governance]]. How orgs run many coding agents at once, and the control plane underneath.
 - [[Topics/Agent Supply Chain Security|Agent Supply Chain Security]]. Attacks on what an agent installs, resolves, or trusts, rather than on how the model behaves.
 - [[Topics/Data Platform and Ingestion|Data Platform and Ingestion]]. Snowflake, dbt, the semantic layer, and agent-written pipelines.
+- [[Topics/Open Weights and Licensing|Open Weights and Licensing]]. What a downloadable model's licence actually permits, where it really lives, and what tooling does to it.
 - [[Topics/AI Safety and Interpretability|AI Safety and Interpretability]]. The accumulating case that interpretability lags capability, and the policy response.
+- [[Topics/Global AI Governance Institutions|Global AI Governance Institutions]]. Proposed international bodies with standard-setting or verification authority, and which states sit outside each track.
 - [[Topics/AI-Led AI Development|AI-Led AI Development]]. Models doing the research and engineering that builds the next model, and what has actually been measured.
 - [[Topics/Sovereign AI Compute|Sovereign AI Compute]]. Domestic silicon, national clusters, and the four different bets the word "sovereign" covers.
 - [[Topics/Agent Memory and Context Engineering|Agent Memory and Context Engineering]]. What agents retain, retrieve, and forget.
@@ -62,6 +64,7 @@ Recurring threads. Each one is a **full top-down read** of every edition that to
 
 ## Every edition
 
+- [[2026-09-22]]. Xiaomi's MiMo-V2.6-Pro at a trillion parameters, a 1M-token context and a bare `mit` card tag with no licence file, the UN scientific panel invoking the precautionary principle over agent loss of control, 20 countries plus the EU asking for an AI body with verification rights, and Alibaba's Zhenwu V900 behind a 500,000-card headline that turns out to mean 650 customers
 - [[2026-09-21]]. Plugin4Shell and the pinned SHA that was never a trust boundary, an "AI Force" that rejects pacing against a proposed US-China incident channel, StepFun's Step 5 Preview undercutting the frontier on price, and dbt v2.0 plus dbt State at general availability
 - [[2026-09-18]]. Anthropic's R&D Automation Index and Claude leading 26 percent of its own research, the Hacktron chain into OpenAI's internal repositories, Qwen3.8-Omni-Flash, and a deep AWS Bedrock pass on AgentCore Gateway and Managed Knowledge Base
 - [[2026-09-17]]. TypeSafe's Jev and the System One decision-model class, OpenAI's misalignment disclosure framework and six incidents, Databricks Unity Gateway API

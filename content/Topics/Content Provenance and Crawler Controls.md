@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, content-provenance, crawler-controls]
-updated: 2026-09-18
+updated: 2026-09-22
 living: true
 ---
 
@@ -19,6 +19,8 @@ The argument those controls answer is now on the litigation record in an unusual
 
 The collateral damage is already visible. The Internet Archive's Wayback Machine is under waves of high-volume automated traffic, its protections are catching real people, and it cannot automate bot detection.
 
+As of 09-22, the direction of this machinery has a genuine counter-example for the first time. Everything above is a publisher-side or platform-side control: a site, an archive, or a device deciding who may read or train on content, or what can be proven about it. A widely-read essay this cycle argues that AI output traceability, as it actually ships, runs the opposite direction: a hidden signal embedded in a person's own writing that traces it without the author's knowledge or consent. That is argument rather than a measured system, and the primary source could not be verified directly here, so treat it as a framing worth tracking rather than a settled mechanism. But it means provenance and traceability on this page can no longer be read as uniformly protective of the party being traced. The same category of tool can run for a publisher against a crawler, or against an author on a platform's own terms.
+
 ## Open questions
 
 - Both sides constrain what an agent doing live retrieval can reach and what it can trust once it gets there. No agent framework currently models partial reachability as a first-class condition.
@@ -26,6 +28,18 @@ The collateral damage is already visible. The Internet Archive's Wayback Machine
 - Cloudflare's Accountable designation depends on operators self-committing. There is no published mechanism for verifying compliance or de-listing an operator that stops honouring it.
 - The Hecht memo is an internal dissent from a partner, not a party admission by OpenAI. How much evidentiary weight that carries is a live legal question and nothing on this page can settle it.
 - News sites blocking the Wayback Machine because AI companies circumvent their blocks by reading archived copies is a genuine tragedy-of-the-commons with no proposed fix.
+- Is there a deployed system that actually embeds an undeclared, pseudorandom traceability signal in AI-generated text, or is this argument describing a worst-case capability rather than a shipped product? No system has been named.
+- If such a signal exists, would it survive the same tests C2PA and watermark-detection tools are evaluated against, or is its claimed resistance to compression and re-encoding itself unverified?
+
+## 2026-09-22
+
+**A widely-read essay argues that AI output traceability as it actually ships is functionally covert tracking, not a watermark.** The piece draws a sharp line between a watermark, which is visible and declared, and what it calls "a hidden signal that makes your work traceable without your knowledge or consent". The mechanism it describes is embedding via pseudorandom token selection, designed to survive compression and re-encoding, so the signal persists through the ordinary lossy transformations a piece of writing goes through on its way around the internet. It drew 486 points and 120 comments.
+
+Two caveats belong with this item as much as the argument does. It is argument, not new empirical work; no new measurement of any deployed system's traceability signal is presented. And the primary page could not be fetched directly here, so the quoted line above is high-confidence secondary sourcing rather than hand-verified against the original text.
+
+Placed against what this page already tracks, provenance and traceability machinery has so far been a publisher-side and platform-side control: Cloudflare's crawler-purpose split, Apple's sensor-level signing, the New York Times litigation's argument for tracing where scraped content went. This is the first item on this page arguing that provenance machinery, in its actually-shipped form, cuts against the author rather than for them, a person's own writing carrying a signal that lets it be traced without having agreed to that, rather than a mechanism protecting a publisher's rights over content leaving their site.
+
+Source note: [[2026-09-22]]
 
 ## 2026-09-18
 
