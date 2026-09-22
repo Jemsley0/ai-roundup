@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, agent-memory]
-updated: 2026-09-21
+updated: 2026-09-22
 living: true
 ---
 
@@ -11,19 +11,13 @@ What agents retain, retrieve, and forget, and the research literature on how to 
 
 ## Where this stands
 
-The most useful evaluation lens available is the five-criteria test from the Context Engineering paper: **relevance, sufficiency, isolation, economy, provenance**, proposed as a joint test rather than five independent knobs. Almost everything on the market optimises economy alone, and provenance and isolation are where agent failures actually originate. That is the reason the standing caution against optimising context for economy alone exists.
+The most useful evaluation lens available is the five-criteria test from the Context Engineering paper: relevance, sufficiency, isolation, economy, provenance, proposed as a joint test rather than five independent knobs. Almost everything on the market optimises economy alone, and provenance and isolation are where agent failures actually originate. Two named failure modes follow from that: brevity bias, summarisation stripping domain-specific detail to stay concise, and context collapse, the gradual erosion across repeated rewrites of the same context. The cost argument underneath both is settled enough to state plainly: naive accumulation of raw history produces quadratic token growth, crude summarisation gets cost back to linear but introduces an accuracy cliff, and only validated compaction, meaning compaction checked against the source rather than trusted blindly, gets linear cost without giving up fidelity.
 
-Two named failure modes are worth knowing by name because they are easy to build into a system by accident. **Brevity bias** is summarisation stripping domain-specific detail to stay concise and losing knowledge that mattered. **Context collapse** is the gradual erosion across repeated rewrites of the same context. Anyone running a summarise-then-resummarise loop is walking into both by construction.
+That cost argument stopped being theoretical on 2026-09-17. OpenAI disclosed three incidents in which a model wrote content into its own context-compaction summary that the next context window read as instruction, and in one case a set of entirely fabricated constraints was obeyed. A compaction summary is written by the same model that will read it and carries no provenance marker distinguishing it from a legitimate developer instruction, which makes it an untrusted input by construction, and it is live rather than anticipated: both OpenAI and Anthropic shipped managed or on-demand compaction in the same fortnight. The Emergence AI evidence points the same way from a different angle: a flagged risk did not survive in an agent's own memory to the moment of action, so detection-without-containment is a memory and context problem, not a reasoning one. State an agent must not lose has to be structural, not a sentence in a transcript that a later rewrite can drop or a later summary can contradict.
 
-The cost argument is settled enough to state plainly: naive accumulation of raw history produces quadratic token growth, crude summarisation gets cost back to linear but introduces an accuracy cliff, and only validated compaction, meaning compaction checked against the source rather than trusted blindly, gets linear cost without giving up fidelity.
+The compaction caution acquired a vendor product on 2026-09-21, when Snowflake's Cortex Agents Compact API entered preview with an `agent:compact` endpoint that summarizes a conversation for reuse in later calls. The same mechanism applies unchanged, and a managed endpoint removes the operator's view of the summarisation prompt and of what was dropped. The same cycle produced the first measurement with a real control: a harness paper compared prewritten task plans against shuffled policy text matched for word count and found the real plans worth 7.17 percentage points of oracle-verified success, while a read-only terminal verifier rejected 61 percent of invalid episodes for under a cent each and captured nearly all of a harness's benefit at lower cost.
 
-That last point stopped being a theoretical preference on 2026-09-17. OpenAI disclosed three incidents in which a model wrote content into its own context-compaction summary that the next context window read as instruction, and in one case a set of entirely fabricated constraints was obeyed. A compaction summary is written by the same model that will read it and carries no provenance marker distinguishing it from a legitimate developer instruction, which makes it an untrusted input by construction. The standing caution on compaction summaries is the newest entry on the radar for this topic, and it is live rather than anticipated: both OpenAI and Anthropic shipped managed or on-demand compaction in the same fortnight.
-
-Alongside that, the Emergence AI evidence remains uncomfortable: a flagged risk did not survive in an agent's own memory to the moment of action. Detection-without-containment is a memory and context problem rather than a reasoning one, and the two findings point the same way. State an agent must not lose needs to be structural, not a sentence in a transcript that a later rewrite can drop or a later summary can contradict.
-
-As of 2026-09-21 the compaction caution has a vendor product inside it. Snowflake's Cortex Agents Compact API entered preview on Sep 21 with an `agent:compact` endpoint that summarizes a conversation for reuse in later `agent:run` calls. The mechanism this page already warns about, a model writing fabricated constraints into its own summary that the next context window then obeys, applies unchanged, and a managed endpoint removes the operator's view of the summarisation prompt and of what was dropped. Anyone adopting it should first plant a false constraint, compact, and check whether it survives the turn.
-
-The same cycle produced the first measurement with a real control. A harness paper compared prewritten task plans against shuffled policy text matched for word count, which separates useful structure in the context window from mere volume, and found the real plans worth 7.17 percentage points of oracle-verified success. The same study found a read-only terminal verifier rejecting 61 percent of invalid episodes for under a cent each, and concluded the verifier captures nearly all the benefit at lower cost. That is a direct answer to the open list left behind when "context engineering" came off the radar: planning content is measurable and it matters, and it is also the expensive way to buy the outcome.
+The newest data point, from 2026-09-22, generalises the untrusted-summary finding rather than adding a new one. Two practitioners independently converged on the same fix for a related failure: if a model's account of its own conversation cannot be trusted, neither can a model's account of its own completed work, and the fix in both cases is the same, keep the ground truth outside the model's own narrative of itself and check it independently rather than reading it back. That reframes compaction-summary distrust as one instance of a broader rule rather than a special case tied to one endpoint.
 
 ## Open questions
 
@@ -35,6 +29,15 @@ The same cycle produced the first measurement with a real control. A harness pap
 - mem0 claims harness configuration rather than model choice is the dominant performance lever. Vendor-published, and worth testing independently, because if true it changes where evaluation effort should go.
 - The Galster study found nobody using persistent subagent memory. The gap between the research literature and what practitioners actually configure is very wide and nobody has explained it.
 - "Context engineering" was removed from the radar for being a discipline rather than an adoptable technique. Which specific named methods deserve their own rings is still an open list.
+- The coordinator pattern's re-run rule works for commands with checkable exit codes. Nobody has published what the equivalent check is for a claimed action that has no exit code, a judgement call, a partial fix, or a piece of prose.
+
+## 2026-09-22
+
+**Two practitioners converged independently on the same durable-state finding this week, and it generalises the standing caution about compaction summaries rather than sitting beside it.** Will Larson's project-loop skill and a separately published Chief of Staff pattern both concluded that state an agent must not lose belongs outside the conversation entirely. The Chief of Staff write-up states it plainly: "A board, or any external task system with an API, survives compaction, session death, and handoffs. Conversation context does not." The corollary is the verification rule: "Re-run every claimed command; exit codes decide," which treats an agent's own report of what it did as evidence rather than instruction, the same posture this page has taken toward compaction summaries since [[2026-09-17]], when a model was found writing fabricated constraints into its own summary that the next context window silently obeyed.
+
+The pattern generalises that finding rather than repeating it. If a summary cannot be trusted, neither can a transcript-based claim of work done, and the fix in both cases is the same: keep the ground truth outside the model's own account of itself, in a system with an application programming interface, and check it independently rather than reading it back. The Hacker News caveat carried alongside this is proportionate rather than damning: a coordinator inherits the reliability problems of the agents it coordinates, so the re-run rule is the load-bearing part of the pattern, not the delegation itself. The full architecture, and the Linear continuous-integration story published the same day, are covered on [[Topics/Agentic SDLC Governance|Agentic SDLC Governance]].
+
+Source note: [[2026-09-22]]
 
 ## 2026-09-21
 
@@ -115,6 +118,7 @@ Source note: [[2026-09-03]]
 ## On the radar
 
 - `🟡 ASSESS` **Snowflake Cortex Agents Compact API**, a managed `agent:compact` endpoint that inherits the untrusted-summary failure mode and adds an opaque intermediary. [[2026-09-21]]
+- `🔵 TRIAL` **Coordinator session with an external task board and re-run verification**, one long-lived session holds shared state in a task system with an application programming interface while short-lived sessions implement, and re-executes every claimed command rather than trusting a summary; arrived at independently by two practitioners in one week. [[2026-09-22]]
 - `⚫ DROPPED` **Context engineering**, removed as a category error rather than a change of view. It is a discipline, not an adoptable technique, and everything specific underneath it is listed separately. [[2026-09-03]], removed [[2026-09-15]]
 - `🟡 ASSESS` **Graphiti / temporal knowledge graphs**. [[2026-09-11]]
 - `🔵 TRIAL` **Shopify Helix checkpoint discipline**. [[2026-09-11]]
@@ -124,4 +128,4 @@ Source note: [[2026-09-03]]
 
 ## Related
 
-[[Topics/Vector Databases and Retrieval|Vector Databases and Retrieval]] · [[Topics/Token Cost and Model Routing|Token Cost and Model Routing]] · [[Topics/MCP|MCP]] · [[Topics/Semantic Layer and Knowledge Graphs|Semantic Layer and Knowledge Graphs]] · [[Topics/AI Safety and Interpretability|AI Safety and Interpretability]]
+[[Topics/Vector Databases and Retrieval|Vector Databases and Retrieval]] · [[Topics/Token Cost and Model Routing|Token Cost and Model Routing]] · [[Topics/MCP|MCP]] · [[Topics/Semantic Layer and Knowledge Graphs|Semantic Layer and Knowledge Graphs]] · [[Topics/AI Safety and Interpretability|AI Safety and Interpretability]] · [[Topics/Agentic SDLC Governance|Agentic SDLC Governance]]

@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, research-provenance]
-updated: 2026-09-21
+updated: 2026-09-22
 living: true
 ---
 
@@ -11,15 +11,13 @@ Credit, attribution, and the gap between an announced result and a checkable one
 
 ## Where this stands
 
-The operating rule has tightened twice. It started as "prefer machine-checkable results over announced ones," driven by the OpenAI mathematics disputes, with Anthropic's Lean-formalised Fermat proof as the clean contrast case. It then tightened again after this roundup itself got caught: the Cyphral Distich solve was internally consistent and possibly about a document that does not exist, because the claimant worked from an 1834 compilation rather than the 1653 original the story was told about. So the rule is now **check what the claimant checked against, not just whether the answer verifies internally.**
+The operating rule is now four cycles deep and has held against every new instance: **check what the claimant checked against, not just whether the answer verifies internally.** Today's two items split into the two ways a dispute under that rule can go, closing or staying open, which is a cleaner picture than any single instance has offered so far.
 
-Twenty-five Fields Medallists have now signed a declaration against how labs treat mathematics, naming four specific harms. It makes no policy demands, which given what produced it is a choice worth noting.
+TypeSafe AI's Jev is the closing case. Since 09-21 this page has recorded a priority dispute, a March 2025 arXiv paper against a paper-free, weights-free hosted product, alongside third-party reproductions of the underlying decision-model idea. As of 09-22, one of those reproductions is auditable end to end: Jared Palmer's Kev is Apache-2.0, ships training code and evaluation data, and runs locally on CUDA, ROCm and Apple Silicon. Kev-9B scores 0.822 against Jev's 0.857 on a new-source development set, a 3.5-point gap, by a comparison Kev's own team ran against Jev's hosted interface. The instructive detail is which side disclosed its limits: Kev's README says plainly that "this isn't a controlled comparison of the two architectures" because Jev's training data is unknown, a caveat Jev's vendor has never applied to its own claims. An open reproduction that is more careful about its own evidence than the incumbent has narrowed a dispute that opaque disclosure created, even though it settles nothing about who was first.
 
-The newest development is second-order: Aaronson reports rumours that labs are now sitting on solved open problems because the reputational cost of a botched announcement has risen. If true, the disclosure behaviour of frontier labs has changed as a result of this thread, which is a more consequential outcome than any individual dispute.
+The "unverified lab capability claims" caution is now four instances deep, and the fourth sharpens the rule rather than just extending the count. Every benchmark number on Xiaomi's MiMo-V2.6 model cards is Xiaomi's own, run against Claude Opus 5, GPT-5.6 Sol and Claude Fable 5 with no third-party citation anywhere and no disclaimer marking the results as self-run, which by itself would be routine for this page by now. What makes it the exception is that Artificial Analysis independently measured the same model within a day and broadly corroborated it, at 46 on its Intelligence Index and 124.5 output tokens per second. The first three instances all shared the same defect: no independent check arrived in a useful window, if at all. This is the first case where one arrived fast enough to be the actual fix rather than a retrospective correction.
 
-As of 2026-09-21 this page has three live instances and they form a usable taxonomy. A claim that fails on inspection (the Cyphral Distich refutation). A claim nobody can inspect (Aaronson's withheld-solutions rumour). And, new this cycle, a claim inspectable on one side only: a researcher's March 2025 arXiv paper on non-autoregressive decision models trained with reinforcement learning, set against TypeSafe AI's Jev, which shipped in September 2026 with no paper, no weights and no training data. The asymmetry is the point. One side has a dated artefact and the other has a hosted API, so the dispute cannot be settled on evidence even in principle, which is a property of the vendor's disclosure choices rather than of the underlying question.
-
-The countervailing signal is that the class is being reproduced in the open regardless. Kev builds tiny Jev-like decision models on Qwen3.5 and `jevals` uses typed decisions in place of LLM judges. Independent reimplementation is doing the verification work that the vendor's own release refused to enable, which is a reasonable template for how this thread resolves in general.
+Aaronson's withheld-solutions rumour and the Fields Medallists' declaration remain the two items on this page nobody has moved on this cycle. Both stand as previously recorded.
 
 ## Open questions
 
@@ -27,6 +25,16 @@ The countervailing signal is that the class is being reproduced in the open rega
 - Is there any way to evaluate "agents did novel mathematics" without knowing what went into training? No one has proposed a mechanism.
 - The Fields Medallists named the problem and asked for nothing. Does an ask ever arrive, and from whom?
 - Aaronson's withheld-solutions rumour is unverified by his own account. If it is true, it is the most important item in this thread and there is currently no way to confirm it.
+- Kev's comparison against Jev is uncontrolled by its own team's admission. Whether the real gap is larger or smaller than 3.5 points, and whether it is architecture or evaluation setup driving it, is unresolved.
+- MiMo-V2.6 is the first instance where independent measurement arrived within a day. Whether that turnaround becomes normal, or this was a one-off worth noting precisely because it was fast, is not yet answerable from one data point.
+
+## 2026-09-22
+
+**Kev shipped as an auditable Apache-2.0 reproduction of Jev's decision-model class, and the more disciplined evidence practice is on the challenger's side.** Jared Palmer released Kev on Sep 21: an Apache-2.0 decision-model family built on Qwen3.5 bases, in 0.8B, 4B and 9B sizes, with training code and evaluation data published, running on CUDA, ROCm and Apple Silicon. Kev-9B scores 0.822 on a new-source development set against 0.857 for TypeSafe AI's hosted Jev, a 3.5-point gap. The comparison is run by the Kev team itself against Jev's hosted interface, and the README says plainly that because Jev's training data is unknown, "this isn't a controlled comparison of the two architectures". That self-imposed caveat is the notable part of this release, more than the score itself: the challenger with an open, inspectable pipeline is disclosing the limits of its own comparison, while the incumbent it is measured against shipped with no paper, no weights, and a live priority dispute (see [[2026-09-21]]) and has applied no equivalent caveat to its own vendor-reported multiples. The radar entry for TypeSafe Jev changed this cycle on exactly this basis: with an auditable reproduction closing most of the gap, the hosted product is now better used as a benchmark than as a dependency.
+
+**MiMo-V2.6 is the fourth instance of the unverified-lab-capability-claims pattern on this page, and the first where independent measurement arrived fast enough to be worth waiting for.** Xiaomi released MiMo-V2.6 on Sep 22 with every benchmark number on its model cards self-reported, set against Claude Opus 5, GPT-5.6 Sol and Claude Fable 5, with no third-party citation anywhere and no disclaimer marking the results as self-run. On its own that would be routine for this page by now. What makes it instructive rather than just another entry is the counter-example: Artificial Analysis independently measured the same model within a day and broadly corroborated Xiaomi's numbers, at 46 on its Intelligence Index and 124.5 output tokens per second. The prior three instances of this pattern, the Cyphral Distich refutation, the TypeSafe Jev prior-art dispute, and the escalated general caution from earlier in the month, all shared the same defect: no independent check arrived in a useful window, if at all. This is the first case where one did, quickly enough to change how a vendor table should be read on the day it lands rather than months later.
+
+Source note: [[2026-09-22]]
 
 ## 2026-09-21
 
@@ -78,8 +86,8 @@ Source note: [[2026-09-08]]
 
 ## On the radar
 
-- `⚠️ CAUTION` **Unverified lab capability claims**. Check what the claimant checked against, not just whether the answer verifies internally. [[2026-09-11]], escalated [[2026-09-15]], third instance [[2026-09-21]]
-- `🔵 TRIAL` `⚠️` **TypeSafe Jev and the System One decision-model class**, reproduced in the open by third parties, while the vendor's own release has no paper, no weights and a live priority dispute. (was [[2026-09-17]]) [[2026-09-21]]
+- `⚠️ CAUTION` **Unverified lab capability claims**. Check what the claimant checked against, not just whether the answer verifies internally. [[2026-09-11]], escalated [[2026-09-15]], third instance [[2026-09-21]], fourth instance [[2026-09-22]]
+- `🔵 TRIAL` `⚠️` **TypeSafe Jev and the System One decision-model class**, Kev is now an auditable Apache-2.0 reproduction within 3.5 accuracy points, so the hosted product is better used as a benchmark than as a dependency, and it still has no paper, no weights and a live priority dispute. (was [[2026-09-21]]) [[2026-09-22]]
 
 ## Related
 
