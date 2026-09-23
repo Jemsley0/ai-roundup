@@ -62,4 +62,4 @@ Source note: [[2026-09-18]]
 
 ## Related
 
-[[Topics/Sovereign AI Compute|Sovereign AI Compute]] · [[Topics/Token Cost and Model Routing|Token Cost and Model Routing]] · [[Topics/AI Research Provenance Disputes|AI Research Provenance Disputes]]
+[[Topics/Sovereign AI Compute|Sovereign AI Compute]] · [[Topics/Token Cost and Model Routing|Token Cost and Model Routing]] · [[Topics/AI Research Provenance Disputes|AI Research Provenance Disputes]] · [[Topics/Jev and Decision Models|Jev and Decision Models]]

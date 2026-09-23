@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, token-cost, model-routing]
-updated: 2026-09-22
+updated: 2026-09-23
 living: true
 ---
 
@@ -19,6 +19,8 @@ On top of that baseline, six directions now sit side by side. The model deciding
 
 Two things sit against unconditional optimism about that last point. Xiaomi's only disclosed cost figure, \$2.6M and \$0.9M for Pro and Flash, is post-training reinforcement-learning cost only, not a total-training figure a buyer could use to judge sustainability, and more precise numbers in trade press are not sourced to Xiaomi's own report. And the local-serving story has one measured number, 450 tokens per second at 1.5 bits per weight, sitting next to two unmeasured ones, a 125B model on one GPU and a 550B model on a laptop, that get quoted as if they were data. Grok 4.7's unchanged pricing this cycle is the control case in the same window: a release that changes nothing about a routing table, because nothing about its price or posture moved.
 
+The 2026-09-23 data points confirm the trend line rather than adding a new mechanism. Epoch AI's cost analysis, cited by Marginal Revolution, puts the sustained rate at roughly 47 percent per quarter for three years straight, a concrete number behind the pattern this page has been tracking release by release. Anthropic's Claude Opus 5.5 and Google's Gemini 3.8 Flash TTS both landed price cuts the same day, on the frontier tier and the voice-modality tier respectively, which is what that quarterly rate looks like in practice rather than in aggregate.
+
 ## Open questions
 
 - The token-inflation audit has been run once, by its authors, against unnamed providers. Nobody has published a reproduction, and no provider has published a commitment or attestation about output-length integrity.
@@ -32,6 +34,17 @@ Two things sit against unconditional optimism about that last point. Xiaomi's on
 - If output tokens go to zero for a whole class of calls, the cost model for an agent loop changes shape rather than scale, and none of the existing per-step cost estimates in this thread account for that.
 - Xiaomi has published post-training RL cost for MiMo-V2.6 and no total training cost figure. Whether the RL phase is most of the spend for a model this size, or a small fraction of it, is unanswered.
 - Artificial Analysis measured MiMo-V2.6 within a day of release. Whether that turnaround becomes the norm, or this was a fast exception worth noting precisely because it is rare, is not answerable from one data point.
+- The 47-percent-per-quarter cost-decline figure is Epoch AI's own analysis, cited secondhand here. Nobody on this page has independently reproduced the underlying GPQA-Diamond-cost calculation across the specific model pairs Epoch AI used.
+
+## 2026-09-23
+
+**Inference cost is falling roughly 47 percent per quarter, and that trend line matters more than any single release logged on this page.** Marginal Revolution's Alex Tabarrok, citing Epoch AI's cost analysis, reports that the price of hitting a fixed capability level (75 percent on GPQA Diamond) fell from about \$0.30 per question with OpenAI's o3 in January 2025 to about \$0.0004 with GPT-5.6 Luna in mid-2026, a roughly 725-fold drop in under 18 months, "an average of some 47 percent per quarter" sustained over three years. The framing worth carrying on this page specifically: falling inference cost cuts both ways on the open-weight-versus-frontier argument tracked here, since frontier labs get cheaper at any fixed capability level too, which is a reason to discount how permanent any single open-weight price advantage looks. ([Marginal Revolution](https://marginalrevolution.com/marginalrevolution/2026/09/the-price-of-intelligence-is-falling.html))
+
+**Claude Opus 5.5 is the frontier-tier version of that same trend line, landing the same day.** Input drops to \$4/Mtok from \$5, output to \$20/Mtok from \$25, cache reads to \$0.20/Mtok from \$0.50, a 60 percent cut on caching specifically, which matters most for this page since prompt caching is already the largest single lever tracked here. Anthropic reports a 40 percent lower typical task cost and over 30 percent faster output versus Opus 5, at a 1M-token context. This is the first deliverable under Anthropic's own "pace the frontier" commitment, and the number attached to that commitment is a straight price cut rather than a capability claim. ([Anthropic](https://www.anthropic.com/news/claude-opus-5-5))
+
+**Google's Gemini 3.8 Flash TTS and Flash-Lite TTS cut audio-modality pricing by roughly 55 percent, GA with no waitlist.** Audio output falls to \$9.00/1M tokens from \$20.00/1M tokens on the prior Flash TTS Preview. Voice cloning and voice design both ship GA, and 150-plus prebuilt and custom voices are available. This is the same pattern the frontier-labs section of this roundup has flagged as invisible to text-only trackers: a modality price cut that changes what a voice pipeline reaches for, landing on the same day as two other price cuts elsewhere in the stack. ([Google](https://ai.google.dev/gemini-api/docs/changelog))
+
+Source note: [[2026-09-23]]
 
 ## 2026-09-22
 
@@ -155,4 +168,4 @@ Source note: [[2026-09-08]]
 
 ## Related
 
-[[Topics/Agent Memory and Context Engineering|Agent Memory and Context Engineering]] · [[Topics/Data Platform and Ingestion|Data Platform and Ingestion]] · [[Topics/Cognition|Cognition]] · [[Topics/DeepSeek|DeepSeek]] · [[Topics/Sovereign AI Compute|Sovereign AI Compute]] · [[Topics/Open Weights and Licensing|Open Weights and Licensing]]
+[[Topics/Agent Memory and Context Engineering|Agent Memory and Context Engineering]] · [[Topics/Data Platform and Ingestion|Data Platform and Ingestion]] · [[Topics/Cognition|Cognition]] · [[Topics/DeepSeek|DeepSeek]] · [[Topics/Sovereign AI Compute|Sovereign AI Compute]] · [[Topics/Open Weights and Licensing|Open Weights and Licensing]] · [[Topics/Jev and Decision Models|Jev and Decision Models]]

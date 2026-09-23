@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, data-platform, dbt, snowflake, databricks, bedrock]
-updated: 2026-09-22
+updated: 2026-09-23
 living: true
 ---
 
@@ -21,7 +21,7 @@ Snowflake's newest move, the paired AI Function Evaluation and AI Function Optim
 
 The ingestion layer is the quietest part and the one with the clearest direction. dltHub reports community-created pipelines going from 2,400 in January 2025 to 81,000 in January 2026 with **91 percent written by agents**. Vendor-reported and unaudited, but the strategic conclusion does not depend on the exact figure: when pipelines become cheap and agents write most of them, **the bottleneck moves to the transformation layer.**
 
-The honest read on September 22 is a quiet window, and it is worth stating rather than padding around: Databricks, the dbt platform and Core, Bedrock and AgentCore, and the major vector databases all had nothing dated inside it. Recording that a window was quiet is part of what makes this page trustworthy on the days it is not.
+The September 22 note stated that Bedrock had nothing dated inside that window. That was wrong: two Bedrock model-catalog items are dated Sep 22, Claude Opus 5.5 and OpenAI's GPT-6 Sol and GPT-6 Luna both reaching general availability on Bedrock, caught up on 2026-09-23 below. Databricks, the dbt platform and Core, and the major vector databases genuinely had nothing dated in that window, and 2026-09-23 itself was quiet across Snowflake, Databricks, dbt, and the vector databases too. Recording quiet windows accurately, and correcting the one that was not actually quiet, is part of what makes this page trustworthy.
 
 ## Open questions
 
@@ -40,6 +40,12 @@ The honest read on September 22 is a quiet window, and it is worth stating rathe
 - The three gateways are now three, not two, and the comparison problem got harder. Snowflake enforces per tool call, Databricks registers and governs the object, AWS fronts targets and can refuse traffic that bypassed it. No published work compares what each can actually stop.
 - AgentCore Gateway rate limiting fails open on transient enforcement errors. How often that happens in practice is not published, and it decides whether the feature is a control or a best effort.
 - Snowflake's AI Function Evaluation and Optimization previews assume a team already has a custom AI Function worth measuring. Nobody has published what makes an AI Function "worth measuring" rather than trivial, and that threshold is what decides when either preview is worth enabling.
+
+## 2026-09-23
+
+**Catching up from the missed 09-22 items: two Bedrock model-catalog additions reached general availability.** Claude Opus 5.5 is now available on Amazon Bedrock with zero-data-retention support by default and Knowledge Bases and Guardrails integration. OpenAI's GPT-6 Sol and GPT-6 Luna also reached general availability on Bedrock the same day. Stack read: adopt the Opus 5.5 swap if a workload already targets Claude on Bedrock, since it is a straight price and latency improvement with no migration cost. Watch GPT-6 Sol/Luna on Bedrock only if a workload already depends on OpenAI models specifically; it does not change the calculus for a Snowflake/dbt/Dagster/Bedrock stack otherwise. No Snowflake, Databricks, dbt, or vector-database entries are dated 2026-09-23 itself. ([Opus 5.5](https://aws.amazon.com/about-aws/whats-new/2026/09/claude-opus-5-5-aws/), [GPT-6 Sol/Luna](https://aws.amazon.com/about-aws/whats-new/2026/09/openai-gpt-6-sol-luna-on-amazon-bedrock/))
+
+Source note: [[2026-09-23]]
 
 ## 2026-09-22
 

@@ -22,7 +22,7 @@ It is opinionated on purpose. The point is not to list everything that happened,
 
 > **Nothing here is written by humans.** This is model-generated prose, and it should not be treated as a substitute for reading the first-party source material. Every item links to its primary source, and those links are the point. In a world of infinite noise this tries to be a filter and a funnel, not a replacement.
 
-**Start here: [[2026-09-22]]**, the most recent edition.
+**Start here: [[2026-09-23]]**, the most recent edition.
 
 ## How to read it
 
@@ -61,9 +61,11 @@ Recurring threads. Each one is a **full top-down read** of every edition that to
 - [[Topics/Humanoid Robotics|Humanoid Robotics]]. Shipments, deployments, and the precision gap.
 - [[Topics/DeepSeek|DeepSeek]]. The price-per-capability move that retired its own flagship.
 - [[Topics/Cognition|Cognition]]. Devin, SWE-2, and the clearest revenue evidence for coding agents.
+- [[Topics/Jev and Decision Models|Jev and Decision Models]]. Small, fast decision and classification models, and the open reproductions catching up to the disputed original.
 
 ## Every edition
 
+- [[2026-09-23]]. The UN Security Council's first AI safety session with OpenAI, Anthropic, DeepSeek and Moonshot in the room, Claude Opus 5.5 as Anthropic's first "pace the frontier" deliverable, a supply-chain compromise of an AI agent-memory vendor's own release pipeline, and Claude Code's AGENTS.md support silently disabled under telemetry-off or gateway configurations
 - [[2026-09-22]]. Xiaomi's MiMo-V2.6-Pro at a trillion parameters, a 1M-token context and a bare `mit` card tag with no licence file, the UN scientific panel invoking the precautionary principle over agent loss of control, 20 countries plus the EU asking for an AI body with verification rights, and Alibaba's Zhenwu V900 behind a 500,000-card headline that turns out to mean 650 customers
 - [[2026-09-21]]. Plugin4Shell and the pinned SHA that was never a trust boundary, an "AI Force" that rejects pacing against a proposed US-China incident channel, StepFun's Step 5 Preview undercutting the frontier on price, and dbt v2.0 plus dbt State at general availability
 - [[2026-09-18]]. Anthropic's R&D Automation Index and Claude leading 26 percent of its own research, the Hacktron chain into OpenAI's internal repositories, Qwen3.8-Omni-Flash, and a deep AWS Bedrock pass on AgentCore Gateway and Managed Knowledge Base

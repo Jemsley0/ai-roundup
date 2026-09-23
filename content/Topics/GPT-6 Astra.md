@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, gpt-6-astra]
-updated: 2026-09-18
+updated: 2026-09-23
 living: true
 ---
 
@@ -19,6 +19,8 @@ As of 2026-09-18 Astra is also a platform rather than only a model. Astra for La
 
 Astra is also entangled with the provenance thread. It is the model behind the Navier-Stokes claim and the soficity claim, and the second of those came with an allegation that OpenAI ingested unpublished work from private ChatGPT conversations.
 
+A lighter data point landed on 2026-09-23: DrivingBench gave Astra direct control of a real car's steering, accelerator, and brakes on a cone course, and it completed the medium-difficulty course at 100 percent progress on the first attempt. This is a benchmark demonstration on the already-released model rather than a capability, price, or availability change, so it does not move the ring; it is tracked here as color on the model rather than as a new data point on the coding-quality question above.
+
 ## Open questions
 
 - If agentic-benchmark improvement does not predict coding-quality improvement, what does? Ronacher's critique has no quantitative counterpart.
@@ -26,6 +28,12 @@ Astra is also entangled with the provenance thread. It is the model behind the N
 - A vertical retrieval index plus instructions beat the same model with general web search by a wide margin on legal questions. Nobody has published whether that margin holds in a domain with less structured, less exhaustively published source material.
 - The Astra for Law correctness numbers are OpenAI's own, measured on OpenAI's own eval. No independent legal-accuracy evaluation exists.
 - Astra's capability claims and its training-provenance questions are not separable, and nobody has proposed a way to separate them.
+
+## 2026-09-23
+
+**GPT-6 Astra took direct control of a real Toyota Corolla's steering, accelerator, and brakes and drove a cone course.** DrivingBench scored it 100 percent progress on the medium-difficulty course, finishing in 5:22 on the first attempt, for about \$7.74 in tokens. No safety incident was reported. This is a demonstration of an existing capability in a new physical domain, not a price, context, licensing, or availability change, so it is logged here rather than treated as a frontier-lab item; full coverage is in this roundup's Zaney and weird section for the day. ([drivingbench.com](https://drivingbench.com/))
+
+Source note: [[2026-09-23]]
 
 ## 2026-09-18
 

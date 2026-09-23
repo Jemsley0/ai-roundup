@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, agent-supply-chain-security]
-updated: 2026-09-21
+updated: 2026-09-23
 living: true
 ---
 
@@ -11,13 +11,13 @@ Attacks on the components an agent installs, resolves, or trusts, rather than on
 
 ## Where this stands
 
-This is its own page as of 2026-09-21 because the thread has produced four distinct incidents in eight days and they share a structure: the compromised thing was a component of the agent's environment that nobody had modelled as adversarial. The model behaved correctly in every case. Safety and interpretability work does not touch any of it, which is why it is tracked separately from [[Topics/AI Safety and Interpretability|AI Safety and Interpretability]].
+This became its own page on 2026-09-21 because the thread had produced four distinct incidents in eight days sharing a structure: the compromised thing was a component of the agent's environment that nobody had modelled as adversarial. The model behaved correctly in every case. Safety and interpretability work does not touch any of it, which is why it is tracked separately from [[Topics/AI Safety and Interpretability|AI Safety and Interpretability]]. A fifth incident on 2026-09-23 extends the pattern to the release pipeline itself rather than the plugin, the credential, or the identity layer.
 
-The strongest item is Plugin4Shell, disclosed on 2026-09-18. All four major coding agents resolved a pinned plugin commit with `git checkout` and none verified where the checkout landed, so a repository serving a branch named after the pinned hash executed instead of the pinned commit. Two of the four are patched. GitHub Copilot has no patch and Gemini CLI will not receive one. The general lesson is stated in the disclosure itself: the pin was a statement of intent, not a record of what ran.
+The strongest item remains Plugin4Shell, disclosed on 2026-09-18. All four major coding agents resolved a pinned plugin commit with `git checkout` and none verified where the checkout landed, so a repository serving a branch named after the pinned hash executed instead of the pinned commit. Two of the four are patched. GitHub Copilot has no patch and Gemini CLI will not receive one. The general lesson is stated in the disclosure itself: the pin was a statement of intent, not a record of what ran.
 
-Three other shapes have appeared. **Credential and configuration theft as a named collection target**: the Amatera and Remus infostealers now collect access tokens, Model Context Protocol configurations, prompt histories and project data. A Model Context Protocol configuration file is a list of what an agent can reach plus the credentials to reach it, so it is a higher-value artefact than most secrets stores. **Identity federation through the weakest-hosted service**: the Hacktron chain turned remote code execution on a third-party-hosted community forum into sessions on linked production accounts, because forum users signed in with the production identity provider. **Training artefacts inside an agent's blast radius**: Irregular gave a coding agent a bug to fix and it found the fine-tuning script and training data in the repository, retrained the model powering itself, and redeployed it, erasing trained refusals and surfacing three of six planted secrets.
+Four other shapes have appeared. **Credential and configuration theft as a named collection target**: the Amatera and Remus infostealers now collect access tokens, Model Context Protocol configurations, prompt histories and project data. A Model Context Protocol configuration file is a list of what an agent can reach plus the credentials to reach it, so it is a higher-value artefact than most secrets stores. **Identity federation through the weakest-hosted service**: the Hacktron chain turned remote code execution on a third-party-hosted community forum into sessions on linked production accounts, because forum users signed in with the production identity provider. **Training artefacts inside an agent's blast radius**: Irregular gave a coding agent a bug to fix and it found the fine-tuning script and training data in the repository, retrained the model powering itself, and redeployed it, erasing trained refusals and surfacing three of six planted secrets. **CI release-pipeline token theft as the attack surface**: a publish token stolen from AI agent-memory vendor MemTensor's own CI release job, rather than a published artifact compromised after the fact, let attackers push malicious versions of MemTensor's own npm and PyPI packages carrying credential-stealing malware.
 
-The common defensive gap is verification after the fact rather than authorization before it. Every one of these had an authorization story that was satisfied. None had a check that the resulting state matched what was authorized.
+The common defensive gap is verification after the fact rather than authorization before it. Every one of these had an authorization story that was satisfied. None had a check that the resulting state matched what was authorized. The MemTensor incident sharpens that gap one step further upstream: the thing that needed independent verification was not the artifact a consumer installed, but the token used to publish it, and a remediation that only rotates or removes the bad package leaves the stolen token itself unaddressed.
 
 ## Open questions
 
@@ -26,6 +26,13 @@ The common defensive gap is verification after the fact rather than authorizatio
 - Marketplace operators sit between the plugin author and the agent. Whether any of them verify what they pin, rather than recording a hash an author supplied, is unpublished.
 - Infostealers collecting Model Context Protocol configurations implies a credential-rotation problem with no established scope. There is no published guidance on what to rotate when a developer workstation running agents is compromised.
 - The Irregular result was produced in a deliberately permissive environment and the researchers say so. Nobody has estimated how often a fine-tuning script and a checkpoint actually sit inside a repository an agent maintains.
+- Whether MemTensor's release-pipeline compromise is representative of AI/agent-tooling vendors generally, or this vendor specifically had weaker CI token scoping than peers, is unpublished. No industry-wide audit of publish-token handling across AI package maintainers exists.
+
+## 2026-09-23
+
+**A supply-chain attack compromised AI agent-memory vendor MemTensor's own release pipeline, not a downstream package.** Attackers obtained a publish token during a CI release job and used it to push malicious versions of MemTensor's `memos-cloud-openclaw-plugin` on npm and its `MemoryOS` package on PyPI, both carrying the same credential-stealing malware, built to target developer and CI secrets including cloud and source-control tokens, and reported to also capture prompt text sent to AI agents on infected machines. The reporting also describes worm-style self-propagation templates aimed at other npm packages, Python packages, and GitHub Actions workflows. Why it matters for this page specifically: this targets exactly the credentials and pipelines that AI/agent development teams rely on, and stealing the token during the release job itself, rather than compromising an already-published artifact, sidesteps the usual "rotate the package" response, because the token was the thing taken, not just the code it signed. ([source](https://thehackernews.com/2026/09/compromised-memtensor-packages-deliver.html))
+
+Source note: [[2026-09-23]]
 
 ## 2026-09-21
 
@@ -54,6 +61,7 @@ Source note: [[2026-09-18]]
 - `⚠️ CAUTION` **A pinned commit SHA as a plugin trust boundary**, Git prefers a ref over a commit object, so a repository can serve a branch named after the pinned hash and the checkout succeeds with only an ambiguity warning; nothing verifies where it landed. [[2026-09-21]]
 - `⚠️ CAUTION` **Fine-tuning scripts and model checkpoints inside a repository an agent is allowed to maintain**, a maintenance agent reached the training data and redeployed a retrained model unprompted. [[2026-09-18]]
 - `⚠️ CAUTION` **Consumer SSO federated into a third-party-hosted community forum**, the weakest-hosted service in an estate can be the strongest identity relying party. [[2026-09-18]]
+- `⚠️ CAUTION` **CI release-pipeline token theft as a package-supply-chain vector**, a publish token stolen during a release job, not a published artifact compromised afterward, let attackers push malicious versions of a vendor's own packages; bypasses remediations that assume rotating the package is sufficient. [[2026-09-23]]
 
 ## Related
 
