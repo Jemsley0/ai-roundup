@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, agent-memory]
-updated: 2026-09-22
+updated: 2026-09-23
 living: true
 ---
 
@@ -17,7 +17,9 @@ That cost argument stopped being theoretical on 2026-09-17. OpenAI disclosed thr
 
 The compaction caution acquired a vendor product on 2026-09-21, when Snowflake's Cortex Agents Compact API entered preview with an `agent:compact` endpoint that summarizes a conversation for reuse in later calls. The same mechanism applies unchanged, and a managed endpoint removes the operator's view of the summarisation prompt and of what was dropped. The same cycle produced the first measurement with a real control: a harness paper compared prewritten task plans against shuffled policy text matched for word count and found the real plans worth 7.17 percentage points of oracle-verified success, while a read-only terminal verifier rejected 61 percent of invalid episodes for under a cent each and captured nearly all of a harness's benefit at lower cost.
 
-The newest data point, from 2026-09-22, generalises the untrusted-summary finding rather than adding a new one. Two practitioners independently converged on the same fix for a related failure: if a model's account of its own conversation cannot be trusted, neither can a model's account of its own completed work, and the fix in both cases is the same, keep the ground truth outside the model's own narrative of itself and check it independently rather than reading it back. That reframes compaction-summary distrust as one instance of a broader rule rather than a special case tied to one endpoint.
+The 2026-09-22 data point generalises the untrusted-summary finding rather than adding a new one. Two practitioners independently converged on the same fix for a related failure: if a model's account of its own conversation cannot be trusted, neither can a model's account of its own completed work, and the fix in both cases is the same, keep the ground truth outside the model's own narrative of itself and check it independently rather than reading it back. That reframes compaction-summary distrust as one instance of a broader rule rather than a special case tied to one endpoint.
+
+The 2026-09-23 data points are about the mechanism that feeds context in the first place, not just what happens to it once compacted. Claude Code's AGENTS.md support, a config file meant to standardise instructions across coding agents, turns out to be silently inert for anyone with telemetry disabled or running through Bedrock, Vertex, or a gateway, confirmed by an Anthropic engineer as an unintended rollout artifact rather than a design choice. That is a different failure mode from compaction distrust, an input that should load and silently does not, but it shares the shape: a mechanism the agent depends on fails with no signal to the operator. On the tooling side, google/ax's declarative Workspace primitive turns out to be one of four manifest types in a fuller agent-workload orchestrator, and fast-jev-compaction ships a concrete, if unbenchmarked, answer to the compaction question this page has carried since 2026-09-17: replace model-written summaries with decision-model-scored selective pruning that never asks a model to narrate itself.
 
 ## Open questions
 
@@ -30,6 +32,18 @@ The newest data point, from 2026-09-22, generalises the untrusted-summary findin
 - The Galster study found nobody using persistent subagent memory. The gap between the research literature and what practitioners actually configure is very wide and nobody has explained it.
 - "Context engineering" was removed from the radar for being a discipline rather than an adoptable technique. Which specific named methods deserve their own rings is still an open list.
 - The coordinator pattern's re-run rule works for commands with checkable exit codes. Nobody has published what the equivalent check is for a claimed action that has no exit code, a judgement call, a partial fix, or a piece of prose.
+- Whether other coding agents (Codex, Copilot, Gemini CLI) have an equivalent silent-failure mode in their own instruction-file loading, or this is specific to Claude Code's remote-feature-flag rollout mechanism.
+- fast-jev-compaction has no published before/after numbers. Whether decision-model-scored pruning actually beats summarization on token savings and task-success retention, rather than just avoiding one specific failure mode, is untested.
+
+## 2026-09-23
+
+**Claude Code's AGENTS.md support turns out to be silently inert for a specific, common population: telemetry off, or running through Bedrock, Vertex, or a gateway.** AGENTS.md loading ships as a built-in plugin, off by default, gated behind a remote feature flag (`tengu_agents_md_mod`) fetched over the same channel as telemetry. Setting `CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC=1` or `DISABLE_TELEMETRY=1`, or running through Bedrock, Vertex, or Foundry, means the flag fetch never happens, so a purely local markdown file read is silently blocked with no error and no warning. An Anthropic engineer confirmed on Hacker News this is a rollout artifact, not a design choice: "we needed a way to turn this off remotely via feature flags if it broke something, and with telemetry off you don't get those." A documented one-line workaround exists: a local `CLAUDE.md` containing `@AGENTS.md` imports it directly, bypassing the flag entirely. This is a context-loading failure with a different shape from the compaction-summary caution already on this page (a mechanism that is supposed to feed an agent's context silently does nothing, rather than feeding it something untrustworthy), but the same operational lesson: nothing in the product surfaces the absence.
+
+**google/ax's Workspace primitive from [[2026-09-21]] turns out to be one of four manifest types in a fuller declarative orchestrator for agent workloads.** Task (sandboxed execution with per-task resource limits), Workspace (pre-warmed repos, MCP servers, skill packages), Gateway (outbound-traffic allowlisting), and Model (provider and credential management) are driven by a kubectl-style CLI with multi-cluster support. The stated reason existing orchestration tooling doesn't fit is the same memory-and-context argument this page has made repeatedly: agent workloads "accumulate state, need strict isolation, call out to model APIs and tool servers, and can burn money in a loop if nobody is watching." 8,000-plus GitHub stars, pre-stable, maintainers expect breaking changes before a stable release.
+
+**fast-jev-compaction is a concrete answer to a question this page has been asking since [[2026-09-17]]: what should replace LLM-summarization-based compaction, given that a compaction summary is an untrusted input written by the model that will read it back.** Instead of summarizing old turns, the plugin keeps all conversational text verbatim and sends only tool calls and results to TypeSafe AI's Jev, which scores each one on whether it is worth keeping and whether its result needs to stay verbatim; below-threshold results get truncated to roughly 300 characters or dropped entirely. This sidesteps the fabricated-constraint failure mode by construction, since it never asks a model to write a prose summary of itself, but it introduces a new dependency, Jev's calibration, itself questioned in a same-day practitioner critique (see [[Topics/Jev and Decision Models|Jev and Decision Models]]), and has no published benchmark yet comparing token savings or task-success retention against default compaction.
+
+Source note: [[2026-09-23]]
 
 ## 2026-09-22
 
@@ -119,6 +133,9 @@ Source note: [[2026-09-03]]
 
 - `🟡 ASSESS` **Snowflake Cortex Agents Compact API**, a managed `agent:compact` endpoint that inherits the untrusted-summary failure mode and adds an opaque intermediary. [[2026-09-21]]
 - `🔵 TRIAL` **Coordinator session with an external task board and re-run verification**, one long-lived session holds shared state in a task system with an application programming interface while short-lived sessions implement, and re-executes every claimed command rather than trusting a summary; arrived at independently by two practitioners in one week. [[2026-09-22]]
+- `🟡 ASSESS` **google/ax declarative agent-workload orchestrator**, Kubernetes-style Task/Workspace/Gateway/Model manifests with per-task resource limits and outbound-traffic allowlisting as first-class controls; pre-stable, breaking changes expected. [[2026-09-23]]
+- `🟡 ASSESS` **Decision-model-scored context compaction (fast-jev-compaction)**, prunes individual tool calls by a decision model's score instead of summarizing turns, keeping conversational text verbatim; no published before/after numbers yet. [[2026-09-23]]
+- `⚠️ CAUTION` **A shared-instruction-file standard that silently no-ops under common enterprise configurations**, Claude Code's AGENTS.md support is gated behind a remote feature flag fetched over the telemetry channel, so disabling telemetry or running through Bedrock, Vertex or a gateway silently disables it with no error; confirmed an unintended rollout artifact, with a documented one-line workaround. [[2026-09-23]]
 - `⚫ DROPPED` **Context engineering**, removed as a category error rather than a change of view. It is a discipline, not an adoptable technique, and everything specific underneath it is listed separately. [[2026-09-03]], removed [[2026-09-15]]
 - `🟡 ASSESS` **Graphiti / temporal knowledge graphs**. [[2026-09-11]]
 - `🔵 TRIAL` **Shopify Helix checkpoint discipline**. [[2026-09-11]]
@@ -128,4 +145,4 @@ Source note: [[2026-09-03]]
 
 ## Related
 
-[[Topics/Vector Databases and Retrieval|Vector Databases and Retrieval]] · [[Topics/Token Cost and Model Routing|Token Cost and Model Routing]] · [[Topics/MCP|MCP]] · [[Topics/Semantic Layer and Knowledge Graphs|Semantic Layer and Knowledge Graphs]] · [[Topics/AI Safety and Interpretability|AI Safety and Interpretability]] · [[Topics/Agentic SDLC Governance|Agentic SDLC Governance]]
+[[Topics/Vector Databases and Retrieval|Vector Databases and Retrieval]] · [[Topics/Token Cost and Model Routing|Token Cost and Model Routing]] · [[Topics/MCP|MCP]] · [[Topics/Semantic Layer and Knowledge Graphs|Semantic Layer and Knowledge Graphs]] · [[Topics/AI Safety and Interpretability|AI Safety and Interpretability]] · [[Topics/Agentic SDLC Governance|Agentic SDLC Governance]] · [[Topics/Jev and Decision Models|Jev and Decision Models]]
