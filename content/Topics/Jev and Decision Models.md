@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, jev-and-decision-models]
-updated: 2026-09-23
+updated: 2026-09-25
 living: true
 ---
 
@@ -11,11 +11,11 @@ Small, fast decision and classification models, most prominently TypeSafe AI's J
 
 ## Where this stands
 
-As of September 23, 2026, TypeSafe AI's Jev is the model that defined this class and the one everyone else is now measured against, including by three independent practitioners in a single day. Jev generates no text: it returns a typed value, a Choice, a Score, or a Noul (a 0-to-1 probability), from a single parallel pass with a calibrated confidence figure attached, priced at \$0.042 per million input tokens with no output charge because there is no generated output. TypeSafe's own numbers put it 40x to 200x faster and 40x to 400x cheaper than a frontier model doing the same classification job. The vendor's release has no paper, no published weights, and a live priority dispute over the underlying method.
+As of September 25, 2026, the class has two open reproduction paths into it rather than one. Kev (Jared Palmer's Apache-2.0 release on Qwen3.5 bases) remains the generative path: it reproduces Jev's typed-decision mechanic directly and scores within 3.5 accuracy points of Jev on a development set. CLM-8B is now a second, architecturally distinct path: two frozen-backbone encoders with small trainable projection heads, trained with a contrastive loss, so inference at serving time is a cached embedding and a dot product rather than a full forward pass. It matches Jev's accuracy on computer-use, gaming, and tool-calling tasks while running up to 9x faster, and ships Apache 2.0 with both code and weights released. The class no longer has one obvious open implementation to converge on; it has two, built on different architectures.
 
-Kev, an Apache-2.0 open reproduction on Qwen3.5 bases released by Jared Palmer, is the reason Jev's position has weakened rather than strengthened since launch. Kev-9B scores within 3.5 accuracy points of Jev on a development set, by the challenger's own uncontrolled comparison, and ships training code and evaluation data anyone can audit. That gap is small enough that the case for depending on a closed, paper-free, disputed hosted product has mostly evaporated: the working read since 2026-09-22 is that Kev is the default path into this model class and Jev is the benchmark to measure a reproduction against, not a dependency to build on.
+The first adversarial-robustness data point on this class landed today, and it is unfavorable. JevOut, an optimizer that inserts short, natural-sounding context additions preserving the source, question, and correct answer, flipped 312 of 508 originally correct Jev decisions (61.4%) within 64 accepted attempts, with 229 of those flips landing at 70%+ confidence in the wrong answer. Three other decision systems tested the same way, across seven datasets, showed targeted flip rates of 64.9% to 73.2%, close enough to Jev's own number that this reads as a structural weakness of the decision-model class, not a Jev-specific defect. Roughly six in ten correct decisions in this class can be flipped by context that reads as ordinary padding.
 
-Three independent practitioner artifacts landed on Jev specifically on 2026-09-23, which is itself the signal: a category this hyped is now being reproduced and picked apart faster than the vendor is responding to either. A technical critique argues Jev's confidence scores are not properly calibrated, a 25-line parody reproduction shows the core classification mechanic needs no API call and no reinforcement-learning training step, and a thinner piece covers using Jev-style typed decisions with scoped tool authority in production. None of this changes the ring. TypeSafe's release still has no paper, no weights, and the priority dispute is unresolved, but the gap between the vendor's mystique and what a practitioner can reproduce or pick apart in an afternoon keeps shrinking.
+Adoption is still moving forward despite the calibration and robustness doubts: Jev-Mobile decouples slow vision-language-model planning from fast typed-decision execution for mobile GUI agents, reaching 79% task success on the full AndroidWorld suite (against 84% for the strongest step-wise VLM baseline) while cutting mean execution time 32.7% and mean model API cost 73.4% on successful runs. TypeSafe's hosted Jev still has no paper, no published weights, and an unresolved priority dispute, and the ring stays at `🔵 TRIAL` with the caveat flag now carrying both the calibration critique and the adversarial-robustness finding.
 
 ## Open questions
 
@@ -23,7 +23,20 @@ Three independent practitioner artifacts landed on Jev specifically on 2026-09-2
 - Whether Jev's calibration failure (a fair-coin example predicted at 0.92 despite the correct answer being explicit in the prompt) is a training artifact specific to TypeSafe's evaluation data, or a structural property of the Choice/Score/Noul architecture, is unresolved. The critique's own recommendation, local recalibration on a few hundred labeled examples, assumes the former.
 - TypeSafe's advertised 0 percent hallucination rate is a statement about types (the model cannot return a malformed answer), not about facts (it can still return a confidently wrong one). Nobody has published a factual-accuracy number to sit beside the calibration critique.
 - The priority dispute over the underlying method remains unresolved and undated in this roundup's coverage.
-- Whether tooling that now consumes Jev as a scoring backend, such as fast-jev-compaction for context compaction, creates a dependency on a model this contested, or whether swapping in Kev underneath the same architecture is a drop-in replacement, is untested.
+- Whether tooling that now consumes Jev as a scoring backend, such as fast-jev-compaction for context compaction, creates a dependency on a model this contested, or whether swapping in Kev or CLM-8B underneath the same architecture is a drop-in replacement, is untested.
+- Whether any robustness-hardening work is coming, now that JevOut has shown 61.4% to 73.2% targeted flip rates across four decision systems and seven datasets: this looks like a class-wide weakness rather than something one vendor can patch alone.
+- Whether CLM-8B's contrastive dual-encoder architecture is also vulnerable to JevOut-style context injection is untested; JevOut's seven-dataset run predates CLM-8B's release and did not include it.
+- Whether Kev or CLM-8B becomes the reference open implementation for this class is unsettled: they now represent two different bets (generative typed-decision vs. contrastive embedding-and-dot-product) on the same problem, and nobody has run them head to head.
+
+## 2026-09-25
+
+**JevOut is the first adversarial-robustness measurement on this decision-model class.** An optimizer inserts short, natural-sounding context additions that preserve the source, question, and correct answer, but redirect Jev toward a fixed wrong option. Within 64 accepted attempts, it flipped 312 of 508 originally correct decisions (61.4%), with 229 of those flips landing at 70%+ confidence in the wrong answer. Three other decision systems tested the same way, across seven datasets, showed targeted flip rates of 64.9% to 73.2%. Roughly six in ten correct decisions in this class can be flipped by context that reads as ordinary padding. Source: https://arxiv.org/abs/2609.30243
+
+**Jev-Mobile decouples slow vision-language-model planning from fast typed-decision execution for mobile GUI agents.** A vision-language model sets local goals; Jev repeatedly selects the concrete action within a structured, accessibility-tree-defined action space. On the full AndroidWorld suite it reached 79% task success against 84% for the strongest step-wise vision-language-model baseline, while cutting mean execution time 32.7% and mean model API cost 73.4% on successful runs. Source: https://arxiv.org/abs/2609.30186
+
+**CLM-8B is a second, architecturally distinct open path into the same decision-model class as Jev and Kev.** Instead of Jev's generative typed-decision approach, it uses two frozen-backbone encoders with small trainable projection heads, trained with a contrastive loss, so inference at serving time is a cached embedding and a dot product rather than a full forward pass. It matches Jev's accuracy on computer-use, gaming, and tool-calling tasks while running up to 9x faster, and as a verifier reaches 81.6% on DeepSWE and 87.6% on Terminal-Bench 2.1 at 4.1 to 5.7x Jev's speed. Apache 2.0, code and weights both released. Source: https://github.com/Contrastive-LM/CLM
+
+Source note: [[2026-09-25]]
 
 ## 2026-09-23
 
@@ -51,7 +64,8 @@ Source note: [[2026-09-17]]
 
 ## On the radar
 
-- `🔵 TRIAL` `⚠️` **TypeSafe Jev and the System One decision-model class**, typed calibrated output in one parallel pass; Kev is now an auditable Apache-2.0 reproduction within 3.5 accuracy points, so the hosted product is better used as a benchmark than as a dependency, and a same-day practitioner critique argues its confidence scores are not properly calibrated. Still no paper, no weights and a live priority dispute. (was [[2026-09-22]]) [[2026-09-23]]
+- `🔵 TRIAL` `⚠️` **TypeSafe Jev and the System One decision-model class**, typed calibrated output in one parallel pass; Kev and now CLM-8B are auditable open reproductions on two different architectures, and JevOut's adversarial-robustness test flipped 61.4% of Jev's correct decisions using natural-sounding context, a vulnerability shared by three other decision systems across seven datasets. Still no paper, no weights and a live priority dispute. (was [[2026-09-23]]) [[2026-09-25]]
+- `🟡 ASSESS` **CLM-8B contrastive dual-encoder decision model**, matches Jev's accuracy on computer-use, gaming, and tool-calling tasks while running up to 9x faster, using two frozen-backbone encoders with trainable projection heads instead of Jev's generative typed-decision approach; Apache 2.0, code and weights released. [[2026-09-25]]
 
 ## Related
 
