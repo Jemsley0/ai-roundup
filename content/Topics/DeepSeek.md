@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, deepseek]
-updated: 2026-09-16
+updated: 2026-09-25
 living: true
 ---
 
@@ -13,13 +13,23 @@ DeepSeek's V4.1 Flash line, the architectural bet behind it, and the price-per-c
 
 V4.1 Flash is at trial on the radar and has been since it went GA on Sep 10. The corroborating fact is stronger than any benchmark: DeepSeek retired V4-Pro and rerouted its traffic to the Flash tier at Flash rates, which is a lab saying its cheap model beat its expensive one with its own pricing rather than a press release. Independent evaluation is still wanted before anything stronger.
 
-Two things complicate the picture. A joint NSA, CISA, and FBI advisory named DeepSeek among six Chinese labs alleged to have conducted targeted distillation against US frontier models since late 2024, which moves distillation from a terms-of-service dispute to a state-attributed activity. And separately, the OpenRouter analysis found identical DeepSeek weights performing between 81 percent and 58 percent on tool-calling depending on which provider served them, so a DeepSeek evaluation is really an evaluation of a model plus a host.
+The price-per-capability throughline now runs in both directions. On Sep 25, CEO Liang Wenfeng disclosed that DeepSeek's annualized revenue run rate roughly doubled to \$1B, from roughly \$500M, attributed to an August 2026 price increase that raised API fees 2.3x to 4.5x with no measurable demand drop, ahead of a \$7.5B funding round and a planned Shanghai Stock Exchange listing. Where the Flash-over-Pro move showed DeepSeek could win by cutting its effective price, this shows the opposite lever also works: DeepSeek could raise prices sharply, in an ostensibly commodity, price-competitive open-weight-adjacent market, without losing customers. That is real evidence of pricing power, not just cost efficiency.
+
+Two things complicate the picture. A joint NSA, CISA, and FBI advisory named DeepSeek among six Chinese labs alleged to have conducted targeted distillation against US frontier models since late 2024, which moves distillation from a terms-of-service dispute to a state-attributed activity. And separately, the OpenRouter analysis found identical DeepSeek weights performing between 81 percent and 58 percent on tool-calling depending on which provider served them, so a DeepSeek evaluation is really an evaluation of a model plus a host. The revenue and pricing-power figures are also self-disclosed by the CEO at an investor meeting rather than independently audited, which matters more now that a Shanghai listing is in motion.
 
 ## Open questions
 
 - No independent eval of the V4.1 Flash agentic and coding claims has been published.
 - The Causal Encoder-Decoder design with roughly 8B active input parameters and 16B active output parameters is unusual and undiscussed outside DeepSeek's own materials. Nobody has written up why it works.
 - Provider variance means benchmark numbers are close to meaningless without naming the host. Nobody publishes host alongside score.
+- Does DeepSeek's pricing power hold as more open-weight competition arrives, or is the August hike a temporary window before rivals undercut it?
+- The \$1B run rate and 2.3x-4.5x price hike are self-disclosed, not audited. Does the Shanghai listing process bring standard public-company disclosure and audit requirements that test these numbers?
+
+## 2026-09-25
+
+**DeepSeek's annualized revenue hits roughly \$1B, driven by API price hikes, ahead of a \$7.5B raise and a planned Shanghai listing.** CEO Liang Wenfeng disclosed at an investor meeting that DeepSeek's annualized revenue run rate doubled to roughly \$1B (from roughly \$500M), attributed to a price increase last month (August 2026) that raised API fees 2.3x to 4.5x with no measurable demand drop. The company is finalizing a \$7.5B funding round ahead of a planned Shanghai Stock Exchange listing. This is real evidence of pricing power in an ostensibly commodity, price-competitive open-weight-adjacent model business. DeepSeek was able to raise prices sharply without losing customers. ([Dealroom](https://dealroom.co/news/info-1jq5etc-deepseeks-annualized-revenue-hits-1-billion-as-startup-finalizes-7-5-bil/), [PYMNTS](https://www.pymnts.com/news/artificial-intelligence/2026/deepseek-doubles-annual-revenue-run-rate-to-1-billion-ahead-of-ipo/))
+
+Source note: [[2026-09-25]]
 
 ## 2026-09-10
 

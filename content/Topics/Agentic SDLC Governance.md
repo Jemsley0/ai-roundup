@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, agentic-sdlc, governance]
-updated: 2026-09-22
+updated: 2026-09-25
 living: true
 ---
 
@@ -23,6 +23,8 @@ Two practitioners converged independently, in the same week, on a sixth pattern 
 
 Linear's continuous-integration rebuild is the sharpest illustration yet of the Throughput Paradox and the Verification Tax this page has carried since 2026-09-15. Its test suite quadrupled since January because agents write code faster than the old pipeline could validate it, and the fix produced a long list of individually large wins, a 34 percent faster runner, a 73 percent faster type-checker, 55 to 68 percent less lint time, shard setup cut from over a minute to about 40 seconds. Total pull-request wait time still only moved from just over six minutes to just over five, because the critical path was never the sum of the parts. That is the concrete number behind the abstract claim that nobody has published a cost model for the Verification Tax: here is one team's full accounting, and the number a developer actually feels barely moved.
 
+The governance-product layer for cross-platform agent inventory now has three independent entrants converging on the same shape. Dataiku's Agent Management, launched September 24, 2026, discovers agents across Microsoft Copilot Studio, Azure AI Foundry, Salesforce Agentforce, Amazon Web Services Bedrock, Google Vertex AI, Databricks, Snowflake Cortex, and n8n into one inventory recording owner, purpose, and data access, and scores agents against business key performance indicators, usage, cost, quality, value, rather than uptime alone; it joins Cymphony and Komodor's Agentic Operations Platform in this cluster. Its motivating stat, per IBM's "AI in Motion" research, is that fewer than one in five organizations maintain a complete, current inventory of the AI systems they run. A separate but related shift is happening at the platform-default layer rather than the inventory layer: GitHub's new global default-enablement policy for Copilot Business and Enterprise replaces an implicit always-on default for unconfigured generally-available features, including Copilot Code Review and Model Context Protocol servers, with an explicit admin choice, Enabled, Disabled, or delegate to organizations, that must be set within a 28-day window ending October 22, 2026, or the platform's chosen default takes over automatically. The two items are the same underlying question, who is accountable for an agent's behavior when nobody explicitly decided, approached from opposite ends: Dataiku assumes ungoverned agents already exist and builds the inventory to find them; GitHub forces the governance decision before the ungoverned state can occur at all.
+
 ## Open questions
 
 - The harness paper's verifier result is one paper on one benchmark family. Whether a read-only terminal verifier generalises past Retail-shaped tasks, and what the equivalent is for a data-transformation repository, is unpublished.
@@ -43,6 +45,16 @@ Linear's continuous-integration rebuild is the sharpest illustration yet of the 
 - Dogwood is Apache 2.0 and built on Cedar, and the only implementation is AWS's. Portability of a policy language with one implementation is a claim, not a property.
 - The Hacker News pushback on the coordinator pattern is anecdotal, unsupervised delegation producing overengineered output in at least one report. Nobody has published a measured failure rate for the coordinator pattern itself, as distinct from the reliability of the agents it delegates to.
 - Linear's numbers show a stack of gate-level wins that did not sum to the felt critical-path improvement. Nobody has published a method for identifying the actual critical path before funding the next optimisation, rather than after the fact.
+- GitHub's 28-day window sets an admin-choice-with-deadline default for one vendor's install base. Whether other large-footprint platforms, Microsoft, Google, Atlassian, adopt the same model, or keep a silent default-on, is unpublished.
+- Dataiku claims discovery across eight-plus platforms through native integrations. Nobody has published what depth of visibility that discovery actually returns per platform, full tool-call logs versus metadata only, which decides whether it functions as an audit trail or only as a directory.
+
+## 2026-09-25
+
+**GitHub published a global default-enablement policy for Copilot Business and Enterprise, replacing silent per-feature defaults with an admin choice and a deadline.** The policy, published in GitHub's changelog, governs how any "Unconfigured" generally-available Copilot feature or client capability behaves, including Copilot Code Review and Model Context Protocol servers. A 28-day configuration window opened September 24, 2026 and runs through October 22, 2026, during which admins choose one of three global defaults: Enabled, Disabled, or "let organizations decide." Starting October 22, any generally-available feature an admin never explicitly configured will follow that chosen default; features an admin already configured explicitly keep their existing setting, and preview features stay opt-in regardless. Verbatim from the changelog: "Eligible generally available features and capabilities left Unconfigured will follow your selected global default." The action item is concrete and time-boxed: any organization running GitHub Copilot Business or Enterprise needs to set this policy deliberately before October 22, 2026, or inherit whatever default GitHub applies. ([github.blog](https://github.blog/changelog/2026-09-24-default-enablement-of-copilot-features-for-copilot-business-and-enterprise/))
+
+**Dataiku launched Agent Management as a standalone product for discovering and governing every AI agent an enterprise runs, regardless of which platform built it.** Announced September 24-25, 2026, it builds one inventory across Microsoft Copilot Studio, Azure AI Foundry, Salesforce Agentforce, Amazon Web Services Bedrock, Google Vertex AI, Databricks, Snowflake Cortex, n8n, and Dataiku's own agents, recording owner, intended purpose, and data access per agent. Rather than measuring uptime alone, it scores agents against business key performance indicators, usage, cost, quality, and value, and certifies agents for risk with scheduled tests. The motivating stat, cited from IBM's "AI in Motion" research: fewer than one in five organizations maintain a complete, current inventory of the AI systems they run. General availability is planned for October 2026. This is the third independent cross-platform agent-inventory product on this page, after Cymphony and Komodor's Agentic Operations Platform, and it is the most explicit yet about scoring against business KPIs rather than only cataloguing agents. ([SiliconANGLE](https://siliconangle.com/2026/09/24/dataiku-debuts-cross-platform-agent-management-expands-cobuild-building-agent/), [Help Net Security](https://www.helpnetsecurity.com/2026/09/25/dataiku-agent-management/))
+
+Source note: [[2026-09-25]]
 
 ## 2026-09-22
 
@@ -224,6 +236,7 @@ Source note: [[2026-09-03]]
 - `🟡 ASSESS` **Port.io Context Lake**. [[2026-09-03]]
 - `🟡 ASSESS` **Ramp Labs agent-ROI attribution**. [[2026-09-03]]
 - `🟡 ASSESS` **Cymphony + agent/skill registry consolidation**. [[2026-09-09]]
+- `🟡 ASSESS` **Dataiku Agent Management**, cross-platform agent inventory scoring agents against business key performance indicators, joining Cymphony and Komodor's Agentic Operations Platform. [[2026-09-25]]
 
 ## Related
 
