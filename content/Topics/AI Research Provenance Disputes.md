@@ -86,9 +86,8 @@ Source note: [[2026-09-08]]
 
 ## On the radar
 
-- `⚠️ CAUTION` **Unverified lab capability claims**. Check what the claimant checked against, not just whether the answer verifies internally. [[2026-09-11]], escalated [[2026-09-15]], third instance [[2026-09-21]], fourth instance [[2026-09-22]]
-- `🔵 TRIAL` `⚠️` **TypeSafe Jev and the System One decision-model class**, Kev is now an auditable Apache-2.0 reproduction within 3.5 accuracy points, so the hosted product is better used as a benchmark than as a dependency, and it still has no paper, no weights and a live priority dispute. (was [[2026-09-21]]) [[2026-09-22]]
+- `⚠️ CAUTION` **Unverified lab capability claims**, "check what the claimant checked against," not just whether the answer verifies internally. The Cyphral Distich refutation is the worked example; TypeSafe AI's Jev carries a prior-art claim, and MiMo-V2.6's entire benchmark table is the vendor's own with no third-party citation, where an independent measurement arrived within a day and is the fix. [[2026-09-11]], escalated [[2026-09-15]], third instance [[2026-09-21]], fourth instance [[2026-09-22]]
 
 ## Related
 
-[[Topics/AI Safety and Interpretability|AI Safety and Interpretability]] · [[Topics/GPT-6 Astra|GPT-6 Astra]] · [[Topics/Cognition|Cognition]]
+[[Topics/AI Safety and Interpretability|AI Safety and Interpretability]] · [[Topics/GPT-6 Astra|GPT-6 Astra]] · [[Topics/Cognition|Cognition]] · [[Topics/Evaluation Methodology|Evaluation Methodology]]

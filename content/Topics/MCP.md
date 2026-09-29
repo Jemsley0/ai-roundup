@@ -23,9 +23,7 @@ Governance has just gained a second axis: not only which tool calls are policed,
 
 The protocol also has its first widely read argument for retirement rather than reform: agents can now write their own integration code against HTTP APIs and command-line tools, closing the capability gap MCP was built to bridge. That holds for the thin end of the protocol's use, a tool whose schema is larger than the single call it wraps, but it says nothing about discovery, per-tool authorization, and audit, which is what every governance product on this page is actually sold on. The direction of travel in implementations runs the opposite way: Google's AX makes MCP server attachment a declared property of a Kubernetes workspace manifest; Databricks registers an MCP service as a catalog object and, with Genie One's general availability, now ships its flagship agent as one too; and MCP server access has become common enough at the top of the market that GitHub needed an org-wide default policy for it. MCP is no longer a per-team integration choice; it is becoming the default surface through which major vendors expose their agent and data products, and every governance answer on this page is racing to settle who decides what an agent may reach through it.
 
-This week added two fronts beyond governance: the protocol's own reference implementation is now a tracked security surface, and the interface between a server and its caller is now a measured design problem, not just a schema. The official MCP Python software development kit's OAuth client failed to validate the authorization-server endpoint, letting a hostile server redirect a client to an attacker-controlled token endpoint and capture the client secret, the authorization code, and the Proof Key for Code Exchange verifier. It affected releases 1.9.1 through 1.29.1 and 2.0.0 through 2.1.1, patched in 1.30.0 and 2.2.0. Every client built on the reference SDK was exposed regardless of which servers it chose to trust, which sits one layer below the malicious-server governance question this page has tracked since Snowflake's Cortex AI Gateway.
-
-Separately, a study of 150 widely used MCP servers and their 3,001 error messages found that most error-recovery guidance is written for a human at a terminal rather than for the agent reading it, and the gap widens as the calling model gets more capable. Recovery on credential errors rose from 45% to 84% once the error named the specific tool to call next, and rate-limit recovery rose to 88% once it named the exact call to repeat. That is a cheap, server-local fix with a measured effect, and it sits below every governance layer this page tracks: it does not change which servers an agent may reach, only whether the server can be understood once reached.
+This week (2026-09-29) added a design finding and a protocol-level security flaw, both about the interface between server and caller rather than about governance. A study collecting 3,001 error messages from 150 widely used servers found that most were written for a human at a terminal, and that when a message instead named the exact next tool call to make, credential-error recovery rose from 45% to 84% and rate-limit recovery rose to 88%; the cost of getting this wrong grows with model capability, from 18 points of lost recovery on GPT-5.5 to 69 points on GPT-6 Astra, because a stronger model follows a bad instruction more faithfully. The fix is a string change local to the server, not a protocol revision, but it is one unreplicated paper. Separately, Cycode found that the official MCP Python software development kit did not validate the authorization-server issuer on every discovery path and did not bind stored credentials to their server, letting a hostile server capture and replay a client's OAuth credentials; fixed in 1.30.0 and 2.2.0, with unattended providers now required to pass an explicit `issuer=`. No exploitation is reported, but it is a flaw in the shared client library every MCP integration depends on, not in any one vendor's deployment of it.
 
 ## Open questions
 
@@ -38,14 +36,18 @@ Separately, a study of 150 widely used MCP servers and their 3,001 error message
 - Running four protocol revisions on one gateway solves the migration problem by deferring it. Nobody has said what the deprecation path looks like, or who is expected to move first.
 - GitHub's default-enablement policy governs whether MCP access is on at all, not what an agent may do once connected. How that admin-level switch is meant to interact with tool-call-level enforcement from Snowflake, Databricks, and AWS is unpublished.
 - Whether other coding-agent vendors follow GitHub in making MCP server access a global default-policy toggle with a compliance deadline, or leave it as an implicit per-repo or per-user choice, is unresolved.
-- The Python SDK's OAuth flaw affected every client on an unpatched release regardless of server trust. Whether reference-implementation security gets the same ongoing scrutiny as the governance layer built on top of it, or only surfaces after an advisory, is unresolved.
-- One study measured agent-oriented error-message design with a large, quantified effect. Whether server authors adopt agent-oriented error conventions as a norm, or whether this becomes another feature governance vendors sell rather than a spec-level convention, is unresolved.
+- The error-message finding is one unreplicated paper on 150 servers. Whether the 45-to-84-percent recovery gain holds outside the credential and rate-limit error shapes tested, and whether server authors actually rewrite error paths without a spec mandate, is unpublished.
+- The MCP Python SDK OAuth flaw has no reported exploitation, but no audit exists of how many deployed clients have actually upgraded to 1.30.0/2.2.0 and passed the new explicit `issuer=`. Adoption of the fix itself is unmeasured.
 
 ## 2026-09-29
 
-**MCP error messages written for human developers fail agent callers, and they fail stronger models worse.** A study examined 150 widely used MCP servers and their 3,001 error messages. It found that 949 of the messages tell the caller what to do next, and half of those steps depend on something the server cannot see about the caller. On credential errors, 62 of 67 next steps ask for a terminal command, a config edit, or a web page, and under those errors only 45% of tasks recovered. The loss grew with capability, from 18 points for GPT-5.5 to 69 points for GPT-6 Astra, because a more capable model follows the bad instruction more faithfully. GitHub's own "wait before retrying" rate-limit message got 6% recovery. Naming the specific server tool in a credential error raised recovery to 84%, and naming the exact call to repeat raised rate-limit recovery to 88%. The fix costs almost nothing and applies to any MCP server implementation. [source](https://arxiv.org/abs/2609.35381)
+![[2026-09-29#^mcp-error-messages]]
 
-**The official MCP Python software development kit leaked OAuth credentials to a malicious server.** The client did not validate the authorization-server endpoint, so a hostile server could redirect it to an attacker's token endpoint. The attacker then captured the client secret, the authorization code, and the Proof Key for Code Exchange verifier. The flaw affects versions 1.9.1 to 1.29.1 and 2.0.0 to 2.1.1, and it is fixed in 1.30.0 and 2.2.0. The fix shipped September 7, and the advisory and Cycode's write-up came on September 28. No exploitation has been reported. This sits one layer below the malicious-server governance class already tracked on this page, because every client on an unpatched SDK was exposed regardless of which servers it trusted. The fix is a version pin: any Python MCP server or client should move to `mcp` 1.30.0 or later on the 1.x line, or 2.2.0 or later on 2.x. [source](https://thehackernews.com/2026/09/official-mcp-python-sdk-flaw-can-let.html)
+![[2026-09-29#^mcp-python-sdk-oauth]]
+
+![[2026-09-29#^agentcore-gateway-tools-list]]
+
+![[2026-09-29#^radar-mcp-error-messages]]
 
 Source note: [[2026-09-29]]
 
@@ -95,13 +97,55 @@ Source note: [[2026-09-17]]
 
 Source note: [[2026-09-16]]
 
-## Also mentioned
+## 2026-09-14
 
-- **[[2026-09-29]]**: Noma's endpoint agent-governance launch inventories every MCP server on developer machines alongside agents and skills, moving discovery and runtime enforcement to the developer's own machine rather than the cloud or orchestration layer. The item's focus is agentic-SDLC governance broadly; MCP server discovery is one piece of a wider endpoint inventory.
+**Backfill: the MCP roadmap published Aug 22 is the most consequential thing in this category that this log never covered, and its next phase is agent identity.** Current spec revision is 2026-07-28. What already shipped: protocol-level sessions removed entirely for horizontal scalability, stateless servers supported, and **Multi Round-Trip Requests** replacing server-initiated requests so elicitation-style flows work without server state. **Tasks moved out of core into an official extension** (SEP-2663) on early-adopter feedback, with an intent to fold it back into core later; Enterprise-Managed Authorization is now a stable extension.
+
+The forward-looking item is the one to plan around: MCP is standardising **agent identity via Workload Identity Federation and DPoP**, explicitly framed as replacing "pasted API keys and long-lived tokens," so that an agent acting independently, or delegating authority to a sub-agent, carries a verifiable identity. Beyond that, agent-to-agent negotiation and delegation without a central orchestrator. Anyone currently wiring agents together with static tokens is building against the thing MCP is about to obsolete. ([MCP blog](https://blog.modelcontextprotocol.io/posts/mcp-roadmap/), [Security Boulevard analysis](https://securityboulevard.com/2026/09/tools-were-only-phase-one-mcps-move-toward-agent-interoperability/))
+
+**The missing-controls list from the agentic-SDLC side reads directly against this.** SSO unconfigured, audit logs not wired to SIEM, PR gates unenforced, no sandbox isolation for agent execution. The standard is arriving at roughly the moment orgs discover they need it.
+
+Source note: [[2026-09-14]]
+
+## 2026-09-11
+
+**MCP is becoming the transport by which *meaning* reaches an agent, not just tools and data.** The architectural claim consolidating across the semantic-layer space is that a "context layer" wraps the semantic layer and exposes governed metric meaning to agents over MCP. That is the shape Atlan is selling with its Context Agents Accelerator, and the same shape Google shipped at Cloud Next '26 with Looker BI Agents grounded in a governed semantic layer, a native MCP server for agent access, and agentic workflows that monitor metrics autonomously. What the semantic layer has always done for BI dashboards, enforcing one definition of a metric at query time, is being re-pointed at agents, with access controls travelling with the answer rather than stopping at the warehouse boundary.
+
+Source note: [[2026-09-11]]
+
+## 2026-09-10
+
+**The MCP registry launched in September 2025 has grown to nearly 2,000 server entries**, with a curated and security-audited verified directory planned for Q4 2026, and the June 2026 Enterprise-Managed Authorization extension makes enterprise identity providers the authoritative provisioner for MCP server access with single sign-on. Together with OpenAI's and Vercel Labs' skills catalogs shipping the same day, the registry-plus-identity layer is converging fast enough to be worth a deliberate position rather than a default. ([MCP enterprise roadmap](https://toloka.ai/blog/the-future-of-mcp-enterprise-adoption/))
+
+Source note: [[2026-09-10]]
+
+## 2026-09-09
+
+**The AI-asset-registry layer is consolidating, and MCP is the substrate.** The open-source MCP Gateway & Registry has outgrown MCP and now registers agents, skills, and custom entities behind one authenticated gateway that enforces access and logs every call, and Portkey has shipped a "Skills Registry" pitched explicitly at platform teams owning Claude Code, Cursor, and Codex across an org. The pattern converging across all of these: **register once, discover by natural-language search, reach through a single gate that records everything.** That is the same shape as a service catalog, one abstraction level up. ([MCP Gateway & Registry](https://github.com/agentic-community/mcp-gateway-registry), [Portkey](https://portkey.ai/blog/skills-registry/))
+
+**Uber's Config Knowledge Graph is exposed to both humans and LLMs via MCP** so either can traverse the same graph the same way, which is a useful concrete pattern for graph-plus-MCP.
+
+Source note: [[2026-09-09]]
+
+## 2026-09-04
+
+**An Ask HN thread, "Who is using MCP in production?", pulled 147 points**, a useful read on the gap between MCP's spec momentum and actual production adoption. Production MCP adoption is the load-bearing assumption under most of the agentic-SDLC governance thesis, and the thread suggested it was still an open question in practice rather than a settled one. ([HN](https://news.ycombinator.com/item?id=49548600))
+
+**The day's Show HN crop leaned MCP-heavy**: a Google Search Console MCP server for SEO analysis via Claude Code and ChatGPT, an MCP Tool Definition Quality Score (TDQS) spec attempting to standardize how MCP tools describe themselves, and a Google Ads MCP integration (adChestra). None individually significant, but three MCP-wrapper launches in one day is real data on where the ecosystem's attention is.
+
+Source note: [[2026-09-04]]
+
+## 2026-09-03
+
+**MCP went stateless, and there is now real data on what config actually gets used.** The MCP 2026-07-28 spec removes protocol-level sessions in favor of a stateless core, adds server-rendered UIs (MCP Apps) and long-running work (Tasks), and hardens authorization toward standard OAuth and OIDC, with a separate Enterprise-Managed Authorization extension for zero-touch, IdP-provisioned server access.
+
+**The empirical study is the more interesting half.** Galster et al. examined **2,853 GitHub repositories** for how teams actually configure agentic coding tools, and found Context Files dominate, **AGENTS.md is emerging as the cross-tool interoperability standard**, Skills rarely bundle executable scripts, and **nobody in the sample uses Claude Code's persistent Subagent memory at all**. That is the empirical backdrop to Tobi Lütke's public dispute with Anthropic the same week over Claude Code's refusal to read AGENTS.md: the standard he is pushing for is already the one the wider ecosystem is converging on, not a one-off complaint. ([MCP blog](https://blog.modelcontextprotocol.io/posts/2026-07-28-release-candidate/), [arXiv 2602.14690](https://arxiv.org/abs/2602.14690))
+
+Source note: [[2026-09-03]]
 
 ## On the radar
 
-- `🔵 TRIAL` **MCP error messages that name the next tool call**. [[2026-09-29]]
+- `🔵 TRIAL` **MCP error messages that name the next tool call**, written for an agent caller rather than a human at a terminal; single paper, author-reported recovery gains. [[2026-09-29]]
 - `🔵 TRIAL` **Snowflake Cortex AI Gateway**, which governs 100-plus MCP servers at the tool-call level. [[2026-09-16]]
 - `🔵 TRIAL` **Databricks Unity Gateway API**, which registers an MCP service as a Terraform-managed catalog object. [[2026-09-17]]
 - `🔵 TRIAL` **Databricks Genie One MCP server (`system.ai.genie_one_mcp`)**, exposing Genie as an MCP tool with Unity Catalog permissions enforced per request. [[2026-09-25]]

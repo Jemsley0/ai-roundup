@@ -67,7 +67,7 @@ Source note: [[2026-09-15]]
 
 - `🔵 TRIAL` **Cloudflare `Disallow AI Training` setting**. [[2026-09-16]]
 - `🟡 ASSESS` **Apple Reference Image sensor-level provenance**. [[2026-09-16]]
-- `⚠️ CAUTION` **Agent web-fetch reachability**. The degradation comes from the ads-page agent control and per-site training opt-outs, not from a purpose-declaration requirement. [[2026-09-15]], corrected [[2026-09-16]]
+- `⚠️ CAUTION` **Agent web-fetch reachability**, corrected: the degradation comes from the ads-page agent control and per-site training opt-outs, not from a purpose-declaration requirement. [[2026-09-15]], corrected [[2026-09-16]]
 
 ## Related
 

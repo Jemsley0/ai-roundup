@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, vector-databases, retrieval, vector-databases-and-retrieval]
-updated: 2026-09-18
+updated: 2026-09-29
 living: true
 ---
 
@@ -19,6 +19,8 @@ The newest axis is not which engine but whether you pick one at all. As of 2026-
 
 For a data-platform context the split is unusually clean: retrieve prose by similarity, retrieve structure by traversal, and do not ask either one to do the other's job.
 
+This week (2026-09-29) added a rare example of a vendor pricing its own latency-versus-relevance tradeoff rather than only claiming the speedup. Perplexity says Photon, its rebuilt retrieval engine, cut internal p99 latency from about 800ms to 65ms and cost per task by 68%, through four named mechanisms: format-aware inverted indexes, Elias-Fano compressed ranking records, batched io_uring asynchronous I/O, and WAND top-k pruning. It reports the cost of that speedup as 0.24 points of discounted cumulative gain and 2.9 points of answer availability given up. The figures are vendor-reported, but stating the relevance cost at all, rather than only the speed gain, is unusual enough on this page to note on its own terms.
+
 ## Open questions
 
 - Temporal retrieval is the gap nobody has a good answer for at the vector layer. Graphiti solves it with bi-temporal edges; there is no equivalent for a flat store.
@@ -26,6 +28,19 @@ For a data-platform context the split is unusually clean: retrieve prose by simi
 - Nothing in this thread addresses re-embedding cost seriously. Embedding model choice is stickier than it looks, and a model change means rebuilding everything.
 - No published same-corpus comparison exists between Bedrock Managed Knowledge Base's agentic retriever and its standard hybrid Retrieve path, and the agentic path costs 5x per call. The premium currently rests on an unmeasured quality claim.
 - AWS recommends Amazon S3 Vectors for deep-research agents on a claimed cost reduction of up to 90 percent. Nobody outside AWS has published recall or latency figures for it against OpenSearch Serverless on the same corpus.
+- Photon's four named mechanisms are engineering choices any retrieval engine could adopt, but Perplexity has not published whether the 0.24-point relevance cost holds outside its own workload mix, or how it was measured against a held-out set.
+
+## 2026-09-29
+
+![[2026-09-29#^perplexity-photon]]
+
+![[2026-09-29#^dbx-ai-search-lakebase]]
+
+![[2026-09-29#^milvus-2-6-25]]
+
+![[2026-09-29#^weaviate-1-39-7]]
+
+Source note: [[2026-09-29]]
 
 ## 2026-09-18
 
