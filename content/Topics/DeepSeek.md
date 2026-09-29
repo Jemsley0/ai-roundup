@@ -59,4 +59,4 @@ Source note: [[2026-09-09]]
 
 ## Related
 
-[[Topics/Token Cost and Model Routing|Token Cost and Model Routing]] · [[Topics/GPT-6 Astra|GPT-6 Astra]] · [[Topics/AI Safety and Interpretability|AI Safety and Interpretability]]
+[[Topics/Token Cost and Model Routing|Token Cost and Model Routing]] · [[Topics/GPT-6 Astra|GPT-6 Astra]] · [[Topics/AI Safety and Interpretability|AI Safety and Interpretability]] · [[Topics/Frontier Lab Economics|Frontier Lab Economics]]
