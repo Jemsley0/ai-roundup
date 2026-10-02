@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, gpt-6-astra]
-updated: 2026-09-29
+updated: 2026-10-02
 living: true
 ---
 
@@ -32,6 +32,14 @@ This week (2026-09-29) brought the sharpest data point yet on the successor mode
 - Astra's capability claims and its training-provenance questions are not separable, and nobody has proposed a way to separate them.
 - The GPT-6.1 Astra cancellation rests on one executive's on-record account with no published eval numbers. Whether an independent evaluator would characterise the same regression the same way, or whether it recurs in whatever ships instead, is untested.
 - The MCP error-recovery paper's finding is from one unreplicated study. Whether the 18-to-69-point degradation pattern holds for other model pairs at different capability gaps, or is specific to the GPT-5.5-to-Astra jump, is unpublished.
+
+## 2026-10-02
+
+![[2026-10-02#^aisi-astra-supply-chain]]
+
+![[2026-10-02#^aa-sonnet-55-cost]]
+
+Source note: [[2026-10-02]]
 
 ## 2026-09-29
 
@@ -107,4 +115,4 @@ Source note: [[2026-09-03]]
 
 ## Related
 
-[[Topics/AI Research Provenance Disputes|AI Research Provenance Disputes]] · [[Topics/AI Safety and Interpretability|AI Safety and Interpretability]] · [[Topics/Token Cost and Model Routing|Token Cost and Model Routing]] · [[Topics/Agentic SDLC Governance|Agentic SDLC Governance]]
+[[Topics/AI Research Provenance Disputes|AI Research Provenance Disputes]] · [[Topics/AI Safety and Interpretability|AI Safety and Interpretability]] · [[Topics/Token Cost and Model Routing|Token Cost and Model Routing]] · [[Topics/Agentic SDLC Governance|Agentic SDLC Governance]] · [[Topics/Agent-Driven Intrusions|Agent-Driven Intrusions]]

@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, jev-and-decision-models]
-updated: 2026-09-29
+updated: 2026-10-02
 living: true
 ---
 
@@ -31,6 +31,14 @@ This week (2026-09-29) added four more independent reproductions in four days, e
 - Whether Kev or CLM-8B becomes the reference open implementation for this class is unsettled: they now represent two different bets (generative typed-decision vs. contrastive embedding-and-dot-product) on the same problem, and nobody has run them head to head.
 - Four more reproductions arrived in four days with widely different accuracy-versus-cost tradeoffs, from a zero-training prompt-only approach to a 17-second reasoning variant. Nobody has published a single comparison table putting Kev, CLM-8B, Jeff, Jeeves, and the GLM-5.3-Flash prompt-only approach on the same benchmark set.
 - The prompt-only GLM-5.3-Flash reproduction needs no training and matches Jev within noise on text datasets, at roughly four times the list cost. Whether that cost premium holds as more providers host the same approach, or drops once it is commoditized, is untested.
+
+## 2026-10-02
+
+![[2026-10-02#^redhat-jev-guardrails]]
+
+![[2026-10-02#^radar-jev-assess]]
+
+Source note: [[2026-10-02]]
 
 ## 2026-09-29
 

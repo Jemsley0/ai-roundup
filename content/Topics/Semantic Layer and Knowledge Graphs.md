@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, semantic-layer]
-updated: 2026-09-21
+updated: 2026-10-02
 living: true
 ---
 
@@ -28,6 +28,18 @@ The structural note is that the tool defining the metrics is now also offering t
 - The 38 percent accuracy gain claimed for agents with unified multi-dimensional context over agents working from semantic definitions alone is vendor-adjacent and unaudited. If it replicates it is the strongest argument in this whole topic.
 - Microsoft sat out OSI and showed up for the pacing debate. Fabric IQ Ontology plus an MCP server is the same architecture OSI's absence-of-Microsoft objection was about, arriving proprietary.
 - Nobody has reconciled the strict-ontology position with the loose-knowledge-graph one. They imply different amounts of work by an order of magnitude.
+
+## 2026-10-02
+
+![[2026-10-02#^sf-semantic-studio-ga]]
+
+![[2026-10-02#^rn-sf-semantic-studio]]
+
+![[2026-10-02#^rn-sf-dcm-semantic-view]]
+
+![[2026-10-02#^radar-semantic-studio]]
+
+Source note: [[2026-10-02]]
 
 ## 2026-09-21
 

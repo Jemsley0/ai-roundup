@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, mcp]
-updated: 2026-09-29
+updated: 2026-10-02
 living: true
 ---
 
@@ -38,6 +38,20 @@ This week (2026-09-29) added a design finding and a protocol-level security flaw
 - Whether other coding-agent vendors follow GitHub in making MCP server access a global default-policy toggle with a compliance deadline, or leave it as an implicit per-repo or per-user choice, is unresolved.
 - The error-message finding is one unreplicated paper on 150 servers. Whether the 45-to-84-percent recovery gain holds outside the credential and rate-limit error shapes tested, and whether server authors actually rewrite error paths without a spec mandate, is unpublished.
 - The MCP Python SDK OAuth flaw has no reported exploitation, but no audit exists of how many deployed clients have actually upgraded to 1.30.0/2.2.0 and passed the new explicit `issuer=`. Adoption of the fix itself is unmeasured.
+
+## 2026-10-02
+
+![[2026-10-02#^pi-codemode-mcp]]
+
+![[2026-10-02#^skillseek-bm25]]
+
+![[2026-10-02#^rn-dbt-mcp-250]]
+
+![[2026-10-02#^radar-codemode-mcp]]
+
+![[2026-10-02#^radar-skillseek]]
+
+Source note: [[2026-10-02]]
 
 ## 2026-09-29
 

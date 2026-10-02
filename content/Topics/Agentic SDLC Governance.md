@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, agentic-sdlc, governance]
-updated: 2026-09-29
+updated: 2026-10-02
 living: true
 ---
 
@@ -52,6 +52,24 @@ This week (2026-09-29) put enforcement below the agent rather than around it, an
 - NVIDIA names only two live Open Agent Safety Platform deployments against 100-plus collaborators. Whether the millisecond quarantine claim holds under a real adversarial workload, rather than a demo, is unbenchmarked and untested by anyone outside NVIDIA.
 - Endstop's OpenShell critique is checkable against NVIDIA's own policy documentation, and the two sides have not yet responded to each other in public. Whether NVIDIA disputes the fail-open default or ships a fail-closed option is open.
 - Moving enforcement to separate watchdog hardware answers where the monitor runs, not what it does when it detects a problem. Nobody has published what "quarantine" actually restricts, network access, filesystem access, or the process itself, once triggered.
+
+## 2026-10-02
+
+![[2026-10-02#^factory-automations]]
+
+![[2026-10-02#^codex-cloud-environments]]
+
+![[2026-10-02#^jellyfish-trends]]
+
+![[2026-10-02#^hydrafusion]]
+
+![[2026-10-02#^headline-glow-labs-screenshots]]
+
+![[2026-10-02#^glow-labs-screenshots]]
+
+![[2026-10-02#^radar-caution-agent-public-hosting]]
+
+Source note: [[2026-10-02]]
 
 ## 2026-09-29
 

@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, data-platform, dbt, snowflake, databricks, bedrock]
-updated: 2026-09-29
+updated: 2026-10-02
 living: true
 ---
 
@@ -42,6 +42,36 @@ This week (2026-09-29) brought one behaviour change worth flagging over everythi
 - Pinecone, Weaviate, Qdrant, Milvus, and pgvector have now been confirmed quiet for multiple consecutive cycles, though the Sep 25 miss on Weaviate's fixes-only release shows the "quiet" read is only as good as the checking pass. Whether the remaining apparent quiet reflects a genuine plateau, or further missed releases, is not established either way.
 - Unity Catalog pipeline deletion now retains tables by default with no error surfaced. Nobody has published how many existing teardown scripts assume the old cascade-delete behaviour, or a tool that detects the resulting orphaned objects after the fact.
 - Claude Sonnet 5.5's up-to-30-percent cost claim is Anthropic's own, and Willison's single failed run at maximum thinking effort is one data point in the other direction. No independent task-level comparison against Sonnet 5 exists yet.
+
+## 2026-10-02
+
+![[2026-10-02#^sf-connector-ocsp-default]]
+
+![[2026-10-02#^silent-breakers]]
+
+![[2026-10-02#^bedrock-managed-agents]]
+
+![[2026-10-02#^sonnet-55-read-revised]]
+
+![[2026-10-02#^rn-sf-connector-480]]
+
+![[2026-10-02#^rn-sf-openflow-gen2]]
+
+![[2026-10-02#^rn-dagster-11325]]
+
+![[2026-10-02#^rn-dbt-behavior-flags]]
+
+![[2026-10-02#^rn-bedrock-cross-model-quota]]
+
+![[2026-10-02#^rn-bedrock-managed-agents]]
+
+![[2026-10-02#^rn-sf-cortex-response-cache]]
+
+![[2026-10-02#^rn-dbx-abac-views-beta]]
+
+![[2026-10-02#^radar-bedrock-managed-agents]]
+
+Source note: [[2026-10-02]]
 
 ## 2026-09-29
 
