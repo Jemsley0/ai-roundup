@@ -69,6 +69,8 @@ This week (2026-09-29) put enforcement below the agent rather than around it, an
 
 ![[2026-10-02#^radar-caution-agent-public-hosting]]
 
+![[2026-10-02#^expanded-bma-governance]]
+
 Source note: [[2026-10-02]]
 
 ## 2026-09-29

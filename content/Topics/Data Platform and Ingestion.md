@@ -71,6 +71,14 @@ This week (2026-09-29) brought one behaviour change worth flagging over everythi
 
 ![[2026-10-02#^radar-bedrock-managed-agents]]
 
+![[2026-10-02#^expanded-semantic-view-git-deploy]]
+
+![[2026-10-02#^expanded-bma-what]]
+
+![[2026-10-02#^expanded-bma-openai-agentcore]]
+
+![[2026-10-02#^expanded-bma-governance]]
+
 Source note: [[2026-10-02]]
 
 ## 2026-09-29

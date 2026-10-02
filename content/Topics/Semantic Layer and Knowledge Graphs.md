@@ -39,6 +39,14 @@ The structural note is that the tool defining the metrics is now also offering t
 
 ![[2026-10-02#^radar-semantic-studio]]
 
+![[2026-10-02#^expanded-semantic-studio-what]]
+
+![[2026-10-02#^expanded-semantic-view-yaml-deploy]]
+
+![[2026-10-02#^expanded-semantic-view-git-deploy]]
+
+![[2026-10-02#^radar-semantic-view-yaml-procedure]]
+
 Source note: [[2026-10-02]]
 
 ## 2026-09-21

@@ -92,6 +92,7 @@ Radar entries are specific, adoptable things: a technique, a product, a technolo
 ## Context, knowledge and semantic management
 
 - `🔵 TRIAL` **Snowflake Advanced Semantics / Semantic Studio**, Semantic Studio and declarative semantic-view deploy now generally available. (was [[2026-09-03]]) [[2026-10-02]]
+- `🔵 TRIAL` **Agent-written semantic-view YAML deployed through `SYSTEM$CREATE_SEMANTIC_VIEW_FROM_YAML`**, verify-only first, then deploy; the MCP leg needs a wrapper procedure. [[2026-10-02]]
 - `🟡 ASSESS` **Microsoft Fabric IQ Ontology**. [[2026-09-15]]
 - `🟡 ASSESS` **Bedrock Managed Knowledge Base agentic retrieval**, a managed retriever that plans queries and reranks across documents at 5x the per-call cost of standard hybrid search, with no published same-corpus quality comparison. [[2026-09-18]]
 - `🟡 ASSESS` **Apache Ossie / Open Semantic Interchange**, portable semantic definitions, blocked on native vendor support and Microsoft's absence. [[2026-09-11]]
