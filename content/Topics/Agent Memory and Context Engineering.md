@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, agent-memory]
-updated: 2026-09-29
+updated: 2026-10-02
 living: true
 ---
 
@@ -33,6 +33,18 @@ This week (2026-09-29) added two papers arguing that agent memory needs active m
 - The transfer study's finding, that consolidation quality scores do not predict cross-level transfer, is a single unreplicated result. Whether it holds for the memory products already marketing benchmark wins, rather than just the academic baselines tested, is open.
 - MemDream's reversible soft decay and its 4.5/9.1-point gains are measured on LoCoMo and MAB only. Whether the repair-agent approach holds up outside those two benchmarks, or against a memory store already hardened against GhostWriter-style injection, is untested.
 - ShareMem's shared-pool gains concentrate where local history is thin. Nobody has published what happens when a shared entry conflicts with a user's own preference, beyond the paper's own note that source-quality and preference conflicts limit transfer.
+
+## 2026-10-02
+
+![[2026-10-02#^learned-compaction]]
+
+![[2026-10-02#^memory-read-time]]
+
+![[2026-10-02#^agents-are-systems]]
+
+![[2026-10-02#^radar-context-lms]]
+
+Source note: [[2026-10-02]]
 
 ## 2026-09-29
 

@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, sovereign-ai-compute]
-updated: 2026-09-22
+updated: 2026-10-02
 living: true
 ---
 
@@ -44,6 +44,12 @@ On the policy side, the US proposed a bilateral AI incident-notification mechani
 - An open-source agent platform kernel shared with a commercial edition is either a portability story or a cheaper on-ramp to one vendor's cloud. Huawei's December availability date is the first point at which anyone outside China can test which.
 - MiMo-V2.6's `mit` tag is the only licence artifact in either repository, with no LICENSE file. Whether it holds up the way Qwen-Image-2.1's Apache-2.0 posture didn't is untested, and it is the same question the Qwen line raises from the other direction.
 - The four-tier Qwen 4 lineup circulating in trade press appears in no first-party Alibaba text. Whether that is reporting ahead of an announcement or fabricated detail is unresolved.
+
+## 2026-10-02
+
+![[2026-10-02#^glm-53-cyber]]
+
+Source note: [[2026-10-02]]
 
 ## 2026-09-22
 

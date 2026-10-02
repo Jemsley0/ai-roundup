@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, agent-supply-chain-security]
-updated: 2026-09-29
+updated: 2026-10-02
 living: true
 ---
 
@@ -32,6 +32,16 @@ The common defensive gap is verification after the fact rather than authorizatio
 - No exploitation of the Model Context Protocol Python software development kit flaw is reported, but the fixed versions require unattended providers to pass an explicit `issuer=`. Whether existing deployments will actually make that change, rather than just upgrading the package version, is unpublished.
 - Zenity frames SalesBleed as a reusable shape rather than three isolated bugs. Nobody has published an audit of which other agent platforms combine untrusted-record reading, rich-content rendering, and sensitive tool access in one place.
 - Endstop's OpenShell critique names two specific configuration defaults that can be checked against NVIDIA's own policy documentation. Whether NVIDIA disputes the findings, and whether the BestEffort filesystem default gets a fail-closed option, is open.
+
+## 2026-10-02
+
+![[2026-10-02#^glow-labs-screenshots]]
+
+![[2026-10-02#^aisi-astra-supply-chain]]
+
+![[2026-10-02#^radar-caution-agent-public-hosting]]
+
+Source note: [[2026-10-02]]
 
 ## 2026-09-29
 
@@ -81,4 +91,4 @@ Source note: [[2026-09-18]]
 
 ## Related
 
-[[Topics/Agentic SDLC Governance|Agentic SDLC Governance]] · [[Topics/MCP|MCP]] · [[Topics/AI Safety and Interpretability|AI Safety and Interpretability]]
+[[Topics/Agentic SDLC Governance|Agentic SDLC Governance]] · [[Topics/MCP|MCP]] · [[Topics/AI Safety and Interpretability|AI Safety and Interpretability]] · [[Topics/Agent-Driven Intrusions|Agent-Driven Intrusions]]

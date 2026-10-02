@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, open-weights-and-licensing]
-updated: 2026-09-22
+updated: 2026-10-02
 living: true
 ---
 
@@ -24,6 +24,12 @@ The practical consequence is that every open-weight release now has to be read r
 - Whether Xiaomi will add an actual LICENSE file and narrative licence text to the MiMo-V2.6 repositories, or whether the frontmatter tag stands as the final word on the release.
 - Whether Alibaba's Qwen-Image-2.1 relicensing to research-only is specific to that product line or the start of a broader move away from Apache 2.0 across other Qwen releases.
 - Whether tools like Heretic change how labs write licences going forward, given that stripping trained alignment is now a one-command operation regardless of what any licence permits.
+
+## 2026-10-02
+
+![[2026-10-02#^glm-53-cyber]]
+
+Source note: [[2026-10-02]]
 
 ## 2026-09-22
 

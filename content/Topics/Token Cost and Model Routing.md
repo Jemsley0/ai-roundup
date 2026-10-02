@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, token-cost, model-routing]
-updated: 2026-09-29
+updated: 2026-10-02
 living: true
 ---
 
@@ -39,6 +39,24 @@ This week (2026-09-29) is dense with individually small moves rather than one la
 - The 47-percent-per-quarter cost-decline figure is Epoch AI's own analysis, cited secondhand here. Nobody on this page has independently reproduced the underlying GPQA-Diamond-cost calculation across the specific model pairs Epoch AI used.
 - Claude Sonnet 5.5's Terminal-Bench 4.0 jump from 10.3% to 70.6% has no published breakdown of how much is a newer benchmark suite versus a real capability gain. Nobody outside Anthropic has re-run the comparison on a fixed suite.
 - The cache-aware routing cost model is an emulation on list prices, by its own authors' admission, not a measured bill. Whether the 14-to-21-percent recovery holds against a real 10,000-seat invoice, with real cache-hit variance, is untested.
+
+## 2026-10-02
+
+![[2026-10-02#^headline-sonnet-55-cost]]
+
+![[2026-10-02#^aa-sonnet-55-cost]]
+
+![[2026-10-02#^sonnet-55-read-revised]]
+
+![[2026-10-02#^gemini-4-argon]]
+
+![[2026-10-02#^gpt-61-sol]]
+
+![[2026-10-02#^hydrafusion]]
+
+![[2026-10-02#^jellyfish-trends]]
+
+Source note: [[2026-10-02]]
 
 ## 2026-09-29
 

@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, vector-databases, retrieval, vector-databases-and-retrieval]
-updated: 2026-09-29
+updated: 2026-10-02
 living: true
 ---
 
@@ -29,6 +29,26 @@ This week (2026-09-29) added a rare example of a vendor pricing its own latency-
 - No published same-corpus comparison exists between Bedrock Managed Knowledge Base's agentic retriever and its standard hybrid Retrieve path, and the agentic path costs 5x per call. The premium currently rests on an unmeasured quality claim.
 - AWS recommends Amazon S3 Vectors for deep-research agents on a claimed cost reduction of up to 90 percent. Nobody outside AWS has published recall or latency figures for it against OpenSearch Serverless on the same corpus.
 - Photon's four named mechanisms are engineering choices any retrieval engine could adopt, but Perplexity has not published whether the 0.24-point relevance cost holds outside its own workload mix, or how it was measured against a held-out set.
+
+## 2026-10-02
+
+![[2026-10-02#^s3-vectors-prefilter]]
+
+![[2026-10-02#^turbopuffer-rip-vector-db]]
+
+![[2026-10-02#^skillseek-bm25]]
+
+![[2026-10-02#^rn-s3-vectors-prefilter]]
+
+![[2026-10-02#^rn-weaviate-140-rc2]]
+
+![[2026-10-02#^rn-weaviate-1398]]
+
+![[2026-10-02#^rn-pgvector-087]]
+
+![[2026-10-02#^radar-s3-vectors-prefilter]]
+
+Source note: [[2026-10-02]]
 
 ## 2026-09-29
 

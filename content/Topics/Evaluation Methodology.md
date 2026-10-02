@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, evaluation-methodology]
-updated: 2026-09-29
+updated: 2026-10-02
 living: true
 ---
 
@@ -23,6 +23,24 @@ Evaluator independence is the harder problem underneath all of this: a credit li
 - Whether a genuinely independent evaluator, free of the labs' own funding and training data, exists yet.
 - Whether typed evaluators like `jevals` reduce judge noise, or just relocate it into unaudited schema and training-data choices.
 - Whether saturation fixes, hidden-knowledge axes, process scoring, harness-validity checks, spread fast enough to keep leaderboards meaningful.
+
+## 2026-10-02
+
+![[2026-10-02#^aa-sonnet-55-cost]]
+
+![[2026-10-02#^judge-first-token]]
+
+![[2026-10-02#^honeybench]]
+
+![[2026-10-02#^redhat-jev-guardrails]]
+
+![[2026-10-02#^metr-testimony]]
+
+![[2026-10-02#^finance-benchmark-haircut]]
+
+![[2026-10-02#^agents-are-systems]]
+
+Source note: [[2026-10-02]]
 
 ## 2026-09-29
 

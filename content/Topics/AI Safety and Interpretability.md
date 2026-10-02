@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, ai-safety, interpretability]
-updated: 2026-09-29
+updated: 2026-10-02
 living: true
 ---
 
@@ -57,6 +57,20 @@ This week (2026-09-29) added three more data points, all from OpenAI's own discl
 - The GPT-6.1 Astra cancellation rests on one executive's on-record account with no published eval numbers. Whether an independent evaluator would characterise the same regression the same way is untested.
 - Mowshowitz's funding-and-training independence bar for evaluators has no published roster of who currently qualifies. Whether any embedded-evaluator proposal on this page, Anthropic's or the FRONTIER Act's, actually clears it is unassessed.
 - The Northeastern self-harm-safeguard result is a narrow adversarial finding, not a prevalence estimate. Nobody has published how often ordinary users encounter the same context-reframing failure outside a research setting.
+
+## 2026-10-02
+
+![[2026-10-02#^aisi-astra-supply-chain]]
+
+![[2026-10-02#^honeybench]]
+
+![[2026-10-02#^metr-testimony]]
+
+![[2026-10-02#^openai-safety-researchers]]
+
+![[2026-10-02#^radar-interpretability-lagging]]
+
+Source note: [[2026-10-02]]
 
 ## 2026-09-29
 
@@ -259,4 +273,4 @@ Source note: [[2026-09-04]]
 
 ## Related
 
-[[Topics/Agentic SDLC Governance|Agentic SDLC Governance]] · [[Topics/AI Research Provenance Disputes|AI Research Provenance Disputes]] · [[Topics/Agent Memory and Context Engineering|Agent Memory and Context Engineering]] · [[Topics/GPT-6 Astra|GPT-6 Astra]] · [[Topics/AI-Led AI Development|AI-Led AI Development]] · [[Topics/Agent Supply Chain Security|Agent Supply Chain Security]] · [[Topics/Global AI Governance Institutions|Global AI Governance Institutions]] · [[Topics/Evaluation Methodology|Evaluation Methodology]]
+[[Topics/Agentic SDLC Governance|Agentic SDLC Governance]] · [[Topics/AI Research Provenance Disputes|AI Research Provenance Disputes]] · [[Topics/Agent Memory and Context Engineering|Agent Memory and Context Engineering]] · [[Topics/GPT-6 Astra|GPT-6 Astra]] · [[Topics/AI-Led AI Development|AI-Led AI Development]] · [[Topics/Agent Supply Chain Security|Agent Supply Chain Security]] · [[Topics/Global AI Governance Institutions|Global AI Governance Institutions]] · [[Topics/Evaluation Methodology|Evaluation Methodology]] · [[Topics/Agent-Driven Intrusions|Agent-Driven Intrusions]]

@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, deepseek]
-updated: 2026-09-25
+updated: 2026-10-02
 living: true
 ---
 
@@ -24,6 +24,12 @@ Two things complicate the picture. A joint NSA, CISA, and FBI advisory named Dee
 - Provider variance means benchmark numbers are close to meaningless without naming the host. Nobody publishes host alongside score.
 - Does DeepSeek's pricing power hold as more open-weight competition arrives, or is the August hike a temporary window before rivals undercut it?
 - The \$1B run rate and 2.3x-4.5x price hike are self-disclosed, not audited. Does the Shanghai listing process bring standard public-company disclosure and audit requirements that test these numbers?
+
+## 2026-10-02
+
+![[2026-10-02#^deepseek-flash-repoint]]
+
+Source note: [[2026-10-02]]
 
 ## 2026-09-25
 
