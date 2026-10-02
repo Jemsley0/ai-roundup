@@ -51,6 +51,8 @@ This week (2026-09-29) added a design finding and a protocol-level security flaw
 
 ![[2026-10-02#^radar-skillseek]]
 
+![[2026-10-02#^expanded-semantic-view-yaml-deploy]]
+
 Source note: [[2026-10-02]]
 
 ## 2026-09-29
