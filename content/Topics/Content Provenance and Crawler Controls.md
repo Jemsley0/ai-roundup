@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, content-provenance, crawler-controls]
-updated: 2026-09-22
+updated: 2026-10-02
 living: true
 ---
 
@@ -30,6 +30,12 @@ As of 09-22, the direction of this machinery has a genuine counter-example for t
 - News sites blocking the Wayback Machine because AI companies circumvent their blocks by reading archived copies is a genuine tragedy-of-the-commons with no proposed fix.
 - Is there a deployed system that actually embeds an undeclared, pseudorandom traceability signal in AI-generated text, or is this argument describing a worst-case capability rather than a shipped product? No system has been named.
 - If such a signal exists, would it survive the same tests C2PA and watermark-detection tools are evaluated against, or is its claimed resistance to compression and re-encoding itself unverified?
+
+## 2026-10-02
+
+![[2026-10-02#^expanded-muse-aggregators]]
+
+Source note: [[2026-10-02]]
 
 ## 2026-09-22
 

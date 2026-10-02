@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, frontier-lab-economics]
-updated: 2026-09-29
+updated: 2026-10-02
 living: true
 ---
 
@@ -26,6 +26,12 @@ Two more data points test whether the spending is paying off and where the money
 - Is Anthropic's adjusted operating profit durable against \$517B in compute commitments through 2029, or a rounding detail against that number?
 - Does ByteDance's debt-financed capex model become the template other labs follow once cash reserves run short?
 - Will OpenAI re-file for a public listing before Goldman's \$230B annual capex-to-breakeven gap closes?
+
+## 2026-10-02
+
+![[2026-10-02#^expanded-muse-strategy]]
+
+Source note: [[2026-10-02]]
 
 ## 2026-09-29
 
