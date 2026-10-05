@@ -29,6 +29,20 @@ On portability, Open Semantic Interchange is an Apache incubating project (Apach
 - Does Snowflake-native authoring in Semantic Studio beat repository YAML deployed by continuous integration? No practitioner comparison exists.
 - Does the procedure path plus a wrapper stored procedure pass the managed MCP server's read-only SQL filter, or must it be a separate tool?
 
+## 2026-10-05
+
+![[2026-10-05#^aws-context-what]]
+
+![[2026-10-05#^aws-context-vs-snowflake-semantics]]
+
+![[2026-10-05#^glue-business-context]]
+
+![[2026-10-05#^radar-aws-context]]
+
+![[2026-10-05#^radar-glue-business-context]]
+
+Source note: [[2026-10-05]]
+
 ## 2026-10-02
 
 ![[2026-10-02#^sf-semantic-studio-ga]]

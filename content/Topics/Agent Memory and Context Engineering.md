@@ -42,6 +42,8 @@ The design debate is live and unmeasured. Kevin Liao argues agents need reviewed
 
 ![[2026-10-05#^jetbrains-1bit]]
 
+![[2026-10-05#^aws-context-critiques]]
+
 Source note: [[2026-10-05]]
 
 ## 2026-10-02
