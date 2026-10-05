@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, agent-memory]
-updated: 2026-10-02
+updated: 2026-10-05
 living: true
 ---
 
@@ -11,28 +11,38 @@ What agents retain, retrieve, and forget, and the research literature on how to 
 
 ## Where this stands
 
-The most useful evaluation lens available is the five-criteria test from the Context Engineering paper: relevance, sufficiency, isolation, economy, provenance, proposed as a joint test rather than five independent knobs. Almost everything on the market optimises economy alone, and provenance and isolation are where agent failures actually originate. The cost argument underneath is settled enough to state plainly: naive accumulation of raw history produces quadratic token growth, crude summarisation gets cost back to linear but introduces an accuracy cliff, and only validated compaction, meaning compaction checked against the source rather than trusted blindly, gets linear cost without giving up fidelity. That argument stopped being theoretical on 2026-09-17, when OpenAI disclosed cases of a model writing fabricated constraints into its own compaction summary that the next context window silently obeyed, since a summary written by the same model that will read it carries no provenance marker distinguishing it from a legitimate instruction.
+The most useful lens is still the five-criteria test from the Context Engineering paper: relevance, sufficiency, isolation, economy and provenance, judged jointly. Most of the market optimises economy alone, while provenance and isolation are where agent failures originate. Raw history grows tokens quadratically, crude summaries restore linear cost with an accuracy cliff, and only validated compaction keeps both. The failure is documented: OpenAI disclosed a model writing fabricated constraints into its own compaction summary that the next context window silently obeyed. Snowflake's Cortex Agents Compact API ships the same untrusted-summary mechanism as a managed endpoint, and two practitioners concluded ground truth belongs in an external task system, not a transcript.
 
-That finding has since generalised rather than stayed a special case. Snowflake's Cortex Agents Compact API (2026-09-21) ships the same untrusted-summary mechanism as a managed endpoint, hiding the summarisation prompt from the operator. Two practitioners independently concluded (2026-09-22) that if a model's account of its own conversation cannot be trusted, neither can its account of its own completed work, so ground truth belongs in an external task system checked independently, not read back from a transcript. Claude Code's AGENTS.md support turned out to be silently inert (2026-09-23) for anyone with telemetry disabled or running through Bedrock, Vertex, or a gateway, a different failure shape, an input that should load and silently does not, but the same lesson: a mechanism the agent depends on fails with no signal to the operator. fast-jev-compaction offers the first concrete alternative to model-written summaries, scoring individual tool calls with a decision model instead of narrating turns in prose, though it has no published benchmark yet.
+This week moved compaction from fixed rules toward learned behaviour. Context Language Models give the model its context as a file it edits, with Suffix Cache Reuse to keep prompt caching intact, and report 11.4% higher accuracy with 21.5% fewer operations on BrowseComp-Plus. AutoCompact trains a coding agent to decide when to compact, gaining 9.2 points on SWE-bench Verified. Both are unreplicated, both report compute and not dollars, and both need a purpose-trained model. A fixed token threshold is now the baseline both beat.
 
-This week (2026-09-29) added two papers arguing that agent memory needs active maintenance and that its own quality scores may not say whether it works. MemDream runs three agents, Dreamer, Analyst, Consolidator, offline between queries to probe and repair a memory store, with a trained policy deciding which repairs to keep and a reversible soft decay; the authors report 4.5 F1 points on LoCoMo and 9.1 points on MAB over the strongest baseline. A companion study is the sharper finding: consolidation quality scores did not predict real cross-level transfer (pooled Spearman correlation of -0.24, confidence interval spanning zero), meaning the metric a memory product reports may say nothing about retrieval quality. Both are unreplicated, and the memory stores this work targets, Letta, Mem0, and Zep, were already measured in July's GhostWriter paper as vulnerable to memory injection roughly 98 percent of the time. A separate paper, ShareMem, found that sharing consolidated experience across users only helps where a given user's own history is thin, which means a multi-tenant memory design now needs a stated position on sharing rather than defaulting to per-user isolation.
+Memory research argues against trusting memory-quality scores. A study found consolidation quality did not predict cross-level transfer (correlation of -0.24, interval spanning zero). Causal Memory Policy reports identification failures of 54% on LongMemEval and 67% on LoCoMo for current approaches. Mem++ stores documents whole and selects at read time, reporting 8.0 to 13.1 points over the strongest baseline. MemDream repairs a store offline and reports 4.5 to 9.1 points. The stores these target were already measured at about 98 percent vulnerable to memory injection.
+
+The design debate is live and unmeasured. Kevin Liao argues agents need reviewed documentation, not memory, from a year of his own use, and the author sells an alternative. Commenters report such documents grow stale. In an 18,000-trajectory study, giving an agent a verification tool changed behaviour where a verification prompt did not. Per-goal summaries beat a single shared summary in one paper. For data documentation, one newsletter argues review capacity, not generation, is the limit.
 
 ## Open questions
 
-- Nobody has run the harness paper's word-count-matched control against the other context interventions on this page. It is the cheapest available falsification test and it has been applied once.
-- A managed compaction endpoint hides the summarisation prompt. No vendor has published what its compaction preserves or drops, which makes the untrusted-summary caution unauditable rather than just live.
-- If a flagged risk can be displaced from an agent's context before it acts, flagged-risk state needs to be sticky and structural rather than a note in a transcript. Nothing in the current literature addresses that directly.
-- Nobody has published a validation scheme for compaction summaries. OpenAI suspects a link to summaries that fail to terminate cleanly and states no causal relationship is established, which leaves both the cause and the detection method open.
-- There is no provenance marker in any major harness distinguishing text a model wrote about itself from an instruction its operator wrote. Until there is, the next context window cannot tell the difference and neither can a reviewer reading the transcript.
-- mem0 claims harness configuration rather than model choice is the dominant performance lever. Vendor-published, and worth testing independently, because if true it changes where evaluation effort should go.
-- The Galster study found nobody using persistent subagent memory. The gap between the research literature and what practitioners actually configure is very wide and nobody has explained it.
-- "Context engineering" was removed from the radar for being a discipline rather than an adoptable technique. Which specific named methods deserve their own rings is still an open list.
-- The coordinator pattern's re-run rule works for commands with checkable exit codes. Nobody has published what the equivalent check is for a claimed action that has no exit code, a judgement call, a partial fix, or a piece of prose.
-- Whether other coding agents (Codex, Copilot, Gemini CLI) have an equivalent silent-failure mode in their own instruction-file loading, or this is specific to Claude Code's remote-feature-flag rollout mechanism.
-- fast-jev-compaction has no published before/after numbers. Whether decision-model-scored pruning actually beats summarization on token savings and task-success retention, rather than just avoiding one specific failure mode, is untested.
-- The transfer study's finding, that consolidation quality scores do not predict cross-level transfer, is a single unreplicated result. Whether it holds for the memory products already marketing benchmark wins, rather than just the academic baselines tested, is open.
-- MemDream's reversible soft decay and its 4.5/9.1-point gains are measured on LoCoMo and MAB only. Whether the repair-agent approach holds up outside those two benchmarks, or against a memory store already hardened against GhostWriter-style injection, is untested.
-- ShareMem's shared-pool gains concentrate where local history is thin. Nobody has published what happens when a shared entry conflicts with a user's own preference, beyond the paper's own note that source-quality and preference conflicts limit transfer.
+- Nobody has run the harness paper's word-count-matched control against the other context interventions here.
+- A managed compaction endpoint hides its summarisation prompt, and no vendor has published what its compaction keeps or drops.
+- Flagged-risk state needs to survive displacement from an agent's context. The literature does not address it.
+- No validation scheme exists for compaction summaries, and no major harness marks text a model wrote about itself differently from an operator's instruction.
+- mem0 claims harness configuration, not model choice, is the dominant lever. That claim is vendor-published and untested independently.
+- The coordinator pattern's re-run rule works for commands with exit codes. What is the equivalent check for a judgement call or a piece of prose?
+- Do other coding agents have a silent failure mode in instruction-file loading like Claude Code's remote-flag gate?
+- Does decision-model-scored pruning beat summarisation on token savings and task success? fast-jev-compaction has no published numbers.
+- Do the transfer finding and MemDream's gains hold on commercial memory products and on stores hardened against injection?
+- What happens when a shared memory entry conflicts with a user's own preference?
+- Do learned-compaction gains survive outside the tested benchmarks, and in dollars rather than operations?
+- Does a reviewed-documentation approach beat similarity memory when measured, not only reported from experience?
+
+## 2026-10-05
+
+![[2026-10-05#^docs-not-memory]]
+
+![[2026-10-05#^tyagi-context-operating-model]]
+
+![[2026-10-05#^jetbrains-1bit]]
+
+Source note: [[2026-10-05]]
 
 ## 2026-10-02
 
@@ -156,13 +166,14 @@ Source note: [[2026-09-03]]
 - `🔵 TRIAL` **Coordinator session with an external task board and re-run verification**, one long-lived session holds shared state in a task system with an application programming interface while short-lived sessions implement, and re-executes every claimed command rather than trusting a summary; arrived at independently by two practitioners in one week. [[2026-09-22]]
 - `🟡 ASSESS` **google/ax declarative agent-workload orchestrator**, Kubernetes-style Task/Workspace/Gateway/Model manifests with per-task resource limits and outbound-traffic allowlisting as first-class controls; pre-stable, breaking changes expected. [[2026-09-23]]
 - `🟡 ASSESS` **Decision-model-scored context compaction (fast-jev-compaction)**, prunes individual tool calls by a decision model's score instead of summarizing turns, keeping conversational text verbatim; no published before/after numbers yet. [[2026-09-23]]
+- `🟡 ASSESS` **Learned context self-management (Context Language Models)**, the model edits its own context as a file, with Suffix Cache Reuse to keep caching intact; needs a model trained for it. [[2026-10-02]]
 - `⚠️ CAUTION` **A shared-instruction-file standard that silently no-ops under common enterprise configurations**, Claude Code's AGENTS.md support is gated behind a remote feature flag fetched over the telemetry channel, so disabling telemetry or running through Bedrock, Vertex or a gateway silently disables it with no error; confirmed an unintended rollout artifact, with a documented one-line workaround. [[2026-09-23]]
-- `⚫ DROPPED` **Context engineering**, removed as a category error rather than a change of view. It is a discipline, not an adoptable technique, and everything specific underneath it is listed separately. [[2026-09-03]], removed [[2026-09-15]]
+- `⚫ DROPPED` **Context engineering**, removed as a category error rather than a change of view. It is a discipline, not an adoptable technique, and everything specific underneath it is already listed separately. [[2026-09-03]], removed [[2026-09-15]]
 - `🟡 ASSESS` **Graphiti / temporal knowledge graphs**. [[2026-09-11]]
 - `🔵 TRIAL` **Shopify Helix checkpoint discipline**. [[2026-09-11]]
 - `🟡 ASSESS` **Single-vendor agent fleets**. [[2026-09-16]]
-- `⚠️ CAUTION` **Context-compaction summaries as untrusted input**. A model can write fabricated constraints into its own summary and the next context window obeys them silently. [[2026-09-17]]
-- `⚠️ CAUTION` **Optimising context for economy alone**. Provenance and isolation are where agent failures originate; watch for brevity bias and context collapse in rewrite loops. [[2026-09-11]]
+- `⚠️ CAUTION` **Context-compaction summaries as untrusted input**, a model can write fabricated constraints into its own summary and the next context window obeys them silently. [[2026-09-17]]
+- `⚠️ CAUTION` **Optimising context for economy alone**, provenance and isolation are where agent failures originate, watch for brevity bias and context collapse in rewrite loops. [[2026-09-11]]
 
 ## Related
 

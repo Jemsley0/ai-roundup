@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, vector-databases, retrieval, vector-databases-and-retrieval]
-updated: 2026-10-02
+updated: 2026-10-05
 living: true
 ---
 
@@ -11,24 +11,32 @@ What a vector database actually is, how it differs from a graph, where each one 
 
 ## Where this stands
 
-The one-line distinction to hold: **a vector database finds things that are *like* your query, while a graph database finds things *connected to* your query by a relationship you named.** Similarity versus structure. They are not substitutes, and the failure modes are asymmetric in a way that should drive the choice more than benchmarks do: vector search fails silently by returning confident plausible-wrong neighbours, while a graph query that matches nothing returns nothing.
+A vector database finds things that are like a query, while a graph database finds things connected to it by a named relationship. They are not substitutes, and their failures are asymmetric: vector search silently returns confident, plausible-wrong neighbours, while a graph query that matches nothing returns nothing.
 
-The market has consolidated from both directions. Relational engines absorbed vector capability, Postgres with pgvector now handles a large share of workloads under roughly 50M vectors, and Snowflake and Databricks between them spent about \$1.25B in 2025 acquiring Postgres-first companies (Neon for \$1B, Crunchy Data for an estimated \$250M). Purpose-built engines stay stronger at larger scale. So the market is fragmenting by scale and workload rather than collapsing.
+The market is fragmenting by scale and workload, not collapsing. Postgres with pgvector handles a large share of workloads under roughly 50M vectors, and Snowflake and Databricks spent about \$1.25B in 2025 acquiring Postgres-first companies. The newest debate is whether a vector database should be a standalone product at all. turbopuffer's version 3 treats approximate nearest-neighbour search as one secondary index and keys documents by an internal ID, which avoids write and storage amplification, though its performance is unmeasured. AWS sells both answers under similar names: Bedrock Knowledge Bases where you provision the store, and Managed Knowledge Base where AWS owns the datastore, embedding model and reranker. Managed suits a prose corpus nobody will tune. It is wrong for anything governed or anything whose retrieval quality someone must defend.
 
-The newest axis is not which engine but whether you pick one at all. As of 2026-09-18 AWS sells both answers under confusingly similar names: Bedrock Knowledge Bases, `knowledgeBaseConfiguration.type = VECTOR`, where you provision the store and keep index schema, embedding dimensions, storage configuration and parsing logic, against Bedrock Managed Knowledge Base, `type = MANAGED` and generally available since Jun 17, 2026, where AWS owns the datastore, the embedding model and the reranker and there is nothing to provision. The managed path buys a working retrieval layer in an afternoon and spends the two things this page has consistently argued matter most: the ability to inspect why a result scored what it did, and the ability to pin the embedding model, since a model change means rebuilding everything. AWS's own Sep 17 guidance implicitly agrees, recommending a store you can tune explicitly for high queries-per-second workloads. The read: managed is the right default for a prose corpus nobody will tune, and the wrong default for anything governed or anything whose retrieval quality someone will eventually have to defend.
+This week's evidence points toward cheaper, simpler retrieval. AWS says S3 Vectors metadata pre-filtering returns up to 5x more matching vectors for selective filters, on by default for new indexes, though the 5x is AWS's own figure. SkillSeek found plain BM25 keyword retrieval matched a model-mediated loop when an agent selects among 230,000 skills, at roughly half the cost per trial. JetBrains argues 1-bit vectors and syntax-tree-aware chunks suffice for code search, with no recall numbers given. Perplexity's Photon cut internal p99 latency from about 800ms to 65ms and priced the relevance it gave up, which is rare.
 
-For a data-platform context the split is unusually clean: retrieve prose by similarity, retrieve structure by traversal, and do not ask either one to do the other's job.
-
-This week (2026-09-29) added a rare example of a vendor pricing its own latency-versus-relevance tradeoff rather than only claiming the speedup. Perplexity says Photon, its rebuilt retrieval engine, cut internal p99 latency from about 800ms to 65ms and cost per task by 68%, through four named mechanisms: format-aware inverted indexes, Elias-Fano compressed ranking records, batched io_uring asynchronous I/O, and WAND top-k pruning. It reports the cost of that speedup as 0.24 points of discounted cumulative gain and 2.9 points of answer availability given up. The figures are vendor-reported, but stating the relevance cost at all, rather than only the speed gain, is unusual enough on this page to note on its own terms.
+For a data platform the split stays clean: retrieve prose by similarity, retrieve structure by traversal, and do not ask either to do the other's job.
 
 ## Open questions
 
-- Temporal retrieval is the gap nobody has a good answer for at the vector layer. Graphiti solves it with bi-temporal edges; there is no equivalent for a flat store.
-- The pgvectorscale benchmark numbers circulating (471 QPS against Qdrant's 41 at 99 percent recall on 50M vectors) are Timescale-flavoured and should be treated as directional rather than settled.
-- Nothing in this thread addresses re-embedding cost seriously. Embedding model choice is stickier than it looks, and a model change means rebuilding everything.
-- No published same-corpus comparison exists between Bedrock Managed Knowledge Base's agentic retriever and its standard hybrid Retrieve path, and the agentic path costs 5x per call. The premium currently rests on an unmeasured quality claim.
-- AWS recommends Amazon S3 Vectors for deep-research agents on a claimed cost reduction of up to 90 percent. Nobody outside AWS has published recall or latency figures for it against OpenSearch Serverless on the same corpus.
-- Photon's four named mechanisms are engineering choices any retrieval engine could adopt, but Perplexity has not published whether the 0.24-point relevance cost holds outside its own workload mix, or how it was measured against a held-out set.
+- Nobody has a good answer for temporal retrieval at the vector layer. Graphiti solves it with bi-temporal edges, and no flat store matches that.
+- The pgvectorscale figures (471 queries per second against Qdrant's 41 at 99 percent recall on 50M vectors) are vendor-flavoured and directional only.
+- Nobody addresses re-embedding cost seriously. A change of embedding model means rebuilding everything.
+- No same-corpus comparison exists between Bedrock Managed Knowledge Base's agentic retriever and its standard hybrid path, which costs 5x less per call.
+- Nobody outside AWS has published recall or latency for S3 Vectors against OpenSearch Serverless, or measured the pre-filtering gain on real filtered workloads.
+- Does the JetBrains 1-bit, syntax-aware approach hold recall on real code-search tasks?
+- Does turbopuffer's single-secondary-index design perform in production at scale?
+- Does Photon's 0.24-point relevance cost hold outside Perplexity's own workload mix?
+
+## 2026-10-05
+
+![[2026-10-05#^jetbrains-1bit]]
+
+![[2026-10-05#^rn-weaviate-1399]]
+
+Source note: [[2026-10-05]]
 
 ## 2026-10-02
 
@@ -116,6 +124,8 @@ Source note: [[2026-09-09]]
 
 - `🟡 ASSESS` **Graphiti / temporal knowledge graphs**. [[2026-09-11]]
 - `🟡 ASSESS` **Bedrock Managed Knowledge Base agentic retrieval**, a managed retriever that plans queries and reranks across documents at 5x the per-call cost of standard hybrid search, with no published same-corpus quality comparison. [[2026-09-18]]
+- `🟡 ASSESS` **S3 Vectors metadata pre-filtering**, filters evaluated before similarity search, default for new indexes; the 5x figure is AWS-reported. [[2026-10-02]]
+- `🔵 TRIAL` **BM25-first skill and tool retrieval (SkillSeek)**, deterministic keyword retrieval as the default selector for a large skill or tool registry; single paper. [[2026-10-02]]
 
 ## Related
 

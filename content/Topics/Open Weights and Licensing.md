@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, open-weights-and-licensing]
-updated: 2026-10-02
+updated: 2026-10-05
 living: true
 ---
 
@@ -11,19 +11,25 @@ The licence terms attached to downloadable model weights, and what they permit: 
 
 ## Where this stands
 
-The licence is now the variable that decides whether an open-weight model is usable, and it is moving in both directions at once, sometimes inside a single vendor's own catalogue. Xiaomi's MiMo-V2.6 shipped today with weights, a technical report and independent third-party pricing, and the only thing missing was an actual licence: a bare `license: mit` tag in the model card's frontmatter, no LICENSE file, no narrative text, no copyright notice, no named licensor. Four days earlier Alibaba moved Qwen-Image-2.1 the other way, off Apache 2.0 and onto a research-only licence, one generation after the prior release of the same product line shipped fully permissive. The same window has StepFun promising open weights on a fixed date it has not yet reached, and PrismML and Jared Palmer's Kev shipping real Apache-2.0 releases with training code and evaluation data behind them. Capability is not the variable moving here. The paperwork is.
+The licence is now the variable that decides whether an open-weight model is usable, and it moves in both directions at once. Xiaomi's MiMo-V2.6 shipped weights, a technical report and independent pricing, but its only licence is a bare `license: mit` tag in the model card frontmatter, with no LICENSE file, no copyright notice and no named licensor. Alibaba moved the other way and took Qwen-Image-2.1 from Apache 2.0 to a research-only licence. StepFun has promised open weights for Oct 15 and has not yet delivered. PrismML and Jared Palmer's Kev shipped real Apache 2.0 releases with training code and evaluation data. Capability is not the moving variable. The paperwork is.
 
-The location problem compounds the direction problem. A licence that lives only as a frontmatter tag renders a badge on the page but is not a grant: it carries no copyright notice, states no permitted uses, and names nobody a licensee could hold to it if the tag were quietly removed or contradicted later. That is a different failure from a licence that exists and is merely restrictive, which is what Qwen-Image-2.1 is. Both failures now sit side by side in the same two-week window, and neither is visible from a model's benchmark scores or its parameter count.
+Tooling now limits what any licence can protect. Heretic strips trained refusals from an open-weight model in one command. Anthropic's Frontier Red Team reported abliteration cutting refusals from 95 percent to under 14 percent on GLM-5.3. The US Center for AI Standards and Innovation independently assessed the same model. Both bodies put open-weight cyber capability about four months behind the frontier, and Anthropic asked governments to test successors. Commenters read the report as pre-listing lobbying against open weights, so the framing is contested even though the measurements are not.
 
-A third dimension sits underneath both: tooling that changes what a licensee can actually do with weights regardless of what the licence text says. Heretic strips trained refusals from any open-weight model in one command, author-reported as matching hand-tuned de-alignment baselines while cutting distributional shift to a third of theirs. That is not a licensing event in itself, but it is now a fact every licensor has to price in before publishing permissively: a downloadable checkpoint's trained alignment is removable by a non-expert regardless of the terms attached to it, which changes what "permissive" actually exposes a licensor to.
-
-The practical consequence is that every open-weight release now has to be read rather than assumed. That means checking for an actual LICENSE file rather than trusting a rendered badge, checking whether a vendor's prior releases on the same product line predict anything about the next one, and checking whether weights are open at all, since Qwen3.8-Omni-Flash's closed-weight, API-only posture makes the whole licensing question moot for that release: there is no version to license because there is no version to pin.
+Supply is still growing. Axios reported on Oct 4 that Nvidia-backed Reflection AI is preparing a US open-weight model to challenge DeepSeek and Qwen, with no name, date or licence. That rests on one secondary summary. Every release now needs a read of the actual LICENSE file, the vendor's prior licences on the same product line, and whether the weights are open at all. Qwen3.8-Omni-Flash is closed-weight, so no version can be pinned.
 
 ## Open questions
 
-- Whether Xiaomi will add an actual LICENSE file and narrative licence text to the MiMo-V2.6 repositories, or whether the frontmatter tag stands as the final word on the release.
-- Whether Alibaba's Qwen-Image-2.1 relicensing to research-only is specific to that product line or the start of a broader move away from Apache 2.0 across other Qwen releases.
-- Whether tools like Heretic change how labs write licences going forward, given that stripping trained alignment is now a one-command operation regardless of what any licence permits.
+- Will Xiaomi add a LICENSE file and narrative licence text to the MiMo-V2.6 repositories, or does the frontmatter tag stand?
+- Is the Qwen-Image-2.1 relicensing specific to that product line, or the start of a move away from Apache 2.0 across Qwen?
+- Will StepFun publish Step 5 weights on Oct 15, and under which licence?
+- Will Reflection AI name a model, a date and a licence, and does the licence permit commercial use?
+- If governments act on the four-months-behind finding, does that change how labs write open-weight licences or whether they publish weights at all?
+
+## 2026-10-05
+
+![[2026-10-05#^reflection-open-weight]]
+
+Source note: [[2026-10-05]]
 
 ## 2026-10-02
 

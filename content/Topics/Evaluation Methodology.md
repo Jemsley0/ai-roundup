@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, evaluation-methodology]
-updated: 2026-10-02
+updated: 2026-10-05
 living: true
 ---
 
@@ -11,18 +11,31 @@ How model and agent evaluations are built and how far their numbers can be trust
 
 ## Where this stands
 
-The sharpest recent finding is that even a single large language model (LLM) judge pinned to temperature zero is not the reproducible instrument it is treated as. Re-running identical inputs flips about 5% of verdicts on average and about 40% of the close calls that decide leaderboard margins. Two independent groups reached a related conclusion about confidence intervals in the same window: all-pairs leaderboards treat every model comparison as independent evidence when pairs sharing an entry are correlated, and correcting for that on a SWE-bench Verified snapshot more than doubled the interval width. A third paper, BSDProbe, found some widely used benchmarks carry far weaker per-item signal than others, though it tested mostly Qwen models and the finding may not transfer.
+Evaluation numbers are noisier and less independent than leaderboards imply, and this week added more evidence from several directions. A pinned, temperature-zero large language model (LLM) judge flips about 5% of verdicts on re-run, and about 40% of the close calls that decide leaderboard margins, because cloud serving is nondeterministic. A related artifact: reading a judge's first token inflates its measured position bias, flipping verdicts on swapped responses 89.7% of the time against 47.5% when read after generation, while accuracy barely moves. A new study of 17 open-weight judges also found that agreement with humans on summary quality hides which cases each side finds hard.
 
-That instability is not confined to judges. A self-audit of one author's own evaluation instrument found a ranked leaderboard reliable at the bottom, identifying the worst model consistently, but not at the top, where the middle of the pack reshuffled across most resampled runs. Saturation compounds the problem in the other direction: a benchmark that looks solved can still hide a real gap, as Era by Eon showed by adding one axis of hidden knowledge to an already-saturated question set and reopening a wide gap between nearly-tied models. And the instruments themselves carry demographic bias that looks incidental until measured: Chatbot Arena and OpenAI's SimpleQA both score heavily toward English-speaking, United States (US) and European-weighted knowledge, which one audit frames as a structural validity failure rather than a sampling accident.
+Interval and benchmark problems compound this. Two groups argue agent-leaderboard confidence intervals are too narrow, and correcting for shared entries more than doubled the width on a SWE-bench Verified snapshot. A preprint found membership-inference attacks top out at an area under the curve of 0.68 on a confounder-controlled benchmark, so black-box contamination checks on closed models are weak evidence. A practitioner essay haircuts the top finance-agent score from 82% to about 57%, since pre-parsed inputs alone inflate one benchmark by 19 to 29 points. In an 18,000-trajectory study, about 54% of outcome variance came from re-running identical configurations, so single runs say little.
 
-Evaluator independence is the harder problem underneath all of this: a credit line naming who ran an evaluation answers whether anyone looked, not whether they were free of the labs' own funding and training data. `jevals` is the one concrete counter-move logged here, replacing a generative judge with a typed, calibrated decision, removing generative variance as a source of noise, though it shipped into a live priority dispute over whether its own mechanism was adequately disclosed. The wider pattern is several independent groups landing on the same conclusions in the same short window: narrow intervals, saturated benchmarks, and judge instability are all more common than assumed, a methodological correction underway rather than one paper's alarm.
+Vendor-reported figures keep failing independent checks. Artificial Analysis contradicted Anthropic's claim that Claude Sonnet 5.5 is cheaper per task and scored Terminal-Bench 4.0 at 64% against Anthropic's 70.6%. Red Hat's guardrail benchmark found Jev, a small decision model, no more accurate than ordinary classifiers. Some lab-sourced figures arrive with no method: METR's Senate testimony relays lab self-reports, including a claim that internal frontier runs lead public ones by two months. Arena's text-to-image post trains on its own leaderboard data and reports gains on that leaderboard. Evaluator independence remains the hardest layer, since a credit line shows who looked and not who funded them.
 
 ## Open questions
 
-- Whether re-judging with multiple judge families and repeated runs becomes standard practice, or stays a research finding nobody operationalizes.
-- Whether a genuinely independent evaluator, free of the labs' own funding and training data, exists yet.
-- Whether typed evaluators like `jevals` reduce judge noise, or just relocate it into unaudited schema and training-data choices.
-- Whether saturation fixes, hidden-knowledge axes, process scoring, harness-validity checks, spread fast enough to keep leaderboards meaningful.
+- Will re-judging with several judge families and repeated runs become standard practice, or stay a research finding?
+- Does a genuinely independent evaluator, free of lab funding and training data, exist yet?
+- Do typed evaluators such as `jevals` reduce judge noise, or move it into unaudited schema and training-data choices?
+- Will fixes for saturation, such as hidden-knowledge axes, process scoring and harness-validity checks, spread fast enough to keep leaderboards meaningful?
+- Does the first-token artifact in judge models appear outside the Qwen3 family?
+- What method produced METR's two-month lead figure for internal frontier runs?
+- With membership inference this weak, what replaces black-box contamination checks for closed models?
+
+## 2026-10-05
+
+![[2026-10-05#^olmo-detect-mia]]
+
+![[2026-10-05#^judge-hardness]]
+
+![[2026-10-05#^evals-cautions]]
+
+Source note: [[2026-10-05]]
 
 ## 2026-10-02
 

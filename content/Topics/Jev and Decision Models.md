@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, jev-and-decision-models]
-updated: 2026-10-02
+updated: 2026-10-05
 living: true
 ---
 
@@ -11,26 +11,22 @@ Small, fast decision and classification models, most prominently TypeSafe AI's J
 
 ## Where this stands
 
-As of September 25, 2026, the class has two open reproduction paths into it rather than one. Kev (Jared Palmer's Apache-2.0 release on Qwen3.5 bases) remains the generative path: it reproduces Jev's typed-decision mechanic directly and scores within 3.5 accuracy points of Jev on a development set. CLM-8B is now a second, architecturally distinct path: two frozen-backbone encoders with small trainable projection heads, trained with a contrastive loss, so inference at serving time is a cached embedding and a dot product rather than a full forward pass. It matches Jev's accuracy on computer-use, gaming, and tool-calling tasks while running up to 9x faster, and ships Apache 2.0 with both code and weights released. The class no longer has one obvious open implementation to converge on; it has two, built on different architectures.
+Jev dropped from trial to assess this week, with the caution flag kept. Red Hat ran the first independent test against ordinary guardrails. Jev led on content safety, 86.2% against 80.3% for a 125M-parameter classifier, but it did not reliably beat a model judge or small pre-trained classifiers. It also took 348 to 360 milliseconds against 33 to 54. Taken with earlier reproductions that varied widely on real workloads, that removes the case for a default pilot. Test a small classifier first.
 
-The first adversarial-robustness data point on this class landed today, and it is unfavorable. JevOut, an optimizer that inserts short, natural-sounding context additions preserving the source, question, and correct answer, flipped 312 of 508 originally correct Jev decisions (61.4%) within 64 accepted attempts, with 229 of those flips landing at 70%+ confidence in the wrong answer. Three other decision systems tested the same way, across seven datasets, showed targeted flip rates of 64.9% to 73.2%, close enough to Jev's own number that this reads as a structural weakness of the decision-model class, not a Jev-specific defect. Roughly six in ten correct decisions in this class can be flipped by context that reads as ordinary padding.
+The class itself is healthy and no longer proprietary. Jared Palmer's Kev, an Apache 2.0 release on Qwen3.5 bases, scores within 3.5 points of Jev. CLM-8B is a second, architecturally distinct open path, using two frozen encoders and cached embeddings to match Jev's accuracy at up to 9x the speed. Four more reproductions followed in four days, among them a prompt-only version on GLM-5.3-Flash that matched Jev within noise at about four times the list cost, 0.8B fine-tunes trained on one consumer GPU, and a reasoning variant that wins on hard cases at a 17-second p90 latency. Accuracy and cost vary widely across them.
 
-Adoption is still moving forward despite the calibration and robustness doubts: Jev-Mobile decouples slow vision-language-model planning from fast typed-decision execution for mobile GUI agents, reaching 79% task success on the full AndroidWorld suite (against 84% for the strongest step-wise VLM baseline) while cutting mean execution time 32.7% and mean model API cost 73.4% on successful runs. TypeSafe's hosted Jev still has no paper, no published weights, and an unresolved priority dispute, and the ring stays at `🔵 TRIAL` with the caveat flag now carrying both the calibration critique and the adversarial-robustness finding.
-
-This week (2026-09-29) added four more independent reproductions in four days, each reporting a different tradeoff rather than converging on one implementation. privatemode.ai matched Jev across 28 text datasets using GLM-5.3-Flash with nothing but a prefilled prompt and option logits, no training at all, at a median gap of 0.7 points but roughly four times the list cost. Jeff fine-tunes models as small as 0.8B on one consumer GPU in two to three and a half hours and answers in 22 to 60 milliseconds, though one user reported only 70% accuracy against Jev's 94% on their own workload. PostHog's Jeeves adds a reasoning step that beats Jev on the hard tier, 0.865 against 0.730, at a 17-second p90 latency cost. A fourth author extended the mechanism to vision models. The mechanism is now demonstrably neither proprietary nor hard to reproduce across at least four independent approaches; the open question has fully shifted from whether to use a Jev-class model to which implementation fits a given latency and cost budget, with the JevOut adversarial-flip finding and the wide accuracy spread between reproductions both still standing as reasons to benchmark on the actual task rather than trust any published number.
+Robustness is the standing weakness. JevOut flipped 61.4% of correct Jev decisions with natural-sounding added context, and three other decision systems showed flip rates of 64.9% to 73.2%. That points to a class-wide weakness. TypeSafe's hosted Jev still has no paper, no published weights and an unresolved priority dispute. Jev-Mobile shows the architecture in use, with 73.4% lower model cost on mobile agent tasks.
 
 ## Open questions
 
-- Nobody has published an independent evaluation of a decision-only model against a frontier model on the same routing or triage task. Kev's own uncontrolled comparison against Jev does not settle this; agreement rate matters more than the speed multiple, and only the vendor and the challenger have measured it so far.
-- Whether Jev's calibration failure (a fair-coin example predicted at 0.92 despite the correct answer being explicit in the prompt) is a training artifact specific to TypeSafe's evaluation data, or a structural property of the Choice/Score/Noul architecture, is unresolved. The critique's own recommendation, local recalibration on a few hundred labeled examples, assumes the former.
-- TypeSafe's advertised 0 percent hallucination rate is a statement about types (the model cannot return a malformed answer), not about facts (it can still return a confidently wrong one). Nobody has published a factual-accuracy number to sit beside the calibration critique.
-- The priority dispute over the underlying method remains unresolved and undated in this roundup's coverage.
-- Whether tooling that now consumes Jev as a scoring backend, such as fast-jev-compaction for context compaction, creates a dependency on a model this contested, or whether swapping in Kev or CLM-8B underneath the same architecture is a drop-in replacement, is untested.
-- Whether any robustness-hardening work is coming, now that JevOut has shown 61.4% to 73.2% targeted flip rates across four decision systems and seven datasets: this looks like a class-wide weakness rather than something one vendor can patch alone.
-- Whether CLM-8B's contrastive dual-encoder architecture is also vulnerable to JevOut-style context injection is untested; JevOut's seven-dataset run predates CLM-8B's release and did not include it.
-- Whether Kev or CLM-8B becomes the reference open implementation for this class is unsettled: they now represent two different bets (generative typed-decision vs. contrastive embedding-and-dot-product) on the same problem, and nobody has run them head to head.
-- Four more reproductions arrived in four days with widely different accuracy-versus-cost tradeoffs, from a zero-training prompt-only approach to a 17-second reasoning variant. Nobody has published a single comparison table putting Kev, CLM-8B, Jeff, Jeeves, and the GLM-5.3-Flash prompt-only approach on the same benchmark set.
-- The prompt-only GLM-5.3-Flash reproduction needs no training and matches Jev within noise on text datasets, at roughly four times the list cost. Whether that cost premium holds as more providers host the same approach, or drops once it is commoditized, is untested.
+- Has anyone compared a decision-only model with a frontier model on the same routing or triage task, measuring agreement rate and not only speed?
+- Is Jev's calibration failure a training artifact or a property of its architecture?
+- TypeSafe's 0 percent hallucination claim concerns types, not facts, and no factual-accuracy number exists beside the calibration critique.
+- Who holds priority on the underlying method? The dispute is unresolved.
+- Is a tool that uses Jev as a scoring backend, such as fast-jev-compaction, safe to repoint at Kev or CLM-8B?
+- Will any robustness hardening appear, given flip rates of 61.4% to 73.2% look class-wide, and is CLM-8B also vulnerable?
+- No single table compares Kev, CLM-8B, Jeff, Jeeves and the prompt-only GLM-5.3-Flash approach on the same benchmarks.
+- Does the guardrail result generalise beyond content safety to routing and tool-call decisions, where Jev's speed advantage matters more?
 
 ## 2026-10-02
 
@@ -84,7 +80,7 @@ Source note: [[2026-09-17]]
 
 ## On the radar
 
-- `🔵 TRIAL` `⚠️` **TypeSafe Jev and the System One decision-model class**, typed calibrated output in one parallel pass; the mechanism is now reproduced many times over, including prompt-only on GLM-5.3-Flash, 0.8B fine-tunes trained on one consumer GPU, and a reasoning variant stronger on hard cases. Reproductions vary widely on real workloads and natural-sounding added context still flips many correct decisions, so benchmark per task. (was [[2026-09-25]]) [[2026-09-29]]
+- `🟡 ASSESS` `⚠️` **TypeSafe Jev and the System One decision-model class**, typed calibrated output in one parallel pass, now reproduced many times over; an independent guardrail benchmark found no reliable accuracy edge over small classifiers or a model judge, at several times the latency. Benchmark per task against a small classifier first. (was [[2026-09-29]]) [[2026-10-02]]
 - `🟡 ASSESS` **CLM-8B contrastive dual-encoder decision model**, a second, architecturally distinct open path into the Jev/Kev decision-model class: two frozen-backbone encoders with small trainable projection heads, matching Jev's accuracy at up to 9x the speed via cached-embedding inference instead of a full forward pass. Apache 2.0, code and weights released. [[2026-09-25]]
 
 ## Related

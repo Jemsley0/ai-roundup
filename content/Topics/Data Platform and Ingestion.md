@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, data-platform, dbt, snowflake, databricks, bedrock]
-updated: 2026-10-02
+updated: 2026-10-05
 living: true
 ---
 
@@ -11,37 +11,44 @@ Movement in the warehouse and transformation layer: Snowflake's and Databricks' 
 
 ## Where this stands
 
-Both major warehouses have now moved the agent problem inside the warehouse rather than leaving it to a separate governance vendor, and Databricks' September 25 batch is the clearest evidence yet that this is architecture, not marketing. The Genie One MCP server (`system.ai.genie_one_mcp`) reached general availability, served through Unity Gateway with Unity Catalog permissions enforced per request; it exposes Genie itself as an MCP tool to external clients such as Claude, ChatGPT, or Cursor, rather than only serving Databricks-internal chat, and the prior beta endpoint sunsets October 31, 2026. That is the same Unity Gateway this page has tracked since it reached general availability September 17, now serving Databricks' own agent product rather than only governing access to others. Snowflake's Cortex AI Gateway remains in public preview, covering one control plane over models, data, 100-plus MCP servers, and enterprise tools, with policy and audit enforced at the tool-call level for third-party agents like Claude Code and Cursor alongside first-party Cortex functions. AWS's Bedrock AgentCore Gateway remains the furthest along of the three on paper: generally available rather than in preview, priced per call across three published meters, current with the newest MCP specification, and able to refuse any invocation that did not come through the gateway. Nobody has published a comparison of what each of the three can actually stop.
+Both major warehouses have moved the agent problem inside the warehouse, and the evidence is architectural. Databricks' Genie One MCP server is generally available through Unity Gateway with Unity Catalog permissions checked per request, and its beta endpoint sunsets Oct 31. Snowflake's Cortex AI Gateway, in public preview, enforces policy per tool call across 100-plus MCP servers. AWS's Bedrock AgentCore Gateway is generally available, priced per call and able to refuse traffic that bypassed it. AWS also entered Bedrock Managed Agents in preview, built on a customized OpenAI agent interface. It is OpenAI-models-only, and its announcement and security documentation disagree on human approval, which the documentation leaves to the application. Nobody has compared what each gateway can stop.
 
-Access control and schema hardening are the layer moving fastest on both platforms. Databricks' attribute-based access control now covers views, and a metastore-level policy applies once across every catalog instead of being replicated per catalog. Snowflake's September 24 batch closes three parallel structural gaps: CHECK constraints on hybrid tables reached general availability, matching the schema enforcement standard tables already had; Snowpipe Streaming into partitioned Apache Iceberg tables reached general availability, removing a limitation specific to partitioned Iceberg; and dynamic tables gained a `VALUES` clause at general availability while keeping incremental, not full, refresh. Alongside those, Snowpipe Streaming picked up event-table monitoring, and three items, a "Code Bundles" preview, and incremental updates to Data Collaboration Manager Projects and Snowflake Data Clean Rooms, appear as titles only with no expanded description reachable, so none of the three has a read yet beyond noted. Iceberg partition evolution, generally available since September 18, still lets partitioning change without rewriting the table.
+Transformation is where the cost lever sits. dbt v2.0 is generally available with adapters for Snowflake, BigQuery, Redshift and Databricks, and dbt State skips or clones unchanged nodes on v1.7 through v2.0. dltHub reports 91 percent of community pipelines now written by agents, so the bottleneck moves downstream. Thrive Learning reports a 97 to 99% compute cut moving one join-heavy pipeline to custom-incremental dynamic tables. It covers one pipeline with no baseline, and it does not show dynamic tables beat a tuned dbt incremental model. Snowflake's command-line tool 3.28.0 made `snow dbt` a credible deploy path.
 
-dbt v2.0 and dbt State are both generally available, with v2.0 adapters at general availability for Snowflake, BigQuery, Redshift and Databricks and the Fusion name retired. dbt State is the payoff: it skips or clones nodes when neither logic nor data changed, works against dbt v1.7 through v2.0, and is the largest warehouse-cost lever in a dbt project, independent of any engine migration. dbt's Snowflake-native CI story, Slim CI, defer-to-production, failed-execution recovery, and concurrent execution, remains the most directly actionable thing in this layer, gated behind a `2026_06` behaviour-change bundle. The ingestion layer is the quietest part and the one with the clearest direction: dltHub reports community-created pipelines going from 2,400 in January 2025 to 81,000 in January 2026 with **91 percent written by agents**. Vendor-reported and unaudited, but the strategic conclusion does not depend on the exact figure: when pipelines become cheap and agents write most of them, **the bottleneck moves to the transformation layer.**
+Access control and schema hardening move fastest. Databricks attribute-based access control now covers views, with a metastore-level policy that overlaps it. Snowflake closed gaps on hybrid-table constraints, partitioned Iceberg streaming and dynamic-table `VALUES`.
 
-Snowflake's paired AI Function Evaluation and AI Function Optimization previews, announced September 21, remain watch rather than assess-and-adopt: both are conditional on a team already running the custom AI Functions they measure and optimise. Bedrock, AgentCore, dbt, and the major vector databases were all confirmed quiet through September 24-25 by checking each vendor's own release notes or API directly rather than inferring silence from absence. dbt (Core, Cloud/platform, the v2.0 engine, and the Semantic Layer) has nothing dated since the mid-September Summit cluster. Amazon Bedrock and AgentCore's What's New feed and devguide release notes carry nothing in this window. Pinecone, Weaviate, Qdrant, Milvus, and pgvector each show a most recent release that predates the window, checked against each product's own release notes or API rather than assumed. That is now multiple consecutive quiet cycles for the vector-database set specifically.
-
-This week (2026-09-29) brought one behaviour change worth flagging over everything else: deleting a Unity Catalog pipeline in the default publishing mode now retains its materialized views, streaming tables and views instead of cascading the delete, a default Databricks presents as an improvement but which silently orphans objects in any teardown script that relied on the old cascade. On model access, Claude Sonnet 5.5 reached general availability on Bedrock at an unchanged list price with Anthropic's own claim of up to 30 percent lower cost per task, though Simon Willison's same-day test found a maximum-thinking-effort prompt spend its full 128,000-token budget, about \$1.28, and return nothing, so the eval-first read stands. Databricks can now attribute AI Gateway spend to individual coding-agent sessions via new fields on `system.ai_gateway.usage`, and Snowflake CLI 3.28.0 took dbt environment-variable support, writeback and auto-compile settings, and Git metadata on `snow dbt deploy` to general availability, making `snow dbt` a more credible continuous-integration path. Thinking Machine Labs' Inkling model was deprecated on Databricks model serving, retiring October 30, 2026, with GLM 5.3 or Kimi K3 as the recommended replacement. Separately, last week's note missed six items dated September 24 and 25 and misstated two: Snowflake did ship Cortex Inference general availability for GPT-5.6 and GPT-6 Astra on the 25th, and Weaviate shipped a fixes-only v1.39.7 release the same day, so neither Cortex nor the vector-database set was actually quiet that day as previously stated.
+Silent behaviour changes are this week's practical risk. Snowflake's Python connector 4.8.0 turned certificate revocation checks off by default in a minor version, and it raised the `pyOpenSSL` floor. Dagster releases before dagster-dbt 0.29.25 can omit dbt Fusion models from selection. Bedrock now applies one cross-model daily token quota per account and Region. Deleting a Unity Catalog pipeline now keeps its tables. Seven dbt platform flags now default to true on the Latest track. Claude Sonnet 5.5 is on Bedrock, but independent measurement puts its cost per task above Sonnet 5 at maximum effort, so evaluate cost at the chosen thinking effort.
 
 ## Open questions
 
-- dbt State's cost saving depends entirely on how much of a project's DAG is genuinely unchanged between runs, and nobody has published that distribution for a real project. The lever's size is unmeasured outside vendor framing.
-- The new dbt Semantic Layer YAML specification has no published migration path from the current specification, and no statement on whether both will be supported indefinitely.
-- Does the Cortex AI Gateway boundary hold? It governs the routing path, not entitlement, so Cortex database roles remain the access layer. Whether that stays a clean separation or becomes two overlapping permission systems is unresolved.
-- No independent measurement of Snowflake's dynamic model routing exists. The 3x and 25 percent token-efficiency claims are internal testing.
-- `interactive_table` cannot carry a model contract. Whether that is a beta gap or a structural limit decides whether it can ever sit anywhere but the serving edge.
-- Open Semantic Interchange still has no vendor shipping native import or export, and Microsoft is still absent while shipping a competing ontology layer in Fabric IQ.
-- The Snowflake string and binary column size change has an unpinned date. The version floor (`dbt-snowflake` v1.10.6) is real; the deploy date is not confirmable from the release notes.
-- Metastore-level and view-level attribute-based access control now overlap. Which wins when both match a column, and whether the precedence is documented rather than emergent, is not answerable from the release notes.
-- Iceberg partition evolution removes the rewrite cost of changing partitioning, but not the cost of the resulting mixed-layout table. No published guidance yet on read performance across a table whose partitions span two schemes.
-- Attribute-based access control now extends to views, which closes the gap where a mask on a table was bypassed by a view over it. Whether existing column-level tagging schemes were relying on that gap without knowing is not something a release note can answer.
-- Nobody has published a same-corpus retrieval-quality comparison between Bedrock Managed Knowledge Base's agentic retriever and its standard Retrieve path. Without one there is no basis for the 5x per-call premium.
-- The three gateways are now three, not two, and the comparison problem got harder. Snowflake enforces per tool call, Databricks registers and governs the object, AWS fronts targets and can refuse traffic that bypassed it. No published work compares what each can actually stop.
-- AgentCore Gateway rate limiting fails open on transient enforcement errors. How often that happens in practice is not published, and it decides whether the feature is a control or a best effort.
-- Snowflake's AI Function Evaluation and Optimization previews assume a team already has a custom AI Function worth measuring. Nobody has published what makes an AI Function "worth measuring" rather than trivial, and that threshold is what decides when either preview is worth enabling.
-- Snowflake's Sep 24 batch left three items, a "Code Bundles" preview and updates to Data Collaboration Manager Projects and Data Clean Rooms, as titles only. What any of the three actually changes is not answerable from the release notes as published.
-- The Genie One MCP server enforces Unity Catalog permissions "per request." Nothing published states whether permission state carries across a multi-turn Genie conversation or is re-checked on every call, and that distinction decides whether a permission change takes effect mid-conversation or only on the next one.
-- Pinecone, Weaviate, Qdrant, Milvus, and pgvector have now been confirmed quiet for multiple consecutive cycles, though the Sep 25 miss on Weaviate's fixes-only release shows the "quiet" read is only as good as the checking pass. Whether the remaining apparent quiet reflects a genuine plateau, or further missed releases, is not established either way.
-- Unity Catalog pipeline deletion now retains tables by default with no error surfaced. Nobody has published how many existing teardown scripts assume the old cascade-delete behaviour, or a tool that detects the resulting orphaned objects after the fact.
-- Claude Sonnet 5.5's up-to-30-percent cost claim is Anthropic's own, and Willison's single failed run at maximum thinking effort is one data point in the other direction. No independent task-level comparison against Sonnet 5 exists yet.
+- How much of a real project's DAG is unchanged between runs? Without that distribution, dbt State's saving is unmeasured outside vendor framing.
+- The new dbt Semantic Layer YAML specification has no published migration path and no statement on how long both will be supported.
+- Does the Cortex AI Gateway boundary hold, or does it become a second permission system beside Cortex database roles?
+- No independent measurement of Snowflake dynamic model routing exists. The 3x and 25 percent figures are internal tests.
+- Is `interactive_table`'s lack of model contracts a beta gap or a structural limit?
+- Open Semantic Interchange still has no vendor shipping native import or export, and Microsoft is absent while shipping a competing ontology layer.
+- The date of Snowflake's default string and binary column size change is unpinned. The version floor, `dbt-snowflake` v1.10.6, is real.
+- Which policy wins when metastore-level and view-level attribute-based access control both match a column, and is the precedence documented?
+- What read performance does a table with mixed Iceberg partition schemes deliver?
+- Were any column-tagging schemes relying on the old gap where a view bypassed a table's mask?
+- No same-corpus comparison exists between Bedrock Managed Knowledge Base's agentic retriever and its standard path, so the 5x per-call premium has no basis.
+- AgentCore Gateway rate limiting fails open on transient errors. How often does that happen in practice?
+- What makes a custom AI Function worth measuring before Snowflake's evaluation previews are worth enabling?
+- Does Genie One re-check permissions on every call in a multi-turn conversation, or carry state across it?
+- How many teardown scripts assume Unity Catalog's old cascade delete, and is there a tool that finds the orphaned objects?
+- Does custom-incremental dynamic tables beat a tuned dbt incremental model on a join-heavy pipeline when both are measured against a stated baseline?
+- Will the connector's revocation-check default be reversed or documented with a rationale, and how many pipelines now connect without it?
+- Will AWS document an approval event for Bedrock Managed Agents, or does approval stay the application's job?
+
+## 2026-10-05
+
+![[2026-10-05#^thrive-custom-incremental]]
+
+![[2026-10-05#^rn-sf-dt-failover]]
+
+![[2026-10-05#^rn-sf-role-grant-option]]
+
+Source note: [[2026-10-05]]
 
 ## 2026-10-02
 
@@ -337,15 +344,16 @@ Source note: [[2026-09-03]]
 - `🔵 TRIAL` **Databricks Genie One MCP server**, exposes Genie as a conversational tool over the Model Context Protocol via Unity Gateway, with Unity Catalog permissions enforced per request rather than at connection time; the prior beta endpoint sunsets October 31, 2026. [[2026-09-25]]
 - `🔵 TRIAL` `⚠️` **Amazon Bedrock AgentCore Gateway**, a managed Model Context Protocol server fronting Lambda, OpenAPI, Runtime, HTTP passthrough and inference targets; cost is spread across several separate per-call meters rather than one line item. [[2026-09-18]]
 - `🔵 TRIAL` **AgentCore Gateway dimensional rate limits**, per-caller, per-target, per-tool and per-model limits on requests, tokens or connections, with `rate=0` as a kill switch; documented to fail open, so not a security boundary. [[2026-09-18]]
-- `🔵 TRIAL` **Snowflake dynamic model routing**. [[2026-09-16]]
+- `🔵 TRIAL` **Snowflake dynamic model routing**, the same mechanism sold as a managed feature, vendor-reported numbers. [[2026-09-16]]
 - `🔵 TRIAL` **dbt Projects on Snowflake CI capabilities**. [[2026-09-14]]
-- `🔵 TRIAL` **Snowflake Advanced Semantics / Semantic Studio**. [[2026-09-03]]
+- `🔵 TRIAL` **Snowflake Advanced Semantics / Semantic Studio**, Semantic Studio and declarative semantic-view deploy now generally available. (was [[2026-09-03]]) [[2026-10-02]]
 - `🟡 ASSESS` **Snowflake Cortex AI Function Evaluation and Optimization**, paired public previews measuring quality, cost and token usage of custom AI Functions against labelled datasets, and automatically searching prompts and models for better implementations of them. [[2026-09-22]]
 - `🟡 ASSESS` **dbt `interactive_table` materialization**, contracts unsupported and a silent staleness trap downstream of `table` models. [[2026-09-16]]
 - `🟡 ASSESS` **dlt (data load tool)**. [[2026-09-11]]
 - `🟡 ASSESS` **Microsoft Fabric IQ Ontology**. [[2026-09-15]]
 - `🟡 ASSESS` **Bedrock Managed Knowledge Base agentic retrieval**, a managed retriever that plans queries and reranks across documents at 5x the per-call cost of standard hybrid search, with no published same-corpus quality comparison. [[2026-09-18]]
-- `🟡 ASSESS` **Apache Ossie / Open Semantic Interchange**. [[2026-09-11]]
+- `🟡 ASSESS` **Apache Ossie / Open Semantic Interchange**, portable semantic definitions, blocked on native vendor support and Microsoft's absence. [[2026-09-11]]
+- `◻️ WATCH` **Amazon Bedrock Managed Agents**, an AWS-native agent service built on a customized OpenAI Agents API; preview. [[2026-10-02]]
 
 ## Open action items
 
