@@ -99,7 +99,9 @@ Radar entries are specific, adoptable things: a technique, a product, a technolo
 - `🟡 ASSESS` **Apache Ossie / Open Semantic Interchange**, portable semantic definitions, blocked on native vendor support and Microsoft's absence. [[2026-09-11]]
 - `🟡 ASSESS` **Context layer over semantic layer, exposed to agents via MCP**, the consolidating architecture across Atlan, Looker BI Agents, and SAP Knowledge Graph. [[2026-09-11]]
 - `🟡 ASSESS` **S3 Vectors metadata pre-filtering**, filters evaluated before similarity search, default for new indexes; the 5x figure is AWS-reported. [[2026-10-02]]
+- `🟡 ASSESS` **Glue Data Catalog business context**, glossary terms and custom metadata over MCP; preview, four regions, no published price. [[2026-10-05]]
 - `🟡 ASSESS` **Graphiti / temporal knowledge graphs**, also listed under agent techniques. [[2026-09-11]]
+- `◻️ WATCH` **AWS Context**, managed usage-learning knowledge graph; "Coming soon", no price, regions or date. [[2026-10-05]]
 
 ## Content provenance and crawler controls
 

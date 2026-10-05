@@ -36,6 +36,8 @@ For a data platform the split stays clean: retrieve prose by similarity, retriev
 
 ![[2026-10-05#^rn-weaviate-1399]]
 
+![[2026-10-05#^aws-context-vs-managed-kb]]
+
 Source note: [[2026-10-05]]
 
 ## 2026-10-02
