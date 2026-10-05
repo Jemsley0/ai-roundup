@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, token-cost, model-routing]
-updated: 2026-10-02
+updated: 2026-10-05
 living: true
 ---
 
@@ -11,34 +11,34 @@ What actually drives the cost of running agents, which interventions survive ind
 
 ## Where this stands
 
-There is a durable test for whether a cost intervention is credible: **it has to reduce calls, reduce output, or reduce re-sent context.** Reducing one input channel's bytes is not on that list, which is how terminal-output compression got dropped after independent benchmarking showed it made coding 1 to 17 percent *more* expensive.
+A cost intervention is credible only if it reduces calls, output or re-sent context. Shrinking one input channel's bytes fails the test, which is why terminal-output compression was dropped after benchmarks showed it made coding 1 to 17 percent more expensive. The dominant driver is still quadratic context accumulation: a 10-step agent loop costs roughly 23x a single pass and a 20-step loop about 85x. Prompt caching is the largest single lever, near 90 percent below uncached input. Cheap-model routing is the one behavioural pattern at adopt.
 
-The dominant cost driver is still quadratic context accumulation, not per-token price. A 10-step agent loop costs roughly 23x a single pass, and a 20-step loop about 85x, because the whole message history is re-serialised at every step. Prompt caching remains the largest single lever, at roughly 90 percent below uncached input. Cheap-model routing is the one behavioural pattern at adopt, because it changes the price of tokens a workflow was already going to send.
+List price now says little about cost per task, and this week sharpened that. Artificial Analysis measured Claude Sonnet 5.5 at about \$7.60 per task, roughly 50% above Sonnet 5 at the same list price, against Anthropic's claim of up to 30% lower. It used about 193,000 output tokens per task at maximum effort. GPT-6.1 Sol costs \$0.72 per task against GPT-6 Astra's \$3.26, one index point behind. Gemini 4 Argon matches Astra's score on introductory pricing of \$2 input and \$10 output per million tokens, doubling later, but spends 62,000 output tokens per task against Astra's 27,000. The cost check therefore belongs at the chosen thinking effort, not at list price.
 
-On top of that baseline, six directions now sit side by side. The model deciding how hard to try rather than a router choosing which model to call, Cognition's SWE-2 cutting average steps from 127 to 53 at medium reasoning effort. Zero-output decision models for triage and classification, TypeSafe's Jev returning a typed value instead of generated text, now benchmarked against an auditable Apache-2.0 reproduction, Kev, that closes most of the gap. Memory-bound local inference, where a routing predictor or an aggressive quantisation scheme moves the cheap end of a routing table onto hardware a team already owns. Provider-side token inflation, where a single controlled-lengthening probe can catch a host stretching output for billing gain, which matters because the token counts a router optimises against are not fully under the buyer's control. Long-context pricing at a fraction of frontier rates, StepFun's Step 5 changing the arithmetic on exactly the workload that costs the most. And, as of today, the open-weight tier's price and capability arguments collapsing into one number: MiMo-V2.6-Pro is independently measured below the paid median on price while scoring far above the open-weight median on capability, and a 1.5-bit quantised local model puts a real, if partial, zero-marginal-cost option on the table beside it.
+Routing is shifting from picking a model to picking a workflow and an effort level. GitHub's HydraFusion chooses a single model, a cascade with a quality gate, or a critique loop per task, with no numbers yet. Cognition's SWE-2 cut average steps from 127 to 53 at medium effort. A cache-aware routing model claims 14% to 21% of a 10,000-seat coding bill is recoverable, but it is an emulation on list prices. Jellyfish says gains taper at high token spend, with the heaviest users near \$949 a month, which is correlational.
 
-Two things sit against unconditional optimism about that last point. Xiaomi's only disclosed cost figure, \$2.6M and \$0.9M for Pro and Flash, is post-training reinforcement-learning cost only, not a total-training figure a buyer could use to judge sustainability, and more precise numbers in trade press are not sourced to Xiaomi's own report. And the local-serving story has one measured number, 450 tokens per second at 1.5 bits per weight, sitting next to two unmeasured ones, a 125B model on one GPU and a 550B model on a laptop, that get quoted as if they were data. Grok 4.7's unchanged pricing this cycle is the control case in the same window: a release that changes nothing about a routing table, because nothing about its price or posture moved.
-
-The 2026-09-23 data points confirm the trend line rather than adding a new mechanism. Epoch AI's cost analysis, cited by Marginal Revolution, puts the sustained rate at roughly 47 percent per quarter for three years straight, a concrete number behind the pattern this page has been tracking release by release. Anthropic's Claude Opus 5.5 and Google's Gemini 3.8 Flash TTS both landed price cuts the same day, on the frontier tier and the voice-modality tier respectively, which is what that quarterly rate looks like in practice rather than in aggregate.
-
-This week (2026-09-29) is dense with individually small moves rather than one large one. Claude Sonnet 5.5 launched at an unchanged \$2/\$10 per million tokens, now the API default, with Anthropic's own Terminal-Bench 4.0 jump from 10.3% to 70.6% more likely reflecting a newer benchmark suite than a sevenfold capability gain, a caveat no coverage has settled; on Bedrock specifically it is a same-price, faster-and-cheaper-per-task claim, with Anthropic reporting up to 30% lower cost per task against Willison's single day-one failure at maximum thinking effort. A cost-model paper claims cache-aware routing, moving work between models only when no running conversation has to rebuild its prompt cache, recovers 14% to 21% of a 10,000-seat coding-agent bill, an emulation on list prices rather than a real bill by the authors' own statement. Databricks can now attribute AI Gateway spend to individual coding-agent sessions, and Perplexity's Photon retrieval engine is a rare vendor cost claim that states its own relevance tradeoff alongside the speedup, detailed further on [[Topics/Vector Databases and Retrieval|Vector Databases and Retrieval]].
+Decision models lost ground. Red Hat found Jev took about 350 milliseconds against 33 to 54 for small classifiers, with no reliable accuracy edge, so triage and classification belong with a small classifier first. At the cheap end, MiMo-V2.6-Pro is independently priced below the paid median, StepFun's Step 5 opens weights on Oct 15, and a 1.5-bit local model measured 450 tokens per second. Simon Willison adds a control argument: usage-billed services need hard spending caps by default, because agents start billable services faster than a person reads a warning email. Epoch AI's 47 percent quarterly cost decline remains the background trend.
 
 ## Open questions
 
-- The token-inflation audit has been run once, by its authors, against unnamed providers. Nobody has published a reproduction, and no provider has published a commitment or attestation about output-length integrity.
-- Step 5 Preview's pricing is verifiable and its capability figures are not. The Oct 15, 2026 weights release is the point at which the intelligence-per-dollar claim becomes independently testable.
-- Neither local-inference result has been reproduced on non-Apple hardware, and the prerouter's value on server-side storage tiering, where it would matter far more, is entirely untested.
-- Bonsai 2's 98.2 percent retention is an aggregate. The per-task regressions decide whether it can sit in a routing table at all, and no breakdown is published.
-- Every routing efficiency number in this thread except Spotify's, Quesma's, and Artificial Analysis' independent MiMo-V2.6 measurement is vendor-reported. Snowflake's 3x and Cognition's 64 percent both need independent eval.
-- Selectable reasoning effort and external routing solve overlapping problems. Nobody has published what happens when you use both.
-- Prompt caching is the biggest lever and gets the least attention. There is no good public writeup of cache-hit-rate engineering for agent loops.
-- Nobody has published an independent evaluation of a decision-only model against a frontier model on the same routing or triage task. Kev's own uncontrolled comparison against Jev does not settle this either. Agreement rate matters far more than the speed multiple, and only vendors have measured it.
-- If output tokens go to zero for a whole class of calls, the cost model for an agent loop changes shape rather than scale, and none of the existing per-step cost estimates in this thread account for that.
-- Xiaomi has published post-training RL cost for MiMo-V2.6 and no total training cost figure. Whether the RL phase is most of the spend for a model this size, or a small fraction of it, is unanswered.
-- Artificial Analysis measured MiMo-V2.6 within a day of release. Whether that turnaround becomes the norm, or this was a fast exception worth noting precisely because it is rare, is not answerable from one data point.
-- The 47-percent-per-quarter cost-decline figure is Epoch AI's own analysis, cited secondhand here. Nobody on this page has independently reproduced the underlying GPQA-Diamond-cost calculation across the specific model pairs Epoch AI used.
-- Claude Sonnet 5.5's Terminal-Bench 4.0 jump from 10.3% to 70.6% has no published breakdown of how much is a newer benchmark suite versus a real capability gain. Nobody outside Anthropic has re-run the comparison on a fixed suite.
-- The cache-aware routing cost model is an emulation on list prices, by its own authors' admission, not a measured bill. Whether the 14-to-21-percent recovery holds against a real 10,000-seat invoice, with real cache-hit variance, is untested.
+- The token-inflation audit has been run once, by its authors, against unnamed providers. Nobody has reproduced it or published an output-length commitment.
+- Step 5's pricing is verifiable and its capability figures are not. The Oct 15 weights release makes the claim testable.
+- Neither local-inference result has been reproduced on non-Apple hardware, and the prerouter's value on server storage tiers is untested.
+- Bonsai 2's 98.2 percent retention is an aggregate, and its per-task regressions decide whether it fits a routing table.
+- Snowflake's 3x and Cognition's 64 percent routing figures are vendor-reported and need independent evaluation.
+- Nobody has published what happens when selectable reasoning effort and external routing are used together.
+- There is no good public writeup of cache-hit-rate engineering for agent loops, though caching is the biggest lever.
+- Does the cache-aware routing recovery of 14% to 21% hold against a real invoice with real cache-hit variance?
+- Does Anthropic's lower-cost-per-task claim for Sonnet 5.5 hold at any thinking effort, or only below maximum?
+- Is Gemini 4 Argon's cost advantage still there when introductory pricing doubles and its higher token use is counted?
+- Does HydraFusion's per-task workflow choice beat a fixed model choice on cost and quality once numbers appear?
+- Do hard spending caps by default become standard on usage-billed services, and what do revenue-critical applications do instead?
+
+## 2026-10-05
+
+![[2026-10-05#^willison-hard-caps]]
+
+Source note: [[2026-10-05]]
 
 ## 2026-10-02
 
@@ -187,11 +187,10 @@ Source note: [[2026-09-08]]
 ## On the radar
 
 - `🔵 TRIAL` `⚠️` **StepFun Step 5 Preview**, 600B total and 27B active at a 1M-token context for \$1.00 input and \$2.70 output per million tokens, with open weights scheduled for Oct 15, 2026; every capability figure is vendor-reported and until then the only access is a Chinese-hosted API. [[2026-09-21]]
-- `🟡 ASSESS` **Single-probe token-inflation audit**, a controlled lengthening intervention detecting provider-side output inflation with no trusted reference model and no historical data. [[2026-09-21]]
-- `🔵 TRIAL` `⚠️` **MiMo-V2.6-Pro and MiMo-V2.6-Flash**, independently priced at \$0.43 input and \$0.87 output per million tokens against a \$0.45 and \$1.68 median, scoring 46 on the Intelligence Index against an 18 open-weight median; every vendor benchmark is self-reported and the licence is a bare model-card frontmatter tag with no LICENSE file. [[2026-09-22]]
+- `🔵 TRIAL` `⚠️` **MiMo-V2.6-Pro and MiMo-V2.6-Flash**, 1.02T/42B and 309B/15B mixture-of-experts at a 1M-token context with text, image, video and audio input, weights downloadable and independently priced below the comparable median; every vendor benchmark is self-reported, the licence is a bare model-card frontmatter tag with no LICENSE file, and Flash's parameter count differs between card and paper. [[2026-09-22]]
 - `🔵 TRIAL` `⚠️` **1.5-bit quantised local inference (dlab inference framework)**, a measured 450 tokens per second on a 35B-A3B model at 1.5 bits per weight, roughly a tenth of half-precision memory; the same post's 125B-on-one-GPU and 550B-on-a-laptop claims carry no throughput numbers at all. [[2026-09-22]]
 - `🟢 ADOPT` **Cheap-model routing (Spotify Portal)**. [[2026-09-11]]
-- `🔵 TRIAL` `⚠️` **TypeSafe Jev and the System One decision-model class**, typed calibrated output in one parallel pass; the mechanism is now reproduced many times over, including prompt-only on GLM-5.3-Flash, 0.8B fine-tunes trained on one consumer GPU, and a reasoning variant stronger on hard cases. Reproductions vary widely on real workloads and natural-sounding added context still flips many correct decisions, so benchmark per task. (was [[2026-09-25]]) [[2026-09-29]]
+- `🟡 ASSESS` `⚠️` **TypeSafe Jev and the System One decision-model class**, typed calibrated output in one parallel pass, now reproduced many times over; an independent guardrail benchmark found no reliable accuracy edge over small classifiers or a model judge, at several times the latency. Benchmark per task against a small classifier first. (was [[2026-09-29]]) [[2026-10-02]]
 - `🔵 TRIAL` **Snowflake dynamic model routing**, the same mechanism sold as a managed feature, vendor-reported numbers. [[2026-09-16]]
 - `🔵 TRIAL` `⚠️` **Cognition SWE-2 selectable reasoning effort**, vendor-reported figures only. [[2026-09-14]]
 - `🔵 TRIAL` **Gemini 3.8 Live Extended Thinking**. [[2026-09-16]]

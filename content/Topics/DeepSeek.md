@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, deepseek]
-updated: 2026-10-02
+updated: 2026-10-05
 living: true
 ---
 
@@ -11,19 +11,20 @@ DeepSeek's V4.1 Flash line, the architectural bet behind it, and the price-per-c
 
 ## Where this stands
 
-V4.1 Flash is at trial on the radar and has been since it went GA on Sep 10. The corroborating fact is stronger than any benchmark: DeepSeek retired V4-Pro and rerouted its traffic to the Flash tier at Flash rates, which is a lab saying its cheap model beat its expensive one with its own pricing rather than a press release. Independent evaluation is still wanted before anything stronger.
+V4.1 Flash stays at trial. The strongest evidence is still DeepSeek's own pricing move: it retired V4-Pro and rerouted that traffic to the Flash tier at Flash rates. This week the legacy `deepseek-v4-flash` model name began routing silently to a newer model at Flash pricing, so any pin on that name no longer holds. Independent evaluation of the Flash line is still missing.
 
-The price-per-capability throughline now runs in both directions. On Sep 25, CEO Liang Wenfeng disclosed that DeepSeek's annualized revenue run rate roughly doubled to \$1B, from roughly \$500M, attributed to an August 2026 price increase that raised API fees 2.3x to 4.5x with no measurable demand drop, ahead of a \$7.5B funding round and a planned Shanghai Stock Exchange listing. Where the Flash-over-Pro move showed DeepSeek could win by cutting its effective price, this shows the opposite lever also works: DeepSeek could raise prices sharply, in an ostensibly commodity, price-competitive open-weight-adjacent market, without losing customers. That is real evidence of pricing power, not just cost efficiency.
+Pricing power is the second thread. DeepSeek's chief executive disclosed an annualized revenue run rate near \$1B, roughly double the prior figure, after an August price increase of 2.3x to 4.5x with no measurable demand drop. That shows the opposite lever to the Flash-over-Pro cut also works. The figures are self-disclosed at an investor meeting and unaudited, ahead of a \$7.5B raise and a planned Shanghai listing.
 
-Two things complicate the picture. A joint NSA, CISA, and FBI advisory named DeepSeek among six Chinese labs alleged to have conducted targeted distillation against US frontier models since late 2024, which moves distillation from a terms-of-service dispute to a state-attributed activity. And separately, the OpenRouter analysis found identical DeepSeek weights performing between 81 percent and 58 percent on tool-calling depending on which provider served them, so a DeepSeek evaluation is really an evaluation of a model plus a host. The revenue and pricing-power figures are also self-disclosed by the CEO at an investor meeting rather than independently audited, which matters more now that a Shanghai listing is in motion.
+Two complications remain. A joint US advisory from the National Security Agency, the Cybersecurity and Infrastructure Security Agency, and the Federal Bureau of Investigation named DeepSeek among six Chinese labs alleged to have run targeted distillation against US models. An OpenRouter analysis also found identical DeepSeek weights scoring between 58 and 81 percent on tool calling depending on the host, so any evaluation covers a model plus a host.
 
 ## Open questions
 
-- No independent eval of the V4.1 Flash agentic and coding claims has been published.
-- The Causal Encoder-Decoder design with roughly 8B active input parameters and 16B active output parameters is unusual and undiscussed outside DeepSeek's own materials. Nobody has written up why it works.
-- Provider variance means benchmark numbers are close to meaningless without naming the host. Nobody publishes host alongside score.
-- Does DeepSeek's pricing power hold as more open-weight competition arrives, or is the August hike a temporary window before rivals undercut it?
-- The \$1B run rate and 2.3x-4.5x price hike are self-disclosed, not audited. Does the Shanghai listing process bring standard public-company disclosure and audit requirements that test these numbers?
+- No independent evaluation of the V4.1 Flash agentic and coding claims has been published.
+- Nobody has written up why the Causal Encoder-Decoder design, with roughly 8B active input parameters and 16B active output parameters, works.
+- Benchmark scores mean little without the host named, and nobody publishes the host beside the score.
+- Does DeepSeek's pricing power hold as more open-weight competition arrives, or is the August increase a temporary window?
+- Does the Shanghai listing bring audit requirements that test the \$1B run rate and the price-increase claims?
+- Is the silent re-pointing of `deepseek-v4-flash` a one-off, or the lab's standard way to retire a model name?
 
 ## 2026-10-02
 

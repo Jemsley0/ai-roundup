@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, semantic-layer]
-updated: 2026-10-02
+updated: 2026-10-05
 living: true
 ---
 
@@ -11,23 +11,23 @@ Portable semantics, ontologies, and the "context layer" that vendors are now bui
 
 ## Where this stands
 
-The vocabulary has stratified into three layers, and the distinction is now drawn consistently enough to call it emerging consensus. The **semantic layer** is definitional and mostly static: it tells you what "monthly active users" means and generates governed SQL. The **knowledge graph** captures relationships between concepts and entities at the organisational level. The **context layer** or context graph integrates both plus operational signals, freshness, ownership, policy, and trust, into something an agent can act on. The one-line version: a context layer makes the semantic layer agent-ready rather than dashboard-ready.
+The vocabulary has stratified into three layers, drawn consistently enough to call an emerging consensus. The semantic layer is definitional and mostly static: it says what "monthly active users" means and generates governed SQL. The knowledge graph captures relationships between entities across the organisation. The context layer integrates both with freshness, ownership, policy and trust so an agent can act on them. One source uses a stricter definition of the middle layer, a formal inference-capable ontology, and treats building it as librarians' work. Anyone treating the three-layer model as settled vocabulary should know that.
 
-One of the three main sources behind that consensus quietly uses a stricter definition of the middle layer than the other two, meaning a formal inference-capable OWL/RDF ontology rather than a loose organisational graph, and treats building it as a discipline for librarians and taxonomists rather than something a data engineer produces by writing more YAML. Anyone treating the three-layer model as settled vocabulary should know that.
+Snowflake moved this week to treat the semantic layer as an authored, versioned and declaratively deployed asset. Semantic Studio reached general availability on Sep 30, giving conversational authoring, YAML editing and Git-backed tracking inside Snowsight Workspaces, and `DEFINE SEMANTIC VIEW` in the Database Change Management projects feature reached general availability the same day. Semantic Studio is an authoring screen with no documented interface for an external agent. It overwrites the live object on deploy without checking for intervening changes. Whether it beats YAML kept in a repository and deployed by continuous integration is untested, and the ring holds at trial because a pilot is cheaper now.
 
-On portability: Open Semantic Interchange is now an Apache incubating project (Apache Ossie) with 60-plus participants, and it is held at assess for two specific reasons that have not changed. No vendor ships native import or export, and Microsoft is not participating while shipping a competing ontology layer in Fabric IQ.
+The agent-authored route works today through `SYSTEM$CREATE_SEMANTIC_VIEW_FROM_YAML`, with `verify_only` first, then deploy, under a role scoped to one schema. `SYSTEM$READ_YAML_FROM_SEMANTIC_VIEW` round-trips a live definition. Snowflake's managed MCP server has no authoring tool, and its SQL tool is read-only by default, so a wrapper stored procedure is the cleaner route. Deploy paths take different input formats, and that matters more than which is newest: the procedure and Semantic Studio take YAML, while the Database Change Management feature and `CREATE SEMANTIC VIEW` take SQL-style definitions.
 
-As of 2026-09-21 the context-layer-over-semantic-layer architecture has a fourth implementation, and it arrived from the transformation layer rather than from BI or the catalog. dbt shipped a new Semantic Layer YAML specification on its Latest release track and Fivetran announced a Context Layer, both at dbt Summit on Sep 16, with the conference framing analytics engineering's successor as context engineering outright. The framing is vendor positioning. The specification is a real obligation, because a new YAML specification on the default release track is a migration paid for later if existing semantic models drift from it, and it is worth reading against those models before anything more is added to them.
-
-The structural note is that the tool defining the metrics is now also offering the context layer over them, which is a different proposition from Atlan, Looker or SAP wrapping someone else's definitions. It also does nothing for the portability problem, since a dbt-specific YAML specification is the opposite direction from Open Semantic Interchange.
+On portability, Open Semantic Interchange is an Apache incubating project (Apache Ossie) with 60-plus participants. It stays at assess because no vendor ships native import or export and Microsoft, which ships a competing ontology layer in Fabric IQ, is not participating. dbt's new Semantic Layer YAML specification and Fivetran's Context Layer arrived in mid-September, and a dbt-specific specification points away from portability.
 
 ## Open questions
 
-- The new dbt Semantic Layer YAML specification has no published migration path from the current one, and no statement on how long both will be supported. Nor has anyone said how it relates to Open Semantic Interchange, which it appears to cut against.
-- A portability standard the largest BI vendor ignores is a partial standard. Phase 2 targets native support across 50-plus platforms through Q4 2026, and nothing has shipped yet.
-- The 38 percent accuracy gain claimed for agents with unified multi-dimensional context over agents working from semantic definitions alone is vendor-adjacent and unaudited. If it replicates it is the strongest argument in this whole topic.
-- Microsoft sat out OSI and showed up for the pacing debate. Fabric IQ Ontology plus an MCP server is the same architecture OSI's absence-of-Microsoft objection was about, arriving proprietary.
-- Nobody has reconciled the strict-ontology position with the loose-knowledge-graph one. They imply different amounts of work by an order of magnitude.
+- The new dbt Semantic Layer YAML specification has no published migration path, no support-length statement, and no stated relationship to Open Semantic Interchange.
+- A portability standard the largest BI vendor ignores is partial. Phase 2 targets native support on 50-plus platforms through Q4 2026, and nothing has shipped.
+- The 38 percent accuracy gain claimed for agents with unified multi-dimensional context over semantic definitions alone is vendor-adjacent and unaudited. If it replicates it is the strongest argument here.
+- Microsoft's Fabric IQ Ontology plus an MCP server is the architecture Open Semantic Interchange's Microsoft-absence objection was about, arriving proprietary.
+- Nobody has reconciled the strict-ontology position with the loose-knowledge-graph one, which imply work differing by an order of magnitude.
+- Does Snowflake-native authoring in Semantic Studio beat repository YAML deployed by continuous integration? No practitioner comparison exists.
+- Does the procedure path plus a wrapper stored procedure pass the managed MCP server's read-only SQL filter, or must it be a separate tool?
 
 ## 2026-10-02
 
@@ -119,10 +119,11 @@ Source note: [[2026-09-03]]
 
 ## On the radar
 
-- `🔵 TRIAL` **Snowflake Advanced Semantics / Semantic Studio**. [[2026-09-03]]
+- `🔵 TRIAL` **Snowflake Advanced Semantics / Semantic Studio**, Semantic Studio and declarative semantic-view deploy now generally available. (was [[2026-09-03]]) [[2026-10-02]]
+- `🔵 TRIAL` **Agent-written semantic-view YAML deployed through `SYSTEM$CREATE_SEMANTIC_VIEW_FROM_YAML`**, verify-only first, then deploy; the MCP leg needs a wrapper procedure. [[2026-10-02]]
 - `🟡 ASSESS` **Microsoft Fabric IQ Ontology**. [[2026-09-15]]
-- `🟡 ASSESS` **Apache Ossie / Open Semantic Interchange**, blocked on native vendor support and Microsoft's absence. [[2026-09-11]]
-- `🟡 ASSESS` **Context layer over semantic layer, exposed to agents via MCP**. [[2026-09-11]]
+- `🟡 ASSESS` **Apache Ossie / Open Semantic Interchange**, portable semantic definitions, blocked on native vendor support and Microsoft's absence. [[2026-09-11]]
+- `🟡 ASSESS` **Context layer over semantic layer, exposed to agents via MCP**, the consolidating architecture across Atlan, Looker BI Agents, and SAP Knowledge Graph. [[2026-09-11]]
 - `🟡 ASSESS` **Graphiti / temporal knowledge graphs**. [[2026-09-11]]
 
 ## Related

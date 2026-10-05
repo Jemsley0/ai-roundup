@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, mcp]
-updated: 2026-10-02
+updated: 2026-10-05
 living: true
 ---
 
@@ -11,33 +11,37 @@ The protocol's move from a tool-calling spec to infrastructure: stateless core, 
 
 ## Where this stands
 
-The current spec revision is 2026-07-28, and the structural change already shipped: protocol-level sessions removed entirely for horizontal scalability, stateless servers supported, and Multi Round-Trip Requests replacing server-initiated requests so elicitation-style flows work without server state. Tasks moved out of core into an official extension. Enterprise-Managed Authorization is a stable extension.
+The protocol is becoming governed infrastructure, and the newest evidence concerns the interface between server and caller. The current spec revision is 2026-07-28: protocol-level sessions are gone, servers can be stateless, Tasks moved to an extension, and Enterprise-Managed Authorization is stable. The forward item is agent identity through Workload Identity Federation and DPoP, which replaces pasted keys and long-lived tokens. More than 10,000 public servers are active, and the protocol sits in the Linux Foundation's Agentic AI Foundation, yet production use is thinly evidenced.
 
-The forward item to plan around is **agent identity via Workload Identity Federation and DPoP**, explicitly framed as replacing "pasted API keys and long-lived tokens." Anyone currently wiring agents together with static tokens is building against the thing MCP is about to obsolete. Beyond that: agent-to-agent negotiation and delegation without a central orchestrator.
+Governance is the dominant commercial shape. Snowflake's Cortex AI Gateway enforces policy per tool call across 100-plus servers. Databricks registers an MCP service as a Terraform-managed catalog object and ships its own Genie One server through it, checking permissions per request. AWS's Bedrock AgentCore Gateway is a managed MCP server with four protocol revisions on one gateway, and it added private-certificate support for VPC endpoints on Oct 2. GitHub's default policy for Copilot makes MCP access an org-wide toggle with an Oct 22 deadline. A coarse on/off switch and per-call enforcement are different controls, and the spec says nothing about either.
 
-Two adoption facts sit in tension. There are more than 10,000 active public MCP servers and the protocol has been donated to the Linux Foundation's Agentic AI Foundation, and yet an empirical study of 2,853 repositories found nobody in the sample using Claude Code's persistent subagent memory at all, and an Ask HN thread on production MCP use read as an open question rather than a settled one.
+Evidence is accumulating that servers, not agents, are the weak surface. A study of 3,001 error messages from 150 servers found that naming the exact next tool call lifted credential-error recovery from 45% to 84%, and the penalty for human-phrased errors rose with model capability from 18 points to 69. The official Python client had an OAuth flaw that let a hostile server capture credentials, fixed in 1.30.0 and 2.2.0. This week two single-author projects reported that tool definitions change silently: 140 contract changes across 66 reference-server release pairs, and 19.2% of registry servers changing within 24 hours, mostly from one publisher. That supports pinning and diffing tool manifests. Detectors for prompt injection also failed to transfer between benchmarks, so a gateway's injection filter needs testing on your own tool outputs.
 
-The newest shape is governance, and four vendors now sell some version of it. Snowflake's Cortex AI Gateway manages 100-plus MCP servers with policy and audit enforced at the tool-call level. Databricks' Unity Gateway API makes an external MCP server a registered catalog object with full create-read-update-delete through Terraform, the command-line interface, and four language software development kits, and as of 2026-09-25 Databricks put its own flagship agent through that same object type: the Genie One MCP server, `system.ai.genie_one_mcp`, reached general availability, exposing Genie itself, not a third-party server Databricks merely governs, as a conversational MCP tool with Unity Catalog permissions checked on every request rather than once at connection time. AWS's Bedrock AgentCore Gateway is the third and, on protocol maturity, the furthest along: a managed MCP server in its own right, on the 2026-07-28 revision with four protocol versions coexisting on one gateway and clients selecting per request, able to front an external server as an HTTP passthrough target. The three differ in emphasis rather than intent: Snowflake enforces at runtime per tool call, Databricks makes registration infrastructure as code and now ships its own agent through the same catalog object, AWS terminates the protocol itself. The layer that decides which MCP servers an agent may reach is now a governed platform object rather than a connection string in a config file, and none of the three waited for the spec to say anything about it.
-
-Governance has just gained a second axis: not only which tool calls are policed, but whether an entire feature category is on by default. GitHub's new global default-enablement policy for Copilot Business and Enterprise names MCP server access, alongside Copilot Code Review, as a feature covered by an org-wide default. A 28-day configuration window through October 22, 2026 lets admins set per-feature behavior explicitly; anything never configured then inherits whatever default the organization chose, Enabled, Disabled, or delegate-to-suborg. That is a coarser control than the tool-call enforcement Snowflake, Databricks, and AWS sell, an admin's on/off switch for MCP as a category rather than a policy on individual calls, but it puts MCP access governance in front of one of the largest coding-agent install bases as a live policy decision with a deadline, not a background technical integration detail.
-
-The protocol also has its first widely read argument for retirement rather than reform: agents can now write their own integration code against HTTP APIs and command-line tools, closing the capability gap MCP was built to bridge. That holds for the thin end of the protocol's use, a tool whose schema is larger than the single call it wraps, but it says nothing about discovery, per-tool authorization, and audit, which is what every governance product on this page is actually sold on. The direction of travel in implementations runs the opposite way: Google's AX makes MCP server attachment a declared property of a Kubernetes workspace manifest; Databricks registers an MCP service as a catalog object and, with Genie One's general availability, now ships its flagship agent as one too; and MCP server access has become common enough at the top of the market that GitHub needed an org-wide default policy for it. MCP is no longer a per-team integration choice; it is becoming the default surface through which major vendors expose their agent and data products, and every governance answer on this page is racing to settle who decides what an agent may reach through it.
-
-This week (2026-09-29) added a design finding and a protocol-level security flaw, both about the interface between server and caller rather than about governance. A study collecting 3,001 error messages from 150 widely used servers found that most were written for a human at a terminal, and that when a message instead named the exact next tool call to make, credential-error recovery rose from 45% to 84% and rate-limit recovery rose to 88%; the cost of getting this wrong grows with model capability, from 18 points of lost recovery on GPT-5.5 to 69 points on GPT-6 Astra, because a stronger model follows a bad instruction more faithfully. The fix is a string change local to the server, not a protocol revision, but it is one unreplicated paper. Separately, Cycode found that the official MCP Python software development kit did not validate the authorization-server issuer on every discovery path and did not bind stored credentials to their server, letting a hostile server capture and replay a client's OAuth credentials; fixed in 1.30.0 and 2.2.0, with unattended providers now required to pass an explicit `issuer=`. No exploitation is reported, but it is a flaw in the shared client library every MCP integration depends on, not in any one vendor's deployment of it.
+The protocol's usage patterns are shifting. Pi 1.0 reversed its refusal to support MCP and added Codemode, where the agent writes code to sequence tool calls, though nobody has measured it against plain calls. SkillSeek found plain keyword retrieval matches a model-driven loop for choosing among 230,000 skills, at about half the cost. The retirement argument, that agents can write their own integration code, covers the thin end of the protocol but not discovery, authorization and audit.
 
 ## Open questions
 
-- The retirement argument and the governance products are both growing at once, and nobody has priced the trade. If direct HTTP and command-line access is cheaper for the model but removes per-tool authorization and audit, what the safe subset looks like is unpublished.
-- Production adoption is still not well evidenced. Server count is not usage.
-- MCP does not specify how much tool metadata and output must be exposed to the model, so implementations serialise full schemas and outputs into the context window, where they compete with everything else. There is no standard answer to this and it is a direct token-cost problem.
-- Tool-call-level policy enforcement is arriving from vendors before the spec has anything to say about it, and now from vendors with different enforcement points.
-- Registering an MCP server as a warehouse catalog object and standardising agent identity through Workload Identity Federation are solving overlapping problems from opposite directions. Nobody has said how the two compose, or which one is authoritative when they disagree.
-- The spec removed protocol-level sessions for horizontal scalability, and AgentCore Gateway's implementation shows what that costs in practice: cross-version translation cannot carry elicitation and sampling calls from servers to clients when an older client reaches a 2026-07-28 target. Whether other implementations hit the same wall, or found a way through it, is unpublished.
-- Running four protocol revisions on one gateway solves the migration problem by deferring it. Nobody has said what the deprecation path looks like, or who is expected to move first.
-- GitHub's default-enablement policy governs whether MCP access is on at all, not what an agent may do once connected. How that admin-level switch is meant to interact with tool-call-level enforcement from Snowflake, Databricks, and AWS is unpublished.
-- Whether other coding-agent vendors follow GitHub in making MCP server access a global default-policy toggle with a compliance deadline, or leave it as an implicit per-repo or per-user choice, is unresolved.
-- The error-message finding is one unreplicated paper on 150 servers. Whether the 45-to-84-percent recovery gain holds outside the credential and rate-limit error shapes tested, and whether server authors actually rewrite error paths without a spec mandate, is unpublished.
-- The MCP Python SDK OAuth flaw has no reported exploitation, but no audit exists of how many deployed clients have actually upgraded to 1.30.0/2.2.0 and passed the new explicit `issuer=`. Adoption of the fix itself is unmeasured.
+- If direct HTTP and command-line access is cheaper for the model but removes per-tool authorization and audit, what is the safe subset? Nobody has published it.
+- Server count is not usage, and production adoption remains thinly evidenced.
+- MCP does not say how much tool metadata and output reaches the model, so full schemas compete for context. This is a direct token-cost problem.
+- Registering a server as a catalog object and standardising identity through Workload Identity Federation overlap. Which is authoritative when they disagree?
+- Cross-version translation in AgentCore Gateway cannot carry elicitation and sampling calls to older clients. Do other implementations hit the same wall?
+- Running four revisions on one gateway defers the migration. What is the deprecation path, and who moves first?
+- How does GitHub's on/off default interact with per-call enforcement from Snowflake, Databricks and AWS, and will other coding-agent vendors follow?
+- Does the error-message finding hold beyond credential and rate-limit errors, and will server authors rewrite error paths without a spec mandate?
+- How many deployed clients have upgraded to the fixed Python client and passed an explicit `issuer=`?
+- Does tool-definition drift replicate outside two single-author projects, and does it appear in the reference servers' own changelogs?
+- How does code-composed tool calling compare with plain calls on cost, turns and failure rate?
+
+## 2026-10-05
+
+![[2026-10-05#^mcp-contract-drift]]
+
+![[2026-10-05#^rn-agentcore-private-tls]]
+
+![[2026-10-05#^radar-mcp-manifest-pinning]]
+
+Source note: [[2026-10-05]]
 
 ## 2026-10-02
 
@@ -162,15 +166,18 @@ Source note: [[2026-09-03]]
 ## On the radar
 
 - `🔵 TRIAL` **MCP error messages that name the next tool call**, written for an agent caller rather than a human at a terminal; single paper, author-reported recovery gains. [[2026-09-29]]
-- `🔵 TRIAL` **Snowflake Cortex AI Gateway**, which governs 100-plus MCP servers at the tool-call level. [[2026-09-16]]
-- `🔵 TRIAL` **Databricks Unity Gateway API**, which registers an MCP service as a Terraform-managed catalog object. [[2026-09-17]]
-- `🔵 TRIAL` **Databricks Genie One MCP server (`system.ai.genie_one_mcp`)**, exposing Genie as an MCP tool with Unity Catalog permissions enforced per request. [[2026-09-25]]
-- `🔵 TRIAL` `⚠️` **Amazon Bedrock AgentCore Gateway**, a managed MCP server on the 2026-07-28 revision with four revisions coexisting per gateway; cost is spread across several separate per-call meters. [[2026-09-18]]
-- `🔵 TRIAL` **AgentCore Gateway dimensional rate limits**, scoped by JSON Web Token claim, IAM principal, target, tool or model, with `rate=0` as a kill switch; documented to fail open. [[2026-09-18]]
+- `🔵 TRIAL` **Snowflake Cortex AI Gateway**. [[2026-09-16]]
+- `🔵 TRIAL` **Databricks Unity Gateway API**, Terraform-managed model services, model provider services, and MCP services. [[2026-09-17]]
+- `🔵 TRIAL` **Databricks Genie One MCP server**, exposes Genie as a conversational tool over the Model Context Protocol via Unity Gateway, with Unity Catalog permissions enforced per request rather than at connection time; the prior beta endpoint sunsets October 31, 2026. [[2026-09-25]]
+- `🔵 TRIAL` `⚠️` **Amazon Bedrock AgentCore Gateway**, a managed Model Context Protocol server fronting Lambda, OpenAPI, Runtime, HTTP passthrough and inference targets; cost is spread across several separate per-call meters rather than one line item. [[2026-09-18]]
+- `🔵 TRIAL` **AgentCore Gateway dimensional rate limits**, per-caller, per-target, per-tool and per-model limits on requests, tokens or connections, with `rate=0` as a kill switch; documented to fail open, so not a security boundary. [[2026-09-18]]
+- `🟡 ASSESS` **Pin-and-diff MCP tool manifests**, hash each server's tool names, descriptions and schemas at approval and alert on change; two single-author projects report frequent silent drift. [[2026-10-05]]
+- `🟡 ASSESS` **Code-mode MCP composition (Pi Codemode)**, a harness-side JavaScript sandbox where the agent writes code to sequence MCP tool calls; no measured comparison yet. [[2026-10-02]]
+- `🔵 TRIAL` **BM25-first skill and tool retrieval (SkillSeek)**, deterministic keyword retrieval as the default selector for a large skill or tool registry; single paper. [[2026-10-02]]
 - `🟡 ASSESS` **MCP agent identity (Workload Identity Federation + DPoP)**. [[2026-09-14]]
 - `🟡 ASSESS` **Datamimic deterministic synthetic test data over MCP**. [[2026-09-16]]
-- `🟡 ASSESS` **Context layer over semantic layer, exposed to agents via MCP**. [[2026-09-11]]
-- `🟡 ASSESS` **Cymphony + agent/skill registry consolidation**. [[2026-09-09]]
+- `🟡 ASSESS` **Context layer over semantic layer, exposed to agents via MCP**, the consolidating architecture across Atlan, Looker BI Agents, and SAP Knowledge Graph. [[2026-09-11]]
+- `🟡 ASSESS` **Cymphony + agent/skill registry consolidation**, one entry, the identity-and-access face of the same problem. [[2026-09-09]]
 
 ## Related
 

@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, content-provenance, crawler-controls]
-updated: 2026-10-02
+updated: 2026-10-05
 living: true
 ---
 
@@ -11,25 +11,22 @@ The two-sided fight over who may read the web and who can prove what a file is. 
 
 ## Where this stands
 
-Cloudflare has split crawler purpose into three separate controls, Search, Training, and Agent, replacing the blunt `Block AI Bots` toggle. The publisher-facing headline is `Disallow AI Training`, which publishes a robots.txt `Disallow` that mixed-use crawlers honour for training while continuing to crawl for search. Apple, Google, and Microsoft honour it; Amazon, Anthropic, Meta, and OpenAI are designated Accountable because they run separate search and training crawlers. Operators that have not agreed to honour it get blocked outright once the setting is on. Agent traffic is governed separately by "Block on pages with ads," because agents create no search-discoverability tradeoff to preserve.
+Cloudflare split crawler purpose into three controls, Search, Training and Agent, replacing the blunt `Block AI Bots` toggle. `Disallow AI Training` publishes a robots.txt rule that mixed-use crawlers honour for training while they keep crawling for search. Apple, Google and Microsoft honour it. Amazon, Anthropic, Meta and OpenAI are designated Accountable because they run separate search and training crawlers. Agent traffic is governed separately by "Block on pages with ads".
 
-On the artifact side, Apple Reference Image signs photos at the sensor before any processing, which is a direct architectural argument against C2PA's model of attaching provenance metadata after capture and certifying the edit history from that point forward. The claimed advantage is that a compromise anywhere in a C2PA editing chain is undetectable to a viewer.
+Agent reachability now depends on commercial standoffs as well as crawler settings. Ben Thompson reads Amazon's block on Meta's Muse agent as the start of a fight between aggregators. A retailer with warehouses and delivery can refuse a browser-driving agent. A pure software aggregator cannot. A developer also reported sites blocking Muse when it was used as a scraper. Thompson's argument is analysis, not measurement, and the original Sep 22 piece is paywalled.
 
-The argument those controls answer is now on the litigation record in an unusually direct form. Unsealed filings in the New York Times case, reported Sep 17, contain a Jan 2023 internal Microsoft memo by Dr. Brent Hecht, Microsoft's Director of Applied Science, calling the scraping practice "the largest theft of labor in human history" and "an astonishing theft of unprecedented proportions," and arguing that large AI models "are a product that destroys its supply chain." The filings also record OpenAI's Nick Turley describing it as an "existential threat to publishers," and state that OpenAI's mid-training datasets alone contain more than 91,692 copies of works from the New York Times, the Daily News and the Center for Investigative Reporting. The complaint alleges paywall bypass, mass scraping, and deliberate stripping of copyright notices. What makes this different from the usual filing is the source: the most quotable condemnation comes from inside the defendant's own partner, written years before the suit.
+On the artifact side, Apple Reference Image signs photos at the sensor, an architectural argument against the Coalition for Content Provenance and Authenticity model of attaching metadata after capture. The litigation record supplies the opposing argument: unsealed New York Times filings include a 2023 Microsoft memo calling the scraping "the largest theft of labor in human history". The Wayback Machine, meanwhile, is catching real people in protections aimed at automated traffic.
 
-The collateral damage is already visible. The Internet Archive's Wayback Machine is under waves of high-volume automated traffic, its protections are catching real people, and it cannot automate bot detection.
-
-As of 09-22, the direction of this machinery has a genuine counter-example for the first time. Everything above is a publisher-side or platform-side control: a site, an archive, or a device deciding who may read or train on content, or what can be proven about it. A widely-read essay this cycle argues that AI output traceability, as it actually ships, runs the opposite direction: a hidden signal embedded in a person's own writing that traces it without the author's knowledge or consent. That is argument rather than a measured system, and the primary source could not be verified directly here, so treat it as a framing worth tracking rather than a settled mechanism. But it means provenance and traceability on this page can no longer be read as uniformly protective of the party being traced. The same category of tool can run for a publisher against a crawler, or against an author on a platform's own terms.
+Provenance is not uniformly protective. An essay argues that AI output traceability can run against the author, through a hidden signal embedded in their own writing. No such deployed system has been named.
 
 ## Open questions
 
-- Both sides constrain what an agent doing live retrieval can reach and what it can trust once it gets there. No agent framework currently models partial reachability as a first-class condition.
-- Apple Reference Image covers the main sensor only, with no signature on ultrawide or telephoto shots, which bounds what it can prove. Whether that is a v1 gap or structural is unstated.
-- Cloudflare's Accountable designation depends on operators self-committing. There is no published mechanism for verifying compliance or de-listing an operator that stops honouring it.
-- The Hecht memo is an internal dissent from a partner, not a party admission by OpenAI. How much evidentiary weight that carries is a live legal question and nothing on this page can settle it.
-- News sites blocking the Wayback Machine because AI companies circumvent their blocks by reading archived copies is a genuine tragedy-of-the-commons with no proposed fix.
-- Is there a deployed system that actually embeds an undeclared, pseudorandom traceability signal in AI-generated text, or is this argument describing a worst-case capability rather than a shipped product? No system has been named.
-- If such a signal exists, would it survive the same tests C2PA and watermark-detection tools are evaluated against, or is its claimed resistance to compression and re-encoding itself unverified?
+- No agent framework models partial reachability, from crawler rules or commercial blocks, as a first-class condition.
+- Apple Reference Image covers only the main sensor. Is that a version-one gap or structural?
+- Cloudflare's Accountable designation depends on self-commitment, and no mechanism verifies compliance or removes an operator that stops honouring it.
+- How much evidentiary weight does an internal partner memo carry when it is not an admission by the defendant?
+- Will other retailers follow Amazon in blocking browser-driving agents, and does a software aggregator have any equivalent defence?
+- Is there a deployed system that embeds an undeclared traceability signal in AI-generated text, and would it survive the tests applied to watermark detection?
 
 ## 2026-10-02
 
