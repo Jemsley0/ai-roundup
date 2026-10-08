@@ -43,6 +43,10 @@ Vendor-reported figures keep failing independent checks. Artificial Analysis con
 
 ![[2026-10-08#^expanded-bo-evidence]]
 
+![[2026-10-08#^expanded-gw-numbers]]
+
+![[2026-10-08#^expanded-gw-musique]]
+
 Source note: [[2026-10-08]]
 
 ## 2026-10-05
