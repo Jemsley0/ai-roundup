@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, open-weights-and-licensing]
-updated: 2026-10-05
+updated: 2026-10-08
 living: true
 ---
 
@@ -24,6 +24,16 @@ Supply is still growing. Axios reported on Oct 4 that Nvidia-backed Reflection A
 - Will StepFun publish Step 5 weights on Oct 15, and under which licence?
 - Will Reflection AI name a model, a date and a licence, and does the licence permit commercial use?
 - If governments act on the four-months-behind finding, does that change how labs write open-weight licences or whether they publish weights at all?
+
+## 2026-10-08
+
+![[2026-10-08#^models-mistral-large-4]]
+
+![[2026-10-08#^models-reflection-beam]]
+
+![[2026-10-08#^models-embeddinggemma-2]]
+
+Source note: [[2026-10-08]]
 
 ## 2026-10-05
 

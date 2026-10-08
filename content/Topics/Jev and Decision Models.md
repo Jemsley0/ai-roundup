@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, jev-and-decision-models]
-updated: 2026-10-05
+updated: 2026-10-08
 living: true
 ---
 
@@ -27,6 +27,16 @@ Robustness is the standing weakness. JevOut flipped 61.4% of correct Jev decisio
 - Will any robustness hardening appear, given flip rates of 61.4% to 73.2% look class-wide, and is CLM-8B also vulnerable?
 - No single table compares Kev, CLM-8B, Jeff, Jeeves and the prompt-only GLM-5.3-Flash approach on the same benchmarks.
 - Does the guardrail result generalise beyond content safety to routing and tool-call decisions, where Jev's speed advantage matters more?
+
+## 2026-10-08
+
+![[2026-10-08#^decision-models-position-bias]]
+
+![[2026-10-08#^radar-decision-models]]
+
+![[2026-10-08#^rn-sf-decision]]
+
+Source note: [[2026-10-08]]
 
 ## 2026-10-02
 

@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, evaluation-methodology]
-updated: 2026-10-05
+updated: 2026-10-08
 living: true
 ---
 
@@ -26,6 +26,22 @@ Vendor-reported figures keep failing independent checks. Artificial Analysis con
 - Does the first-token artifact in judge models appear outside the Qwen3 family?
 - What method produced METR's two-month lead figure for internal frontier runs?
 - With membership inference this weak, what replaces black-box contamination checks for closed models?
+
+## 2026-10-08
+
+![[2026-10-08#^epoch-innovationeval]]
+
+![[2026-10-08#^arena-self-preference]]
+
+![[2026-10-08#^openai-math-withdrawals]]
+
+![[2026-10-08#^metr-inspect-viewer]]
+
+![[2026-10-08#^skill-placebo]]
+
+![[2026-10-08#^tool-failure-studies]]
+
+Source note: [[2026-10-08]]
 
 ## 2026-10-05
 

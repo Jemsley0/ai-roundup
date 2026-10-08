@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, agentic-sdlc, governance]
-updated: 2026-10-05
+updated: 2026-10-08
 living: true
 ---
 
@@ -38,6 +38,20 @@ Products now compete on where control sits. Dataiku, Cymphony and Komodor sell c
 - What does NVIDIA's quarantine actually restrict, and does the fail-open finding get a fail-closed option?
 - Is the review-as-accountability model workable where checking infrastructure is thinner than Anthropic's, and how do junior engineers learn without line-by-line review?
 - Do Factory's and Jellyfish's fleet figures hold in independent data?
+
+## 2026-10-08
+
+![[2026-10-08#^meta-ms-claude-cuts]]
+
+![[2026-10-08#^uber-mcp-gateway]]
+
+![[2026-10-08#^copilot-metrics-undercount]]
+
+![[2026-10-08#^skill-placebo]]
+
+![[2026-10-08#^radar-skill-placebo]]
+
+Source note: [[2026-10-08]]
 
 ## 2026-10-05
 
