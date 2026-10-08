@@ -41,6 +41,8 @@ Vendor-reported figures keep failing independent checks. Artificial Analysis con
 
 ![[2026-10-08#^tool-failure-studies]]
 
+![[2026-10-08#^expanded-bo-evidence]]
+
 Source note: [[2026-10-08]]
 
 ## 2026-10-05

@@ -41,6 +41,16 @@ On portability, Open Semantic Interchange is an Apache incubating project (Apach
 
 ![[2026-10-08#^rn-db-metric-windows]]
 
+![[2026-10-08#^expanded-bo-what]]
+
+![[2026-10-08#^expanded-bo-vs-semantic-views]]
+
+![[2026-10-08#^expanded-bo-governance]]
+
+![[2026-10-08#^expanded-bo-evidence]]
+
+![[2026-10-08#^expanded-bo-commentary]]
+
 Source note: [[2026-10-08]]
 
 ## 2026-10-05
