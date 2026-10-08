@@ -51,6 +51,16 @@ On portability, Open Semantic Interchange is an Apache incubating project (Apach
 
 ![[2026-10-08#^expanded-bo-commentary]]
 
+![[2026-10-08#^expanded-gw-numbers]]
+
+![[2026-10-08#^expanded-gw-musique]]
+
+![[2026-10-08#^expanded-gw-gartner]]
+
+![[2026-10-08#^expanded-gw-oakley]]
+
+![[2026-10-08#^expanded-gw-summit]]
+
 Source note: [[2026-10-08]]
 
 ## 2026-10-05
