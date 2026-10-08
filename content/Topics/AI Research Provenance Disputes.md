@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, research-provenance]
-updated: 2026-09-22
+updated: 2026-10-08
 living: true
 ---
 
@@ -27,6 +27,12 @@ Aaronson's withheld-solutions rumour and the Fields Medallists' declaration rema
 - Aaronson's withheld-solutions rumour is unverified by his own account. If it is true, it is the most important item in this thread and there is currently no way to confirm it.
 - Kev's comparison against Jev is uncontrolled by its own team's admission. Whether the real gap is larger or smaller than 3.5 points, and whether it is architecture or evaluation setup driving it, is unresolved.
 - MiMo-V2.6 is the first instance where independent measurement arrived within a day. Whether that turnaround becomes normal, or this was a one-off worth noting precisely because it was fast, is not yet answerable from one data point.
+
+## 2026-10-08
+
+![[2026-10-08#^openai-math-withdrawals]]
+
+Source note: [[2026-10-08]]
 
 ## 2026-09-22
 

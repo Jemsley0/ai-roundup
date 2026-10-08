@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, vector-databases, retrieval, vector-databases-and-retrieval]
-updated: 2026-10-05
+updated: 2026-10-08
 living: true
 ---
 
@@ -29,6 +29,22 @@ For a data platform the split stays clean: retrieve prose by similarity, retriev
 - Does the JetBrains 1-bit, syntax-aware approach hold recall on real code-search tasks?
 - Does turbopuffer's single-secondary-index design perform in production at scale?
 - Does Photon's 0.24-point relevance cost hold outside Perplexity's own workload mix?
+
+## 2026-10-08
+
+![[2026-10-08#^bedrock-rag-live-acl]]
+
+![[2026-10-08#^rn-qdrant]]
+
+![[2026-10-08#^rn-weaviate]]
+
+![[2026-10-08#^rn-pinecone-local]]
+
+![[2026-10-08#^rn-pgvector]]
+
+![[2026-10-08#^rn-cloudflare]]
+
+Source note: [[2026-10-08]]
 
 ## 2026-10-05
 

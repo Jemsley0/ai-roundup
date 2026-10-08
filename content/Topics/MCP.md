@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, mcp]
-updated: 2026-10-05
+updated: 2026-10-08
 living: true
 ---
 
@@ -32,6 +32,22 @@ The protocol's usage patterns are shifting. Pi 1.0 reversed its refusal to suppo
 - How many deployed clients have upgraded to the fixed Python client and passed an explicit `issuer=`?
 - Does tool-definition drift replicate outside two single-author projects, and does it appear in the reference servers' own changelogs?
 - How does code-composed tool calling compare with plain calls on cost, turns and failure rate?
+
+## 2026-10-08
+
+![[2026-10-08#^mcp-server-cards-guide]]
+
+![[2026-10-08#^codemode-failures]]
+
+![[2026-10-08#^radar-pin-diff]]
+
+![[2026-10-08#^radar-codemode]]
+
+![[2026-10-08#^radar-server-cards]]
+
+![[2026-10-08#^uber-mcp-gateway]]
+
+Source note: [[2026-10-08]]
 
 ## 2026-10-05
 

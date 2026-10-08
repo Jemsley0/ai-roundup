@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, data-platform, dbt, snowflake, databricks, bedrock]
-updated: 2026-10-05
+updated: 2026-10-08
 living: true
 ---
 
@@ -39,6 +39,28 @@ Silent behaviour changes are this week's practical risk. Snowflake's Python conn
 - Does custom-incremental dynamic tables beat a tuned dbt incremental model on a join-heavy pipeline when both are measured against a stated baseline?
 - Will the connector's revocation-check default be reversed or documented with a rationale, and how many pipelines now connect without it?
 - Will AWS document an approval event for Bedrock Managed Agents, or does approval stay the application's job?
+
+## 2026-10-08
+
+![[2026-10-08#^dt-aggregates]]
+
+![[2026-10-08#^adaptive-dml]]
+
+![[2026-10-08#^prefect-dagster]]
+
+![[2026-10-08#^snowflake-bcr-bundles]]
+
+![[2026-10-08#^databricks-lakehouse-ifco]]
+
+![[2026-10-08#^radar-adaptive-warehouses]]
+
+![[2026-10-08#^radar-prefect-dagster]]
+
+![[2026-10-08#^rn-sf-lineage]]
+
+![[2026-10-08#^rn-dbt-v2-docs]]
+
+Source note: [[2026-10-08]]
 
 ## 2026-10-05
 

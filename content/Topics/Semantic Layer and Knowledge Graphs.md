@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, semantic-layer]
-updated: 2026-10-05
+updated: 2026-10-08
 living: true
 ---
 
@@ -28,6 +28,20 @@ On portability, Open Semantic Interchange is an Apache incubating project (Apach
 - Nobody has reconciled the strict-ontology position with the loose-knowledge-graph one, which imply work differing by an order of magnitude.
 - Does Snowflake-native authoring in Semantic Studio beat repository YAML deployed by continuous integration? No practitioner comparison exists.
 - Does the procedure path plus a wrapper stored procedure pass the managed MCP server's read-only SQL filter, or must it be a separate tool?
+
+## 2026-10-08
+
+![[2026-10-08#^essay-authority-ontology]]
+
+![[2026-10-08#^essay-semantic-control-plane]]
+
+![[2026-10-08#^essay-semantic-vs-context]]
+
+![[2026-10-08#^rn-sf-ossie]]
+
+![[2026-10-08#^rn-db-metric-windows]]
+
+Source note: [[2026-10-08]]
 
 ## 2026-10-05
 
