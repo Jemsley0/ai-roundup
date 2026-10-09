@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, cognition]
-updated: 2026-09-16
+updated: 2026-10-09
 living: true
 ---
 
@@ -22,6 +22,14 @@ Every performance figure in this topic is Cognition's own. Independent evaluatio
 - No independent eval of SWE-2's FrontierCode parity or cost claims exists.
 - The RSA-260 asterisk is unresolved: if agents did the optimization and humans do not fully understand it, what is the status of the result as mathematics rather than as a computation?
 - Revenue nearly doubled in four months on figures the company reports to investors. Nothing here is audited.
+
+## 2026-10-09
+
+![[2026-10-09#^agent-memory-repo]]
+
+![[2026-10-09#^radar-agent-memory-repo]]
+
+Source note: [[2026-10-09]]
 
 ## 2026-09-14
 

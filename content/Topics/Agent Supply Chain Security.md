@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, agent-supply-chain-security]
-updated: 2026-10-08
+updated: 2026-10-09
 living: true
 ---
 
@@ -35,6 +35,14 @@ The common gap is verification after the fact. Each case satisfied authorization
 - Do the manifest-drift findings replicate outside two single-author projects, and do reference servers change tools silently in practice?
 - Does the branch-steering defence reach 0% attack success when someone other than its authors tests it?
 - Which agent platforms offer a sanctioned private destination for evidence, so agents stop improvising public hosting?
+
+## 2026-10-09
+
+![[2026-10-09#^headline-ghostaction]]
+
+![[2026-10-09#^sec-ghostaction]]
+
+Source note: [[2026-10-09]]
 
 ## 2026-10-08
 
@@ -118,4 +126,4 @@ Source note: [[2026-09-18]]
 
 ## Related
 
-[[Topics/Agentic SDLC Governance|Agentic SDLC Governance]] · [[Topics/MCP|MCP]] · [[Topics/AI Safety and Interpretability|AI Safety and Interpretability]] · [[Topics/Agent-Driven Intrusions|Agent-Driven Intrusions]]
+[[Topics/Agentic SDLC Governance|Agentic SDLC Governance]] · [[Topics/MCP|MCP]] · [[Topics/AI Safety and Interpretability|AI Safety and Interpretability]] · [[Topics/Agent-Driven Intrusions|Agent-Driven Intrusions]] · [[Topics/Agent Sandboxing and Execution Policy|Agent Sandboxing and Execution Policy]]

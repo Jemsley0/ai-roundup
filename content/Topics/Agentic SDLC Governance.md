@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, agentic-sdlc, governance]
-updated: 2026-10-08
+updated: 2026-10-09
 living: true
 ---
 
@@ -38,6 +38,22 @@ Products now compete on where control sits. Dataiku, Cymphony and Komodor sell c
 - What does NVIDIA's quarantine actually restrict, and does the fail-open finding get a fail-closed option?
 - Is the review-as-accountability model workable where checking infrastructure is thinner than Anthropic's, and how do junior engineers learn without line-by-line review?
 - Do Factory's and Jellyfish's fleet figures hold in independent data?
+
+## 2026-10-09
+
+![[2026-10-09#^sdlc-copilot-sandboxing]]
+
+![[2026-10-09#^sdlc-claude-code-hooks]]
+
+![[2026-10-09#^sdlc-factory-mentlio]]
+
+![[2026-10-09#^rn-codex-ultrafast]]
+
+![[2026-10-09#^rn-cursor-remote]]
+
+![[2026-10-09#^radar-deterministic-gates]]
+
+Source note: [[2026-10-09]]
 
 ## 2026-10-08
 
@@ -296,4 +312,4 @@ Source note: [[2026-09-03]]
 
 ## Related
 
-[[Topics/MCP|MCP]] · [[Topics/Agent Memory and Context Engineering|Agent Memory and Context Engineering]] · [[Topics/Token Cost and Model Routing|Token Cost and Model Routing]] · [[Topics/AI Safety and Interpretability|AI Safety and Interpretability]] · [[Topics/Cognition|Cognition]] · [[Topics/AI-Led AI Development|AI-Led AI Development]] · [[Topics/Sovereign AI Compute|Sovereign AI Compute]] · [[Topics/Agent Supply Chain Security|Agent Supply Chain Security]]
+[[Topics/MCP|MCP]] · [[Topics/Agent Memory and Context Engineering|Agent Memory and Context Engineering]] · [[Topics/Token Cost and Model Routing|Token Cost and Model Routing]] · [[Topics/AI Safety and Interpretability|AI Safety and Interpretability]] · [[Topics/Cognition|Cognition]] · [[Topics/AI-Led AI Development|AI-Led AI Development]] · [[Topics/Sovereign AI Compute|Sovereign AI Compute]] · [[Topics/Agent Supply Chain Security|Agent Supply Chain Security]] · [[Topics/Agent Sandboxing and Execution Policy|Agent Sandboxing and Execution Policy]]

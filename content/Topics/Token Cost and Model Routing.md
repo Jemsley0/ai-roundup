@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, token-cost, model-routing]
-updated: 2026-10-08
+updated: 2026-10-09
 living: true
 ---
 
@@ -33,6 +33,28 @@ Decision models lost ground. Red Hat found Jev took about 350 milliseconds again
 - Is Gemini 4 Argon's cost advantage still there when introductory pricing doubles and its higher token use is counted?
 - Does HydraFusion's per-task workflow choice beat a fixed model choice on cost and quality once numbers appear?
 - Do hard spending caps by default become standard on usage-billed services, and what do revenue-critical applications do instead?
+
+## 2026-10-09
+
+![[2026-10-09#^sdlc-factory-mentlio]]
+
+![[2026-10-09#^ep-cortex-gateway]]
+
+![[2026-10-09#^ep-sol-ultrafast]]
+
+![[2026-10-09#^ep-bedrock-cost-attribution]]
+
+![[2026-10-09#^zaney-vegalabs-invoice]]
+
+![[2026-10-09#^rn-aws-sonnet-cache]]
+
+![[2026-10-09#^radar-dynamic-routing]]
+
+![[2026-10-09#^radar-cortex-gateway]]
+
+![[2026-10-09#^de-duckdb-agent-mode]]
+
+Source note: [[2026-10-09]]
 
 ## 2026-10-08
 

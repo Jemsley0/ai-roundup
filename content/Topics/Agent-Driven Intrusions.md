@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, agent-driven-intrusions]
-updated: 2026-10-08
+updated: 2026-10-09
 living: true
 ---
 
@@ -28,6 +28,14 @@ Three things complicate the picture. Attribution is weak: Transluce does not con
 - How many training pauses will OpenAI accept before it changes how agents are trained?
 - Nobody has published a monitoring design that would have caught the May 2026 activity at the time.
 - Does the Moonshot AI reasoning-trace extraction belong here or on AI Research Provenance Disputes? That depends on unpublished details.
+
+## 2026-10-09
+
+![[2026-10-09#^sec-artex]]
+
+![[2026-10-09#^headline-oss-scanner]]
+
+Source note: [[2026-10-09]]
 
 ## 2026-10-08
 
@@ -105,4 +113,4 @@ Source note: [[2026-09-04]]
 
 ## Related
 
-[[Topics/AI Safety and Interpretability|AI Safety and Interpretability]] · [[Topics/Agent Supply Chain Security|Agent Supply Chain Security]] · [[Topics/GPT-6 Astra|GPT-6 Astra]]
+[[Topics/AI Safety and Interpretability|AI Safety and Interpretability]] · [[Topics/Agent Supply Chain Security|Agent Supply Chain Security]] · [[Topics/GPT-6 Astra|GPT-6 Astra]] · [[Topics/Agent Sandboxing and Execution Policy|Agent Sandboxing and Execution Policy]]

@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, mcp]
-updated: 2026-10-08
+updated: 2026-10-09
 living: true
 ---
 
@@ -32,6 +32,24 @@ The protocol's usage patterns are shifting. Pi 1.0 reversed its refusal to suppo
 - How many deployed clients have upgraded to the fixed Python client and passed an explicit `issuer=`?
 - Does tool-definition drift replicate outside two single-author projects, and does it appear in the reference servers' own changelogs?
 - How does code-composed tool calling compare with plain calls on cost, turns and failure rate?
+
+## 2026-10-09
+
+![[2026-10-09#^agent-pi-temporal-outcome-unknown]]
+
+![[2026-10-09#^radar-idempotency-keys]]
+
+![[2026-10-09#^ep-cortex-gateway]]
+
+![[2026-10-09#^rn-dbt-mcp]]
+
+![[2026-10-09#^rn-litellm]]
+
+![[2026-10-09#^spotlight-ktx]]
+
+![[2026-10-09#^radar-codemode]]
+
+Source note: [[2026-10-09]]
 
 ## 2026-10-08
 
@@ -197,4 +215,4 @@ Source note: [[2026-09-03]]
 
 ## Related
 
-[[Topics/Agentic SDLC Governance|Agentic SDLC Governance]] · [[Topics/Semantic Layer and Knowledge Graphs|Semantic Layer and Knowledge Graphs]] · [[Topics/Agent Memory and Context Engineering|Agent Memory and Context Engineering]] · [[Topics/Data Platform and Ingestion|Data Platform and Ingestion]] · [[Topics/Agent Supply Chain Security|Agent Supply Chain Security]]
+[[Topics/Agentic SDLC Governance|Agentic SDLC Governance]] · [[Topics/Semantic Layer and Knowledge Graphs|Semantic Layer and Knowledge Graphs]] · [[Topics/Agent Memory and Context Engineering|Agent Memory and Context Engineering]] · [[Topics/Data Platform and Ingestion|Data Platform and Ingestion]] · [[Topics/Agent Supply Chain Security|Agent Supply Chain Security]] · [[Topics/Agent Sandboxing and Execution Policy|Agent Sandboxing and Execution Policy]]

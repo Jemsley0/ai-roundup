@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, data-platform, dbt, snowflake, databricks, bedrock]
-updated: 2026-10-08
+updated: 2026-10-09
 living: true
 ---
 
@@ -39,6 +39,58 @@ Silent behaviour changes are this week's practical risk. Snowflake's Python conn
 - Does custom-incremental dynamic tables beat a tuned dbt incremental model on a join-heavy pipeline when both are measured against a stated baseline?
 - Will the connector's revocation-check default be reversed or documented with a rationale, and how many pipelines now connect without it?
 - Will AWS document an approval event for Bedrock Managed Agents, or does approval stay the application's job?
+
+## 2026-10-09
+
+![[2026-10-09#^de-optima-clustering]]
+
+![[2026-10-09#^de-dbt-208]]
+
+![[2026-10-09#^de-duckdb-agent-mode]]
+
+![[2026-10-09#^spotlight-ducklake]]
+
+![[2026-10-09#^corrections-missed-items]]
+
+![[2026-10-09#^rn-sf-marketplace]]
+
+![[2026-10-09#^rn-sf-1036]]
+
+![[2026-10-09#^rn-sf-lineage]]
+
+![[2026-10-09#^rn-sf-decision]]
+
+![[2026-10-09#^rn-sf-models]]
+
+![[2026-10-09#^rn-sf-clients]]
+
+![[2026-10-09#^rn-db-discover]]
+
+![[2026-10-09#^rn-db-workday]]
+
+![[2026-10-09#^rn-db-obo]]
+
+![[2026-10-09#^rn-db-google-connector]]
+
+![[2026-10-09#^rn-db-lakebase]]
+
+![[2026-10-09#^rn-db-package-repos]]
+
+![[2026-10-09#^rn-dbt-mcp]]
+
+![[2026-10-09#^rn-dbt-platform]]
+
+![[2026-10-09#^rn-pypi-versions]]
+
+![[2026-10-09#^rn-duckdb-view-only]]
+
+![[2026-10-09#^radar-optima-clustering]]
+
+![[2026-10-09#^radar-ducklake]]
+
+![[2026-10-09#^essay-bauer-data-teams]]
+
+Source note: [[2026-10-09]]
 
 ## 2026-10-08
 
