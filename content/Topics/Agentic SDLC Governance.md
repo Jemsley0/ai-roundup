@@ -53,6 +53,8 @@ Products now compete on where control sits. Dataiku, Cymphony and Komodor sell c
 
 ![[2026-10-09#^radar-deterministic-gates]]
 
+![[2026-10-09#^sdlc-lloyd-factory-engineering]]
+
 Source note: [[2026-10-09]]
 
 ## 2026-10-08
