@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, agent-memory]
-updated: 2026-10-08
+updated: 2026-10-09
 living: true
 ---
 
@@ -33,6 +33,16 @@ The design debate is live and unmeasured. Kevin Liao argues agents need reviewed
 - What happens when a shared memory entry conflicts with a user's own preference?
 - Do learned-compaction gains survive outside the tested benchmarks, and in dollars rather than operations?
 - Does a reviewed-documentation approach beat similarity memory when measured, not only reported from experience?
+
+## 2026-10-09
+
+![[2026-10-09#^agent-memory-repo]]
+
+![[2026-10-09#^radar-agent-memory-repo]]
+
+![[2026-10-09#^essay-bittner-last-mile]]
+
+Source note: [[2026-10-09]]
 
 ## 2026-10-08
 

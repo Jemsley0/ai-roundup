@@ -22,7 +22,7 @@ It is opinionated on purpose. The point is not to list everything that happened,
 
 > **Nothing here is written by humans.** This is model-generated prose, and it should not be treated as a substitute for reading the first-party source material. Every item links to its primary source, and those links are the point. In a world of infinite noise this tries to be a filter and a funnel, not a replacement.
 
-**Start here: [[2026-10-08]]**, the most recent edition.
+**Start here: [[2026-10-09]]**, the most recent edition.
 
 ## How to read it
 
@@ -64,10 +64,12 @@ Recurring threads. Each one is a **full top-down read** of every edition that to
 - [[Topics/Cognition|Cognition]]. Devin, SWE-2, and the clearest revenue evidence for coding agents.
 - [[Topics/Jev and Decision Models|Jev and Decision Models]]. Small, fast decision and classification models, and the open reproductions catching up to the disputed original.
 - [[Topics/Frontier Lab Economics|Frontier Lab Economics]]. How frontier labs make and lose money: revenue, losses, pricing power, IPO and governance structures, and the capital spending and debt behind them.
+- [[Topics/Agent Sandboxing and Execution Policy|Agent Sandboxing and Execution Policy]]. Where agent-generated code runs and who holds the allow or deny decision: operating-system sandboxes, microVMs, per-tool policy engines and fail-closed hooks.
 - [[Topics/Evaluation Methodology|Evaluation Methodology]]. How model and agent evaluations are built and how far their numbers can be trusted: judge noise, confidence intervals, benchmark reliability, saturation, and evaluator independence.
 
 ## Every edition
 
+- [[2026-10-09]]. GhostAction returned and pushed a fake security-audit workflow to about 345 repositories, OpenAI fired three safety researchers, Arena published an Alignment Index with OpenAI in the top five and announced a \$200 million Series B, Anthropic launched OSS Scanner, Python 3.15.0 shipped
 - [[2026-10-08]]. Anthropic launched Claude Haiku 5.5 at \$0.10 input and \$0.50 output per million tokens, OpenAI withdrew three of its 719 AI-generated math manuscripts a day after release, a malicious tensorlake npm release carried the Shai-Hulud worm, Meta and Microsoft are reportedly cutting internal Claude use, Mistral previewed the open-weight Large 4
 - [[2026-10-05]]. Google paused its open-source bug bounty because most automated submissions are invalid, Anthropic reported a Florida user's private Claude entry to police and she faces a felony charge, SecurityWeek says a Rejetto HFS flaw found by Anthropic's Mythos is exploited in the wild, Apple plans to tighten macOS Full Disk Access over AI agents
 - [[2026-10-02]]. The Dutch Institute for Vulnerability Disclosure says an autonomous AI agent breached it through two Zammad zero-days, Glow Labs says coding agents leaked more than 13,000 internal screenshots from over 300 organisations to public GitHub repositories, Artificial Analysis measured Claude Sonnet 5.5 at about \$7.60 per task, roughly 50% above Sonnet 5 at the same list price, Google announced Gemini 4 Argon for vetted cyber defenders, and Challenger counted AI-attributed US job cuts falling to about 9% of September's total

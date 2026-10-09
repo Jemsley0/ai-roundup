@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, ai-safety, interpretability]
-updated: 2026-10-05
+updated: 2026-10-09
 living: true
 ---
 
@@ -36,6 +36,22 @@ Policy has fragmented without becoming binding. OpenAI asked Congress for mandat
 - No roster shows which evaluators meet a funding-and-training independence bar, so no embedded-evaluator proposal can be assessed against it.
 - Does the UK institute's 29.2% supply-chain rate hold when the model cannot tell it is in a simulation?
 - HoneyBench is pre-release and small. Does the result hold in a larger, independently run reward-hacking benchmark?
+
+## 2026-10-09
+
+![[2026-10-09#^headline-openai-firings]]
+
+![[2026-10-09#^policy-openai-firings]]
+
+![[2026-10-09#^policy-semianalysis-china-safety]]
+
+![[2026-10-09#^evals-arena-alignment]]
+
+![[2026-10-09#^headline-arena-alignment]]
+
+![[2026-10-09#^zaney-claude-abuse-policy]]
+
+Source note: [[2026-10-09]]
 
 ## 2026-10-02
 
