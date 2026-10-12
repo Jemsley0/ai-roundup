@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, evaluation-methodology]
-updated: 2026-10-09
+updated: 2026-10-12
 living: true
 ---
 
@@ -11,11 +11,13 @@ How model and agent evaluations are built and how far their numbers can be trust
 
 ## Where this stands
 
-Evaluation numbers are noisier and less independent than leaderboards imply, and this week added more evidence from several directions. A pinned, temperature-zero large language model (LLM) judge flips about 5% of verdicts on re-run, and about 40% of the close calls that decide leaderboard margins, because cloud serving is nondeterministic. A related artifact: reading a judge's first token inflates its measured position bias, flipping verdicts on swapped responses 89.7% of the time against 47.5% when read after generation, while accuracy barely moves. A new study of 17 open-weight judges also found that agreement with humans on summary quality hides which cases each side finds hard.
+Evaluation numbers are noisier and less independent than leaderboards imply, and the week to October 12, 2026 added evidence from several directions. A pinned, temperature-zero large language model (LLM) judge flips about 5% of verdicts on re-run, and about 40% of the close calls that decide leaderboard margins, because cloud serving is nondeterministic. Three October 8 preprints and one continuous-integration study report run-to-run noise again: TRACE found identical reruns flipped 15 to 36% of outcomes, another found the most consistent judge agrees with ground truth 51% of the time, and Evalship saw 2.5% of passing evals fail on the next run. None is replicated. A preregistered study (Han and Kim, arXiv 2610.13303, October 9) found that rewriting a judge's rubric raised agreement between five judges but not agreement with humans: on SummEval, Krippendorff's alpha rose 0.069 while Kendall tau with humans moved by -0.007. Judge consensus is not validity. It is one preprint.
 
-Interval and benchmark problems compound this. Two groups argue agent-leaderboard confidence intervals are too narrow, and correcting for shared entries more than doubled the width on a SWE-bench Verified snapshot. A preprint found membership-inference attacks top out at an area under the curve of 0.68 on a confounder-controlled benchmark, so black-box contamination checks on closed models are weak evidence. A practitioner essay haircuts the top finance-agent score from 82% to about 57%, since pre-parsed inputs alone inflate one benchmark by 19 to 29 points. In an 18,000-trajectory study, about 54% of outcome variance came from re-running identical configurations, so single runs say little.
+Judge independence is the sharper problem. Arena says LLM judges pick their own answer 58% of the time against 34% for humans, and GPT-6 Astra reached 88%. Arena sells human-preference data, so the figure is vendor-reported. Arena's new Alignment Index puts OpenAI in ranks 1 to 5, four near 88 against 83 for Opus 5.5 and Grok 4.7, scored by an unnamed LLM judge. An OpenAI judge could favour the top five. That is the roundup's inference, not a finding. Arena announced a \$200 million Series B at \$3.1 billion the same day, and says its signals "cover only a small part of safety and alignment". Artificial Analysis says gating passes on hallucinations cuts the best all-pass score on Harvey's legal benchmark from 26.7% to 9.4%, though the tasks are private and one GPT-6 Sol checker does the hallucination pass.
 
-Vendor-reported figures keep failing independent checks. Artificial Analysis contradicted Anthropic's claim that Claude Sonnet 5.5 is cheaper per task and scored Terminal-Bench 4.0 at 64% against Anthropic's 70.6%. Red Hat's guardrail benchmark found Jev, a small decision model, no more accurate than ordinary classifiers. Some lab-sourced figures arrive with no method: METR's Senate testimony relays lab self-reports, including a claim that internal frontier runs lead public ones by two months. Arena's text-to-image post trains on its own leaderboard data and reports gains on that leaderboard. Evaluator independence remains the hardest layer, since a credit line shows who looked and not who funded them.
+Benchmark and interval problems compound this. Two groups argue agent-leaderboard confidence intervals are too narrow, and correcting for shared entries more than doubled the width on a SWE-bench Verified snapshot. A preprint found membership-inference attacks top out at an area under the curve of 0.68 on a confounder-controlled benchmark, so black-box contamination checks on closed models are weak evidence. Epoch says two of four tested models had memorised the target in InnovationEval. Anthropic's cut-off of live internet for internal evaluations also changes scores: public web evaluations such as BrowseComp, DeepSearchQA and OSWorld now run offline or rebuilt, and Anthropic does not say which, so new numbers may not compare with old ones. Three preprints propose benchmarks that cannot saturate (SWE-Duel, SqueezeBench, SpireBench), and none has outside replication. A single placebo-controlled test found only 2 of 9 popular coding skills beat neutral text of the same length, which turns the evaluation question onto the thing being evaluated.
+
+Vendor-reported figures keep failing independent checks or arriving with no method. Artificial Analysis contradicted Anthropic's claim that Claude Sonnet 5.5 is cheaper per task. Red Hat's guardrail benchmark found Jev, a small decision model, no more accurate than ordinary classifiers, and Microsoft's "highest accuracy in our 36-benchmark comparison" for Microsoft-Decision-1 is its own claim. Graphwise publishes no method for four homepage numbers, and Snowflake's ontology result is about a different feature. Evaluator independence remains the hardest layer, since a credit line shows who looked and not who funded them. METR found an agent could alter the transcript a reviewer sees in the Inspect viewer, so evaluation tooling is itself security infrastructure.
 
 ## Open questions
 
@@ -26,6 +28,22 @@ Vendor-reported figures keep failing independent checks. Artificial Analysis con
 - Does the first-token artifact in judge models appear outside the Qwen3 family?
 - What method produced METR's two-month lead figure for internal frontier runs?
 - With membership inference this weak, what replaces black-box contamination checks for closed models?
+- Does Anthropic say which evaluations now run offline and which it rebuilt, so old and new scores can be compared?
+- Does Arena's Alignment Index hold up when scored by a non-OpenAI judge?
+- Do the run-to-run noise preprints and the rubric-consensus result replicate outside their own authors?
+- Does the placebo-arm test of coding skills replicate on a second model, given the author's own limit of one model and tasks mostly at ceiling?
+
+## 2026-10-12
+
+![[2026-10-12#^evals-anthropic-offline]]
+
+![[2026-10-12#^evals-rubric-consensus]]
+
+![[2026-10-12#^evals-self-scaling-benchmarks]]
+
+![[2026-10-12#^agent-decision-models]]
+
+Source note: [[2026-10-12]]
 
 ## 2026-10-09
 
@@ -137,6 +155,8 @@ Source note: [[2026-09-21]]
 
 - `⚠️ CAUTION` **A pinned, temperature-zero LLM judge treated as a reproducible instrument**, cloud-serving nondeterminism flips verdicts on re-run, so one- or two-place leaderboard gaps from a single judged run are noise. [[2026-09-29]]
 - `⚠️ CAUTION` **Unverified lab capability claims**, "check what the claimant checked against," not just whether the answer verifies internally. The Cyphral Distich refutation is the worked example; TypeSafe AI's Jev carries a prior-art claim, and MiMo-V2.6's entire benchmark table is the vendor's own with no third-party citation, where an independent measurement arrived within a day and is the fix. [[2026-09-11]], escalated [[2026-09-15]], third instance [[2026-09-21]], fourth instance [[2026-09-22]]
+- `🟡 ASSESS` **Placebo-controlled skill evaluation**, run no-skill, same-length-placebo and skill arms before adopting a skill; one 450-trial benchmark and three supporting papers. [[2026-10-08]]
+- `◻️ WATCH` **Step-at-a-time standard-operating-procedure delivery over MCP**, a server releases one step per call; single preprint, open-weight executors only. [[2026-10-08]]
 
 ## Related
 

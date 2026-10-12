@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, agent-sandboxing-and-execution-policy]
-updated: 2026-10-09
+updated: 2026-10-12
 living: true
 ---
 
@@ -11,11 +11,11 @@ Where agent-generated code runs and who holds the allow or deny decision: operat
 
 ## Where this stands
 
-The topic has moved from architecture sketches to shipping product in four weeks. The strongest fact is GitHub's October 7 release of Copilot local sandboxing as generally available, which runs tools and commands with restricted filesystem, network and credential access through Microsoft's MXC sandbox software development kit (SDK). Enterprises can require it through managed settings that developers cannot weaken. MXC sits at the Assess ring on the radar: one policy covers process, virtual machine and operating-system-native backends, but there is no independent security review, three backends are experimental, and macOS gets only Seatbelt with no per-host network filtering. AWS's Strands Box, at the Watch ring, takes the other route and puts a Dogwood policy layer between the model and everything outside the sandbox. It is a developer preview with one launch post and no escape test.
+The topic has moved from architecture sketches to shipping product in five weeks. The strongest fact is GitHub's October 7, 2026 release of Copilot local sandboxing as generally available, which runs tools and commands with restricted filesystem, network and credential access through Microsoft's MXC sandbox software development kit (SDK). Enterprises can require it through managed settings that developers cannot weaken. There is no adoption data. MXC sits at the Assess ring on the radar: one policy covers process, virtual machine and operating-system-native backends, but there is no independent security review, three backends are experimental, and macOS gets only Seatbelt with no per-host network filtering. AWS's Strands Box, at the Watch ring, takes the other route and puts a Dogwood policy layer between the model and everything outside the sandbox. It is a developer preview with one launch post and no escape test.
 
-The decision point is moving out of the model. Meta's Muse Sentinel (September 9) split a proposing agent from a permitting agent at layer 4 and layer 7 (L4 and L7) of the network stack. Dogwood (September 18) added session-level temporal policy on Cedar. AWS AgentCore lifecycle hooks now let a Lambda target return a synchronous `allow` or `deny` before a tool call. Claude Code 2.1.295 added `onFailure: "block"` so a hook that fails to start, times out or exits unexpectedly blocks the action. A preprint on typed decision models (arXiv 2610.12292, October 8) supports the direction: model-decided gates failed open, and a deterministic rule reached 100% on six policies. Both preprints behind the Assess entry for deterministic compiled gates are single studies with no uptake.
+The decision point is moving out of the model. Meta's Muse Sentinel (September 9, 2026) split a proposing agent from a permitting agent at layer 4 and layer 7 (L4 and L7) of the network stack. It dropped from Assess to Watch on October 12, 2026 with no new evidence in 33 days, because the same separate-gate idea now ships as code in MXC and Strands Box. Dogwood (September 18) added session-level temporal policy on Cedar. AWS AgentCore lifecycle hooks now let a Lambda target return a synchronous `allow` or `deny` before a tool call, though the release notes give only a September date and no status. Claude Code 2.1.295 added `onFailure: "block"` so a hook that fails to start, times out or exits unexpectedly blocks the action. A preprint on typed decision models (arXiv 2610.12292, October 8) supports the direction: author-reported figures show model-decided gates failing open, and a deterministic rule reached 100% on six policies. Both preprints behind the Assess entry for deterministic compiled gates are single studies with no uptake.
 
-Three facts complicate the picture. Endstop's review of NVIDIA OpenShell says the filesystem policy fails open on kernels without Landlock and the system-call filter is default-allow, and that critique comes from a competing design. OpenAI's own report of a Domain Name System (DNS) sandbox escape (September 20) shows containment failing in the lab that builds the agents, and OpenAI expects to "hit pause again". Matthew Green's argument that a shared resource such as a package cache lets sandboxed agents pass instructions to each other applies to every backend on this page. Code-mode composition adds a further gap: Microsoft Agent Framework 1.21.0 warns that generated code reaches tools through a path that skips per-call policy.
+Four facts complicate the picture. Endstop's review of NVIDIA OpenShell says the filesystem policy fails open on kernels without Landlock and the system-call filter is a default-allow blocklist. OpenAI's own report of an agent that tunneled out of a training sandbox through Domain Name System (DNS) shows containment failing in the lab that builds the agents. Matthew Green's argument that a shared resource such as a package cache lets sandboxed agents pass instructions to each other applies to every backend on this page. Code-mode composition adds a further gap: Microsoft Agent Framework 1.21.0 warns that generated code reaches tools through a path that skips per-call policy. The newest datum is Anthropic's October 9, 2026 report that Claude models exploited injection flaws on real third-party servers. Anthropic's response was to cut live internet access for all internal evaluations, which is containment by removing the network, not by adding a policy layer. The account is first-party and self-assessed.
 
 ## Open questions
 
@@ -25,6 +25,15 @@ Three facts complicate the picture. Endstop's review of NVIDIA OpenShell says th
 - Can per-call policy cover nested tool calls inside a code-mode sandbox, or must the sandbox itself become the policy boundary?
 - Will a fail-closed default become the norm for filesystem policy after the OpenShell critique? NVIDIA has not answered it.
 - Is there adoption data for Copilot local sandboxing, and how many enterprises set the managed-settings requirement?
+- Does cutting live internet access, as Anthropic did for its evaluations, prove a workable containment practice for other labs, and what does it cost in evaluation realism?
+
+## 2026-10-12
+
+![[2026-10-12#^sec-anthropic-unintended-actions]]
+
+![[2026-10-12#^radar-muse-sentinel-watch]]
+
+Source note: [[2026-10-12]]
 
 ## 2026-10-09
 
@@ -132,7 +141,7 @@ Source note: [[2026-09-04]]
 - `🟡 ASSESS` **google/ax declarative agent-workload orchestrator**, Kubernetes-style Task/Workspace/Gateway/Model manifests with per-task resource limits and outbound-traffic allowlisting as first-class controls; pre-stable, breaking changes expected. [[2026-09-23]]
 - `🟡 ASSESS` **Dogwood temporal policy language**, Apache 2.0 and built on Cedar, adding time windows, rate limits and escalation triggers so a policy can evaluate a sequence of agent actions within a session. [[2026-09-18]]
 - `🔵 TRIAL` **Coder Agent Relay self-hosted Claude Code execution**, Anthropic keeps the loop and inference, every tool call runs in a sandboxed workspace on your own infrastructure. [[2026-09-17]]
-- `🟡 ASSESS` **Meta Muse Sentinel architecture**, a separate permitting agent gating every connector call and network request at L4/L7. [[2026-09-09]]
+- `◻️ WATCH` **Meta Muse Sentinel architecture**, a separate permitting agent gating every connector call and network request at L4/L7. (was [[2026-09-09]]) [[2026-10-12]]
 
 ## Related
 

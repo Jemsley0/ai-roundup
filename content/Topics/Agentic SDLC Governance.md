@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, agentic-sdlc, governance]
-updated: 2026-10-09
+updated: 2026-10-12
 living: true
 ---
 
@@ -13,11 +13,13 @@ How large engineering orgs run many coding agents at once, and how vendors are p
 
 The category is a named control plane with an analyst Wave behind it, and the finding across sources holds: the hard problems are specification and plumbing, not model capability. Forrester puts negative-return agent deployments at 41 percent unclear success criteria, 33 percent insufficient tool or data access, and 26 percent evaluation-coverage drift. The governance layer hides five separable problems: what an agent can reach, what it did, what it may do unasked, what it cost, and where its code executes. Coder's Agent Relay split the last one out by keeping inference with the vendor and running every tool call inside a workspace on the buyer's machines.
 
-Verification is the cheapest lever so far. A read-only terminal verifier rejected 61 percent of invalid agent episodes for under a cent each, while a good plan bought 7.17 points. Varying the evidence source beats varying the model: a cross-model vote over shared evidence approved 62.9 percent of unsafe proposals, and over an independent source 22.9 percent. Scoping and policy got tooling: a green, yellow and red zone map with characterization tests, OpenSpec's spec deltas in the same pull request, Bend's proof-gated edits, and Dogwood's session-sequence policies. Two practitioners converged on a coordinator session with an external task board and re-run verification.
+Verification is the cheapest lever so far. A read-only terminal verifier rejected 61 percent of invalid agent episodes for under a cent each, while a good plan bought 7.17 points. Varying the evidence source beats varying the model: a cross-model vote over shared evidence approved 62.9 percent of unsafe proposals, and over an independent source 22.9 percent. Scoping and policy got tooling: a green, yellow and red zone map with characterization tests, OpenSpec's spec deltas in the same pull request, Bend's proof-gated edits, and Dogwood's session-sequence policies. On October 9, 2026 a preprint (NOMOS) reported compiling written policy into deterministic tool-call gates, with violations falling from 66.3% to 2.6% on one airline test, while a second preprint showed model-decided gates failing open. Both are single studies on author-built benchmarks. Two practitioners converged on a coordinator session with an external task board and re-run verification.
 
-Throughput decays at every gate, and this week added fleet-level data. Factory reports 52% of its enterprise users ran automated code review and 48% security review, with its reviewer covering 99.5% of mergeable pull requests. Jellyfish says 9% of pull requests at leading adopters merge without human review and gains taper at high token spend, though it sells measurement and calls its findings correlational. Addy Osmani argues review as reading is ending but review as accountability must survive, and Uber's cost-per-session figures remain self-reported and unadjusted for quality. All of these are vendor or advocate figures.
+Policy enforcement is moving into the harness and closing fail-open paths. GitHub made Copilot local sandboxing generally available on October 7, 2026, and enterprises can require it through managed settings that developers cannot weaken. Claude Code 2.1.295 added `onFailure: "block"` so a hook that fails to start, times out or exits unexpectedly blocks the action. Anthropic's Claude apps gateway adds per-developer spend caps, but the caps are list-price estimates and enforcement fails open by default, so pilot it with `enforcement.fail_closed_on_error` set to true. Uber's MCP gateway starts every tool disabled until its owning team enables it. Factory's Mentlio acquisition moves routing and measurement inside the coding-agent harness, with no terms published. Placebo-controlled testing of skills is the new evaluation habit: one 450-trial test found only 2 of 9 popular coding skills beat neutral text of the same length.
 
-Products now compete on where control sits. Dataiku, Cymphony and Komodor sell cross-platform inventory. GitHub forces an admin default for MCP and Copilot Code Review by Oct 22. NVIDIA moves enforcement to separate hardware, while an independent review says its software sandbox fails open without Landlock. IBM sells a self-hosted, air-gapped agent as governance by isolation, with its own 45% productivity figure. DigitalOcean's Managed Agents advertise 16,000 tools, which says nothing about curation. AWS's Managed Agents documentation puts human approval in the application, not the service. Glow Labs also reports agents leaking screenshots into public repositories, so a sanctioned private destination is now a governance control.
+Throughput decays at every gate, and the fleet-level data is vendor-reported. Factory reports 52% of its enterprise users ran automated code review and 48% security review, with its reviewer covering 99.5% of mergeable pull requests. Jellyfish says 9% of pull requests at leading adopters merge without human review and gains taper at high token spend, though it sells measurement and calls its findings correlational. Customer reports arrive without denominators: Port says SPS Commerce processed more than 500 Jira tickets in four months with zero workflow incidents, with no merge, revert, cost or cycle-time figure, and Cockroach Labs says a label-driven multi-agent workflow added Db2 migration support in under two days for \$4,172 in tokens, though its 164 times faster claim compares against a different, earlier project and an author conceded there was no ablation. GitHub also says Copilot usage metrics undercounted agent activity for months and the data cannot be recovered, so any agent-usage dashboard for that period is wrong. Addy Osmani argues review as reading is ending but review as accountability must survive, and Uber's cost-per-session figures remain self-reported and unadjusted for quality.
+
+Products now compete on where control sits. Dataiku and Komodor sell cross-platform inventory, and three entries moved down to watch on October 12, 2026 for lack of new evidence: Atlassian's Agent Context Controls, Cymphony's registry consolidation, and Shopify's Helix checkpoint discipline. GitHub forces an admin default for MCP and Copilot Code Review by October 22, 2026. NVIDIA moves enforcement to separate hardware, while an independent review says its software sandbox fails open without Landlock. IBM sells a self-hosted, air-gapped agent as governance by isolation, with its own 45% productivity figure. DigitalOcean's Managed Agents advertise 16,000 tools, which says nothing about curation. Warp's Zach Lloyd argues every sizable project will run a software factory, with no pull request count, cost or cycle time shown. Glow Labs also reports agents leaking screenshots into public repositories, so a sanctioned private destination is now a governance control.
 
 ## Open questions
 
@@ -38,6 +40,34 @@ Products now compete on where control sits. Dataiku, Cymphony and Komodor sell c
 - What does NVIDIA's quarantine actually restrict, and does the fail-open finding get a fail-closed option?
 - Is the review-as-accountability model workable where checking infrastructure is thinner than Anthropic's, and how do junior engineers learn without line-by-line review?
 - Do Factory's and Jellyfish's fleet figures hold in independent data?
+- Do the NOMOS compiled-gate result and the model-decided-gate failure replicate, and on which models?
+- Do SPS Commerce or Cockroach Labs publish merge, revert, cost and cycle-time figures that let their results be set against a baseline?
+- Does Factory publish terms or figures for Mentlio, and does in-harness routing show a measured saving?
+- Does the placebo-arm test of skills replicate on a second model, given its own stated limit of one model and tasks mostly at ceiling?
+
+## 2026-10-12
+
+![[2026-10-12#^headline-claude-apps-gateway]]
+
+![[2026-10-12#^sdlc-claude-apps-gateway]]
+
+![[2026-10-12#^sdlc-sps-commerce]]
+
+![[2026-10-12#^prac-cockroach-hospital]]
+
+![[2026-10-12#^radar-claude-gateway]]
+
+![[2026-10-12#^radar-atlassian-watch]]
+
+![[2026-10-12#^radar-cymphony-watch]]
+
+![[2026-10-12#^radar-helix-watch]]
+
+![[2026-10-12#^rn-copilot-jetbrains]]
+
+![[2026-10-12#^rn-claude-code-2-1-296]]
+
+Source note: [[2026-10-12]]
 
 ## 2026-10-09
 
@@ -289,13 +319,15 @@ Source note: [[2026-09-03]]
 
 ## On the radar
 
+- `🟡 ASSESS` **Claude apps gateway spend caps**, enforcement fails open by default. [[2026-10-12]]
+- `🟡 ASSESS` **Deterministic compiled tool-call gates in place of a model-decided gate**, two single preprints. [[2026-10-09]]
+- `🟡 ASSESS` **Placebo-controlled skill evaluation**, run no-skill, same-length-placebo and skill arms before adopting a skill; one 450-trial benchmark and three supporting papers. [[2026-10-08]]
 - `🔵 TRIAL` **Repository zone map with characterization-test gates**, a person classifies the codebase green, yellow and red and an agent's permitted scope follows the map. [[2026-09-21]]
 - `🔵 TRIAL` **Independent-evidence-source verification gates**. [[2026-09-15]]
 - `🔵 TRIAL` **ImpactGate structural-decay merge gate**. [[2026-09-16]]
 - `🔵 TRIAL` **Coder Agent Relay self-hosted Claude Code execution**, Anthropic keeps the loop and inference, every tool call runs in a sandboxed workspace on your own infrastructure. [[2026-09-17]]
 - `🔵 TRIAL` **Anthropic R&D Automation Index**, a task tree scored on an AL0 to AL5 automation scale and weighted by person-time; a published method for measuring how much engineering work agents actually do. [[2026-09-18]]
 - `🔵 TRIAL` **Coordinator session with an external task board and re-run verification**, one long-lived session holds shared state in a task system with an application programming interface while short-lived sessions implement, and re-executes every claimed command rather than trusting a summary; arrived at independently by two practitioners in one week. [[2026-09-22]]
-- `🔵 TRIAL` **Shopify Helix checkpoint discipline**. [[2026-09-11]]
 - `🟡 ASSESS` **Datamimic deterministic synthetic test data over MCP**. [[2026-09-16]]
 - `🟡 ASSESS` **Bend `LAWS.bend` proof-gated agent codegen**, the compiler demands proof that declared invariants hold on every edit, so a violating state will not compile; requires adopting a new language. [[2026-09-18]]
 - `🟡 ASSESS` **Dogwood temporal policy language**, Apache 2.0 and built on Cedar, adding time windows, rate limits and escalation triggers so a policy can evaluate a sequence of agent actions within a session. [[2026-09-18]]
@@ -303,14 +335,15 @@ Source note: [[2026-09-03]]
 - `🟡 ASSESS` **Komodor Agentic Operations Platform**, packaged agents on a governance backbone, notable for shadow testing an agent version before promotion. [[2026-09-17]]
 - `🟡 ASSESS` **OpenSpec spec-driven development framework**, spec deltas reviewed in the same pull request as the code. [[2026-09-17]]
 - `🟡 ASSESS` **Agentic SDLC Control Plane**. [[2026-09-15]]
-- `🟡 ASSESS` **Atlassian Agent Context Controls + DX (developer-experience vendor) for Agentic Development**. [[2026-09-11]]
-- `🟡 ASSESS` **Meta Muse Sentinel architecture**, a separate permitting agent gating every connector call and network request at L4/L7. [[2026-09-09]]
 - `🟡 ASSESS` **Uber AI Software Factory**, re-argued. (was [[2026-09-03]]) [[2026-10-05]]
-- `◻️ WATCH` **Port.io Context Lake**, no new evidence in 32 days. (was [[2026-09-03]]) [[2026-10-05]]
-- `◻️ WATCH` **Ramp Labs agent-ROI attribution**, primary post not found. (was [[2026-09-03]]) [[2026-10-05]]
-- `🟡 ASSESS` **Cymphony + agent/skill registry consolidation**, one entry, the identity-and-access face of the same problem. [[2026-09-09]]
 - `🟡 ASSESS` **Dataiku Agent Management**, a standalone cross-platform agent inventory and governance product spanning eight named platforms (Copilot Studio, Azure Foundry, Agentforce, Bedrock, Vertex, Databricks, Snowflake Cortex, n8n); general availability planned for October 2026. [[2026-09-25]]
 - `🟡 ASSESS` `⚠️` **NVIDIA OpenShell and the Open Agent Safety Platform**, kernel-enforced per-agent sandboxing plus an out-of-band BlueField-4 watchdog; an independent review says the filesystem policy fails open on kernels without Landlock. [[2026-09-29]]
+- `◻️ WATCH` **Meta Muse Sentinel architecture**, a separate permitting agent gating every connector call and network request at L4/L7. (was [[2026-09-09]]) [[2026-10-12]]
+- `◻️ WATCH` **Shopify Helix checkpoint discipline**. (was [[2026-09-11]]) [[2026-10-12]]
+- `◻️ WATCH` **Port.io Context Lake**, no new evidence in 32 days. (was [[2026-09-03]]) [[2026-10-05]]
+- `◻️ WATCH` **Ramp Labs agent-ROI attribution**, primary post not found. (was [[2026-09-03]]) [[2026-10-05]]
+- `◻️ WATCH` **Atlassian Agent Context Controls + DX (developer-experience vendor) for Agentic Development**. (was [[2026-09-11]]) [[2026-10-12]]
+- `◻️ WATCH` **Cymphony + agent/skill registry consolidation**, one entry, the identity-and-access face of the same problem. (was [[2026-09-09]]) [[2026-10-12]]
 
 ## Related
 

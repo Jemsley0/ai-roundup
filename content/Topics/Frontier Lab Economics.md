@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, frontier-lab-economics]
-updated: 2026-10-05
+updated: 2026-10-12
 living: true
 ---
 
@@ -11,13 +11,13 @@ How frontier labs make and lose money: revenue, losses, pricing power, initial p
 
 ## Where this stands
 
-Revenue at the top labs is large enough to reshape strategy, and the spending behind it makes any single profit line hard to read. Anthropic told investors it will post a second straight quarter of adjusted operating profit, about \$559M on \$11.5B of Q2 revenue. DeepSeek's annualized run rate doubled to roughly \$1B after an August price increase of 2.3x to 4.5x. ByteDance's first-half revenue rose 30% to \$120B while profit fell under infrastructure spending. All three figures are company-disclosed and unaudited.
+Revenue at the top labs is large enough to reshape strategy, and the spending behind it makes any single profit line hard to read. Anthropic told investors it will post a second straight quarter of adjusted operating profit, about \$559M on \$11.5B of Q2 revenue. DeepSeek's annualized run rate doubled to roughly \$1B after an August price increase of 2.3x to 4.5x. ByteDance's first-half revenue rose 30% to \$120B while profit fell under infrastructure spending. All three figures are company-disclosed and unaudited. The newest revenue figure is a correction. On October 8, 2026 the Financial Times said OpenAI told investors its annualised revenue was "approaching \$50 billion", not the roughly \$70 billion in circulation.
 
 Spending and debt set the scale. Anthropic's compute commitments are reported near \$517B through 2029. Goldman Sachs estimates a \$230B annual gap between 2026 hyperscaler AI capital spending and the revenue needed to break even, with debt covering about a third. ByteDance signed a \$29.6B syndicated loan, and Z.AI raised about \$5B through equity and a zero-coupon convertible bond. Financing is moving from cash reserves toward bond and loan markets.
 
-Listing structure is where the labs diverge. Anthropic's listing slipped to November, with valuation targets from \$965B to about \$2T, and it is asking shareholders to approve a share class giving Dario Amodei and six co-founders 50.1% collective voting control. TechCrunch reports its prospectus discloses losses and an existential-risk warning, though no filing is on the Securities and Exchange Commission database yet. OpenAI pulled its 2026 listing plans. DeepSeek is heading to Shanghai.
+Listing structure is where the labs diverge, and the public-market window now shows strain. Anthropic's listing slipped to November, with valuation targets from \$965B to about \$2T, and it is asking shareholders to approve a share class giving Dario Amodei and six co-founders 50.1% collective voting control. TechCrunch reports its prospectus discloses losses and an existential-risk warning, though no filing is on the Securities and Exchange Commission database yet. OpenAI pulled its 2026 listing plans. DeepSeek is heading to Shanghai. Nvidia-backed Firmus scrapped a roughly \$5 billion Australian IPO on October 9, 2026, after pricing near three times its August round (Reuters, via The Star). That is one data point on weak demand, not a trend, and it is an infrastructure operator rather than a lab.
 
-Labs are also widening revenue surfaces. Anthropic opened a marketplace of more than 2,000 connectors and plugins, and Meta launched an enterprise platform selling its Muse application programming interface and Muse Code. Casey Newton argues Meta is selling Muse harder than its usage justifies, comparing the spend to the metaverse. A National Bureau of Economic Research paper infers a permanent 32.6% gain in software-engineering productivity from stock prices, a market-implied estimate and not measured output.
+Labs are also widening revenue surfaces and buying. Anthropic opened a marketplace of more than 2,000 connectors and plugins, and Meta launched an enterprise platform selling its Muse application programming interface and Muse Code. Casey Newton argues Meta is selling Muse harder than its usage justifies, comparing the spend to the metaverse. Amazon is reportedly in talks to buy the real-time video startup Decart at about \$7B (WSJ, October 11, 2026, via Techmeme); the WSJ page is paywalled, so this is unverified. Anthropic reportedly walked away from a roughly \$6B Decart deal on September 8, 2026. A National Bureau of Economic Research paper infers a permanent 32.6% gain in software-engineering productivity from stock prices, a market-implied estimate and not measured output.
 
 ## Open questions
 
@@ -27,6 +27,17 @@ Labs are also widening revenue surfaces. Anthropic opened a marketplace of more 
 - Does ByteDance's debt-financed capital spending become the template once cash reserves run short?
 - Will OpenAI re-file for a public listing before Goldman's \$230B annual gap closes?
 - Does Meta Enterprise Platform win customers, or does Muse's usage stay below its investment?
+- Does the Firmus withdrawal on October 9, 2026 predict weaker demand for Anthropic's November listing, or does it stay specific to a smaller infrastructure operator?
+- Does the reported Amazon talks to buy Decart at about \$7B close, and does a second report confirm what is currently one paywalled headline?
+- Does OpenAI publish or confirm an annualised revenue figure, now that the FT's "approaching \$50 billion" has replaced the roughly \$70 billion in circulation?
+
+## 2026-10-12
+
+![[2026-10-12#^soc-market-signals]]
+
+![[2026-10-12#^biz-decart-amazon]]
+
+Source note: [[2026-10-12]]
 
 ## 2026-10-02
 
