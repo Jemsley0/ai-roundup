@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, cognition]
-updated: 2026-10-09
+updated: 2026-10-12
 living: true
 ---
 
@@ -13,15 +13,26 @@ The coding-agent company behind Devin, tracked because it is the one agent categ
 
 Cognition is the cleanest financial evidence that coding agents are a real business: run-rate revenue went from \$492M in May to nearly \$900M by September, and the company raised \$2B at a \$48B valuation, nearly double its \$26B mark four months earlier.
 
-Technically it shows up in two places. SWE-2 is the strongest data point for the cheap-model-routing thesis, with selectable reasoning effort cutting average steps from 127 to 53 at medium effort. And the RSA-260 factorization is a genuine milestone with an asterisk Cognition raises itself: Devin agents did much of the optimization work, which raises real questions about human understanding of the underlying mathematics.
+Technically it shows up in three places. SWE-2 is the strongest data point for the cheap-model-routing thesis, with selectable reasoning effort cutting average steps from 127 to 53 at medium effort. The RSA-260 factorization is a genuine milestone with an asterisk Cognition raises itself: Devin agents did much of the optimization work, which raises real questions about human understanding of the underlying mathematics. The newest thread is agent memory. Cognition's Agent Memory Repo, published on October 4, 2026, stores memory as a git repository of linked Markdown loaded through a short `MEMORY.md`, with a periodic "Dreaming" agent that merges duplicates and removes stale entries. It grew from 664 GitHub stars on October 9 to 755 on October 12, and supermemory shipped an implementation on Cloudflare Durable Objects on October 6.
 
-Every performance figure in this topic is Cognition's own. Independent evaluation has not been published for any of it.
+Agent Memory Repo now has a competitor on attention alone. Victor Taelin's OptChat recipe keeps one endless chat remembered through a binary tree of summaries and reached at least five ports in eight days, with the leading port at 248 stars. Neither design has a task-quality measurement. Both keep the prompt cache valid, and OptChat's author reports 98.6% of each turn's prefix read from cache in his own simulation.
+
+Every performance figure in this topic is Cognition's own, and the memory repo has no figure at all, only stars. Independent evaluation has not been published for any of it.
 
 ## Open questions
 
 - No independent eval of SWE-2's FrontierCode parity or cost claims exists.
 - The RSA-260 asterisk is unresolved: if agents did the optimization and humans do not fully understand it, what is the status of the result as mathematics rather than as a computation?
 - Revenue nearly doubled in four months on figures the company reports to investors. Nothing here is audited.
+- Does anyone publish a benchmark of the Agent Memory Repo? The October 9, 2026 note says nothing shows the Dreaming cleaner works.
+- Do the Agent Memory Repo and the OptChat summary tree outperform compaction on task quality, or do they win only on adoption?
+- Does the git merge-conflict rule, where "git rejects the second push", hold up when several agents write the same repository?
+
+## 2026-10-12
+
+![[2026-10-12#^agent-optchat-memory]]
+
+Source note: [[2026-10-12]]
 
 ## 2026-10-09
 
@@ -54,6 +65,8 @@ Source note: [[2026-09-09]]
 ## On the radar
 
 - `🔵 TRIAL` `⚠️` **Cognition SWE-2 selectable reasoning effort**, vendor-reported figures only. [[2026-09-14]]
+- `🟡 ASSESS` **Agent Memory Repo (Cognition)**, agent memory as a git repository of linked Markdown with a periodic merge-and-prune agent; no benchmark yet. [[2026-10-09]]
+- `🟡 ASSESS` **Summary-tree memory view (OptChat recipe)**, one endless chat remembered through a binary tree of summaries, no task-quality measurement. [[2026-10-12]]
 
 ## Related
 

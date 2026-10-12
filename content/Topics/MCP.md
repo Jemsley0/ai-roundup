@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, mcp]
-updated: 2026-10-09
+updated: 2026-10-12
 living: true
 ---
 
@@ -11,13 +11,13 @@ The protocol's move from a tool-calling spec to infrastructure: stateless core, 
 
 ## Where this stands
 
-The protocol is becoming governed infrastructure, and the newest evidence concerns the interface between server and caller. The current spec revision is 2026-07-28: protocol-level sessions are gone, servers can be stateless, Tasks moved to an extension, and Enterprise-Managed Authorization is stable. The forward item is agent identity through Workload Identity Federation and DPoP, which replaces pasted keys and long-lived tokens. More than 10,000 public servers are active, and the protocol sits in the Linux Foundation's Agentic AI Foundation, yet production use is thinly evidenced.
+The protocol is becoming governed infrastructure, and the newest evidence concerns the interface between server and caller. The current spec revision is 2026-07-28: protocol-level sessions are gone, servers can be stateless, Tasks moved to an extension, and Enterprise-Managed Authorization is stable. The forward item is agent identity through Workload Identity Federation and DPoP, which replaces pasted keys and long-lived tokens. More than 10,000 public servers are active, and the protocol sits in the Linux Foundation's Agentic AI Foundation, yet production use is thinly evidenced. On October 8, 2026 the maintainers merged Server Cards (SEP-2127), a standard discovery document for HTTP servers that is labelled an extension, so whether it is core is unsettled and no SDK or major client supports it yet. They also merged a local-server security guide that says "the transport is not a sandbox".
 
-Governance is the dominant commercial shape. Snowflake's Cortex AI Gateway enforces policy per tool call across 100-plus servers. Databricks registers an MCP service as a Terraform-managed catalog object and ships its own Genie One server through it, checking permissions per request. AWS's Bedrock AgentCore Gateway is a managed MCP server with four protocol revisions on one gateway, and it added private-certificate support for VPC endpoints on Oct 2. GitHub's default policy for Copilot makes MCP access an org-wide toggle with an Oct 22 deadline. A coarse on/off switch and per-call enforcement are different controls, and the spec says nothing about either.
+Governance is the dominant commercial shape. Snowflake's Cortex AI Gateway, now in public preview, enforces policy per tool call, but dynamic routing is only "private preview soon" and the catalog of more than 100 MCP servers is private preview. Its efficiency figures are Snowflake-internal. Databricks registers an MCP service as a Terraform-managed catalog object and ships its own Genie One server through it, checking permissions per request. AWS's Bedrock AgentCore Gateway is a managed MCP server with four protocol revisions on one gateway, and it added private-certificate support for VPC endpoints on October 2. Uber published an MCP gateway design that hosts over 800 servers and over 5,000 tools, with every tool disabled until its owning team enables it and a diff the owner must approve when a description changes. Anthropic documents a self-hosted Claude apps gateway with per-developer spend caps, but enforcement fails open by default unless `enforcement.fail_closed_on_error` is true. GitHub's default policy for Copilot makes MCP access an org-wide toggle with an October 22, 2026 deadline. A coarse on/off switch and per-call enforcement are different controls, and the spec says nothing about either. Frameworks are not converging: Microsoft Agent Framework added origin pinning, while Mastra 1.75.0 now sets discovered MCP tools to need no approval by default.
 
-Evidence is accumulating that servers, not agents, are the weak surface. A study of 3,001 error messages from 150 servers found that naming the exact next tool call lifted credential-error recovery from 45% to 84%, and the penalty for human-phrased errors rose with model capability from 18 points to 69. The official Python client had an OAuth flaw that let a hostile server capture credentials, fixed in 1.30.0 and 2.2.0. This week two single-author projects reported that tool definitions change silently: 140 contract changes across 66 reference-server release pairs, and 19.2% of registry servers changing within 24 hours, mostly from one publisher. That supports pinning and diffing tool manifests. Detectors for prompt injection also failed to transfer between benchmarks, so a gateway's injection filter needs testing on your own tool outputs.
+Evidence is accumulating that servers, not agents, are the weak surface. A study of 3,001 error messages from 150 servers found that naming the exact next tool call lifted credential-error recovery from 45% to 84%. The official Python client had an OAuth flaw that let a hostile server capture credentials, fixed in 1.30.0 and 2.2.0. Two single-author projects reported that tool definitions change silently: 140 contract changes across 66 reference-server release pairs, and 19.2% of registry servers changing within 24 hours, mostly from one publisher. That supports pinning and diffing tool manifests, and the maintainers' guide now gives first-party support. A scan of 24 popular servers found none of 266 non-read-only tools accepts an idempotency key. MCP issue 3394, opened September 27, 2026, says a lost response to a mutating `tools/call` makes the client retry with a fresh id so the effect runs twice, and an earlier reproduction saw two effects in 20 of 20 runs. The spec has no retry rule, and there is still no proposal or maintainer decision. Detectors for prompt injection also failed to transfer between benchmarks, so a gateway's injection filter needs testing on your own tool outputs.
 
-The protocol's usage patterns are shifting. Pi 1.0 reversed its refusal to support MCP and added Codemode, where the agent writes code to sequence tool calls, though nobody has measured it against plain calls. SkillSeek found plain keyword retrieval matches a model-driven loop for choosing among 230,000 skills, at about half the cost. The retirement argument, that agents can write their own integration code, covers the thin end of the protocol but not discovery, authorization and audit.
+The protocol's usage patterns are shifting. Pi 1.0 reversed its refusal to support MCP and added Codemode, where the agent writes code to sequence tool calls, though nobody has measured it against plain calls. The first failure reports have arrived, and Microsoft Agent Framework 1.21.0 warns that nested calls can bypass per-call policy. LiteLLM v1.105.0 became stable on October 11, 2026, and its 1.106 release candidate disables stdio MCP servers by default. SkillSeek found plain keyword retrieval matches a model-driven loop for choosing among 230,000 skills, at about half the cost. The retirement argument, that agents can write their own integration code, covers the thin end of the protocol but not discovery, authorization and audit. MCP also carries curated meaning: LinkedIn reports a shared data context layer exposed through MCP tools raised acceptable answers from 25.9% to 79.5% in one business area, self-reported with no method.
 
 ## Open questions
 
@@ -32,6 +32,30 @@ The protocol's usage patterns are shifting. Pi 1.0 reversed its refusal to suppo
 - How many deployed clients have upgraded to the fixed Python client and passed an explicit `issuer=`?
 - Does tool-definition drift replicate outside two single-author projects, and does it appear in the reference servers' own changelogs?
 - How does code-composed tool calling compare with plain calls on cost, turns and failure rate?
+- Do the maintainers propose a retry or idempotency rule for mutating tools? Issue 3394 has no proposal or decision, and the scan shows only that no key argument exists, not that no other protection does.
+- Does any SDK or major client adopt Server Cards (SEP-2127), and does it leave extension status?
+- Does Snowflake move Cortex AI Gateway routing to public preview with a customer measurement on a real workload?
+- Do Claude apps gateway deployments set `enforcement.fail_closed_on_error`, given that spend-cap enforcement fails open by default?
+
+## 2026-10-12
+
+![[2026-10-12#^agent-mcp-retry-idempotency]]
+
+![[2026-10-12#^de-linkedin-context-layer]]
+
+![[2026-10-12#^sdlc-claude-apps-gateway]]
+
+![[2026-10-12#^prac-context-mode]]
+
+![[2026-10-12#^prac-rea]]
+
+![[2026-10-12#^ep-litellm-1105]]
+
+![[2026-10-12#^radar-idempotency-rearg]]
+
+![[2026-10-12#^radar-context-layer]]
+
+Source note: [[2026-10-12]]
 
 ## 2026-10-09
 
@@ -199,19 +223,22 @@ Source note: [[2026-09-03]]
 
 ## On the radar
 
+- `🔵 TRIAL` **Idempotency key per external call for mutating MCP tools**, reproduced duplicate external effects in 20 of 20 runs after a dropped response. (was [[2026-10-09]]) [[2026-10-12]]
 - `🔵 TRIAL` **MCP error messages that name the next tool call**, written for an agent caller rather than a human at a terminal; single paper, author-reported recovery gains. [[2026-09-29]]
-- `🔵 TRIAL` **Snowflake Cortex AI Gateway**. [[2026-09-16]]
+- `🔵 TRIAL` **Snowflake Cortex AI Gateway**, public preview; the observability is pilotable, routing and the tool catalog are not. (was [[2026-09-16]]) [[2026-10-09]]
 - `🔵 TRIAL` **Databricks Unity Gateway API**, Terraform-managed model services, model provider services, and MCP services. [[2026-09-17]]
 - `🔵 TRIAL` **Databricks Genie One MCP server**, exposes Genie as a conversational tool over the Model Context Protocol via Unity Gateway, with Unity Catalog permissions enforced per request rather than at connection time; the prior beta endpoint sunsets October 31, 2026. [[2026-09-25]]
 - `🔵 TRIAL` `⚠️` **Amazon Bedrock AgentCore Gateway**, a managed Model Context Protocol server fronting Lambda, OpenAPI, Runtime, HTTP passthrough and inference targets; cost is spread across several separate per-call meters rather than one line item. [[2026-09-18]]
 - `🔵 TRIAL` **AgentCore Gateway dimensional rate limits**, per-caller, per-target, per-tool and per-model limits on requests, tokens or connections, with `rate=0` as a kill switch; documented to fail open, so not a security boundary. [[2026-09-18]]
-- `🟡 ASSESS` **Pin-and-diff MCP tool manifests**, hash each server's tool names, descriptions and schemas at approval and alert on change; two single-author projects report frequent silent drift. [[2026-10-05]]
-- `🟡 ASSESS` **Code-mode MCP composition (Pi Codemode)**, a harness-side JavaScript sandbox where the agent writes code to sequence MCP tool calls; no measured comparison yet. [[2026-10-02]]
+- `🟡 ASSESS` **Pin-and-diff MCP tool manifests**, hash each server's tool names, descriptions and schemas at approval and alert on change; two single-author projects report frequent silent drift; the MCP maintainers' local-server guide and Microsoft Agent Framework origin pinning now give first-party support. (was [[2026-10-05]]) [[2026-10-08]]
+- `🟡 ASSESS` **Code-mode MCP composition (Pi Codemode)**, a harness-side JavaScript sandbox where the agent writes code to sequence MCP tool calls; no measured comparison yet; the first failure reports on small models have arrived, and Microsoft Agent Framework 1.21.0 warns nested calls can bypass per-call policy. (was [[2026-10-08]]) [[2026-10-09]]
 - `🔵 TRIAL` **BM25-first skill and tool retrieval (SkillSeek)**, deterministic keyword retrieval as the default selector for a large skill or tool registry; single paper. [[2026-10-02]]
 - `🟡 ASSESS` **MCP agent identity (Workload Identity Federation + DPoP)**. [[2026-09-14]]
 - `🟡 ASSESS` **Datamimic deterministic synthetic test data over MCP**. [[2026-09-16]]
-- `🟡 ASSESS` **Context layer over semantic layer, exposed to agents via MCP**, the consolidating architecture across Atlan, Looker BI Agents, and SAP Knowledge Graph. [[2026-09-11]]
-- `🟡 ASSESS` **Cymphony + agent/skill registry consolidation**, one entry, the identity-and-access face of the same problem. [[2026-09-09]]
+- `🟡 ASSESS` **Context layer over semantic layer, exposed to agents via MCP**, the consolidating architecture across Atlan, Looker BI Agents, and SAP Knowledge Graph. (was [[2026-09-11]]) [[2026-10-12]]
+- `🟡 ASSESS` **Claude apps gateway spend caps**, enforcement fails open by default. [[2026-10-12]]
+- `◻️ WATCH` **MCP Server Cards (SEP-2127)**, a standard discovery document for HTTP servers; merged but labelled an extension, with no SDK or major client support yet. [[2026-10-08]]
+- `◻️ WATCH` **Cymphony + agent/skill registry consolidation**, one entry, the identity-and-access face of the same problem. (was [[2026-09-09]]) [[2026-10-12]]
 
 ## Related
 

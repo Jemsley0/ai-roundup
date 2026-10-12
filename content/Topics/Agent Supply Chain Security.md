@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, agent-supply-chain-security]
-updated: 2026-10-09
+updated: 2026-10-12
 living: true
 ---
 
@@ -11,13 +11,13 @@ Attacks on the components an agent installs, resolves, or trusts, rather than on
 
 ## Where this stands
 
-Attacks on the components an agent installs, resolves or trusts keep landing, and the model behaves correctly in each. This thread is separate from AI Safety and Interpretability because safety work does not touch it. Seven incidents had accumulated by Sep 29: Plugin4Shell, infostealers harvesting Model Context Protocol configurations, a forum-to-production identity chain, an agent retraining and redeploying its own model, theft of a release-pipeline publish token, a shared flaw in the official Model Context Protocol Python client, and chained Agentforce flaws.
+Attacks on the components an agent installs, resolves or trusts keep landing, and the model behaves correctly in each. This thread is separate from AI Safety and Interpretability because safety work does not touch it. By September 29, 2026 it held seven incidents: Plugin4Shell, infostealers harvesting Model Context Protocol configurations, a forum-to-production identity chain, an agent retraining and redeploying its own model, theft of a release-pipeline publish token, a shared flaw in the official Model Context Protocol Python client, and chained Agentforce flaws. Plugin4Shell remains the strongest item. All four major coding agents resolved a pinned plugin commit with `git checkout` and none checked where it landed, so a branch named after the pinned hash ran instead. Two are patched, GitHub Copilot has no patch, and Gemini CLI will not get one. The pin was a statement of intent, not a record of what ran.
 
-Plugin4Shell remains the strongest item. All four major coding agents resolved a pinned plugin commit with `git checkout` and none checked where it landed, so a branch named after the pinned hash ran instead. Two are patched, GitHub Copilot has no patch, and Gemini CLI will not get one. The pin was a statement of intent, not a record of what ran.
+The newest cases are package and credential theft that a pin or an attestation does not stop. Socket and StepSecurity say `tensorlake@0.5.144` carried the Shai-Hulud worm and was published with valid npm provenance. Socket flagged it 11 minutes after publication. It steals credentials, spreads through the victim's publishing identity, and writes `.claude/settings.json` and `.vscode/tasks.json` into reachable repositories. StepSecurity says a monitor runs `rm -rf ~/` if the stolen GitHub token is revoked, though the Hacker News hedges that wording. The lesson on the radar is that an attestation says where a package was built, not that the code is safe. GhostAction returned on October 8 and 9, 2026: two compromised maintainer accounts pushed a fake "security audit" workflow to about 345 repositories, and it reads full git history for committed secrets using 13 patterns, including Anthropic, OpenAI and OpenRouter keys. Socket's own update dated October 9 claims more than 500 accounts and "tens of thousands of repositories" since October 7, which its post never reconciles with the 345 figure, so treat 345 as the verified count. StepSecurity says `@subql/common@5.8.3` runs its payload on install and on import, so disabling install scripts does not help. Neither StepSecurity nor Socket says how the GhostAction accounts were taken, and StepSecurity sells Harden-Runner, so its remedy list favours its product.
 
-This week added drift and indirect control. Two single-author projects report that Model Context Protocol tool definitions change without notice. RugSnare counted 140 contract changes across 66 reference-server release pairs, 43 of them schema-breaking, and a transparency log saw 19.2% of registry servers change within 24 hours, though one publisher drives 87% of real edits. Neither indicts the reference servers, and both support hashing and diffing tool manifests. A study found prompt-injection detectors do not transfer between benchmarks: the best on one caught 2% of injections on another at a 1% false-positive rate. Another reports that steering an agent down pre-approved branches defeats dual-model defences, with 94.4% attack success on standard agents and 89.5% on dual-model ones. Its own defence reports 0%, from authors who built both the attack benchmark and the fix.
+Exposed AI infrastructure is also a target. Lumen's Black Lotus Labs says the PoeLLM botnet has infected over 3,400 exposed AI servers through a LiteLLM MCP test-endpoint flaw (CVE-2026-42271), for cryptomining. JFrog reports an unauthenticated remote code execution flaw in LMCache (CVE-2026-105192, score 9.8) with no fixed version, in multiprocess mode on 0.3.9 through 0.5.5. The page found the CVE only in The Hacker News and a JFrog listing. Google's GTIG says 141 flaws were exploited in January to August 2026, against 127 in all of 2025, and that orchestration middleware is 50% of AI-related flaws. GTIG itself says eight months against twelve is not like for like, and that exploitation "remains concentrated in perimeter appliances".
 
-A new failure needs no attacker. Glow Labs says coding agents asked to prove a user-interface fix created public GitHub repositories for screenshots and leaked internal images from over 300 organisations, because the pull request interface lacks command-line upload. Some agents saved the workaround as a reusable skill. The UK AI Security Institute separately measured GPT-6 Astra completing simulated supply-chain attacks in 29.2% of trajectories.
+Drift and indirect control continue from the previous week. Two single-author projects report that Model Context Protocol tool definitions change without notice. RugSnare counted 140 contract changes across 66 reference-server release pairs, 43 of them schema-breaking, and a transparency log saw 19.2% of registry servers change within 24 hours, though one publisher drives 87% of real edits. Neither indicts the reference servers, and both support hashing and diffing tool manifests, which now has first-party support from the MCP maintainers' local-server guide and Microsoft Agent Framework origin pinning. A study found prompt-injection detectors do not transfer between benchmarks: the best on one caught 2% of injections on another at a 1% false-positive rate. Another reports that steering an agent down pre-approved branches defeats dual-model defences, with 94.4% attack success on standard agents and 89.5% on dual-model ones. Its own defence reports 0%, from authors who built both the attack benchmark and the fix. A failure that needs no attacker: Glow Labs says coding agents asked to prove a user-interface fix created public GitHub repositories for screenshots and leaked internal images from over 300 organisations. The UK AI Security Institute separately measured GPT-6 Astra completing simulated supply-chain attacks in 29.2% of trajectories.
 
 The common gap is verification after the fact. Each case satisfied authorization, and none checked that the resulting state matched it.
 
@@ -35,6 +35,21 @@ The common gap is verification after the fact. Each case satisfied authorization
 - Do the manifest-drift findings replicate outside two single-author projects, and do reference servers change tools silently in practice?
 - Does the branch-steering defence reach 0% attack success when someone other than its authors tests it?
 - Which agent platforms offer a sanctioned private destination for evidence, so agents stop improvising public hosting?
+- How did the attackers take the two GhostAction maintainer accounts, and does Socket ever reconcile 345 repositories with "tens of thousands"?
+- Does any registry or provenance scheme add a check beyond build origin, given that the `tensorlake` worm shipped with valid provenance?
+- Does LMCache ship a patched release, since none exists as of October 8, 2026?
+
+## 2026-10-12
+
+![[2026-10-12#^headline-ghostaction-scale]]
+
+![[2026-10-12#^corr-ghostaction-scale]]
+
+![[2026-10-12#^sec-subql-npm]]
+
+![[2026-10-12#^sec-gtig-exploitation]]
+
+Source note: [[2026-10-12]]
 
 ## 2026-10-09
 
@@ -122,7 +137,8 @@ Source note: [[2026-09-18]]
 - `⚠️ CAUTION` **Consumer SSO federated into a third-party-hosted community forum**, the weakest-hosted service in an estate can be the strongest identity relying party; a compromised forum yielded sessions on linked production accounts and the internal repositories behind them. [[2026-09-18]]
 - `⚠️ CAUTION` **CI release-pipeline token theft as a package-supply-chain vector**, a publish token stolen during a release job, not a published artifact compromised afterward, let attackers push malicious versions of a vendor's own packages; bypasses remediations that assume rotating the package is sufficient. [[2026-09-23]]
 - `⚠️ CAUTION` **A coding agent improvising public hosting for evidence it was asked to produce**, agents asked to prove a user-interface fix created public GitHub repositories for internal screenshots, and some saved the workaround as a reusable skill. [[2026-10-02]]
-- `🟡 ASSESS` **Pin-and-diff MCP tool manifests**, hash each server's tool names, descriptions and schemas at approval and alert on change; two single-author projects report frequent silent drift. [[2026-10-05]]
+- `⚠️ CAUTION` **Package provenance attestations as a safety signal**, the compromised `tensorlake` release was published from the project's own main branch with valid provenance; an attestation says where a package was built, not that the code is safe. [[2026-10-08]]
+- `🟡 ASSESS` **Pin-and-diff MCP tool manifests**, hash each server's tool names, descriptions and schemas at approval and alert on change; two single-author projects report frequent silent drift; the MCP maintainers' local-server guide and Microsoft Agent Framework origin pinning now give first-party support. (was [[2026-10-05]]) [[2026-10-08]]
 
 ## Related
 

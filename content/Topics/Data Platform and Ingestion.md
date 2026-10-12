@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, data-platform, dbt, snowflake, databricks, bedrock]
-updated: 2026-10-09
+updated: 2026-10-12
 living: true
 ---
 
@@ -11,20 +11,20 @@ Movement in the warehouse and transformation layer: Snowflake's and Databricks' 
 
 ## Where this stands
 
-Both major warehouses have moved the agent problem inside the warehouse, and the evidence is architectural. Databricks' Genie One MCP server is generally available through Unity Gateway with Unity Catalog permissions checked per request, and its beta endpoint sunsets Oct 31. Snowflake's Cortex AI Gateway, in public preview, enforces policy per tool call across 100-plus MCP servers. AWS's Bedrock AgentCore Gateway is generally available, priced per call and able to refuse traffic that bypassed it. AWS also entered Bedrock Managed Agents in preview, built on a customized OpenAI agent interface. It is OpenAI-models-only, and its announcement and security documentation disagree on human approval, which the documentation leaves to the application. Nobody has compared what each gateway can stop.
+Both major warehouses have moved the agent problem inside the warehouse, and the evidence is architectural. Databricks' Genie One MCP server is generally available through Unity Gateway with Unity Catalog permissions checked per request, and its beta endpoint sunsets October 31, 2026. Snowflake's Cortex AI Gateway, in public preview, enforces policy per tool call across 100-plus MCP servers, but dynamic routing is only "private preview soon", so the pilotable part is observability. AWS's Bedrock AgentCore Gateway is generally available, priced per call and able to refuse traffic that bypassed it. AWS also entered Bedrock Managed Agents in preview, built on a customized OpenAI agent interface. It is OpenAI-models-only, and its announcement and security documentation disagree on human approval, which the documentation leaves to the application. Databricks also made on-behalf-of-user authorization for Databricks Apps generally available on October 7, 2026, so Unity Catalog row filters and column masks apply to the signed-in user. Nobody has compared what each gateway can stop.
 
-Transformation is where the cost lever sits. dbt v2.0 is generally available with adapters for Snowflake, BigQuery, Redshift and Databricks, and dbt State skips or clones unchanged nodes on v1.7 through v2.0. dltHub reports 91 percent of community pipelines now written by agents, so the bottleneck moves downstream. Thrive Learning reports a 97 to 99% compute cut moving one join-heavy pipeline to custom-incremental dynamic tables. It covers one pipeline with no baseline, and it does not show dynamic tables beat a tuned dbt incremental model. Snowflake's command-line tool 3.28.0 made `snow dbt` a credible deploy path.
+Transformation is where the cost lever sits. dbt v2.0 is generally available with adapters for Snowflake, BigQuery, Redshift and Databricks, and dbt State skips or clones unchanged nodes on v1.7 through v2.0. dbt Labs promoted v2.0.8 to its recommended channel on October 9, 2026 and flagged v2.0.7 "Known Bad", and 2.0.7's changelog turns `compare_unrendered_code` on by default, so a state-aware run may rebuild or skip differently. The 2.0.8 changelog is unpublished, so that point is inferred. dltHub reports 91 percent of community pipelines now written by agents, so the bottleneck moves downstream. Two Snowflake cost items carry vendor-reported figures with caveats: dynamic tables with a top-level `GROUP BY` now refresh incrementally, cutting refresh time about 40% on average with no configuration, and Adaptive Warehouses show 412 to 545 times less data written and 13.7 times faster `MERGE`, though the post says a runtime ratio is not a cost estimate. Thrive Learning reports a 97 to 99% compute cut moving one join-heavy pipeline to custom-incremental dynamic tables, which covers one pipeline with no baseline and does not show dynamic tables beat a tuned dbt incremental model. Snowflake's Optima Clustering is now the default for tables first clustered after September 1, billed on ingested bytes, while existing tables stay on Classic, and no per-gigabyte rate is published.
 
 Access control and schema hardening move fastest. Databricks attribute-based access control now covers views, with a metastore-level policy that overlaps it. Snowflake closed gaps on hybrid-table constraints, partitioned Iceberg streaming and dynamic-table `VALUES`.
 
-Silent behaviour changes are this week's practical risk. Snowflake's Python connector 4.8.0 turned certificate revocation checks off by default in a minor version, and it raised the `pyOpenSSL` floor. Dagster releases before dagster-dbt 0.29.25 can omit dbt Fusion models from selection. Bedrock now applies one cross-model daily token quota per account and Region. Deleting a Unity Catalog pipeline now keeps its tables. Seven dbt platform flags now default to true on the Latest track. Claude Sonnet 5.5 is on Bedrock, but independent measurement puts its cost per task above Sonnet 5 at maximum effort, so evaluate cost at the chosen thinking effort.
+Silent behaviour changes are the practical risk. Dagster 1.13.26 (October 9, 2026) makes `dbt-core` an extra of `dagster-dbt` 0.29.26, and its notes warn that installing `dbt-core` beside dbt Fusion's `dbt` package makes both overwrite each other with no pip error. Snowflake's 10.37 release page says behaviour bundle 2026_07 is enabled by default, while the separate bundle page still read "Disabled by default" on October 12, so run `SYSTEM$BEHAVIOR_CHANGE_BUNDLE_STATUS('2026_07')` in each account. That bundle changes ownership transfer, which affects declarative grant tooling, and replaces `invoker_identity` in `ACCESS_HISTORY`. Snowflake's Python connector 4.8.0 turned certificate revocation checks off by default in a minor version, and it raised the `pyOpenSSL` floor. Bedrock applies one cross-model daily token quota per account and Region. Deleting a Unity Catalog pipeline keeps its tables. Seven dbt platform flags default to true on the Latest track. Claude Sonnet 5.5 is on Bedrock, but independent measurement puts its cost per task above Sonnet 5 at maximum effort. Prefect said on July 13, 2026 that it is acquiring Dagster Labs, with no price or closing date and a letter promising Dagster OSS continuity, so watch for a closing notice and any change to dagster-dbt releases.
 
 ## Open questions
 
 - How much of a real project's DAG is unchanged between runs? Without that distribution, dbt State's saving is unmeasured outside vendor framing.
 - The new dbt Semantic Layer YAML specification has no published migration path and no statement on how long both will be supported.
 - Does the Cortex AI Gateway boundary hold, or does it become a second permission system beside Cortex database roles?
-- No independent measurement of Snowflake dynamic model routing exists. The 3x and 25 percent figures are internal tests.
+- No independent measurement of Snowflake dynamic model routing exists. The 3x and 25 percent figures are internal tests, and routing is not yet pilotable.
 - Is `interactive_table`'s lack of model contracts a beta gap or a structural limit?
 - Open Semantic Interchange still has no vendor shipping native import or export, and Microsoft is absent while shipping a competing ontology layer.
 - The date of Snowflake's default string and binary column size change is unpinned. The version floor, `dbt-snowflake` v1.10.6, is real.
@@ -39,6 +39,55 @@ Silent behaviour changes are this week's practical risk. Snowflake's Python conn
 - Does custom-incremental dynamic tables beat a tuned dbt incremental model on a join-heavy pipeline when both are measured against a stated baseline?
 - Will the connector's revocation-check default be reversed or documented with a rationale, and how many pipelines now connect without it?
 - Will AWS document an approval event for Bedrock Managed Agents, or does approval stay the application's job?
+- When Snowflake publishes final 10.37 notes, does bundle 2026_07 turn out enabled by default, and which accounts have already tested it?
+- What per-gigabyte rate does Optima Clustering bill, and does a credit comparison by `VERSION` on two similar tables show it cheaper?
+- Does Adaptive Warehouse billing make the 13.7 times `MERGE` speedup a credit saving on one merge-heavy dbt incremental model?
+- Does Prefect announce a closing date for the Dagster Labs acquisition, and does dagster-dbt keep its release cadence?
+- Does a named-competitor run, or a customer cost figure on a real workload, confirm Databricks's Lakebase Search claim of twice the throughput and 4 times lower cost than pgvector?
+
+## 2026-10-12
+
+![[2026-10-12#^headline-dagster-dbt]]
+
+![[2026-10-12#^de-dagster-dbt-core]]
+
+![[2026-10-12#^de-snowflake-bundles]]
+
+![[2026-10-12#^corr-snowflake-bundles]]
+
+![[2026-10-12#^corr-version-bumps]]
+
+![[2026-10-12#^de-salesforce-spark]]
+
+![[2026-10-12#^de-databricks-budgets]]
+
+![[2026-10-12#^de-duckdb-parquet-speed]]
+
+![[2026-10-12#^ep-lakebase-search]]
+
+![[2026-10-12#^spotlight-monte-carlo]]
+
+![[2026-10-12#^rn-sf-workload-identity]]
+
+![[2026-10-12#^rn-sf-snowsight-tags]]
+
+![[2026-10-12#^rn-dagster-1-13-26]]
+
+![[2026-10-12#^rn-dbt-databricks-1-12-7]]
+
+![[2026-10-12#^rn-dbt-snowflake-1-12-2]]
+
+![[2026-10-12#^rn-duckdb-versions]]
+
+![[2026-10-12#^radar-dlt-watch]]
+
+![[2026-10-12#^radar-lakebase-search]]
+
+![[2026-10-12#^radar-monte-carlo]]
+
+![[2026-10-12#^radar-duckdb-agent-mode]]
+
+Source note: [[2026-10-12]]
 
 ## 2026-10-09
 
@@ -413,21 +462,28 @@ Source note: [[2026-09-03]]
 
 - `🟢 ADOPT` **dbt State**, skips or clones nodes when neither logic nor data has changed, and works against dbt v1.7 through v2.0 so it does not require the engine migration. [[2026-09-21]]
 - `🔵 TRIAL` **dbt v2.0 single-engine migration**, one Rust engine with Snowflake, BigQuery, Redshift and Databricks adapters at general availability; the install paths changed, so `pip install dbt` now means v2. [[2026-09-21]]
-- `🔵 TRIAL` **Snowflake Cortex AI Gateway**. [[2026-09-16]]
+- `🔵 TRIAL` **Snowflake Cortex AI Gateway**, public preview; the observability is pilotable, routing and the tool catalog are not. (was [[2026-09-16]]) [[2026-10-09]]
 - `🔵 TRIAL` **Databricks Unity Gateway API**, Terraform-managed model services, model provider services, and MCP services. [[2026-09-17]]
 - `🔵 TRIAL` **Databricks Genie One MCP server**, exposes Genie as a conversational tool over the Model Context Protocol via Unity Gateway, with Unity Catalog permissions enforced per request rather than at connection time; the prior beta endpoint sunsets October 31, 2026. [[2026-09-25]]
 - `🔵 TRIAL` `⚠️` **Amazon Bedrock AgentCore Gateway**, a managed Model Context Protocol server fronting Lambda, OpenAPI, Runtime, HTTP passthrough and inference targets; cost is spread across several separate per-call meters rather than one line item. [[2026-09-18]]
 - `🔵 TRIAL` **AgentCore Gateway dimensional rate limits**, per-caller, per-target, per-tool and per-model limits on requests, tokens or connections, with `rate=0` as a kill switch; documented to fail open, so not a security boundary. [[2026-09-18]]
-- `🔵 TRIAL` **Snowflake dynamic model routing**, the same mechanism sold as a managed feature, vendor-reported numbers. [[2026-09-16]]
 - `🔵 TRIAL` **dbt Projects on Snowflake CI capabilities**. [[2026-09-14]]
 - `🔵 TRIAL` **Snowflake Advanced Semantics / Semantic Studio**, Semantic Studio and declarative semantic-view deploy now generally available. (was [[2026-09-03]]) [[2026-10-02]]
+- `🟡 ASSESS` **Snowflake dynamic model routing**, the same mechanism sold as a managed feature; vendor-reported numbers, and routing is announced as private preview, not yet pilotable. (was [[2026-09-16]]) [[2026-10-09]]
+- `🟡 ASSESS` **Snowflake Optima Clustering**, default for newly clustered tables, billed on ingested bytes; no per-gigabyte rate published. [[2026-10-09]]
 - `🟡 ASSESS` **Snowflake Cortex AI Function Evaluation and Optimization**, paired public previews measuring quality, cost and token usage of custom AI Functions against labelled datasets, and automatically searching prompts and models for better implementations of them. [[2026-09-22]]
 - `🟡 ASSESS` **dbt `interactive_table` materialization**, contracts unsupported and a silent staleness trap downstream of `table` models. [[2026-09-16]]
-- `🟡 ASSESS` **dlt (data load tool)**. [[2026-09-11]]
 - `🟡 ASSESS` **Microsoft Fabric IQ Ontology**. [[2026-09-15]]
 - `🟡 ASSESS` **Bedrock Managed Knowledge Base agentic retrieval**, a managed retriever that plans queries and reranks across documents at 5x the per-call cost of standard hybrid search, with no published same-corpus quality comparison. [[2026-09-18]]
-- `🟡 ASSESS` **Apache Ossie / Open Semantic Interchange**, portable semantic definitions, blocked on native vendor support and Microsoft's absence. [[2026-09-11]]
 - `◻️ WATCH` **Amazon Bedrock Managed Agents**, an AWS-native agent service built on a customized OpenAI Agents API; preview. [[2026-10-02]]
+- `◻️ WATCH` **Snowflake Adaptive Warehouses for DML-heavy work**, vendor numbers of 412 to 545 times less data written and 13.7 times faster `MERGE`; the post itself says runtime ratios are not cost estimates. [[2026-10-08]]
+- `◻️ WATCH` **DuckLake**, MIT-licensed lakehouse format with metadata in a SQL database; maintainer-reported speed figures and Snowflake cannot read it natively. [[2026-10-09]]
+- `◻️ WATCH` **dlt (data load tool)**. (was [[2026-09-11]]) [[2026-10-12]]
+- `◻️ WATCH` **Databricks Lakebase Search**, vendor-reported benchmark with no named competitor. [[2026-10-12]]
+- `◻️ WATCH` **Monte Carlo Agent Observability**, vendor claims, no public price. [[2026-10-12]]
+- `◻️ WATCH` **Agent-aware CLI output (DuckDB agent mode)**, output tokens down 59%, total cost unchanged. [[2026-10-12]]
+- `◻️ WATCH` **Apache Ossie / Open Semantic Interchange**, portable semantic definitions, blocked on native vendor support and Microsoft's absence. (was [[2026-09-11]]) [[2026-10-12]]
+- `⚠️ CAUTION` **Orchestrator ownership change (Prefect acquiring Dagster Labs)**, the letter promises continuity and no close has been reported; watch for a closing notice and for any change to integration releases. [[2026-10-08]]
 
 ## Open action items
 
