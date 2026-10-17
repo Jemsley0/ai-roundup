@@ -67,6 +67,12 @@ Recurring threads. Each one is a **full top-down read** of every edition that to
 - [[Topics/Agent Sandboxing and Execution Policy|Agent Sandboxing and Execution Policy]]. Where agent-generated code runs and who holds the allow or deny decision: operating-system sandboxes, microVMs, per-tool policy engines and fail-closed hooks.
 - [[Topics/Evaluation Methodology|Evaluation Methodology]]. How model and agent evaluations are built and how far their numbers can be trusted: judge noise, confidence intervals, benchmark reliability, saturation, and evaluator independence.
 
+## Special editions
+
+One-off pages that argue a single theme across several weeks, written beside the daily editions.
+
+- [[Special Editions/2026-10-17 AI Economy and Society|The AI economy and its public, October 2026]]. Lab revenue and valuations, bubble warnings, open weights against the frontier labs, consumer reception, data center politics, public sentiment and export controls
+
 ## Every edition
 
 - [[2026-10-17]]. The IMF named an AI-linked market correction as a salient risk and counted 14 circular-financing deals, Anthropic replaced git with Scion after agent merges passed 30,000 a day, `snowflake-connector-python` 5.0.0 went stable while `dbt-snowflake` still pins below it, CISA, NIST and the NSA published voluntary frontier-agent incident practices, Meta and Reflection AI released large open-weight models
