@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, ai-safety, interpretability]
-updated: 2026-10-12
+updated: 2026-10-17
 living: true
 ---
 
@@ -40,6 +40,22 @@ Policy has fragmented without becoming binding. OpenAI asked Congress for mandat
 - Does the reported restoration of UK AISI pre-release access hold, and on what terms, given that the sources are paywalled and headline-only?
 - Does Arena's Alignment Index rank the same way when scored by a judge outside the OpenAI family?
 - Is there any independent account of the three OpenAI researchers' firings beyond the two sides' own claims?
+
+## 2026-10-17
+
+![[2026-10-17#^headline-cisa-practices]]
+
+![[2026-10-17#^sec-cisa-si-practices]]
+
+![[2026-10-17#^essay-cammarata-clean]]
+
+![[2026-10-17#^sec-cso-not-rogue]]
+
+![[2026-10-17#^sec-openai-sepolia]]
+
+![[2026-10-17#^radar-regulatory-baseline]]
+
+Source note: [[2026-10-17]]
 
 ## 2026-10-12
 

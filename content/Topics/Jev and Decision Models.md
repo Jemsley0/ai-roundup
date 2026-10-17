@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, jev-and-decision-models]
-updated: 2026-10-12
+updated: 2026-10-17
 living: true
 ---
 
@@ -31,6 +31,20 @@ TypeSafe's hosted Jev still has no paper, no published weights and an unresolved
 - Does the first-option bias reported for Strands and OpenAI persist after the vendors respond?
 - No single table compares Kev, CLM-8B, Microsoft-Decision-1, Clef-Omni, Jeff, Jeeves and the prompt-only GLM-5.3-Flash approach on the same benchmarks.
 - Does the TypeSafe raise get confirmed by a source other than a Techmeme headline?
+
+## 2026-10-17
+
+![[2026-10-17#^agent-decision-delegation]]
+
+![[2026-10-17#^evals-decision-index]]
+
+![[2026-10-17#^zaney-jev-trolley]]
+
+![[2026-10-17#^radar-decision-class]]
+
+![[2026-10-17#^radar-decision-delegation]]
+
+Source note: [[2026-10-17]]
 
 ## 2026-10-12
 

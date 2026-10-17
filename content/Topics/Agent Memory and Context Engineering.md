@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, agent-memory]
-updated: 2026-10-12
+updated: 2026-10-17
 living: true
 ---
 
@@ -37,6 +37,18 @@ The design debate is live and unmeasured. Kevin Liao argues agents need reviewed
 - Does the Agent Memory Repo's git merge rule, where "git rejects the second push", hold up when several agents write at once?
 - Do the context-saving tools (DuckDB agent mode, Pensieve, Context Mode) report task success, so a saving can be set against a quality change?
 - Does the placebo-arm result on coding skills replicate on a second model with harder tasks?
+
+## 2026-10-17
+
+![[2026-10-17#^ep-agentcore-memory-pricing]]
+
+![[2026-10-17#^spotlight-uvi]]
+
+![[2026-10-17#^essay-sankar-context]]
+
+![[2026-10-17#^rn-aws-agentcore-memory]]
+
+Source note: [[2026-10-17]]
 
 ## 2026-10-12
 

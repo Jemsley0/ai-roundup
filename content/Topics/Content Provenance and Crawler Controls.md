@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, content-provenance, crawler-controls]
-updated: 2026-10-05
+updated: 2026-10-17
 living: true
 ---
 
@@ -27,6 +27,16 @@ Provenance is not uniformly protective. An essay argues that AI output traceabil
 - How much evidentiary weight does an internal partner memo carry when it is not an admission by the defendant?
 - Will other retailers follow Amazon in blocking browser-driving agents, and does a software aggregator have any equivalent defence?
 - Is there a deployed system that embeds an undeclared traceability signal in AI-generated text, and would it survive the tests applied to watermark detection?
+
+## 2026-10-17
+
+![[2026-10-17#^radar-cloudflare-disallow]]
+
+![[2026-10-17#^radar-apple-reference-dropped]]
+
+![[2026-10-17#^radar-web-fetch-dropped]]
+
+Source note: [[2026-10-17]]
 
 ## 2026-10-02
 

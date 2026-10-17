@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, cognition]
-updated: 2026-10-12
+updated: 2026-10-17
 living: true
 ---
 
@@ -27,6 +27,14 @@ Every performance figure in this topic is Cognition's own, and the memory repo h
 - Does anyone publish a benchmark of the Agent Memory Repo? The October 9, 2026 note says nothing shows the Dreaming cleaner works.
 - Do the Agent Memory Repo and the OptChat summary tree outperform compaction on task quality, or do they win only on adoption?
 - Does the git merge-conflict rule, where "git rejects the second push", hold up when several agents write the same repository?
+
+## 2026-10-17
+
+![[2026-10-17#^evals-frontiercode]]
+
+![[2026-10-17#^radar-swe2-dropped]]
+
+Source note: [[2026-10-17]]
 
 ## 2026-10-12
 

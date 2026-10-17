@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, agentic-sdlc, governance]
-updated: 2026-10-12
+updated: 2026-10-17
 living: true
 ---
 
@@ -44,6 +44,42 @@ Products now compete on where control sits. Dataiku and Komodor sell cross-platf
 - Do SPS Commerce or Cockroach Labs publish merge, revert, cost and cycle-time figures that let their results be set against a baseline?
 - Does Factory publish terms or figures for Mentlio, and does in-harness routing show a measured saving?
 - Does the placebo-arm test of skills replicate on a second model, given its own stated limit of one model and tasks mostly at ceiling?
+
+## 2026-10-17
+
+![[2026-10-17#^headline-scion]]
+
+![[2026-10-17#^essay-huynh-memo]]
+
+![[2026-10-17#^essay-matsakis-rust]]
+
+![[2026-10-17#^sdlc-claude-code-review]]
+
+![[2026-10-17#^sdlc-managed-settings]]
+
+![[2026-10-17#^prac-scion]]
+
+![[2026-10-17#^rn-claude-code-2-1-302]]
+
+![[2026-10-17#^rn-copilot-settings]]
+
+![[2026-10-17#^rn-copilot-deprecations]]
+
+![[2026-10-17#^rn-codex-gpt-5-5]]
+
+![[2026-10-17#^radar-evidence-gates]]
+
+![[2026-10-17#^radar-impactgate-assess]]
+
+![[2026-10-17#^radar-control-plane-dropped]]
+
+![[2026-10-17#^radar-risk-tiered-approval]]
+
+![[2026-10-17#^radar-single-vendor-dropped]]
+
+![[2026-10-17#^radar-datamimic-dropped]]
+
+Source note: [[2026-10-17]]
 
 ## 2026-10-12
 

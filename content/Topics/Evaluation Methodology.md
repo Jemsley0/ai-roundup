@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, evaluation-methodology]
-updated: 2026-10-12
+updated: 2026-10-17
 living: true
 ---
 
@@ -32,6 +32,22 @@ Vendor-reported figures keep failing independent checks or arriving with no meth
 - Does Arena's Alignment Index hold up when scored by a non-OpenAI judge?
 - Do the run-to-run noise preprints and the rubric-consensus result replicate outside their own authors?
 - Does the placebo-arm test of coding skills replicate on a second model, given the author's own limit of one model and tasks mostly at ceiling?
+
+## 2026-10-17
+
+![[2026-10-17#^evals-mercor-map]]
+
+![[2026-10-17#^evals-frontiercode]]
+
+![[2026-10-17#^evals-decision-index]]
+
+![[2026-10-17#^evals-spireclimb]]
+
+![[2026-10-17#^evals-gemini-argon]]
+
+![[2026-10-17#^zaney-jev-trolley]]
+
+Source note: [[2026-10-17]]
 
 ## 2026-10-12
 

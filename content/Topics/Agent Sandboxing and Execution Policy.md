@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, agent-sandboxing-and-execution-policy]
-updated: 2026-10-12
+updated: 2026-10-17
 living: true
 ---
 
@@ -26,6 +26,20 @@ Four facts complicate the picture. Endstop's review of NVIDIA OpenShell says the
 - Will a fail-closed default become the norm for filesystem policy after the OpenShell critique? NVIDIA has not answered it.
 - Is there adoption data for Copilot local sandboxing, and how many enterprises set the managed-settings requirement?
 - Does cutting live internet access, as Anthropic did for its evaluations, prove a workable containment practice for other labs, and what does it cost in evaluation realism?
+
+## 2026-10-17
+
+![[2026-10-17#^agent-opencode-code-mode]]
+
+![[2026-10-17#^agent-approval-convergence]]
+
+![[2026-10-17#^ep-trust-in-depth]]
+
+![[2026-10-17#^sec-cisa-si-practices]]
+
+![[2026-10-17#^radar-codemode-caution]]
+
+Source note: [[2026-10-17]]
 
 ## 2026-10-12
 

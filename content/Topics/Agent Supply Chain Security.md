@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, agent-supply-chain-security]
-updated: 2026-10-12
+updated: 2026-10-17
 living: true
 ---
 
@@ -38,6 +38,16 @@ The common gap is verification after the fact. Each case satisfied authorization
 - How did the attackers take the two GhostAction maintainer accounts, and does Socket ever reconcile 345 repositories with "tens of thousands"?
 - Does any registry or provenance scheme add a check beyond build origin, given that the `tensorlake` worm shipped with valid provenance?
 - Does LMCache ship a patched release, since none exists as of October 8, 2026?
+
+## 2026-10-17
+
+![[2026-10-17#^corr-ghostaction-gitguardian]]
+
+![[2026-10-17#^sec-npm-slugfest]]
+
+![[2026-10-17#^agent-mcp-unpinned]]
+
+Source note: [[2026-10-17]]
 
 ## 2026-10-12
 

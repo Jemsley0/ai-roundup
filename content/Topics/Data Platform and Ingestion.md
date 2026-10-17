@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, data-platform, dbt, snowflake, databricks, bedrock]
-updated: 2026-10-12
+updated: 2026-10-17
 living: true
 ---
 
@@ -44,6 +44,86 @@ Silent behaviour changes are the practical risk. Dagster 1.13.26 (October 9, 202
 - Does Adaptive Warehouse billing make the 13.7 times `MERGE` speedup a credit saving on one merge-heavy dbt incremental model?
 - Does Prefect announce a closing date for the Dagster Labs acquisition, and does dagster-dbt keep its release cadence?
 - Does a named-competitor run, or a customer cost figure on a real workload, confirm Databricks's Lakebase Search claim of twice the throughput and 4 times lower cost than pgvector?
+
+## 2026-10-17
+
+![[2026-10-17#^headline-connector-5]]
+
+![[2026-10-17#^de-connector-5]]
+
+![[2026-10-17#^de-inherited-grants]]
+
+![[2026-10-17#^de-dbt-core-patches]]
+
+![[2026-10-17#^de-iceberg-v3]]
+
+![[2026-10-17#^de-databricks-transactions]]
+
+![[2026-10-17#^de-horizon-context]]
+
+![[2026-10-17#^de-postgres-19]]
+
+![[2026-10-17#^rn-sf-inherited-grants]]
+
+![[2026-10-17#^rn-sf-connector-5]]
+
+![[2026-10-17#^rn-sf-iceberg-v3]]
+
+![[2026-10-17#^rn-sf-postgres-mirroring]]
+
+![[2026-10-17#^rn-sf-replication]]
+
+![[2026-10-17#^rn-sf-terraform-2-22]]
+
+![[2026-10-17#^rn-sf-horizon-context]]
+
+![[2026-10-17#^rn-sf-listing-history]]
+
+![[2026-10-17#^rn-sf-classification-errors]]
+
+![[2026-10-17#^rn-sf-cortex-agent-sdk]]
+
+![[2026-10-17#^rn-sf-minor]]
+
+![[2026-10-17#^rn-sf-10-37]]
+
+![[2026-10-17#^rn-db-transactions]]
+
+![[2026-10-17#^rn-db-external-access]]
+
+![[2026-10-17#^rn-db-state-repartitioning]]
+
+![[2026-10-17#^rn-db-tag-propagation]]
+
+![[2026-10-17#^rn-db-oct-12]]
+
+![[2026-10-17#^rn-db-oct-15]]
+
+![[2026-10-17#^rn-db-jobs-system-tables]]
+
+![[2026-10-17#^rn-dbt-core-1-12-6]]
+
+![[2026-10-17#^rn-dbt-prereleases]]
+
+![[2026-10-17#^rn-dbt-2-0-8]]
+
+![[2026-10-17#^rn-dbt-snowflake-1-12-3]]
+
+![[2026-10-17#^rn-dbt-platform-scim]]
+
+![[2026-10-17#^rn-dagster-unchanged]]
+
+![[2026-10-17#^radar-inherited-grants]]
+
+![[2026-10-17#^radar-iceberg-v3]]
+
+![[2026-10-17#^radar-dbt-projects-ci]]
+
+![[2026-10-17#^radar-interactive-table-watch]]
+
+![[2026-10-17#^radar-lakebase-rearg]]
+
+Source note: [[2026-10-17]]
 
 ## 2026-10-12
 

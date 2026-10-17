@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, global-ai-governance-institutions]
-updated: 2026-10-12
+updated: 2026-10-17
 living: true
 ---
 
@@ -28,6 +28,20 @@ The gap between any framework and practice showed on September 24, 2026, when Au
 - Whether the Security Council session produces a follow-up mechanism, a working group, a briefing cadence or a resolution.
 - What the UK incident and near-miss reporting route requires: who reports, to whom, and by what deadline. Whether it becomes a model for a government-facing notification deadline, which none of the five international tracks sets.
 - Whether the reported restoration of UK AISI pre-release access holds, and on what terms, given that the sources are paywalled and headline-only.
+
+## 2026-10-17
+
+![[2026-10-17#^headline-cisa-practices]]
+
+![[2026-10-17#^sec-cisa-si-practices]]
+
+![[2026-10-17#^sec-cert-in]]
+
+![[2026-10-17#^policy-china-export]]
+
+![[2026-10-17#^radar-regulatory-baseline]]
+
+Source note: [[2026-10-17]]
 
 ## 2026-10-12
 

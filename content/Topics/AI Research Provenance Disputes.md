@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, research-provenance]
-updated: 2026-10-08
+updated: 2026-10-17
 living: true
 ---
 
@@ -29,6 +29,16 @@ The MiMo-V2.6 case from September 22, 2026 remains the one instance where an ind
 - Aaronson's withheld-solutions rumour is unverified by his own account. If it is true, it is the most important item in this thread and there is currently no way to confirm it.
 - Kev's comparison against Jev is uncontrolled by its own team's admission. Whether the real gap is larger or smaller than 3.5 points, and whether it is architecture or evaluation setup driving it, is unresolved.
 - MiMo-V2.6 is the only instance where independent measurement arrived within a day. Whether that turnaround becomes normal is not answerable from one data point.
+
+## 2026-10-17
+
+![[2026-10-17#^headline-scion]]
+
+![[2026-10-17#^prac-scion]]
+
+![[2026-10-17#^essay-thompson-mathematicians]]
+
+Source note: [[2026-10-17]]
 
 ## 2026-10-08
 
