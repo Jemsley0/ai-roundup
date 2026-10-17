@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, frontier-lab-economics]
-updated: 2026-10-12
+updated: 2026-10-17
 living: true
 ---
 
@@ -30,6 +30,20 @@ Labs are also widening revenue surfaces and buying. Anthropic opened a marketpla
 - Does the Firmus withdrawal on October 9, 2026 predict weaker demand for Anthropic's November listing, or does it stay specific to a smaller infrastructure operator?
 - Does the reported Amazon talks to buy Decart at about \$7B close, and does a second report confirm what is currently one paywalled headline?
 - Does OpenAI publish or confirm an annualised revenue figure, now that the FT's "approaching \$50 billion" has replaced the roughly \$70 billion in circulation?
+
+## 2026-10-17
+
+![[2026-10-17#^headline-imf-gfsr]]
+
+![[2026-10-17#^soc-imf-gfsr]]
+
+![[2026-10-17#^soc-datacenter-debt]]
+
+![[2026-10-17#^soc-character-ai]]
+
+![[2026-10-17#^biz-anthropic-blackstone]]
+
+Source note: [[2026-10-17]]
 
 ## 2026-10-12
 

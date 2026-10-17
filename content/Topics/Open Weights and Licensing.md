@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, open-weights-and-licensing]
-updated: 2026-10-12
+updated: 2026-10-17
 living: true
 ---
 
@@ -28,6 +28,16 @@ Tooling also limits what any licence can protect. Heretic strips trained refusal
 - Will Reflection AI publish Beam weights under Apache 2.0 later in October 2026, and will independent measurement support its own figures?
 - Do Cloudflare Clef-Omni and Microsoft-Decision-1 ship under licences that permit commercial use?
 - If governments act on the four-months-behind finding, does that change how labs write open-weight licences or whether they publish weights at all?
+
+## 2026-10-17
+
+![[2026-10-17#^headline-open-weights]]
+
+![[2026-10-17#^models-meta-reflection]]
+
+![[2026-10-17#^policy-china-export]]
+
+Source note: [[2026-10-17]]
 
 ## 2026-10-12
 

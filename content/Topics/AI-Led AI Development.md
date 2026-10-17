@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, ai-led-ai-development]
-updated: 2026-09-21
+updated: 2026-10-17
 living: true
 ---
 
@@ -35,6 +35,22 @@ That sharpens the gap already standing on this page. Anthropic's 26 percent and 
 - Both published accounts are self-reported by the lab whose model is the subject. No third party has independently measured how much of any lab's engineering work its own model performs.
 - The Opus 5 exploit result shows the capability exists outside a lab's own oversight envelope. No lab has published what its monitoring does when that capability is exercised without a research pretext.
 - If a model's contribution to its successor is mostly infrastructure and tooling rather than research insight, the ceiling is very different from the one the recursive-self-improvement framing implies. Nothing published separates the two.
+
+## 2026-10-17
+
+![[2026-10-17#^headline-scion]]
+
+![[2026-10-17#^prac-scion]]
+
+![[2026-10-17#^sdlc-claude-code-review]]
+
+![[2026-10-17#^soc-anthropic-workforce]]
+
+![[2026-10-17#^zaney-nist-seeds]]
+
+![[2026-10-17#^de-postgres-19]]
+
+Source note: [[2026-10-17]]
 
 ## 2026-09-21
 

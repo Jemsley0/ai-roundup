@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, semantic-layer]
-updated: 2026-10-12
+updated: 2026-10-17
 living: true
 ---
 
@@ -32,6 +32,20 @@ On portability, Open Semantic Interchange is an Apache incubating project (Apach
 - When does Snowflake publish a dated release note or an authoring statement for Business Ontology, and does it add a propose-only privilege?
 - Does AWS publish pricing and regions for AWS Context, and do its third-party catalog connectors include Snowflake or Open Semantic Interchange?
 - Does any vendor publish accuracy for a curated ontology layer alone, so Business Ontology and Databricks' curated core can be compared?
+
+## 2026-10-17
+
+![[2026-10-17#^de-horizon-context]]
+
+![[2026-10-17#^spotlight-uvi]]
+
+![[2026-10-17#^essay-sankar-context]]
+
+![[2026-10-17#^radar-horizon-context]]
+
+![[2026-10-17#^radar-fabric-iq-watch]]
+
+Source note: [[2026-10-17]]
 
 ## 2026-10-12
 

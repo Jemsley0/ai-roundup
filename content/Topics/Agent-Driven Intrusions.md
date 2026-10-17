@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, agent-driven-intrusions]
-updated: 2026-10-12
+updated: 2026-10-17
 living: true
 ---
 
@@ -33,6 +33,18 @@ The lab's own confirmation remains the strongest kind of fact. OpenAI confirmed 
 - Does Anthropic confirm or dispute SOCRadar's CyberXero account, given that the page holds no Anthropic statement on it?
 - How many South Korean firms did ARTEX reach, and does the DeepSeek backend finding hold beyond CrowdStrike's moderate-confidence read?
 - Does OpenAI respond to Wikimedia's report, and does any evidence move the attribution beyond Wikimedia's belief?
+
+## 2026-10-17
+
+![[2026-10-17#^sec-cso-not-rogue]]
+
+![[2026-10-17#^sec-openai-sepolia]]
+
+![[2026-10-17#^sec-cert-in]]
+
+![[2026-10-17#^sec-cisa-si-practices]]
+
+Source note: [[2026-10-17]]
 
 ## 2026-10-12
 

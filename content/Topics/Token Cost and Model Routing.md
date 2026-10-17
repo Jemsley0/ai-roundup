@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, token-cost, model-routing]
-updated: 2026-10-12
+updated: 2026-10-17
 living: true
 ---
 
@@ -37,6 +37,20 @@ Cost control is moving to the platform, with gaps. AWS Cost Explorer and Budgets
 - Does Snowflake's dynamic routing reach public preview with a customer measurement on a real workload?
 - How do the new Bedrock cost attributes treat AWS Marketplace lines for third-party models? The page has not verified this.
 - Do the context-saving tools report task success, so a saving can be set against a quality change?
+
+## 2026-10-17
+
+![[2026-10-17#^ep-agentcore-memory-pricing]]
+
+![[2026-10-17#^agent-decision-delegation]]
+
+![[2026-10-17#^corr-litellm-1105]]
+
+![[2026-10-17#^rn-litellm-1105-1]]
+
+![[2026-10-17#^radar-decision-delegation]]
+
+Source note: [[2026-10-17]]
 
 ## 2026-10-12
 

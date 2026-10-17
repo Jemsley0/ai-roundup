@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, vector-databases, retrieval, vector-databases-and-retrieval]
-updated: 2026-10-12
+updated: 2026-10-17
 living: true
 ---
 
@@ -34,6 +34,30 @@ For a data platform the split stays clean: retrieve prose by similarity, retriev
 - Does a named-competitor run on a shared harness, or a customer cost figure on a real workload, confirm Databricks's Lakebase Search claim of twice the throughput and 4 times lower cost than pgvector?
 - Which tool-selection method wins on cost per task: BM25-first retrieval (SkillSeek) or a vector database of tool embeddings (Postman)? Neither post compares the two.
 - What latency and cost does a second-stage, query-time permission check add to a RAG pipeline?
+
+## 2026-10-17
+
+![[2026-10-17#^ep-lakebase-recall]]
+
+![[2026-10-17#^ep-weaviate-pathseer]]
+
+![[2026-10-17#^ep-pg-vectorsearch-pointer]]
+
+![[2026-10-17#^spotlight-pg-vectorsearch]]
+
+![[2026-10-17#^rn-weaviate]]
+
+![[2026-10-17#^rn-pinecone]]
+
+![[2026-10-17#^rn-pg-vectorsearch]]
+
+![[2026-10-17#^rn-aws-opensearch-encryption]]
+
+![[2026-10-17#^radar-pg-vectorsearch]]
+
+![[2026-10-17#^radar-lakebase-rearg]]
+
+Source note: [[2026-10-17]]
 
 ## 2026-10-12
 

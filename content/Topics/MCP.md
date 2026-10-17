@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, mcp]
-updated: 2026-10-12
+updated: 2026-10-17
 living: true
 ---
 
@@ -36,6 +36,26 @@ The protocol's usage patterns are shifting. Pi 1.0 reversed its refusal to suppo
 - Does any SDK or major client adopt Server Cards (SEP-2127), and does it leave extension status?
 - Does Snowflake move Cortex AI Gateway routing to public preview with a customer measurement on a real workload?
 - Do Claude apps gateway deployments set `enforcement.fail_closed_on_error`, given that spend-cap enforcement fails open by default?
+
+## 2026-10-17
+
+![[2026-10-17#^agent-opencode-code-mode]]
+
+![[2026-10-17#^agent-mcp-3394]]
+
+![[2026-10-17#^agent-mcp-unpinned]]
+
+![[2026-10-17#^sdlc-managed-settings]]
+
+![[2026-10-17#^radar-codemode-caution]]
+
+![[2026-10-17#^radar-idempotency-rearg]]
+
+![[2026-10-17#^radar-mcp-identity-watch]]
+
+![[2026-10-17#^rn-aws-gateway-private-ca]]
+
+Source note: [[2026-10-17]]
 
 ## 2026-10-12
 
