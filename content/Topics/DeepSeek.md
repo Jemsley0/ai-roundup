@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, deepseek]
-updated: 2026-10-05
+updated: 2026-10-21
 living: true
 ---
 
@@ -11,20 +11,29 @@ DeepSeek's V4.1 Flash line, the architectural bet behind it, and the price-per-c
 
 ## Where this stands
 
-V4.1 Flash stays at trial. The strongest evidence is still DeepSeek's own pricing move: it retired V4-Pro and rerouted that traffic to the Flash tier at Flash rates. This week the legacy `deepseek-v4-flash` model name began routing silently to a newer model at Flash pricing, so any pin on that name no longer holds. Independent evaluation of the Flash line is still missing.
+V4.1 Flash stays at trial. The strongest evidence is still DeepSeek's own pricing move: it retired V4-Pro and rerouted that traffic to the Flash tier at Flash rates. The lab keeps changing what its model names mean. The legacy `deepseek-v4-flash` name began routing silently to a newer model at Flash pricing in early October, so any pin on that name no longer holds. On October 21, 2026 the `deepseek-flash` alias served V4.1-Flash-1017, which makes an alias a moving target as well. Independent evaluation of the Flash line is still missing.
 
-Pricing power is the second thread. DeepSeek's chief executive disclosed an annualized revenue run rate near \$1B, roughly double the prior figure, after an August price increase of 2.3x to 4.5x with no measurable demand drop. That shows the opposite lever to the Flash-over-Pro cut also works. The figures are self-disclosed at an investor meeting and unaudited, ahead of a \$7.5B raise and a planned Shanghai listing.
+Pricing power is the second thread. DeepSeek's chief executive disclosed an annualized revenue run rate near \$1B, roughly double the prior figure, after an August price increase of 2.3x to 4.5x with no measurable demand drop. That shows the opposite lever to the Flash-over-Pro cut also works. The figures are self-disclosed at an investor meeting and unaudited, ahead of a \$7.5B raise and a planned Shanghai listing. A cheaper rival now sits beside it: MiniMax launched M3.1 Flash on October 19 at \$0.15 input and \$0.60 output per million tokens with a 1M-token context, per secondary sources, and promises open weights on October 23.
 
-Two complications remain. A joint US advisory from the National Security Agency, the Cybersecurity and Infrastructure Security Agency, and the Federal Bureau of Investigation named DeepSeek among six Chinese labs alleged to have run targeted distillation against US models. An OpenRouter analysis also found identical DeepSeek weights scoring between 58 and 81 percent on tool calling depending on the host, so any evaluation covers a model plus a host.
+Two complications grew. The Department of Homeland Security ordered DeepSeek products, including third-party products built on them, off federal civilian systems (Bloomberg Law, October 20), which is a harder step than the earlier advisory. That advisory came from the National Security Agency, the Cybersecurity and Infrastructure Security Agency, and the Federal Bureau of Investigation, and named DeepSeek among six Chinese labs alleged to have run targeted distillation against US models. An OpenRouter analysis also found identical DeepSeek weights scoring between 58 and 81 percent on tool calling depending on the host, so any evaluation covers a model plus a host.
 
 ## Open questions
 
 - No independent evaluation of the V4.1 Flash agentic and coding claims has been published.
 - Nobody has written up why the Causal Encoder-Decoder design, with roughly 8B active input parameters and 16B active output parameters, works.
 - Benchmark scores mean little without the host named, and nobody publishes the host beside the score.
-- Does DeepSeek's pricing power hold as more open-weight competition arrives, or is the August increase a temporary window?
+- Does DeepSeek's pricing power hold as more open-weight competition arrives, such as MiniMax M3.1 Flash, or is the August increase a temporary window?
 - Does the Shanghai listing bring audit requirements that test the \$1B run rate and the price-increase claims?
-- Is the silent re-pointing of `deepseek-v4-flash` a one-off, or the lab's standard way to retire a model name?
+- Is the silent re-pointing of `deepseek-v4-flash` and `deepseek-flash` a one-off, or the lab's standard way to retire a model name?
+- How far does the DHS order reach into products built on DeepSeek models, and does it extend beyond federal civilian systems?
+
+## 2026-10-21
+
+![[2026-10-21#^policy-dhs-deepseek]]
+
+![[2026-10-21#^models-minimax-deepseek-caching]]
+
+Source note: [[2026-10-21]]
 
 ## 2026-10-02
 
@@ -62,7 +71,7 @@ Source note: [[2026-09-09]]
 
 ## On the radar
 
-- `🔵 TRIAL` **DeepSeek V4.1 Flash**. [[2026-09-10]]
+- `🔵 TRIAL` **DeepSeek V4.1 Flash**. (was [[2026-09-10]]) [[2026-10-12]]
 
 ## Related
 

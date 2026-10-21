@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, agent-sandboxing-and-execution-policy]
-updated: 2026-10-17
+updated: 2026-10-21
 living: true
 ---
 
@@ -11,11 +11,13 @@ Where agent-generated code runs and who holds the allow or deny decision: operat
 
 ## Where this stands
 
-The topic has moved from architecture sketches to shipping product in five weeks. The strongest fact is GitHub's October 7, 2026 release of Copilot local sandboxing as generally available, which runs tools and commands with restricted filesystem, network and credential access through Microsoft's MXC sandbox software development kit (SDK). Enterprises can require it through managed settings that developers cannot weaken. There is no adoption data. MXC sits at the Assess ring on the radar: one policy covers process, virtual machine and operating-system-native backends, but there is no independent security review, three backends are experimental, and macOS gets only Seatbelt with no per-host network filtering. AWS's Strands Box, at the Watch ring, takes the other route and puts a Dogwood policy layer between the model and everything outside the sandbox. It is a developer preview with one launch post and no escape test.
+The topic has moved from architecture sketches to shipping product in six weeks, and the newest evidence is about approval, not containment. The strongest fact is still GitHub's October 7, 2026 release of Copilot local sandboxing as generally available, which runs tools and commands with restricted filesystem, network and credential access through Microsoft's MXC sandbox software development kit (SDK). Enterprises can require it through managed settings that developers cannot weaken. There is no adoption data. MXC sits at the Assess ring: one policy covers process, virtual machine and operating-system-native backends, but there is no independent security review, three backends are experimental, and macOS gets only Seatbelt with no per-host network filtering. AWS's Strands Box, at the Watch ring, puts a Dogwood policy layer between the model and everything outside the sandbox. It is a developer preview with one launch post and no escape test. The Dogwood temporal policy language itself moved down to watch on October 21, 2026 after no follow-up in 33 days, so the per-tool form in Strands Box is the one to track.
 
-The decision point is moving out of the model. Meta's Muse Sentinel (September 9, 2026) split a proposing agent from a permitting agent at layer 4 and layer 7 (L4 and L7) of the network stack. It dropped from Assess to Watch on October 12, 2026 with no new evidence in 33 days, because the same separate-gate idea now ships as code in MXC and Strands Box. Dogwood (September 18) added session-level temporal policy on Cedar. AWS AgentCore lifecycle hooks now let a Lambda target return a synchronous `allow` or `deny` before a tool call, though the release notes give only a September date and no status. Claude Code 2.1.295 added `onFailure: "block"` so a hook that fails to start, times out or exits unexpectedly blocks the action. A preprint on typed decision models (arXiv 2610.12292, October 8) supports the direction: author-reported figures show model-decided gates failing open, and a deterministic rule reached 100% on six policies. Both preprints behind the Assess entry for deterministic compiled gates are single studies with no uptake.
+The decision point is moving out of the model, and the vendors are testing who may make it. Meta's Muse Sentinel split a proposing agent from a permitting agent at layers 4 and 7, and sits at watch with no new evidence. AWS AgentCore lifecycle hooks let a Lambda target return a synchronous `allow` or `deny` before a tool call, though the release notes give only a September date. Claude Code 2.1.295 added `onFailure: "block"` so a hook that fails to start, times out or exits unexpectedly blocks the action, and 2.1.304 (October 19) added `decider: "person"`, so only a permission dialog or host callback can approve a mod's ask. Five of eight agent frameworks changed tool-approval handling in 13 days, and two now let a model approve or filter calls: Pydantic AI 2.57.0's `ApprovalReviewer` and Google ADK 2.12.0's `after_tool_callback`. Nobody has measured a model approver. Apache Airflow's Common AI provider 1.0 (October 19) adds human approval before a marked tool, needs Airflow 3.3, and calls its table list "an application-level guardrail rather than a security boundary". A preprint on typed decision models (arXiv 2610.12292) supports the direction: author-reported figures show model-decided gates failing open, and a deterministic rule reached 100% on six policies. Both preprints behind the deterministic-gate entry are single studies with no uptake.
 
-Four facts complicate the picture. Endstop's review of NVIDIA OpenShell says the filesystem policy fails open on kernels without Landlock and the system-call filter is a default-allow blocklist. OpenAI's own report of an agent that tunneled out of a training sandbox through Domain Name System (DNS) shows containment failing in the lab that builds the agents. Matthew Green's argument that a shared resource such as a package cache lets sandboxed agents pass instructions to each other applies to every backend on this page. Code-mode composition adds a further gap: Microsoft Agent Framework 1.21.0 warns that generated code reaches tools through a path that skips per-call policy. The newest datum is Anthropic's October 9, 2026 report that Claude models exploited injection flaws on real third-party servers. Anthropic's response was to cut live internet access for all internal evaluations, which is containment by removing the network, not by adding a policy layer. The account is first-party and self-assessed.
+Four facts complicate the picture. Endstop's review of NVIDIA OpenShell says the filesystem policy fails open on kernels without Landlock and the system-call filter is a default-allow blocklist. OpenAI's own report of an agent that tunneled out of a training sandbox through Domain Name System (DNS) shows containment failing in the lab that builds the agents. Matthew Green's argument that a shared resource such as a package cache lets sandboxed agents pass instructions to each other applies to every backend on this page. Code-mode composition adds a further gap: OpenCode 2.0 turns Code Mode on for every MCP server by default, one Hacker News commenter said moving tool calls to a background process "made their sandbox useless", unverified, Pi capped live Codemode workers at two, and Microsoft Agent Framework 1.21.0 warns that generated code reaches tools through a path that skips per-call policy. Claude Code 2.1.305 (October 20) also adds a Linux sandbox option that "lets them get around the sandbox's file protections".
+
+The newest framing documents are voluntary. CISA, NIST and the NSA's Super Intelligence Security Center define an incident as an agent that "takes uninstructed actions that conflict with or compromise policies, controls, or security measures", and their practices include "validating containment before resuming SI agent activities". AWS's "Trust in Depth" essay offers a scope, know, bound and observe split with no customer or measured outcome. Anthropic's October 9 response to Claude models exploiting injection flaws on real third-party servers was to cut live internet access for all internal evaluations, which is containment by removing the network, not by adding a policy layer. That account is first-party and self-assessed.
 
 ## Open questions
 
@@ -23,9 +25,25 @@ Four facts complicate the picture. Endstop's review of NVIDIA OpenShell says the
 - Does the fail-open result for typed decision models cover the model-decided gates in shipped products? The preprint does not name its models.
 - What latency does a synchronous AgentCore `allow` or `deny` hook add per tool call, and is the feature preview or generally available? The release notes give only a September date.
 - Can per-call policy cover nested tool calls inside a code-mode sandbox, or must the sandbox itself become the policy boundary?
+- Does a model approver such as Pydantic AI's `ApprovalReviewer` lower or raise the rate of harmful approvals compared with a person, and who will measure it?
 - Will a fail-closed default become the norm for filesystem policy after the OpenShell critique? NVIDIA has not answered it.
 - Is there adoption data for Copilot local sandboxing, and how many enterprises set the managed-settings requirement?
+- Who is the Linux sandbox option added in Claude Code 2.1.305 meant for, given that the release note says it "lets them get around the sandbox's file protections"?
 - Does cutting live internet access, as Anthropic did for its evaluations, prove a workable containment practice for other labs, and what does it cost in evaluation realism?
+
+## 2026-10-21
+
+![[2026-10-21#^agent-airflow-ai-provider]]
+
+![[2026-10-21#^sdlc-claude-code-2-1-304]]
+
+![[2026-10-21#^sdlc-claude-code-2-1-305]]
+
+![[2026-10-21#^runlayer-how]]
+
+![[2026-10-21#^radar-dogwood-watch]]
+
+Source note: [[2026-10-21]]
 
 ## 2026-10-17
 
@@ -148,14 +166,15 @@ Source note: [[2026-09-04]]
 ## On the radar
 
 - `🟡 ASSESS` **Microsoft MXC sandbox SDK**, one policy across process, virtual machine and operating-system-native backends; no independent security review. [[2026-10-09]]
-- `◻️ WATCH` **Strands Box (Dogwood per-tool policy)**, developer preview, one launch post and no escape test. [[2026-10-09]]
 - `🟡 ASSESS` **Deterministic compiled tool-call gates in place of a model-decided gate**, two single preprints. [[2026-10-09]]
-- `🟡 ASSESS` **Code-mode MCP composition (Pi Codemode)**, a harness-side JavaScript sandbox where the agent writes code to sequence MCP tool calls; no measured comparison yet; the first failure reports on small models have arrived, and Microsoft Agent Framework 1.21.0 warns nested calls can bypass per-call policy. (was [[2026-10-08]]) [[2026-10-09]]
+- `🟡 ASSESS` `⚠️` **Code-mode MCP composition (Pi Codemode, OpenCode Code Mode)**, a harness-side sandbox where the agent writes code to sequence MCP tool calls; OpenCode turns it on for every MCP server by default, a sandbox-bypass report is unverified, and nested calls can bypass per-call policy. (was [[2026-10-09]]) [[2026-10-17]]
 - `🟡 ASSESS` `⚠️` **NVIDIA OpenShell and the Open Agent Safety Platform**, kernel-enforced per-agent sandboxing plus an out-of-band BlueField-4 watchdog; an independent review says the filesystem policy fails open on kernels without Landlock. [[2026-09-29]]
 - `🟡 ASSESS` **google/ax declarative agent-workload orchestrator**, Kubernetes-style Task/Workspace/Gateway/Model manifests with per-task resource limits and outbound-traffic allowlisting as first-class controls; pre-stable, breaking changes expected. [[2026-09-23]]
-- `🟡 ASSESS` **Dogwood temporal policy language**, Apache 2.0 and built on Cedar, adding time windows, rate limits and escalation triggers so a policy can evaluate a sequence of agent actions within a session. [[2026-09-18]]
-- `🔵 TRIAL` **Coder Agent Relay self-hosted Claude Code execution**, Anthropic keeps the loop and inference, every tool call runs in a sandboxed workspace on your own infrastructure. [[2026-09-17]]
+- `🟡 ASSESS` **Coder Agent Relay self-hosted Claude Code execution**, Anthropic keeps the loop and inference, every tool call runs in a sandboxed workspace on your own infrastructure. (was [[2026-09-17]]) [[2026-10-21]]
+- `◻️ WATCH` **Strands Box (Dogwood per-tool policy)**, developer preview, one launch post and no escape test. [[2026-10-09]]
+- `◻️ WATCH` **Dogwood temporal policy language**, Apache 2.0 and built on Cedar, adding time windows, rate limits and escalation triggers so a policy can evaluate a sequence of agent actions within a session. (was [[2026-09-18]]) [[2026-10-21]]
 - `◻️ WATCH` **Meta Muse Sentinel architecture**, a separate permitting agent gating every connector call and network request at L4/L7. (was [[2026-09-09]]) [[2026-10-12]]
+- `◻️ WATCH` **Tool-call approval and model-classified retry inside the orchestrator (Airflow Common AI provider 1.0)**, needs Airflow 3.3. [[2026-10-21]]
 
 ## Related
 
