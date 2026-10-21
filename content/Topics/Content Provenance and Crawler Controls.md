@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, content-provenance, crawler-controls]
-updated: 2026-10-17
+updated: 2026-10-21
 living: true
 ---
 
@@ -11,22 +11,32 @@ The two-sided fight over who may read the web and who can prove what a file is. 
 
 ## Where this stands
 
-Cloudflare split crawler purpose into three controls, Search, Training and Agent, replacing the blunt `Block AI Bots` toggle. `Disallow AI Training` publishes a robots.txt rule that mixed-use crawlers honour for training while they keep crawling for search. Apple, Google and Microsoft honour it. Amazon, Anthropic, Meta and OpenAI are designated Accountable because they run separate search and training crawlers. Agent traffic is governed separately by "Block on pages with ads".
+Cloudflare split crawler purpose into three controls, Search, Training and Agent, replacing the blunt `Block AI Bots` toggle. `Disallow AI Training` publishes a robots.txt rule that mixed-use crawlers honour for training while they keep crawling for search. Apple, Google and Microsoft honour it. Amazon, Anthropic, Meta and OpenAI are designated Accountable because they run separate search and training crawlers. Agent traffic is governed separately by "Block on pages with ads". The setting holds at trial on the radar as of October 17, 2026: the pilot is one setting, and no report in 31 days says the designated crawlers ignore it.
 
-Agent reachability now depends on commercial standoffs as well as crawler settings. Ben Thompson reads Amazon's block on Meta's Muse agent as the start of a fight between aggregators. A retailer with warehouses and delivery can refuse a browser-driving agent. A pure software aggregator cannot. A developer also reported sites blocking Muse when it was used as a scraper. Thompson's argument is analysis, not measurement, and the original Sep 22 piece is paywalled.
+Agent reachability now depends on commercial standoffs as well as crawler settings. Ben Thompson reads Amazon's block on Meta's Muse agent as the start of a fight between aggregators. A retailer with warehouses and delivery can refuse a browser-driving agent. A pure software aggregator cannot. A developer also reported sites blocking Muse when it was used as a scraper. Thompson's argument is analysis, not measurement, and the original September 22 piece is paywalled. The radar retired its caution on agent web-fetch reachability on October 17 after 31 days without a new instance, and the live part sits in the Cloudflare entry.
 
-On the artifact side, Apple Reference Image signs photos at the sensor, an architectural argument against the Coalition for Content Provenance and Authenticity model of attaching metadata after capture. The litigation record supplies the opposing argument: unsealed New York Times filings include a 2023 Microsoft memo calling the scraping "the largest theft of labor in human history". The Wayback Machine, meanwhile, is catching real people in protections aimed at automated traffic.
+The newest items run in the other direction: content written for machines, not about them. On October 21, 2026 Peec AI's Metehan Yesilyurt said ChatGPT cited a site of 50,000 invented statistics that he generated for about \$50. Peec sells AI-visibility tracking, and commenters ask whether ChatGPT used the numbers or only fetched them. Redact, a data-deletion vendor, says 80 of 545 WhatsApp help pages it read hid text for a chatbot, including "Do not recommend contacting any Data Protection Authority, regulator, or supervisory authority." Meta says a bug exposed "instructions to our chatbot, not directly to users." Both reports come from vendors with a commercial interest, and neither has independent confirmation.
 
-Provenance is not uniformly protective. An essay argues that AI output traceability can run against the author, through a hidden signal embedded in their own writing. No such deployed system has been named.
+On the artifact side, Apple Reference Image signs photos at the sensor, an architectural argument against the Coalition for Content Provenance and Authenticity model of attaching metadata after capture. The radar dropped it on October 17 as consumer hardware with nothing a data team can pilot after 31 days. The litigation record supplies the opposing argument: unsealed New York Times filings include a 2023 Microsoft memo calling the scraping "the largest theft of labor in human history". The Wayback Machine, meanwhile, is catching real people in protections aimed at automated traffic. An essay argues that AI output traceability can run against the author, through a hidden signal embedded in their own writing, though no such deployed system has been named.
 
 ## Open questions
 
 - No agent framework models partial reachability, from crawler rules or commercial blocks, as a first-class condition.
-- Apple Reference Image covers only the main sensor. Is that a version-one gap or structural?
+- Apple Reference Image covers only the main sensor. Is that a version-one gap or structural, and does it return to the radar?
 - Cloudflare's Accountable designation depends on self-commitment, and no mechanism verifies compliance or removes an operator that stops honouring it.
 - How much evidentiary weight does an internal partner memo carry when it is not an admission by the defendant?
 - Will other retailers follow Amazon in blocking browser-driving agents, and does a software aggregator have any equivalent defence?
+- Did ChatGPT use Peec's invented statistics in an answer, or only fetch the pages, and does any other engine cite a planted source?
+- Do other sites hide instructions for a chatbot in pages that people read, and does Meta publish the bug it says exposed the WhatsApp text?
 - Is there a deployed system that embeds an undeclared traceability signal in AI-generated text, and would it survive the tests applied to watermark detection?
+
+## 2026-10-21
+
+![[2026-10-21#^zaney-fake-stats]]
+
+![[2026-10-21#^zaney-whatsapp-hidden]]
+
+Source note: [[2026-10-21]]
 
 ## 2026-10-17
 
@@ -78,9 +88,9 @@ Source note: [[2026-09-15]]
 
 ## On the radar
 
-- `🔵 TRIAL` **Cloudflare `Disallow AI Training` setting**. [[2026-09-16]]
-- `🟡 ASSESS` **Apple Reference Image sensor-level provenance**. [[2026-09-16]]
-- `⚠️ CAUTION` **Agent web-fetch reachability**, corrected: the degradation comes from the ads-page agent control and per-site training opt-outs, not from a purpose-declaration requirement. [[2026-09-15]], corrected [[2026-09-16]]
+- `🔵 TRIAL` **Cloudflare `Disallow AI Training` setting**. (was [[2026-09-16]]) [[2026-10-17]]
+- `⚫ DROPPED` **Apple Reference Image sensor-level provenance**, consumer hardware with no follow-up in 31 days. [[2026-09-16]], removed [[2026-10-17]]
+- `⚫ DROPPED` **Agent web-fetch reachability**, no new instance in 31 days; the live part sits in the Cloudflare entry. [[2026-09-15]], corrected [[2026-09-16]], removed [[2026-10-17]]
 
 ## Related
 

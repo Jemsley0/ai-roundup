@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, vector-databases, retrieval, vector-databases-and-retrieval]
-updated: 2026-10-17
+updated: 2026-10-21
 living: true
 ---
 
@@ -13,11 +13,11 @@ What a vector database actually is, how it differs from a graph, where each one 
 
 A vector database finds things that are like a query, while a graph database finds things connected to it by a named relationship. They are not substitutes, and their failures are asymmetric: vector search silently returns confident, plausible-wrong neighbours, while a graph query that matches nothing returns nothing.
 
-The market is fragmenting by scale and workload, not collapsing. Postgres with pgvector handles a large share of workloads under roughly 50M vectors, and Snowflake and Databricks spent about \$1.25B in 2025 acquiring Postgres-first companies. The newest debate is whether a vector database should be a standalone product at all. turbopuffer's version 3 treats approximate nearest-neighbour search as one secondary index and keys documents by an internal ID, which avoids write and storage amplification, though its performance is unmeasured. AWS sells both answers under similar names: Bedrock Knowledge Bases where you provision the store, and Managed Knowledge Base where AWS owns the datastore, embedding model and reranker. Managed suits a prose corpus nobody will tune. It is wrong for anything governed or anything whose retrieval quality someone must defend. The Postgres route also gained a vendor claim on October 12, 2026: Databricks says Lakebase Search, generally available since September 28, gives "twice the throughput of the next best system" and about 4 times lower cost than pgvector on VectorDBBench with 100 million LAION vectors. The post names no competitor, hardware or configuration, its pgvector figures have no source, and no independent test exists.
+The market is fragmenting by scale and workload, not collapsing. Postgres with pgvector handles a large share of workloads under roughly 50M vectors, and Snowflake and Databricks spent about \$1.25B in 2025 acquiring Postgres-first companies. The newest debate is whether a vector database should be a standalone product at all. turbopuffer's version 3 treats approximate nearest-neighbour search as one secondary index and keys documents by an internal ID, which avoids write and storage amplification, though its performance is unmeasured. AWS sells both answers under similar names: Bedrock Knowledge Bases where you provision the store, and Managed Knowledge Base where AWS owns the datastore, embedding model and reranker. Managed suits a prose corpus nobody will tune, and is wrong for anything governed or anything whose retrieval quality someone must defend. On October 19, 2026 AWS added retrieval instructions that steer agentic retrieval in fully managed knowledge bases, each passing an asynchronous Bedrock review before it applies. A request that names no version gets `DRAFT`, so an unpinned application changes behaviour after each approved edit. The Postgres route gained a vendor claim on October 12: Databricks says Lakebase Search gives "twice the throughput of the next best system" and about 4 times lower cost than pgvector on VectorDBBench with 100 million LAION vectors. The post names no competitor, hardware or configuration. Databricks's own sizing post of October 15 then put default recall@10 at "about 0.74 to 0.75", with 0.80 from a quality build and 0.97 only at 2,000 probes after a 52-minute build, on one internal app and a 4 million passage corpus. No independent test exists.
 
-Evidence this period points toward cheaper, simpler retrieval and toward permission checks at query time. AWS says S3 Vectors metadata pre-filtering returns up to 5x more matching vectors for selective filters, on by default for new indexes, though the 5x is AWS's own figure, and it reached GovCloud on October 9. SkillSeek found plain BM25 keyword retrieval matched a model-mediated loop when an agent selects among 230,000 skills, at roughly half the cost per trial. AWS and Postman take the opposite route for tool selection: tool-selection errors rose once the visible toolset passed about 40 tools, so a root agent narrows more than 170 tools to about 15 by querying a vector database of tool embeddings. That threshold comes from Postman's own testing, and the post gives no latency, cost or cache-hit rate. JetBrains argues 1-bit vectors and syntax-tree-aware chunks suffice for code search, with no recall numbers given. Perplexity's Photon cut internal p99 latency from about 800ms to 65ms and priced the relevance it gave up, which is rare. AWS also describes a second retrieval stage that checks each candidate against the source system at query time, so permission changes appear "within moments, not hours or days", with no latency, cost or status given.
+Evidence points toward cheaper, simpler retrieval and toward permission checks at query time. AWS says S3 Vectors metadata pre-filtering returns up to 5x more matching vectors for selective filters, on by default for new indexes, though the 5x is AWS's own figure. SkillSeek found plain BM25 keyword retrieval matched a model-mediated loop when an agent selects among 230,000 skills, at roughly half the cost per trial. AWS and Postman take the opposite route for tool selection: tool-selection errors rose once the visible toolset passed about 40 tools, so a root agent narrows more than 170 tools to about 15 by querying a vector database of tool embeddings, a threshold from Postman's own testing. JetBrains argues 1-bit vectors and syntax-tree-aware chunks suffice for code search, with no recall numbers given. Perplexity's Photon cut internal p99 latency from about 800ms to 65ms and priced the relevance it gave up, which is rare. Weaviate says its PathSeer filter strategy is fastest "on almost every workload we tested" and publishes the case where it loses by 8.7 times, in a vendor-run benchmark. Tiger Data's `pg_vectorsearch` v0.1.0 (October 13) is alpha, with vendor-run numbers and a filtering bug. It does not fit under Bedrock Knowledge Bases on Aurora today, which requires an `hnsw` index and lists pgvector 0.8.2.
 
-Release notes this period carry operational actions. Milvus 3.0.2 fixes compaction logs that printed collection encryption keys and object storage credentials, so any credential that could have reached those logs needs rotation. Weaviate v1.39.11 and Qdrant v1.19.2 carry fixes, Pinecone Local reached end of life on October 7, and pgvector 0.8.7 fixed an IVFFlat buffer overflow, with a changelog entry but no GitHub release page. Cloudflare AI Search is generally available with billing from November 1, at \$0.75 per thousand semantic queries and \$2.00 per GB-month storage, and the comparison that ranks it cheapest says retrieval quality is not on its page.
+Release notes carry operational actions. Milvus 3.0.2 fixed compaction logs that printed collection encryption keys and object storage credentials, so any credential that could have reached those logs needs rotation, and Milvus v3.0.3 (October 14) now has release notes with three breaking changes, including removed legacy metrics routes and a new `ImportBinlog` privilege. Weaviate discloses a `nearObject` cross-collection vector leak fixed in v1.39.3, so RBAC that separates collections needs v1.39.3 or later, and v1.40.1, v1.39.12 and v1.38.21 followed without breaking changes. Pinecone Local reached end of life on October 7, Pinecone now charges a per-GB fee for cross-region backup restore, and OpenSearch 2.19.7 adds a query nesting-depth limit. pgvector 0.8.7 fixed an IVFFlat buffer overflow, with a changelog entry but no GitHub release page. Cloudflare AI Search is generally available with billing from November 1, at \$0.75 per thousand semantic queries and \$2.00 per GB-month storage, and the comparison that ranks it cheapest says retrieval quality is not on its page.
 
 For a data platform the split stays clean: retrieve prose by similarity, retrieve structure by traversal, and do not ask either to do the other's job.
 
@@ -26,14 +26,33 @@ For a data platform the split stays clean: retrieve prose by similarity, retriev
 - Nobody has a good answer for temporal retrieval at the vector layer. Graphiti solves it with bi-temporal edges, and no flat store matches that.
 - The pgvectorscale figures (471 queries per second against Qdrant's 41 at 99 percent recall on 50M vectors) are vendor-flavoured and directional only.
 - Nobody addresses re-embedding cost seriously. A change of embedding model means rebuilding everything.
-- No same-corpus comparison exists between Bedrock Managed Knowledge Base's agentic retriever and its standard hybrid path, which costs 5x less per call.
+- No same-corpus comparison exists between Bedrock Managed Knowledge Base's agentic retriever and its standard hybrid path, which costs 5x less per call. Do pinned retrieval instructions change that result?
 - Nobody outside AWS has published recall or latency for S3 Vectors against OpenSearch Serverless, or measured the pre-filtering gain on real filtered workloads.
 - Does the JetBrains 1-bit, syntax-aware approach hold recall on real code-search tasks?
 - Does turbopuffer's single-secondary-index design perform in production at scale?
 - Does Photon's 0.24-point relevance cost hold outside Perplexity's own workload mix?
-- Does a named-competitor run on a shared harness, or a customer cost figure on a real workload, confirm Databricks's Lakebase Search claim of twice the throughput and 4 times lower cost than pgvector?
+- Does a named-competitor run on a shared harness, or a customer cost figure on a real workload, confirm Databricks's Lakebase Search claim of twice the throughput and 4 times lower cost than pgvector, now that default recall is near 0.75?
+- Does `pg_vectorsearch` leave alpha, close its filtering issue and reach a managed host, and does Weaviate's PathSeer result hold on independently run filters?
 - Which tool-selection method wins on cost per task: BM25-first retrieval (SkillSeek) or a vector database of tool embeddings (Postman)? Neither post compares the two.
 - What latency and cost does a second-stage, query-time permission check add to a RAG pipeline?
+
+## 2026-10-21
+
+![[2026-10-21#^ep-kb-retrieval-instructions]]
+
+![[2026-10-21#^rn-aws-retrieval-instructions]]
+
+![[2026-10-21#^rn-weaviate]]
+
+![[2026-10-21#^rn-milvus]]
+
+![[2026-10-21#^rn-opensearch]]
+
+![[2026-10-21#^rn-pinecone]]
+
+![[2026-10-21#^radar-bedrock-agentic-retrieval]]
+
+Source note: [[2026-10-21]]
 
 ## 2026-10-17
 
@@ -199,11 +218,12 @@ Source note: [[2026-09-09]]
 
 ## On the radar
 
-- `◻️ WATCH` **Graphiti / temporal knowledge graphs**. (was [[2026-09-11]]) [[2026-10-12]]
-- `🟡 ASSESS` **Bedrock Managed Knowledge Base agentic retrieval**, a managed retriever that plans queries and reranks across documents at 5x the per-call cost of standard hybrid search, with no published same-corpus quality comparison. [[2026-09-18]]
-- `🟡 ASSESS` **S3 Vectors metadata pre-filtering**, filters evaluated before similarity search, default for new indexes; the 5x figure is AWS-reported. [[2026-10-02]]
 - `🔵 TRIAL` **BM25-first skill and tool retrieval (SkillSeek)**, deterministic keyword retrieval as the default selector for a large skill or tool registry; single paper. [[2026-10-02]]
-- `◻️ WATCH` **Databricks Lakebase Search**, vendor-reported benchmark with no named competitor. [[2026-10-12]]
+- `🟡 ASSESS` **Bedrock Managed Knowledge Base agentic retrieval**, a managed retriever that plans queries and reranks across documents at 5x the per-call cost of standard hybrid search, with no published same-corpus quality comparison. (was [[2026-09-18]]) [[2026-10-21]]
+- `🟡 ASSESS` **S3 Vectors metadata pre-filtering**, filters evaluated before similarity search, default for new indexes; the 5x figure is AWS-reported. [[2026-10-02]]
+- `◻️ WATCH` **Graphiti / temporal knowledge graphs**. (was [[2026-09-11]]) [[2026-10-12]]
+- `◻️ WATCH` **Databricks Lakebase Search**, vendor-reported benchmark with no named competitor; default recall near 0.75. (was [[2026-10-12]]) [[2026-10-17]]
+- `◻️ WATCH` **`pg_vectorsearch` (PRISM index)**, alpha, vendor-run numbers and an open filtering bug. [[2026-10-17]]
 
 ## Related
 
