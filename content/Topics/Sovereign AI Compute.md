@@ -102,7 +102,7 @@ Source note: [[2026-09-08]]
 
 - `🔵 TRIAL` `⚠️` **MiMo-V2.6-Pro and MiMo-V2.6-Flash**, 1.02T/42B and 309B/15B mixture-of-experts at a 1M-token context with text, image, video and audio input, weights downloadable and independently priced below the comparable median; every vendor benchmark is self-reported, the licence is a bare model-card frontmatter tag with no LICENSE file, and Flash's parameter count differs between card and paper. [[2026-09-22]]
 - `🔵 TRIAL` `⚠️` **StepFun Step 5 Preview**, 600B total and 27B active at a 1M-token context for \$1.00 input and \$2.70 output per million tokens, with open weights scheduled for Oct 15, 2026; every capability figure is vendor-reported and until then the only access is a Chinese-hosted API. [[2026-09-21]]
-- `🟡 ASSESS` **Huawei Cloud AgentArts and openJiuwen**, an enterprise agent platform with an open-source edition sharing over 90% of the enterprise kernel; nothing available outside China until Dec 30, 2026. [[2026-09-18]]
+- `⚫ DROPPED` **Huawei Cloud AgentArts and openJiuwen**, nothing pilotable outside China and no follow-up in 33 days. [[2026-09-18]], removed [[2026-10-21]]
 
 ## Related
 
