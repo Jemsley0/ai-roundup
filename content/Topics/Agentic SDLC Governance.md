@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, agentic-sdlc, governance]
-updated: 2026-10-21
+updated: 2026-10-26
 living: true
 ---
 
@@ -11,26 +11,32 @@ How large engineering orgs run many coding agents at once, and how vendors are p
 
 ## Where this stands
 
-The finding across sources holds: the hard problems are specification and plumbing, not model capability. The radar dropped the "Agentic SDLC Control Plane" on October 17, 2026 as a framework concept from one report and not something to pilot, and its concrete form, risk-tiered human approval, entered as its own entry. Forrester puts negative-return agent deployments at 41 percent unclear success criteria, 33 percent insufficient tool or data access, and 26 percent evaluation-coverage drift. The governance layer hides five separable problems: what an agent can reach, what it did, what it may do unasked, what it cost, and where its code executes. Coder's Agent Relay split the last one out by keeping inference with the vendor and running every tool call inside a workspace on the buyer's machines, though it moved down to assess on October 21 after no user report in 34 days.
+The finding across sources holds: the hard problems are specification and plumbing, not model capability. The radar dropped the "Agentic SDLC Control Plane" on October 17, 2026 as a framework concept from one report and not something to pilot, and its concrete form, risk-tiered human approval, entered as its own entry. Forrester puts negative-return agent deployments at 41 percent unclear success criteria, 33 percent insufficient tool or data access, and 26 percent evaluation-coverage drift. The governance layer hides five separable problems: what an agent can reach, what it did, what it may do unasked, what it cost, and where its code executes. Three radar entries moved down to assess for lack of a second report: Coder's Agent Relay on October 21, and the coordinator session with an external task board and the repository zone map on October 26. Each had no replication or second team after 34 to 35 days.
 
-Verification and approval are the cheapest levers so far. The Claude Code team says it moved most code reading to machines, with a classifier that sets zero, one or two human approvers from the change and a pool of verifier agents that votes before a finding posts. "An agent's approval never counts as a person's". It reports, vendor-only, that merged pull requests more than doubled from June to September while the revert share fell over 40%, with no baseline, cost or false-positive rate, and its authors say they lack circuit breakers. A read-only terminal verifier rejected 61 percent of invalid agent episodes for under a cent each. Varying the evidence source beats varying the model: a cross-model vote over shared evidence approved 62.9 percent of unsafe proposals, and over an independent source 22.9 percent. Two October 17 write-ups rest on the same idea, with Schaller gating driver work on captured hardware traces. A NOMOS preprint reported compiling written policy into deterministic tool-call gates, with violations falling from 66.3% to 2.6% on one airline test, while a second preprint showed model-decided gates failing open. Both are single studies on author-built benchmarks. Zone maps, Bend's proof-gated edits and Dogwood's session-sequence policies got tooling, but OpenSpec moved down to watch on October 21 after no follow-up in 34 days, and ImpactGate moved down to assess for lack of a second team.
+Verification and approval are the cheapest levers so far. The Claude Code team says it moved most code reading to machines, with a classifier that sets zero, one or two human approvers from the change and a pool of verifier agents that votes before a finding posts. "An agent's approval never counts as a person's". It reports, vendor-only, that merged pull requests more than doubled from June to September while the revert share fell over 40%, with no baseline, cost or false-positive rate, and its authors say they lack circuit breakers. A read-only terminal verifier rejected 61 percent of invalid agent episodes for under a cent each. Varying the evidence source beats varying the model: a cross-model vote over shared evidence approved 62.9 percent of unsafe proposals, and over an independent source 22.9 percent. Cloudflare's `security-audit-skill`, which has a separate verifier agent check every finding, drew 15,072 stars in a week, and Cloudflare says one run finds roughly half of what repeated runs find. A NOMOS preprint reported compiling written policy into deterministic tool-call gates, with violations falling from 66.3% to 2.6% on one airline test, while a second preprint showed model-decided gates failing open. Both are single studies on author-built benchmarks. OpenSpec moved down to watch on October 21 after no follow-up in 34 days, and ImpactGate moved down to assess for lack of a second team.
 
-Policy enforcement keeps moving into the harness and closing fail-open paths, with new ways to open them. GitHub made Copilot local sandboxing generally available on October 7, made its Copilot model policy API generally available on October 19, and its managed-settings refresh now fails closed. Claude Code 2.1.295 added `onFailure: "block"`, 2.1.299 narrowed MCP allow rules so `mcp__a` no longer matches a server named `a__b`, and 2.1.304 added `decider: "person"`. Version 2.1.305 (October 20) stops `allowedMcpServers` from filtering `managed-mcp.json` stdio servers that use `${VAR}` only in `env`, so one an allowlist left out now loads on upgrade, and administrators need a `deniedMcpServers` entry. Anthropic's Claude apps gateway has per-developer spend caps that fail open by default. Uber's MCP gateway starts every tool disabled until its owning team enables it. Runlayer sells a gateway for MCP servers and agents tied to the identity provider, with traction vendor-reported and pricing not public, and it sits at a single assess entry. Placebo-controlled testing of skills is the new evaluation habit: one 450-trial test found only 2 of 9 popular coding skills beat neutral text of the same length. Model churn is an operating cost too: Copilot retired six models on October 19 and deprecates three more on November 16.
+Policy enforcement keeps moving into the harness and closing fail-open paths, with new ways to open them. GitHub made Copilot local sandboxing generally available on October 7, made its Copilot model policy API generally available on October 19, and its managed-settings refresh now fails closed. Claude Code 2.1.295 added `onFailure: "block"`, 2.1.299 narrowed MCP allow rules, and 2.1.304 added `decider: "person"`. Version 2.1.305 (October 20) stops `allowedMcpServers` from filtering `managed-mcp.json` stdio servers that use `${VAR}` only in `env`, so administrators need a `deniedMcpServers` entry. Anthropic says 2.1.307 emits a `claude_code.safety_event` telemetry event for every tool call that a rule, a hook or the sandbox stopped, prompted or sent back. OpenAI says Codex CLI 0.164.0 (October 23) can require managed configuration from a server. Anthropic's Claude apps gateway has per-developer spend caps that fail open by default. Uber's MCP gateway starts every tool disabled until its owning team enables it. Runlayer sells a gateway for MCP servers and agents tied to the identity provider, with traction vendor-reported and pricing not public. Placebo-controlled testing of skills is the new evaluation habit: one 450-trial test found only 2 of 9 popular coding skills beat neutral text of the same length. Model churn is an operating cost too: Copilot retired six models on October 19 and deprecates three more on November 16.
 
-Throughput decays at every gate, and the fleet-level data is vendor-reported. Factory reports 52% of its enterprise users ran automated code review and 48% security review, with its reviewer covering 99.5% of mergeable pull requests. Jellyfish says 9% of pull requests at leading adopters merge without human review and gains taper at high token spend, though it sells measurement and calls its findings correlational. A Harvard working paper on Jellyfish data from 718 firms reportedly finds agent adoption raised code output 30% with no significant rise in resolved issues while review time rose 49%, second-hand from Ars Technica and Forkast. Customer reports arrive without denominators: Port says SPS Commerce processed more than 500 Jira tickets in four months with zero workflow incidents, and Cockroach Labs says a label-driven multi-agent workflow added Db2 migration support in under two days for \$4,172 in tokens, with a 164 times faster claim measured against a different, earlier project. GitHub also says Copilot usage metrics undercounted agent activity for months and the data cannot be recovered. The practice conversation has moved to who holds judgement. An Ask HN on shipping AI-written code you do not understand drew 722 comments, and most top replies keep design human and let the model implement. Karri Saarinen of Linear argues agent-made, additive changes dilute a product into "an average of all those outputs" once nobody holds the shared point of view, and Steve Huynh argues AI authorship should follow whether a decision is reversible. Both are vendors or coaches arguing without data.
+Throughput decays at every gate, and the fleet-level data is vendor-reported. GitHub says its Copilot impact dashboard now offers an opt-in industry comparison, ranking agent-first adoption and agentic-user pull-request merge rate against peer medians. The metrics are GitHub's definitions and no results exist yet. Factory reports 52% of its enterprise users ran automated code review, with its reviewer covering 99.5% of mergeable pull requests. Jellyfish says 9% of pull requests at leading adopters merge without human review and gains taper at high token spend, though it sells measurement and calls its findings correlational. A Harvard working paper on Jellyfish data from 718 firms reportedly finds agent adoption raised code output 30% with no significant rise in resolved issues while review time rose 49%, second-hand from Ars Technica and Forkast. Customer reports arrive without denominators: Port says SPS Commerce processed more than 500 Jira tickets in four months with zero workflow incidents, and Cockroach Labs says a label-driven multi-agent workflow added Db2 migration support in under two days for \$4,172 in tokens. GitHub also says Copilot usage metrics undercounted agent activity for months and the data cannot be recovered. The practice conversation has moved to who holds judgement. An Ask HN on shipping AI-written code you do not understand drew 722 comments, and most top replies keep design human and let the model implement. Karri Saarinen of Linear argues agent-made, additive changes dilute a product into "an average of all those outputs" once nobody holds the shared point of view. Both Saarinen and Steve Huynh argue without data.
 
-Products compete on where control sits. Dataiku sells cross-platform inventory, general availability planned for October 2026. Komodor's operations platform and Huawei's AgentArts were dropped on October 21 after no follow-up, and Atlassian's Agent Context Controls, Cymphony's registry consolidation and Shopify's Helix checkpoint discipline sit at watch. NVIDIA moves enforcement to separate hardware, while an independent review says its software sandbox fails open without Landlock. GitHub forces an admin default for MCP and Copilot Code Review by October 22. IBM sells a self-hosted, air-gapped agent as governance by isolation, with its own 45% productivity figure. Glow Labs also reports agents leaking screenshots into public repositories, so a sanctioned private destination is now a governance control.
+Products compete on where control sits. Dataiku's Agent Management, Komodor's operations platform and Huawei's AgentArts were all dropped from the radar after no follow-up, the Dataiku entry on October 26. Atlassian's Agent Context Controls, Cymphony's registry consolidation and Shopify's Helix checkpoint discipline sit at watch. NVIDIA moves enforcement to separate hardware, while an independent review says its software sandbox fails open without Landlock. GitHub forces an admin default for MCP and Copilot Code Review by October 22. IBM sells a self-hosted, air-gapped agent as governance by isolation, with its own 45% productivity figure. Glow Labs also reports agents leaking screenshots into public repositories, so a sanctioned private destination is now a governance control.
 
 ## Open questions
 
+- Does a second team replicate the coordinator-session pattern or the repository zone map, so either can return to trial?
+- Does GitHub publish results from the Copilot impact dashboard's industry comparison, and does anyone check its definitions against their own data?
+- Does Cloudflare's finding that one audit run catches about half of what repeated runs catch hold for other verifier-agent designs?
 - Does a read-only verifier generalise beyond the tested task family, and what is the equivalent for a data-transformation repository?
 - Does an outside team reproduce a risk-tiered approval result, with a baseline, a cost and a false-positive rate, given that the Claude Code team's figures are its own?
 - Nobody has published a zone map for a real codebase, so the labour cost of drawing and maintaining one is unknown.
-- Does the control plane consolidate into tools teams already run or into a new procurement category, now that the concept entry is dropped?
 - Nobody has published a credible cost model for the verification tax. Vendors quote throughput gains and none quotes gate cost.
 - Existing gates target correctness. What covers fabricated fixtures, silently narrowed scope, or tests written to the implementation?
-- Anthropic's automation index cost a weekly staff sample across a month. Is there a cheap approximation, and a quality or rework measure to pair with it?
 - Does the Harvard working paper's finding of no rise in resolved issues survive a first-hand read?
+- Do Factory's and Jellyfish's fleet figures hold in independent data?
+- Do the NOMOS compiled-gate result and the model-decided-gate failure replicate, and on which models?
+- Do fleets add `deniedMcpServers` entries before Claude Code 2.1.305 rolls out, and does Anthropic change the default?
+- Does the control plane consolidate into tools teams already run or into a new procurement category, now that the concept entry is dropped?
+- Anthropic's automation index cost a weekly staff sample across a month. Is there a cheap approximation, and a quality or rework measure to pair with it?
 - Has anyone tiered governance by agent risk beyond Anthropic's own classifier, given Gartner's view that uniform governance fails?
 - What does an audit trail correlating a local workspace to a vendor-side session prove when the loop and prompt still leave the building?
 - How should two agents' judgements differ before a shadow test blocks promotion?
@@ -38,15 +44,27 @@ Products compete on where control sits. Dataiku sells cross-platform inventory, 
 - Which classes of real defect are expressible as laws for proof-gated generation, and is Dogwood portable with only one implementation?
 - Linear's gate-level wins did not sum to the felt improvement. How does a team find the real critical path before funding the next optimisation?
 - Do other large platforms adopt an admin-choice-with-deadline default like GitHub's, or keep a silent default?
-- What depth of visibility does cross-platform agent discovery return: full tool-call logs or metadata only?
 - What does NVIDIA's quarantine actually restrict, and does the fail-open finding get a fail-closed option?
 - Is the review-as-accountability model workable where checking infrastructure is thinner than Anthropic's, and how do junior engineers learn without line-by-line review?
-- Do Factory's and Jellyfish's fleet figures hold in independent data?
-- Do the NOMOS compiled-gate result and the model-decided-gate failure replicate, and on which models?
 - Do SPS Commerce or Cockroach Labs publish merge, revert, cost and cycle-time figures that let their results be set against a baseline?
 - Does Factory publish terms or figures for Mentlio, and does in-harness routing show a measured saving?
 - Does the placebo-arm test of skills replicate on a second model, given its own stated limit of one model and tasks mostly at ceiling?
-- Do fleets add `deniedMcpServers` entries before Claude Code 2.1.305 rolls out, and does Anthropic change the default?
+
+## 2026-10-26
+
+![[2026-10-26#^sdlc-copilot-industry-comparison]]
+
+![[2026-10-26#^sdlc-codex-managed-config]]
+
+![[2026-10-26#^sdlc-claude-safety-event]]
+
+![[2026-10-26#^prac-cloudflare-audit-skill]]
+
+![[2026-10-26#^radar-coordinator-session]]
+
+![[2026-10-26#^radar-zone-map]]
+
+Source note: [[2026-10-26]]
 
 ## 2026-10-21
 
@@ -388,34 +406,34 @@ Source note: [[2026-09-03]]
 
 ## On the radar
 
-- `🔵 TRIAL` **Repository zone map with characterization-test gates**, a person classifies the codebase green, yellow and red and an agent's permitted scope follows the map. [[2026-09-21]]
+- `🟡 ASSESS` **Repository zone map with characterization-test gates**. (was [[2026-09-21]]) [[2026-10-26]]
 - `🔵 TRIAL` **Independent-evidence-source verification gates**. (was [[2026-09-15]]) [[2026-10-17]]
-- `🔵 TRIAL` **Anthropic R&D Automation Index**, a task tree scored on an AL0 to AL5 automation scale and weighted by person-time; a published method for measuring how much engineering work agents actually do. (was [[2026-09-18]]) [[2026-10-21]]
-- `🔵 TRIAL` **Coordinator session with an external task board and re-run verification**, one long-lived session holds shared state in a task system with an application programming interface while short-lived sessions implement, and re-executes every claimed command rather than trusting a summary; arrived at independently by two practitioners in one week. [[2026-09-22]]
-- `🟡 ASSESS` **Claude apps gateway spend caps**, enforcement fails open by default. [[2026-10-12]]
-- `🟡 ASSESS` **Deterministic compiled tool-call gates in place of a model-decided gate**, two single preprints. [[2026-10-09]]
-- `🟡 ASSESS` **Placebo-controlled skill evaluation**, run no-skill, same-length-placebo and skill arms before adopting a skill; one 450-trial benchmark and three supporting papers. [[2026-10-08]]
-- `🟡 ASSESS` **ImpactGate structural-decay merge gate**, no second team or measurement. (was [[2026-09-16]]) [[2026-10-17]]
-- `🟡 ASSESS` **Coder Agent Relay self-hosted Claude Code execution**, Anthropic keeps the loop and inference, every tool call runs in a sandboxed workspace on your own infrastructure. (was [[2026-09-17]]) [[2026-10-21]]
-- `🟡 ASSESS` **Uber AI Software Factory**, re-argued. (was [[2026-09-03]]) [[2026-10-05]]
-- `🟡 ASSESS` **Dataiku Agent Management**, a standalone cross-platform agent inventory and governance product spanning eight named platforms (Copilot Studio, Azure Foundry, Agentforce, Bedrock, Vertex, Databricks, Snowflake Cortex, n8n); general availability planned for October 2026. [[2026-09-25]]
-- `🟡 ASSESS` `⚠️` **NVIDIA OpenShell and the Open Agent Safety Platform**, kernel-enforced per-agent sandboxing plus an out-of-band BlueField-4 watchdog; an independent review says the filesystem policy fails open on kernels without Landlock. [[2026-09-29]]
-- `🟡 ASSESS` **Risk-tiered human approval set by the change, with verifier-vote review (Claude Code team)**, vendor-reported outcomes with no baseline. [[2026-10-17]]
-- `🟡 ASSESS` **Runlayer**, a gateway for MCP servers and agents tied to the identity provider; traction is vendor-reported and pricing is not public. [[2026-10-21]]
-- `◻️ WATCH` **Bend `LAWS.bend` proof-gated agent codegen**, the compiler demands proof that declared invariants hold on every edit, so a violating state will not compile; requires adopting a new language. (was [[2026-09-18]]) [[2026-10-21]]
-- `◻️ WATCH` **Dogwood temporal policy language**, Apache 2.0 and built on Cedar, adding time windows, rate limits and escalation triggers so a policy can evaluate a sequence of agent actions within a session. (was [[2026-09-18]]) [[2026-10-21]]
-- `◻️ WATCH` **OpenSpec spec-driven development framework**, spec deltas reviewed in the same pull request as the code. (was [[2026-09-17]]) [[2026-10-21]]
-- `◻️ WATCH` **Meta Muse Sentinel architecture**, a separate permitting agent gating every connector call and network request at L4/L7. (was [[2026-09-09]]) [[2026-10-12]]
+- `🔵 TRIAL` **Anthropic R&D Automation Index**. (was [[2026-09-18]]) [[2026-10-21]]
+- `🟡 ASSESS` **Coordinator session with an external task board and re-run verification**. (was [[2026-09-22]]) [[2026-10-26]]
+- `🟡 ASSESS` **Claude apps gateway spend caps**. [[2026-10-12]]
+- `🟡 ASSESS` **Deterministic compiled tool-call gates in place of a model-decided gate**. [[2026-10-09]]
+- `🟡 ASSESS` **Placebo-controlled skill evaluation**. [[2026-10-08]]
+- `🟡 ASSESS` **ImpactGate structural-decay merge gate**. (was [[2026-09-16]]) [[2026-10-17]]
+- `🟡 ASSESS` **Coder Agent Relay self-hosted Claude Code execution**. (was [[2026-09-17]]) [[2026-10-21]]
+- `🟡 ASSESS` **Uber AI Software Factory**. (was [[2026-09-03]]) [[2026-10-05]]
+- `🟡 ASSESS` `⚠️` **NVIDIA OpenShell and the Open Agent Safety Platform**. [[2026-09-29]]
+- `🟡 ASSESS` **Risk-tiered human approval set by the change, with verifier-vote review (Claude Code team)**. [[2026-10-17]]
+- `🟡 ASSESS` **Runlayer**. [[2026-10-21]]
+- `🟡 ASSESS` **Approval and secrets held outside the working model (Duet, Muse Sentinel, OpenShell)**. (was [[2026-10-12]]) [[2026-10-26]]
+- `◻️ WATCH` **Bend `LAWS.bend` proof-gated agent codegen**. (was [[2026-09-18]]) [[2026-10-21]]
+- `◻️ WATCH` **Dogwood temporal policy language**. (was [[2026-09-18]]) [[2026-10-21]]
+- `◻️ WATCH` **OpenSpec spec-driven development framework**. (was [[2026-09-17]]) [[2026-10-21]]
 - `◻️ WATCH` **Shopify Helix checkpoint discipline**. (was [[2026-09-11]]) [[2026-10-12]]
-- `◻️ WATCH` **Port.io Context Lake**, no new evidence in 32 days. (was [[2026-09-03]]) [[2026-10-05]]
-- `◻️ WATCH` **Ramp Labs agent-ROI attribution**, primary post not found. (was [[2026-09-03]]) [[2026-10-05]]
+- `◻️ WATCH` **Port.io Context Lake**. (was [[2026-09-03]]) [[2026-10-05]]
+- `◻️ WATCH` **Ramp Labs agent-ROI attribution**. (was [[2026-09-03]]) [[2026-10-05]]
 - `◻️ WATCH` **Atlassian Agent Context Controls + DX (developer-experience vendor) for Agentic Development**. (was [[2026-09-11]]) [[2026-10-12]]
-- `◻️ WATCH` **Cymphony + agent/skill registry consolidation**, one entry, the identity-and-access face of the same problem. (was [[2026-09-09]]) [[2026-10-12]]
-- `⚫ DROPPED` **Datamimic deterministic synthetic test data over MCP**, no follow-up in 31 days. [[2026-09-16]], removed [[2026-10-17]]
-- `⚫ DROPPED` **Huawei Cloud AgentArts and openJiuwen**, nothing pilotable outside China and no follow-up in 33 days. [[2026-09-18]], removed [[2026-10-21]]
-- `⚫ DROPPED` **Komodor Agentic Operations Platform**, no follow-up in 34 days. [[2026-09-17]], removed [[2026-10-21]]
-- `⚫ DROPPED` **Agentic SDLC Control Plane**, a framework concept, not a thing to pilot; risk-tiered approval carries its concrete form. [[2026-09-15]], removed [[2026-10-17]]
-- `⚫ DROPPED` **Single-vendor agent fleets**, a sourcing posture, not a thing a team pilots. [[2026-09-16]], removed [[2026-10-17]]
+- `◻️ WATCH` **Cymphony + agent/skill registry consolidation**. (was [[2026-09-09]]) [[2026-10-12]]
+- `⚫ DROPPED` **Datamimic deterministic synthetic test data over MCP**. [[2026-09-16]], removed [[2026-10-17]]
+- `⚫ DROPPED` **Huawei Cloud AgentArts and openJiuwen**. [[2026-09-18]], removed [[2026-10-21]]
+- `⚫ DROPPED` **Komodor Agentic Operations Platform**. [[2026-09-17]], removed [[2026-10-21]]
+- `⚫ DROPPED` **Dataiku Agent Management**. [[2026-09-25]], removed [[2026-10-26]]
+- `⚫ DROPPED` **Agentic SDLC Control Plane**. [[2026-09-15]], removed [[2026-10-17]]
+- `⚫ DROPPED` **Single-vendor agent fleets**. [[2026-09-16]], removed [[2026-10-17]]
 
 ## Related
 
