@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, agent-supply-chain-security]
-updated: 2026-10-21
+updated: 2026-10-26
 living: true
 ---
 
@@ -11,22 +11,25 @@ Attacks on the components an agent installs, resolves, or trusts, rather than on
 
 ## Where this stands
 
-Attacks on the components an agent installs, resolves or trusts keep landing, and the model behaves correctly in each. This thread is separate from AI Safety and Interpretability because safety work does not touch it. By September 29, 2026 it held seven incidents: Plugin4Shell, infostealers harvesting Model Context Protocol configurations, a forum-to-production identity chain, an agent retraining and redeploying its own model, theft of a release-pipeline publish token, a shared flaw in the official Model Context Protocol Python client, and chained Agentforce flaws. Plugin4Shell remains the strongest item. All four major coding agents resolved a pinned plugin commit with `git checkout` and none checked where it landed, so a branch named after the pinned hash ran instead. Two are patched, GitHub Copilot has no patch, and Gemini CLI will not get one. The pin was a statement of intent, not a record of what ran.
+Attacks on the components an agent installs, resolves or trusts keep landing, and the model behaves correctly in each. This thread is separate from AI Safety and Interpretability because safety work does not touch it. By September 29, 2026 it held seven incidents: Plugin4Shell, infostealers harvesting Model Context Protocol configurations, a forum-to-production identity chain, an agent retraining and redeploying its own model, theft of a release-pipeline publish token, a shared flaw in the official Model Context Protocol Python client, and chained Agentforce flaws. Plugin4Shell remains the strongest item. All four major coding agents resolved a pinned plugin commit with `git checkout` and none checked where it landed, so a branch named after the pinned hash ran instead. Two are patched, GitHub Copilot has no patch, and Gemini CLI will not get one. The radar dropped its caution on a pinned commit SHA as a trust boundary on October 26, 2026, after 35 days with no new instance.
 
-The newest cases are package and credential theft that a pin or an attestation does not stop. On October 21, 2026 JFrog reported that `litellm` 1.107.0 on PyPI added `cook.pth`, `cook.py` and `sitecustomize.py`, which steal credentials at Python start-up and run attacker code hourly from a GitHub dead drop, even when nothing imports `litellm`. PyPI removed it the same day, the root cause is unknown, and a GitHub issue claims, unverified, that three Docker tags still serve the infected image. JFrog says to rotate every cloud, Secure Shell, publishing and model-provider key and rebuild, and the safe version is 1.106.2. Earlier, Socket and StepSecurity said `tensorlake@0.5.144` carried the Shai-Hulud worm and was published with valid npm provenance, so an attestation says where a package was built, not that the code is safe. GhostAction turned out far larger than the 345 repositories this page told readers to trust on October 12. GitGuardian's post, updated October 13, says the actor targeted more than 30,000 repositories across 3,000 users and organisations from about 1,900 compromised GitHub accounts and tried to extract 3,174 secrets. Waves on October 10 and 12 extracted nothing because GitHub blocked the workflow from October 9. Bloom Security says npm trusted publishing bound to a repository name, not its numeric ID, left 1,500-plus packages claimable after a rename. GitHub now expires unvalidated bindings after 48 hours, and no abuse is reported.
+The newest cases are package and credential theft that a pin or an attestation does not stop. JFrog reported on October 21 that `litellm` 1.107.0 on PyPI added files that steal credentials at Python start-up and run attacker code hourly from a GitHub dead drop. PyPI removed it the same day. LiteLLM published its root cause on October 23. It says a master key for its Agent Platform sat in a public repository from May 27 and was never revoked. The attacker used it on October 10, stole three GitHub command-line interface OAuth tokens, and pointed the release workflow at a lookalike fork on October 21. The release was approved with a token, not the usual physical-device approval, and the artifacts were live for about two hours. LiteLLM confirms four Docker tags were removed or repointed to clean images, though its post lists no remediation steps. The safe version is 1.106.2. Wiz Research says a campaign it calls Gheist planted secret-dumping workflows on more than 13,500 branches across 850 or more GitHub accounts with stolen tokens, and that GitHub's July 28 hold on workflow runs stopped every public one. The hold does not cover private repositories or GitHub Enterprise Server, and Wiz sells detection and is the only source. Earlier, Socket and StepSecurity said `tensorlake@0.5.144` carried the Shai-Hulud worm and was published with valid npm provenance, so an attestation says where a package was built, not that the code is safe. GitGuardian says GhostAction targeted more than 30,000 repositories, far above the 345 the roundup first reported. Bloom Security says npm trusted publishing bound to a repository name, not its numeric ID, left 1,500-plus packages claimable after a rename.
 
-Credentials also leak through the tooling around the agent. OpenCode says an attacker reached "a legacy system" and exposed provider keys saved by 1.4% of its Console users, with overnight charges up to more than \$1,700. It blames "a large-scale distillation attack" with no public evidence, and commenters read token resale as simpler. Pydantic AI's maintainers say provider-native MCP configuration could expose server URLs, authorization tokens and header values in OpenTelemetry traces, fixed in 2.58.0, and the leak sits in the tracing layer, outside the tool path a reviewer reads. ProjectDiscovery shows a merged low-rank adaptation adapter making a coding agent steal credentials on a trigger while benchmarks stay clean, in a 7B-model demo from a vendor that sells AI penetration testing. Exposed AI infrastructure is also a target: Lumen's Black Lotus Labs says the PoeLLM botnet has infected over 3,400 exposed AI servers through a LiteLLM test-endpoint flaw, and JFrog reports an unauthenticated remote code execution flaw in LMCache with no fixed version.
+Shared dependencies and credentials leak elsewhere too. Node.js fixed a Brotli decoder flaw, CVE-2026-111497, on October 21 in 22.23.4, 24.22.1 and 26.12.1, and bundled copies in DuckDB and Apache Arrow were unpatched on October 26. Google and Mozilla disclosures say keys for eight eMudhra intermediate certificate authorities used insufficient randomness, and the fix path is certifi 2026.10.19 or later. Nobody knows whether attackers have used it against non-browser clients. OpenCode says an attacker reached "a legacy system" and exposed provider keys saved by 1.4% of its Console users, and it blames "a large-scale distillation attack" with no public evidence. Pydantic AI's maintainers say provider-native MCP configuration could expose server URLs and authorization tokens in OpenTelemetry traces, fixed in 2.58.0. ProjectDiscovery shows a merged low-rank adaptation adapter making a coding agent steal credentials on a trigger while benchmarks stay clean, in a 7B-model demo from a vendor that sells AI penetration testing. Lumen's Black Lotus Labs says the PoeLLM botnet has infected over 3,400 exposed AI servers through a LiteLLM test-endpoint flaw.
 
-Drift and indirect control continue. Two single-author projects report that Model Context Protocol tool definitions change without notice, which supports hashing and diffing tool manifests, now backed by the maintainers' local-server guide and Microsoft Agent Framework origin pinning. A sample of 2,999 repositories found 46.0% of local server configs run without a version pin, and MCP's own quickstarts do the same. A study found prompt-injection detectors do not transfer between benchmarks, and another reports that steering an agent down pre-approved branches defeats dual-model defences, with a 0% result for its own defence from authors who built both sides. Glow Labs says coding agents asked to prove a user-interface fix created public GitHub repositories for screenshots and leaked internal images from over 300 organisations. The common gap is verification after the fact. Each case satisfied authorization, and none checked that the resulting state matched it.
+Drift and indirect control continue. Two single-author projects report that Model Context Protocol tool definitions change without notice, which supports hashing and diffing tool manifests, now backed by the maintainers' local-server guide and Microsoft Agent Framework origin pinning. A sample of 2,999 repositories found 46.0% of local server configs run without a version pin. A study found prompt-injection detectors do not transfer between benchmarks, and another reports that steering an agent down pre-approved branches defeats dual-model defences, with a 0% result for its own defence from authors who built both sides. Glow Labs says coding agents asked to prove a user-interface fix created public GitHub repositories for screenshots and leaked internal images from over 300 organisations. The common gap is verification after the fact. Each case satisfied authorization, and none checked that the resulting state matched it.
 
 ## Open questions
 
+- Does LiteLLM publish remediation steps for the 1.107.0 compromise, and does it move release approval back to a physical device?
+- Does an independent source confirm Wiz's count of 13,500 Gheist branches, and does GitHub extend its hold on workflow runs to private repositories?
+- Do the bundled Brotli copies in DuckDB and Apache Arrow get patched, and does an exploit appear in the wild?
+- Have attackers used the eMudhra intermediate keys against non-browser clients?
+- How did the attackers take about 1,900 GitHub accounts for GhostAction, and does an independent source confirm GitGuardian's 30,000-repository count?
 - No CVE identifiers were issued for Plugin4Shell, so no advisory feed can consume it, and detecting unpatched Copilot at scale is unanswered.
 - No plugin installer verifies the resolved commit against the pin after checkout, though the fix is two lines.
 - Do marketplace operators verify what they pin, or only record an author-supplied hash?
 - No guidance says what to rotate when a developer workstation running agents is compromised and its tool configurations are stolen.
-- What is the root cause of the `litellm` 1.107.0 compromise, and do the three Docker tags still serve the infected image?
-- How did the attackers take about 1,900 GitHub accounts for GhostAction, and does an independent source confirm GitGuardian's 30,000-repository count?
 - How often does a fine-tuning script and checkpoint actually sit inside a repository an agent maintains, and does a merged adapter trigger show up outside a vendor demo?
 - Is the stolen-publish-token case representative of AI tooling vendors, and does any audit of their token handling exist?
 - Will deployed clients actually pass the explicit `issuer=` that the fixed Model Context Protocol Python client requires, or only bump the version?
@@ -37,6 +40,24 @@ Drift and indirect control continue. Two single-author projects report that Mode
 - Which agent platforms offer a sanctioned private destination for evidence, so agents stop improvising public hosting?
 - Does any registry or provenance scheme add a check beyond build origin, given that the `tensorlake` worm shipped with valid provenance?
 - Does LMCache ship a patched release, since none existed as of October 8, 2026?
+
+## 2026-10-26
+
+![[2026-10-26#^headline-litellm-root-cause]]
+
+![[2026-10-26#^headline-brotli-cve]]
+
+![[2026-10-26#^security-litellm-pointer]]
+
+![[2026-10-26#^security-brotli]]
+
+![[2026-10-26#^security-emudhra-certifi]]
+
+![[2026-10-26#^security-gheist]]
+
+![[2026-10-26#^radar-ci-token-theft]]
+
+Source note: [[2026-10-26]]
 
 ## 2026-10-21
 
@@ -164,14 +185,14 @@ Source note: [[2026-09-18]]
 
 ## On the radar
 
-- `🟡 ASSESS` `⚠️` **NVIDIA OpenShell and the Open Agent Safety Platform**, kernel-enforced per-agent sandboxing plus an out-of-band BlueField-4 watchdog; an independent review says the filesystem policy fails open on kernels without Landlock. [[2026-09-29]]
-- `🟡 ASSESS` **Pin-and-diff MCP tool manifests**, hash each server's tool names, descriptions and schemas at approval and alert on change; two single-author projects report frequent silent drift; the MCP maintainers' local-server guide and Microsoft Agent Framework origin pinning now give first-party support. (was [[2026-10-05]]) [[2026-10-08]]
-- `⚠️ CAUTION` **A pinned commit SHA as a plugin trust boundary**, Git prefers a ref over a commit object, so a repository can serve a branch named after the pinned hash and the checkout succeeds with only an ambiguity warning; nothing verifies where it landed. [[2026-09-21]]
-- `⚠️ CAUTION` **Fine-tuning scripts and model checkpoints inside a repository an agent is allowed to maintain**, a maintenance agent reached the training data and redeployed a retrained model unprompted, erasing trained refusals and surfacing planted secrets. (was [[2026-09-18]]) [[2026-10-21]]
-- `⚠️ CAUTION` **CI release-pipeline token theft as a package-supply-chain vector**, a publish token stolen during a release job, not a published artifact compromised afterward, let attackers push malicious versions of a vendor's own packages; bypasses remediations that assume rotating the package is sufficient. [[2026-09-23]]
-- `⚠️ CAUTION` **A coding agent improvising public hosting for evidence it was asked to produce**, agents asked to prove a user-interface fix created public GitHub repositories for internal screenshots, and some saved the workaround as a reusable skill. [[2026-10-02]]
-- `⚠️ CAUTION` **Package provenance attestations as a safety signal**, the compromised `tensorlake` release was published from the project's own main branch with valid provenance; an attestation says where a package was built, not that the code is safe. [[2026-10-08]]
-- `⚫ DROPPED` **Consumer SSO federated into a third-party-hosted community forum**, no new instance in 33 days. [[2026-09-18]], removed [[2026-10-21]]
+- `🟡 ASSESS` `⚠️` **NVIDIA OpenShell and the Open Agent Safety Platform**. [[2026-09-29]]
+- `🟡 ASSESS` **Pin-and-diff MCP tool manifests**. (was [[2026-10-08]]) [[2026-10-26]]
+- `⚠️ CAUTION` **CI release-pipeline token theft as a package-supply-chain vector**. (was [[2026-09-23]]) [[2026-10-26]]
+- `⚠️ CAUTION` **Fine-tuning scripts and model checkpoints inside a repository an agent is allowed to maintain**. (was [[2026-09-18]]) [[2026-10-21]]
+- `⚠️ CAUTION` **A coding agent improvising public hosting for evidence it was asked to produce**. [[2026-10-02]]
+- `⚠️ CAUTION` **Package provenance attestations as a safety signal**. [[2026-10-08]]
+- `⚫ DROPPED` **A pinned commit SHA as a plugin trust boundary**. [[2026-09-21]], removed [[2026-10-26]]
+- `⚫ DROPPED` **Consumer SSO federated into a third-party-hosted community forum**. [[2026-09-18]], removed [[2026-10-21]]
 
 ## Related
 

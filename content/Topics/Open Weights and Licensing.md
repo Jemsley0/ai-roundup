@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, open-weights-and-licensing]
-updated: 2026-10-21
+updated: 2026-10-26
 living: true
 ---
 
@@ -11,25 +11,34 @@ The licence terms attached to downloadable model weights, and what they permit: 
 
 ## Where this stands
 
-The licence is the variable that decides whether an open-weight model is usable, and it moves in both directions at once. Xiaomi's MiMo-V2.6 shipped weights, a technical report and independent pricing, but its only licence is a bare `license: mit` tag in the model card frontmatter, with no LICENSE file, no copyright notice and no named licensor. Alibaba took Qwen-Image-2.1 from Apache 2.0 to a research-only licence on September 20, 2026. PrismML and Jared Palmer's Kev shipped real Apache 2.0 releases with training code and evaluation data. Capability is not the moving variable. The paperwork is.
+The licence is the variable that decides whether an open-weight model is usable, and it moves in both directions at once. Xiaomi's MiMo-V2.6 shipped weights, a technical report and independent pricing, but its only licence is a bare `license: mit` tag in the model card frontmatter, with no LICENSE file, no copyright notice and no named licensor. Alibaba took Qwen-Image-2.1 from Apache 2.0 to a research-only licence on September 20, 2026. PrismML and Jared Palmer's Kev shipped real Apache 2.0 releases with training code and evaluation data. The radar keeps a caution on a model-card licence tag standing in for the licence, re-argued on October 26, 2026.
 
-The pipeline is mostly promises with dates, and the licence is often the missing field. Two promises came due or are pending. Reflection AI released Beam weights under Apache 2.0 on October 16, 2026, a 501B-total, 23B-active model, and Meta released an 816B open-weight model on October 15, reported as Muse Spark Open with a 1M-token context and no licence stated. StepFun promised Step 5 open weights for October 15, but the October 17 note found no StepFun release among the launches it recorded, so that date is unconfirmed. Mistral says Large 4 (1 trillion parameters, 52 billion active) will release weights by the end of October with neither a licence nor a context window stated. MiniMax promises open weights for M3.1 Flash on October 23, after launching it on October 19 at \$0.15 input and \$0.60 output per million tokens, per secondary sources. Google released EmbeddingGemma 2 under Apache 2.0 with an 8K context. The radar dropped Qwen3.8-Omni-Flash on October 21 as closed weights with vendor-reported figures only.
+The pipeline is mostly promises with dates, and the licence is often the missing field. MiniMax promised M3.1 Flash weights for October 23. They are now on Hugging Face under a `minimax-community` licence whose terms need reading, with vendor-reported benchmarks and conflicting sources on model size. Reflection AI released Beam weights under Apache 2.0 on October 16, a 501B-total, 23B-active model. Meta released an 816B open-weight model on October 15, reported as Muse Spark Open with a 1M-token context and no licence stated. Mistral says Large 4 (1 trillion parameters, 52 billion active) will release weights by the end of October with neither a licence nor a context window stated. StepFun promised Step 5 weights for October 15, and the radar dropped the entry on October 26 with no follow-up in 35 days. The radar also dropped MiMo-V2.6 on the same day, after 34 days without follow-up. Google released EmbeddingGemma 2 under Apache 2.0 with an 8K context.
 
-Licence reading now reaches below the model. The October 12 note says Rampart, an in-browser PII redaction tool, uses a content licence, and that using it would need a licence ruling on CC BY 4.0 for code. Context Mode, an MCP server that keeps raw tool output out of context, is under Elastic 2.0, which the note says is not open source in the Open Source Initiative sense. Cloudflare's Clef-Omni is an open-weight decision model, and Microsoft-Decision-1 post-trains Qwen3.5-9B, but the page holds no licence text for either. Every release needs a read of the actual LICENSE file, the vendor's prior licences on the same product line, and whether the weights are open at all.
+Licence reading now reaches below the model. Rampart, an in-browser PII redaction tool, uses a content licence, and the October 12 note says using it would need a ruling on CC BY 4.0 for code. Context Mode, an MCP server that keeps raw tool output out of context, is under Elastic 2.0, which is not open source in the Open Source Initiative sense. Graphify reads Apache-2.0 through the GitHub API beside a bundled MIT file. Cloudflare's Clef-Omni is an open-weight decision model, and Microsoft-Decision-1 post-trains Qwen3.5-9B, but no licence text for either has been read. Every release needs a read of the actual LICENSE file, the vendor's prior licences on the same product line, and whether the weights are open at all.
 
-Tooling and policy also limit what any licence can protect. Heretic strips trained refusals from an open-weight model in one command, and Anthropic's Frontier Red Team reported abliteration cutting refusals from 95 percent to under 14 percent on GLM-5.3. The US Center for AI Standards and Innovation independently assessed the same model. Both bodies put open-weight cyber capability about four months behind the frontier, and Anthropic asked governments to test successors. Commenters read the report as pre-listing lobbying against open weights, so the framing is contested even though the measurements are not. ProjectDiscovery adds a supply-side risk: a merged low-rank adaptation adapter can make a coding agent steal credentials on a trigger while benchmarks stay clean, so write access to weights is write access to agent behaviour, in a small-model demo from a vendor that sells AI penetration testing. China's proposal to add 23 AI technologies, including large language models and chip designs, to its export-control list (Bloomberg via Techmeme, October 16, headline only) could affect where Chinese-lab weights keep appearing.
+Tooling and policy also limit what any licence can protect. Heretic strips trained refusals from an open-weight model in one command, and Anthropic's Frontier Red Team reported abliteration cutting refusals from 95 percent to under 14 percent on GLM-5.3. The US Center for AI Standards and Innovation independently assessed the same model. Both bodies put open-weight cyber capability about four months behind the frontier, and Anthropic asked governments to test successors. Commenters read the Anthropic report as pre-listing lobbying against open weights, so the framing is contested even though the measurements are not. ProjectDiscovery says a merged low-rank adaptation adapter can make a coding agent steal credentials on a trigger while benchmarks stay clean. A 7B model in Codex CLI fired 50 of 50 times, in a small-model demo from a vendor that sells AI penetration testing. China's proposal to add 23 AI technologies to its export-control list (Bloomberg via Techmeme, October 16, headline only) could affect where Chinese-lab weights keep appearing.
 
 ## Open questions
 
-- Will Xiaomi add a LICENSE file and narrative licence text to the MiMo-V2.6 repositories, or does the frontmatter tag stand?
-- Is the Qwen-Image-2.1 relicensing specific to that product line, or the start of a move away from Apache 2.0 across Qwen?
-- Did StepFun publish Step 5 weights after its October 15 date, and under which licence?
+- What do the `minimax-community` licence terms permit commercially, and which M3.1 Flash size figure is correct?
 - Will Mistral publish Large 4 weights by the end of October 2026, and under which licence and context window?
 - What licence does Meta's Muse Spark Open carry, and do Beam's weights hold up under independent measurement of Reflection's own figures?
-- Will MiniMax publish M3.1 Flash weights on October 23, and under which licence?
+- Did StepFun publish Step 5 weights after its October 15 date, and under which licence?
+- Will Xiaomi add a LICENSE file and narrative licence text to the MiMo-V2.6 repositories, or does the frontmatter tag stand?
+- Is the Qwen-Image-2.1 relicensing specific to that product line, or the start of a move away from Apache 2.0 across Qwen?
 - Do Cloudflare Clef-Omni and Microsoft-Decision-1 ship under licences that permit commercial use?
 - If governments act on the four-months-behind finding, does that change how labs write open-weight licences or whether they publish weights at all?
 - Does China's proposed export-control list, if adopted, cover model weights, and does it change what Chinese labs release?
+- Does any independent party reproduce the merged-adapter credential-theft result outside a vendor demo?
+
+## 2026-10-26
+
+![[2026-10-26#^models-minimax-flash]]
+
+![[2026-10-26#^radar-licence-tag]]
+
+Source note: [[2026-10-26]]
 
 ## 2026-10-21
 
@@ -117,13 +126,13 @@ Source note: [[2026-09-18]]
 
 ## On the radar
 
-- `🔵 TRIAL` `⚠️` **MiMo-V2.6-Pro and MiMo-V2.6-Flash**, 1.02T/42B and 309B/15B mixture-of-experts at a 1M-token context with text, image, video and audio input, weights downloadable and independently priced below the comparable median; every vendor benchmark is self-reported, the licence is a bare model-card frontmatter tag with no LICENSE file, and Flash's parameter count differs between card and paper. [[2026-09-22]]
-- `🔵 TRIAL` `⚠️` **StepFun Step 5 Preview**, 600B total and 27B active at a 1M-token context for \$1.00 input and \$2.70 output per million tokens, with open weights scheduled for Oct 15, 2026; every capability figure is vendor-reported and until then the only access is a Chinese-hosted API. [[2026-09-21]]
-- `🟡 ASSESS` `⚠️` **Heretic automated abliteration**, directional ablation plus a Tree-structured Parzen Estimator optimiser strips refusals from any open-weight model in one command, author-reported as matching hand-tuned baselines at a third of the distributional shift; an input to open-weight licensing decisions rather than a tool most teams pilot. [[2026-09-22]]
-- `◻️ WATCH` **Rampart in-browser PII redaction**, the recall figure reproduces and the baselines do not. [[2026-10-12]]
-- `⚠️ CAUTION` **A model-card licence tag as the licence**, a `license:` line in Hugging Face card frontmatter renders a badge but grants nothing, carries no copyright notice and names no licensor; MiMo-V2.6 ships the tag with no LICENSE file in either repository. [[2026-09-22]]
-- `⚫ DROPPED` **Ternary weights with FP16 group-wise scaling (Bonsai 2 27B)**, quantisation left the roundup's scope. [[2026-09-18]], removed [[2026-10-21]]
-- `⚫ DROPPED` **Qwen3.8-Omni-Flash**, closed weights and vendor-reported figures only, no follow-up in 33 days. [[2026-09-18]], removed [[2026-10-21]]
+- `⚫ DROPPED` **MiMo-V2.6-Pro and MiMo-V2.6-Flash**. [[2026-09-22]], removed [[2026-10-26]]
+- `⚫ DROPPED` **StepFun Step 5 Preview**. [[2026-09-21]], removed [[2026-10-26]]
+- `⚫ DROPPED` **Heretic automated abliteration**. [[2026-09-22]], removed [[2026-10-26]]
+- `◻️ WATCH` **Rampart in-browser PII redaction**. [[2026-10-12]]
+- `⚠️ CAUTION` **A model-card licence tag as the licence**. (was [[2026-09-22]]) [[2026-10-26]]
+- `⚫ DROPPED` **Ternary weights with FP16 group-wise scaling (Bonsai 2 27B)**. [[2026-09-18]], removed [[2026-10-21]]
+- `⚫ DROPPED` **Qwen3.8-Omni-Flash**. [[2026-09-18]], removed [[2026-10-21]]
 
 ## Related
 
