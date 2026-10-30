@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, agent-supply-chain-security]
-updated: 2026-10-26
+updated: 2026-10-30
 living: true
 ---
 
@@ -40,6 +40,20 @@ Drift and indirect control continue. Two single-author projects report that Mode
 - Which agent platforms offer a sanctioned private destination for evidence, so agents stop improvising public hosting?
 - Does any registry or provenance scheme add a check beyond build origin, given that the `tensorlake` worm shipped with valid provenance?
 - Does LMCache ship a patched release, since none existed as of October 8, 2026?
+
+## 2026-10-30
+
+![[2026-10-30#^headline-claude-extension]]
+
+![[2026-10-30#^security-claude-extension]]
+
+![[2026-10-30#^security-gitlab-ruby-regex]]
+
+![[2026-10-30#^ep-litellm-private-registry]]
+
+![[2026-10-30#^radar-extension-auto-update]]
+
+Source note: [[2026-10-30]]
 
 ## 2026-10-26
 

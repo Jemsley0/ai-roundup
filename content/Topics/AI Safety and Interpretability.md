@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, ai-safety, interpretability]
-updated: 2026-10-26
+updated: 2026-10-30
 living: true
 ---
 
@@ -43,6 +43,14 @@ Policy has fragmented without becoming binding. OpenAI asked Congress for mandat
 - Does Goodfire release the companion paper, and does a result on a large model support the claim that polysemanticity is recursive generalization?
 - Does the reported restoration of UK AISI pre-release access hold, and on what terms, given that the sources are paywalled and headline-only?
 - Is there any independent account of the three OpenAI researchers' firings beyond the two sides' own claims?
+
+## 2026-10-30
+
+![[2026-10-30#^essay-zvi-anthropic]]
+
+![[2026-10-30#^zaney-openai-cache-channel]]
+
+Source note: [[2026-10-30]]
 
 ## 2026-10-26
 

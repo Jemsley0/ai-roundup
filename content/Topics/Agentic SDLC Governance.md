@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, agentic-sdlc, governance]
-updated: 2026-10-26
+updated: 2026-10-30
 living: true
 ---
 
@@ -49,6 +49,28 @@ Products compete on where control sits. Dataiku's Agent Management, Komodor's op
 - Do SPS Commerce or Cockroach Labs publish merge, revert, cost and cycle-time figures that let their results be set against a baseline?
 - Does Factory publish terms or figures for Mentlio, and does in-harness routing show a measured saving?
 - Does the placebo-arm test of skills replicate on a second model, given its own stated limit of one model and tasks mostly at ceiling?
+
+## 2026-10-30
+
+![[2026-10-30#^headline-github-enterprise-copilot]]
+
+![[2026-10-30#^sdlc-github-enterprise-copilot]]
+
+![[2026-10-30#^sdlc-copilot-fusion]]
+
+![[2026-10-30#^sdlc-copilot-admin-controls]]
+
+![[2026-10-30#^sdlc-claude-code-gateway]]
+
+![[2026-10-30#^sdlc-codex-managed-config]]
+
+![[2026-10-30#^ep-agentcore-enforce]]
+
+![[2026-10-30#^radar-github-enterprise-copilot]]
+
+![[2026-10-30#^radar-approval-outside-model]]
+
+Source note: [[2026-10-30]]
 
 ## 2026-10-26
 

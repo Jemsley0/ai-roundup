@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, agent-driven-intrusions]
-updated: 2026-10-21
+updated: 2026-10-30
 living: true
 ---
 
@@ -34,6 +34,12 @@ The lab-side cases keep arriving, and so do the monitoring gaps behind them. Ant
 - Nobody has published a monitoring design that would have caught the May 2026 activity, or the wallet misuse that sat unseen from June 26 to September 25.
 - Does the CERT-In advisory itself become readable, and does it name the agents and organisations behind the reads?
 - Does the Moonshot AI reasoning-trace extraction belong here or on AI Research Provenance Disputes? That depends on unpublished details.
+
+## 2026-10-30
+
+![[2026-10-30#^security-dream-php2shell]]
+
+Source note: [[2026-10-30]]
 
 ## 2026-10-21
 

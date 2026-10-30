@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, mcp]
-updated: 2026-10-26
+updated: 2026-10-30
 living: true
 ---
 
@@ -39,6 +39,22 @@ Usage patterns are shifting, and nobody has measured the shift. Pi's Codemode an
 - Does Snowflake move Cortex AI Gateway routing to public preview with a customer measurement on a real workload?
 - MCP does not say how much tool metadata and output reaches the model, so full schemas compete for context. This is a direct token-cost problem.
 - Server count is not usage, and production adoption remains thinly evidenced.
+
+## 2026-10-30
+
+![[2026-10-30#^agent-mcp-lost-response]]
+
+![[2026-10-30#^agent-append-only-context]]
+
+![[2026-10-30#^ep-moengage-agentcore]]
+
+![[2026-10-30#^spotlight-jedify]]
+
+![[2026-10-30#^radar-idempotency-key]]
+
+![[2026-10-30#^radar-mcp-error-messages-dropped]]
+
+Source note: [[2026-10-30]]
 
 ## 2026-10-26
 
