@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, data-platform, dbt, snowflake, databricks, bedrock]
-updated: 2026-10-26
+updated: 2026-10-30
 living: true
 ---
 
@@ -46,6 +46,24 @@ Silent behaviour changes remain the practical risk. DuckDB 2.0.0 long-term suppo
 - Does a practitioner report show Horizon Context column lineage surviving a dbt incremental model?
 - Does Prefect announce a closing date for the Dagster Labs acquisition, and does dagster-dbt keep its release cadence?
 - Does a named-competitor run, or a customer cost figure on a real workload, confirm Databricks's Lakebase Search claim of twice the throughput and 4 times lower cost than pgvector?
+
+## 2026-10-30
+
+![[2026-10-30#^headline-dbt-databricks]]
+
+![[2026-10-30#^de-dbt-databricks-1-13]]
+
+![[2026-10-30#^de-snowflake-pipeline-builder]]
+
+![[2026-10-30#^de-databricks-rtm-serverless]]
+
+![[2026-10-30#^de-snowflake-connector-5]]
+
+![[2026-10-30#^de-dbt-env-rename]]
+
+![[2026-10-30#^radar-snowflake-pipeline-builder]]
+
+Source note: [[2026-10-30]]
 
 ## 2026-10-26
 

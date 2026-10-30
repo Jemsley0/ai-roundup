@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, frontier-lab-economics]
-updated: 2026-10-26
+updated: 2026-10-30
 living: true
 ---
 
@@ -32,6 +32,16 @@ Labs are also competing harder for customers and facing legal cost. The Informat
 - Does OpenAI's Google Cloud channel shift revenue away from Microsoft and Amazon Web Services, and does OpenAI confirm an annualised revenue figure?
 - Does the Firmus withdrawal predict weaker demand for Anthropic's listing, or does it stay specific to a smaller infrastructure operator?
 - Does the reported Amazon talks to buy Decart close, and does a second report confirm what is currently one paywalled headline?
+
+## 2026-10-30
+
+![[2026-10-30#^essay-zvi-anthropic]]
+
+![[2026-10-30#^biz-microsoft-capex]]
+
+![[2026-10-30#^biz-nvidia-oracle]]
+
+Source note: [[2026-10-30]]
 
 ## 2026-10-26
 

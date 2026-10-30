@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, evaluation-methodology]
-updated: 2026-10-26
+updated: 2026-10-30
 living: true
 ---
 
@@ -38,6 +38,22 @@ Vendor-reported figures keep failing independent checks or arriving with no meth
 - Do the run-to-run noise preprints and the rubric-consensus result replicate outside their own authors?
 - Does Laminar publish the traces and labels behind flow-1, so its trace-error detection can be run by someone else?
 - Does the placebo-arm test of coding skills replicate on a second model, given the author's own limit of one model and tasks mostly at ceiling?
+
+## 2026-10-30
+
+![[2026-10-30#^headline-aa-v5]]
+
+![[2026-10-30#^evals-aa-v5]]
+
+![[2026-10-30#^evals-carbon-table]]
+
+![[2026-10-30#^evals-judge-instability]]
+
+![[2026-10-30#^radar-judge-caution]]
+
+![[2026-10-30#^radar-composite-index-caution]]
+
+Source note: [[2026-10-30]]
 
 ## 2026-10-26
 

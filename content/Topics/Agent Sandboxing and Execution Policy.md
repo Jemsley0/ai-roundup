@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, agent-sandboxing-and-execution-policy]
-updated: 2026-10-26
+updated: 2026-10-30
 living: true
 ---
 
@@ -31,6 +31,16 @@ The newest framing documents are voluntary. CISA, NIST and the NSA's Super Intel
 - Is there adoption data for Copilot local sandboxing, and how many enterprises set the managed-settings requirement?
 - Who is the Linux sandbox option added in Claude Code 2.1.305 meant for, given that the release note says it "lets them get around the sandbox's file protections"?
 - Does cutting live internet access, as Anthropic did for its evaluations, prove a workable containment practice for other labs, and what does it cost in evaluation realism?
+
+## 2026-10-30
+
+![[2026-10-30#^zaney-openai-cache-channel]]
+
+![[2026-10-30#^sdlc-copilot-admin-controls]]
+
+![[2026-10-30#^radar-approval-outside-model]]
+
+Source note: [[2026-10-30]]
 
 ## 2026-10-26
 

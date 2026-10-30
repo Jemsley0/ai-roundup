@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, token-cost, model-routing]
-updated: 2026-10-26
+updated: 2026-10-30
 living: true
 ---
 
@@ -38,6 +38,24 @@ Cost control is moving to the platform and the proxy, with gaps. AWS Cost Explor
 - Does anyone publish a measured dbt State bill, with skipped tests counted, for a test-heavy project?
 - Do the context-saving tools report task success, so a saving can be set against a quality change?
 - The token-inflation audit has been run once, by its authors, against unnamed providers. Nobody has reproduced it or published an output-length commitment.
+
+## 2026-10-30
+
+![[2026-10-30#^headline-agent-summary]]
+
+![[2026-10-30#^agent-agent-summary]]
+
+![[2026-10-30#^ep-terra-bedrock]]
+
+![[2026-10-30#^ep-bedrock-batch]]
+
+![[2026-10-30#^sdlc-copilot-fusion]]
+
+![[2026-10-30#^models-terra]]
+
+![[2026-10-30#^radar-terra-bedrock]]
+
+Source note: [[2026-10-30]]
 
 ## 2026-10-26
 

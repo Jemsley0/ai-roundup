@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, semantic-layer]
-updated: 2026-10-26
+updated: 2026-10-30
 living: true
 ---
 
@@ -36,6 +36,22 @@ On Snowflake's authored route, Semantic Studio reached general availability on S
 - Does Snowflake-native authoring in Semantic Studio beat repository YAML deployed by continuous integration? No practitioner comparison exists.
 - Does the procedure path plus a wrapper stored procedure pass the managed MCP server's read-only SQL filter, or must it be a separate tool?
 - Nobody has reconciled the strict-ontology position with the loose-knowledge-graph one, which imply work differing by an order of magnitude.
+
+## 2026-10-30
+
+![[2026-10-30#^de-atlan-context-conference]]
+
+![[2026-10-30#^essay-digital-twin]]
+
+![[2026-10-30#^essay-hoots-cio-bets]]
+
+![[2026-10-30#^spotlight-jedify]]
+
+![[2026-10-30#^radar-metrics-as-sql]]
+
+![[2026-10-30#^radar-atlan-ai-registry]]
+
+Source note: [[2026-10-30]]
 
 ## 2026-10-26
 

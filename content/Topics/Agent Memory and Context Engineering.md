@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, agent-memory]
-updated: 2026-10-26
+updated: 2026-10-30
 living: true
 ---
 
@@ -38,6 +38,20 @@ The design debate is live and unmeasured. Drew Breunig of Cmpnd, so vendor-adjac
 - mem0 claims harness configuration, not model choice, is the dominant lever. That claim is vendor-published and untested independently.
 - The coordinator pattern's re-run rule works for commands with exit codes. What is the equivalent check for a judgement call or a piece of prose?
 - Do other coding agents have a silent failure mode in instruction-file loading like Claude Code's remote-flag gate?
+
+## 2026-10-30
+
+![[2026-10-30#^agent-memory-stores-vs-files]]
+
+![[2026-10-30#^agent-append-only-context]]
+
+![[2026-10-30#^essay-hoots-cio-bets]]
+
+![[2026-10-30#^radar-memory-baseline]]
+
+![[2026-10-30#^radar-append-only-context]]
+
+Source note: [[2026-10-30]]
 
 ## 2026-10-26
 
