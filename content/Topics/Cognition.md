@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, cognition]
-updated: 2026-10-17
+updated: 2026-11-06
 living: true
 ---
 
@@ -15,17 +15,28 @@ Cognition is the cleanest financial evidence that coding agents are a real busin
 
 Technically it shows up in three places. The SWE-2 selectable reasoning effort claim, which cut average steps from 127 to 53 at medium effort, was the strongest data point for the cheap-model-routing thesis, and the radar dropped it on October 17, 2026 after 33 days with no independent measurement. The RSA-260 factorization is a genuine milestone with an asterisk Cognition raises itself: Devin agents did much of the optimization work, which raises real questions about human understanding of the underlying mathematics. The newest thread is agent memory. Cognition's Agent Memory Repo, published on October 4, 2026, stores memory as a git repository of linked Markdown loaded through a short `MEMORY.md`, with a periodic "Dreaming" agent that merges duplicates and removes stale entries. It grew from 664 GitHub stars on October 9 to 755 on October 12, and supermemory shipped an implementation on Cloudflare Durable Objects on October 6. Victor Taelin's OptChat summary tree reached at least five ports in eight days, and neither design has a task-quality measurement.
 
+Cognition's pricing changed this week. Its docs say SWE-2 is "free for self-serve plans in Devin Desktop and Devin CLI through November 30, 2026; it does not apply to Devin cloud sessions", with list pricing of \$3.00 input, \$15.00 output and \$0.30 cache input per million tokens afterward. Self-serve plans are Pro at \$20, Max at \$200 and Teams. Devin publishes no numeric quota for any plan, so a developer cannot compute a parallel-agent bill, and Cognition's "64% cheaper" claim rests on its own benchmark. Devin launched Budgets on October 30, one of three vendors that moved spend and approval controls to the group or organisation level in a week. None of the three has an independent test.
+
 Cognition also sits inside the evaluation layer. Artificial Analysis's FrontierCode 1.1 (October 12) is a private 100-task board built with Cognition that grades whether a maintainer would merge the change, and Claude Opus 5.5 leads at 52%, with nine models between 43% and 52% and an LLM review inside the verifier. A board built with a company that sells coding agents is a relationship worth reading beside the result. The memory repo still has no figure at all, only stars.
 
 ## Open questions
 
 - With SWE-2 dropped from the radar, does Cognition or anyone else publish an independent eval of its cost or FrontierCode parity claims?
+- What does SWE-2 cost per task once the free period for self-serve plans ends on November 30, and does Devin publish numeric quotas?
 - The RSA-260 asterisk is unresolved: if agents did the optimization and humans do not fully understand it, what is the status of the result as mathematics rather than as a computation?
 - Revenue nearly doubled in four months on figures the company reports to investors. Nothing here is audited.
 - Does anyone publish a benchmark of the Agent Memory Repo? The October 9, 2026 note says nothing shows the Dreaming cleaner works.
 - Do the Agent Memory Repo and the OptChat summary tree outperform compaction on task quality, or do they win only on adoption?
 - Does the git merge-conflict rule, where "git rejects the second push", hold up when several agents write the same repository?
 - What was Cognition's role in building FrontierCode 1.1, and does Artificial Analysis publish how much of the verifier is LLM review?
+
+## 2026-11-06
+
+![[2026-11-06#^sdlc-swe-2-free]]
+
+![[2026-11-06#^sdlc-spend-controls]]
+
+Source note: [[2026-11-06]]
 
 ## 2026-10-17
 

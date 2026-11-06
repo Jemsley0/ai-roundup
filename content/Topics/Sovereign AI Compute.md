@@ -106,4 +106,4 @@ Source note: [[2026-09-08]]
 
 ## Related
 
-[[Topics/AI-Led AI Development|AI-Led AI Development]] · [[Topics/Agentic SDLC Governance|Agentic SDLC Governance]] · [[Topics/Token Cost and Model Routing|Token Cost and Model Routing]] · [[Topics/Open Weights and Licensing|Open Weights and Licensing]] · [[Topics/Frontier Lab Economics|Frontier Lab Economics]]
+[[Topics/AI-Led AI Development|AI-Led AI Development]] · [[Topics/Agentic SDLC Governance|Agentic SDLC Governance]] · [[Topics/Token Cost and Model Routing|Token Cost and Model Routing]] · [[Topics/Open Weights and Licensing|Open Weights and Licensing]] · [[Topics/Frontier Lab Economics|Frontier Lab Economics]] · [[Topics/Data Center Backlash|Data Center Backlash]]

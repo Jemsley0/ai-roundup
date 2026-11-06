@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, open-weights-and-licensing]
-updated: 2026-10-26
+updated: 2026-11-06
 living: true
 ---
 
@@ -13,7 +13,7 @@ The licence terms attached to downloadable model weights, and what they permit: 
 
 The licence is the variable that decides whether an open-weight model is usable, and it moves in both directions at once. Xiaomi's MiMo-V2.6 shipped weights, a technical report and independent pricing, but its only licence is a bare `license: mit` tag in the model card frontmatter, with no LICENSE file, no copyright notice and no named licensor. Alibaba took Qwen-Image-2.1 from Apache 2.0 to a research-only licence on September 20, 2026. PrismML and Jared Palmer's Kev shipped real Apache 2.0 releases with training code and evaluation data. The radar keeps a caution on a model-card licence tag standing in for the licence, re-argued on October 26, 2026.
 
-The pipeline is mostly promises with dates, and the licence is often the missing field. MiniMax promised M3.1 Flash weights for October 23. They are now on Hugging Face under a `minimax-community` licence whose terms need reading, with vendor-reported benchmarks and conflicting sources on model size. Reflection AI released Beam weights under Apache 2.0 on October 16, a 501B-total, 23B-active model. Meta released an 816B open-weight model on October 15, reported as Muse Spark Open with a 1M-token context and no licence stated. Mistral says Large 4 (1 trillion parameters, 52 billion active) will release weights by the end of October with neither a licence nor a context window stated. StepFun promised Step 5 weights for October 15, and the radar dropped the entry on October 26 with no follow-up in 35 days. The radar also dropped MiMo-V2.6 on the same day, after 34 days without follow-up. Google released EmbeddingGemma 2 under Apache 2.0 with an 8K context.
+The pipeline is mostly promises with dates, and the licence is often the missing field. MiniMax promised M3.1 Flash weights for October 23. They are now on Hugging Face under a `minimax-community` licence whose terms need reading, with vendor-reported benchmarks and conflicting sources on model size. Reflection AI released Beam weights under Apache 2.0 on October 16, a 501B-total, 23B-active model. Meta released an 816B open-weight model on October 15, reported as Muse Spark Open with a 1M-token context and no licence stated. Mistral says Large 4 (1 trillion parameters, 52 billion active) will release weights by the end of October with neither a licence nor a context window stated. This page's items since October 30 do not report a release. StepFun promised Step 5 weights for October 15, and the radar dropped the entry on October 26 with no follow-up in 35 days. The radar also dropped MiMo-V2.6 on the same day, after 34 days without follow-up. Google released EmbeddingGemma 2 under Apache 2.0 with an 8K context. Moonshot put Kimi K3.1 Pro weights on Hugging Face at about November 5 under a custom licence, with self-reported benchmarks. Tencent listed Hy4 on November 4, from a tracker and with no figures carried. The terms of neither licence have been read here.
 
 Licence reading now reaches below the model. Rampart, an in-browser PII redaction tool, uses a content licence, and the October 12 note says using it would need a ruling on CC BY 4.0 for code. Context Mode, an MCP server that keeps raw tool output out of context, is under Elastic 2.0, which is not open source in the Open Source Initiative sense. Graphify reads Apache-2.0 through the GitHub API beside a bundled MIT file. Cloudflare's Clef-Omni is an open-weight decision model, and Microsoft-Decision-1 post-trains Qwen3.5-9B, but no licence text for either has been read. Every release needs a read of the actual LICENSE file, the vendor's prior licences on the same product line, and whether the weights are open at all.
 
@@ -21,8 +21,10 @@ Tooling and policy also limit what any licence can protect. Heretic strips train
 
 ## Open questions
 
+- What terms does Moonshot's custom Kimi K3.1 Pro licence set, and do its self-reported benchmarks reproduce independently?
+- Does Tencent publish Hy4 weights, and under which licence?
 - What do the `minimax-community` licence terms permit commercially, and which M3.1 Flash size figure is correct?
-- Will Mistral publish Large 4 weights by the end of October 2026, and under which licence and context window?
+- Did Mistral publish Large 4 weights by its end-of-October date, and under which licence and context window?
 - What licence does Meta's Muse Spark Open carry, and do Beam's weights hold up under independent measurement of Reflection's own figures?
 - Did StepFun publish Step 5 weights after its October 15 date, and under which licence?
 - Will Xiaomi add a LICENSE file and narrative licence text to the MiMo-V2.6 repositories, or does the frontmatter tag stand?
@@ -31,6 +33,12 @@ Tooling and policy also limit what any licence can protect. Heretic strips train
 - If governments act on the four-months-behind finding, does that change how labs write open-weight licences or whether they publish weights at all?
 - Does China's proposed export-control list, if adopted, cover model weights, and does it change what Chinese labs release?
 - Does any independent party reproduce the merged-adapter credential-theft result outside a vendor demo?
+
+## 2026-11-06
+
+![[2026-11-06#^tertiary-open-weights]]
+
+Source note: [[2026-11-06]]
 
 ## 2026-10-26
 
