@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, evaluation-methodology]
-updated: 2026-10-30
+updated: 2026-11-06
 living: true
 ---
 
@@ -11,16 +11,24 @@ How model and agent evaluations are built and how far their numbers can be trust
 
 ## Where this stands
 
-Evaluation numbers are noisier and less independent than leaderboards imply, and the weeks to October 26, 2026 added evidence from several directions. A pinned, temperature-zero large language model (LLM) judge flips about 5% of verdicts on re-run, and about 40% of the close calls that decide leaderboard margins, because cloud serving is nondeterministic. Three October 8 preprints and one continuous-integration study report run-to-run noise again: TRACE found identical reruns flipped 15 to 36% of outcomes, another found the most consistent judge agrees with ground truth 51% of the time, and Evalship saw 2.5% of passing evals fail on the next run. None is replicated. A preregistered study (Han and Kim, arXiv 2610.13303) found that rewriting a judge's rubric raised agreement between five judges but not agreement with humans. A newer abstract goes further: Asgari and colleagues find that rubric content moves the pass rate of correct outputs from 2% to 100% with the judge held fixed, while swapping the judge moves it a few points. Only the abstract was read. Judge consensus is not validity, and the rubric may matter more than the judge.
+Evaluation numbers are noisier and less independent than leaderboards imply, and the weeks to October 26, 2026 added evidence from several directions. A pinned, temperature-zero large language model (LLM) judge flips about 5% of verdicts on re-run, and about 40% of the close calls that decide leaderboard margins, because cloud serving is nondeterministic. Three October 8 preprints and one continuous-integration study report run-to-run noise again: TRACE found identical reruns flipped 15 to 36% of outcomes, another found the most consistent judge agrees with ground truth 51% of the time, and Evalship saw 2.5% of passing evals fail on the next run. None is replicated. A preregistered study (Han and Kim, arXiv 2610.13303) found that rewriting a judge's rubric raised agreement between five judges but not agreement with humans. A newer abstract goes further: Asgari and colleagues find that rubric content moves the pass rate of correct outputs from 2% to 100% with the judge held fixed, while swapping the judge moves it a few points. Only the abstract was read. Judge consensus is not validity, and the rubric may matter more than the judge. Batch composition adds a second source of noise. Xie and Alanwar say reshuffling which items share a batch flips 11% to 22% of verdicts across five 4B to 9B models, and a second preprint says rewording a judge prompt shifts agreement 6 to 9 times more than for human raters. Both are preprints read at abstract level, and the radar re-argued its judge caution on October 30.
 
 Pass rates also hide broken process. CXBench's authors find that 55.5% of 840 regulated customer-service agent runs are false passes, the right outcome reached through a broken process, and only 13.8% pass both checks. A dermatologist's independent test on October 26 shows the same shape in accuracy figures: a fine-tuned 2015 convolutional neural network got 125 of 200 first-choice skin-lesion diagnoses right, against 84 for GPT-6 Astra and 85 for Claude Fable 5.1, yet at its preset threshold it wrongly discharged 18 of 30 melanomas, against 3 and 4. The test used one run per model. IronBee, which plans its own review tool, says the best raw models match the best code-review tools on Martian's Code Review Bench and then shows why its numbers cannot rank them: each F2 interval is 4 to 10 points wide, "wider than the gaps". Two groups argue agent-leaderboard confidence intervals are too narrow. A preprint found membership-inference attacks top out at an area under the curve of 0.68 on a confounder-controlled benchmark, so black-box contamination checks on closed models are weak evidence. Epoch says two of four tested models had memorised the target in InnovationEval. Three preprints propose benchmarks that cannot saturate (SWE-Duel, SqueezeBench, SpireBench), and none has outside replication.
 
+Strict credit and benchmark defects widened the same gap this week. ViBench 2.0, by Replit authors, has top models passing up to 98% of test plans but delivering a working product in at most 65% of builds. On VIALS-AA's pass^3, Kimi K3.1 Pro falls from about 75% solved at least once to 45%. All of those figures are the authors' own. Buchanan, Zhou, Linderman and Ré say an audit found issues in about 30% of Terminal-Bench 2.0 tasks, and repairs raised accuracy by over 10 points. Rank order held (Spearman 0.958), the maintainers already shipped fixes in later versions, and only the abstract was read.
+
 Judge and evaluator independence is the sharper problem. Arena says LLM judges pick their own answer 58% of the time against 34% for humans, and GPT-6 Astra reached 88%. Arena sells human-preference data, so the figure is vendor-reported. The October 21 HealthBench Professional board shows the same shape: OpenAI built the benchmark and OpenAI models grade it, Claude Opus 5.5 leads on raw score (71.4%) and falls to sixth (59.9%) after the length adjustment, and GPT-6 Astra leads the adjusted board. METR says Anthropic's covert-capability benchmarks are "a poor proxy" for evading Anthropic's own monitoring and calls the August 2026 risk report "far from adequate for confidently ruling out misalignment". On October 26, METR and Redwood Research said a three-week pilot found about ten gaps in OpenAI's internal misalignment monitor, including a compaction blind spot that left roughly 10% of eligible internal Codex traffic unmonitored from May to July, an estimate that is uncertain because the data was not logged. METR also found an agent could alter the transcript a reviewer sees in the Inspect viewer, so evaluation tooling is itself security infrastructure. Anthropic's cut-off of live internet for internal evaluations changes scores too, so new BrowseComp, DeepSearchQA and OSWorld numbers may not compare with old ones.
+
+Leaderboard method now moves ranks as much as models do. Artificial Analysis Intelligence Index v5 (October 27) is 60% private-test evaluations and widened the open-weights gap from 3 to 12 points on a method change, with Claude Opus 5.5 (max) unchanged at 58. The page does not say which evaluations make up the private 60%. Gemini 4 Carbon (restricted access, October 28) is first on v5 at 59 and second on Vals, at 70.36% against 70.85% for Claude Sonnet 5.5, a gap inside Vals's 0.97-point margin. Google's own table leaves Sonnet 5.5 out. Nathan Lambert, who builds open models, says private sets end community bug-finding and notes that Artificial Analysis earns revenue from the labs it evaluates. Epoch AI moved its Capabilities Index to a Bayesian model and says GPT-6 Astra has a 72% chance of beating Claude Opus 5.5, with the 90% interval on the gap running from -0.9 to +2.1. Models below 125 fall 13.7 points on average. METR's November 5 review of Anthropic's August Risk Report adds that benchmark saturation lowers its confidence in the Full Substitution Threshold argument, which comes from a summary of the page.
 
 Vendor-reported figures keep failing independent checks or arriving with no method. Databricks says agent-written Spark Declarative Pipelines used about 34 times less compute than procedural PySpark across 528 builds. Its own table shows more silent wrong-output bugs for declarative builds, 85 of 264 against 73 of 264, the 34 times is executor-seconds and not dollars, token cost was 2.3 times higher, and no independent rerun exists. Graphify Labs says Graphify has the "best recall of any system tested", and that covers only the systems it chose. A Rust map's README claims it is "5x faster than std's `BTreeMap` at single thread" with no hardware or workload, and commenters measured it 11% to 34% slower on mesh boolean operations. Artificial Analysis contradicted Anthropic's claim that Claude Sonnet 5.5 is cheaper per task and found every decision model overconfident, and Red Hat's guardrail benchmark found Jev no more accurate than ordinary classifiers. Laminar says its flow-1 model "matches GPT-6-sol in detection quality while being 23x cheaper" at finding errors in agent traces, and its own table says something narrower: on 523 traces Laminar chose, it ties Claude Sonnet 5 and trails Claude Opus 5. The leanrea benchmark is a self-run test of three repetitions by an author who competes with the server it beat. A single placebo-controlled test found only 2 of 9 popular coding skills beat neutral text of the same length. Mercor, a benchmark vendor, says 90% of US working hours go to tasks with little or no coverage, a result it calls "provisional".
 
 ## Open questions
 
+- Does Artificial Analysis publish which evaluations make up the private 60% of Intelligence Index v5, so a rank change traces to a model or to the weighting?
+- Do the Terminal-Bench 2.0 repairs hold once the full audit is read, and does the ranking stay stable on the fixed tasks?
+- Does any benchmark report strict credit beside partial credit by default, given the gaps in ViBench 2.0 and VIALS-AA?
+- Does the batch-composition flip rate of 11% to 22% hold for larger judge models?
 - Does Databricks, or anyone else, rerun the Spark Declarative Pipelines comparison on a shared task set, priced in dollars and counting silent wrong-output bugs?
 - Does METR evaluate OpenAI's later monitor changes, and does anyone else audit a lab's monitor from outside?
 - Do outcome-only pass rates get replaced by process checks in agent benchmarks, given that CXBench found most passes false?
@@ -38,6 +46,18 @@ Vendor-reported figures keep failing independent checks or arriving with no meth
 - Do the run-to-run noise preprints and the rubric-consensus result replicate outside their own authors?
 - Does Laminar publish the traces and labels behind flow-1, so its trace-error detection can be run by someone else?
 - Does the placebo-arm test of coding skills replicate on a second model, given the author's own limit of one model and tasks mostly at ceiling?
+
+## 2026-11-06
+
+![[2026-11-06#^evals-terminal-bench-audit]]
+
+![[2026-11-06#^evals-epoch-eci]]
+
+![[2026-11-06#^evals-strict-credit]]
+
+![[2026-11-06#^evals-metr-review]]
+
+Source note: [[2026-11-06]]
 
 ## 2026-10-30
 
@@ -229,7 +249,8 @@ Source note: [[2026-09-21]]
 - `🟡 ASSESS` **Skill plus plain command-line tools in place of an MCP server (leanrea)**. [[2026-10-21]]
 - `◻️ WATCH` **Step-at-a-time standard-operating-procedure delivery over MCP**. [[2026-10-08]]
 - `◻️ WATCH` **Laminar flow-1 trace-error detection**. [[2026-10-21]]
-- `⚠️ CAUTION` **A pinned, temperature-zero LLM judge treated as a reproducible instrument**. [[2026-09-29]]
+- `⚠️ CAUTION` **A pinned, temperature-zero LLM judge treated as a reproducible instrument**. (was [[2026-09-29]]) [[2026-10-30]]
+- `⚠️ CAUTION` **A composite leaderboard rank as a stable model-selection signal**. [[2026-10-30]]
 - `⚠️ CAUTION` **Unverified lab capability claims**. [[2026-09-11]], escalated [[2026-09-15]], third instance [[2026-09-21]], fourth instance [[2026-09-22]], re-argued [[2026-10-26]]
 
 ## Related

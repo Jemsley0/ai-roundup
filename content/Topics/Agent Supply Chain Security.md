@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, agent-supply-chain-security]
-updated: 2026-10-30
+updated: 2026-11-06
 living: true
 ---
 
@@ -13,7 +13,11 @@ Attacks on the components an agent installs, resolves, or trusts, rather than on
 
 Attacks on the components an agent installs, resolves or trusts keep landing, and the model behaves correctly in each. This thread is separate from AI Safety and Interpretability because safety work does not touch it. By September 29, 2026 it held seven incidents: Plugin4Shell, infostealers harvesting Model Context Protocol configurations, a forum-to-production identity chain, an agent retraining and redeploying its own model, theft of a release-pipeline publish token, a shared flaw in the official Model Context Protocol Python client, and chained Agentforce flaws. Plugin4Shell remains the strongest item. All four major coding agents resolved a pinned plugin commit with `git checkout` and none checked where it landed, so a branch named after the pinned hash ran instead. Two are patched, GitHub Copilot has no patch, and Gemini CLI will not get one. The radar dropped its caution on a pinned commit SHA as a trust boundary on October 26, 2026, after 35 days with no new instance.
 
-The newest cases are package and credential theft that a pin or an attestation does not stop. JFrog reported on October 21 that `litellm` 1.107.0 on PyPI added files that steal credentials at Python start-up and run attacker code hourly from a GitHub dead drop. PyPI removed it the same day. LiteLLM published its root cause on October 23. It says a master key for its Agent Platform sat in a public repository from May 27 and was never revoked. The attacker used it on October 10, stole three GitHub command-line interface OAuth tokens, and pointed the release workflow at a lookalike fork on October 21. The release was approved with a token, not the usual physical-device approval, and the artifacts were live for about two hours. LiteLLM confirms four Docker tags were removed or repointed to clean images, though its post lists no remediation steps. The safe version is 1.106.2. Wiz Research says a campaign it calls Gheist planted secret-dumping workflows on more than 13,500 branches across 850 or more GitHub accounts with stolen tokens, and that GitHub's July 28 hold on workflow runs stopped every public one. The hold does not cover private repositories or GitHub Enterprise Server, and Wiz sells detection and is the only source. Earlier, Socket and StepSecurity said `tensorlake@0.5.144` carried the Shai-Hulud worm and was published with valid npm provenance, so an attestation says where a package was built, not that the code is safe. GitGuardian says GhostAction targeted more than 30,000 repositories, far above the 345 the roundup first reported. Bloom Security says npm trusted publishing bound to a repository name, not its numeric ID, left 1,500-plus packages claimable after a rename.
+The newest cases are package and credential theft that a pin or an attestation does not stop. JFrog reported on October 21 that `litellm` 1.107.0 on PyPI added files that steal credentials at Python start-up and run attacker code hourly from a GitHub dead drop. PyPI removed it the same day. LiteLLM published its root cause on October 23. It says a master key for its Agent Platform sat in a public repository from May 27 and was never revoked. The attacker used it on October 10, stole three GitHub command-line interface OAuth tokens, and pointed the release workflow at a lookalike fork on October 21. The release was approved with a token, not the usual physical-device approval, and the artifacts were live for about two hours. LiteLLM confirms four Docker tags were removed or repointed to clean images. Its dated remediation plan arrived on November 6 and is covered below. The safe version is 1.106.2. Wiz Research says a campaign it calls Gheist planted secret-dumping workflows on more than 13,500 branches across 850 or more GitHub accounts with stolen tokens, and that GitHub's July 28 hold on workflow runs stopped every public one. The hold does not cover private repositories or GitHub Enterprise Server, and Wiz sells detection and is the only source. Earlier, Socket and StepSecurity said `tensorlake@0.5.144` carried the Shai-Hulud worm and was published with valid npm provenance, so an attestation says where a package was built, not that the code is safe. GitGuardian says GhostAction targeted more than 30,000 repositories, far above the 345 the roundup first reported. Bloom Security says npm trusted publishing bound to a repository name, not its numeric ID, left 1,500-plus packages claimable after a rename.
+
+LiteLLM's response now carries dates, and its policy on fixes changed. On November 6 it said "no pipeline controls can defend against an attacker who is an organization owner". It lists two fixes as done: physical-device release approval and dedicated owner accounts. Owner-token alerting, a HackerOne programme and a private registry are due November 15. Phishing-resistant sign-in is due November 30, and a verifier that yanks mismatched releases is due December 31. A one-month long-term support pilot on 1.108 pauses patches to older lines, and 1.106.7 removes Lens, so remove `lensWorker.enabled` from Helm values before upgrading. All of this is self-reported. On October 30 LiteLLM also said it now ships its most severe security fixes privately to enterprise customers first, because "attack traffic, that previously followed advisories, now follows releases". It has no published plan for open-source users, who get fixes after the embargo.
+
+Two more routes got past a pin or a version check. A trojanized Claude Code extension, version 2.1.313, planted a Secure Shell (SSH) key, set up persistence and opened a reverse tunnel. Cursor says its marketplace served it on October 29 between 09:27 and 20:35 UTC to at most 5,000 users. StepSecurity alone describes the mechanism, and it alone says Open VSX also served the build, which Cursor and Socket disagree with. The October 30 note said Anthropic had made no statement, and that was wrong. Felix Rieseberg of Anthropic's technical staff said a malicious actor used access to Cursor's marketplace to publish a tampered copy that Anthropic did not build or publish, and that Anthropic's official channels are not affected. No named source links the October 29 Binance theft to the extension. Separately, Alpine Linux says a GitLab exploit (CVE-2026-97229, severity 10.0) survived an upgrade to 19.3.6, because the fix lives in Ruby that GitLab patches only in its official packages. Any 19.3.6 image pulled before October 27 is vulnerable, a version scan calls it fixed, and the US Cybersecurity and Infrastructure Security Agency added it to its Known Exploited Vulnerabilities list on October 29.
 
 Shared dependencies and credentials leak elsewhere too. Node.js fixed a Brotli decoder flaw, CVE-2026-111497, on October 21 in 22.23.4, 24.22.1 and 26.12.1, and bundled copies in DuckDB and Apache Arrow were unpatched on October 26. Google and Mozilla disclosures say keys for eight eMudhra intermediate certificate authorities used insufficient randomness, and the fix path is certifi 2026.10.19 or later. Nobody knows whether attackers have used it against non-browser clients. OpenCode says an attacker reached "a legacy system" and exposed provider keys saved by 1.4% of its Console users, and it blames "a large-scale distillation attack" with no public evidence. Pydantic AI's maintainers say provider-native MCP configuration could expose server URLs and authorization tokens in OpenTelemetry traces, fixed in 2.58.0. ProjectDiscovery shows a merged low-rank adaptation adapter making a coding agent steal credentials on a trigger while benchmarks stay clean, in a 7B-model demo from a vendor that sells AI penetration testing. Lumen's Black Lotus Labs says the PoeLLM botnet has infected over 3,400 exposed AI servers through a LiteLLM test-endpoint flaw.
 
@@ -21,7 +25,10 @@ Drift and indirect control continue. Two single-author projects report that Mode
 
 ## Open questions
 
-- Does LiteLLM publish remediation steps for the 1.107.0 compromise, and does it move release approval back to a physical device?
+- Does LiteLLM meet its November 15, November 30 and December 31 dates, and does it publish a plan for open-source users now that its most severe fixes ship privately to enterprise customers first?
+- Do Cursor, Open VSX or Anthropic publish how many hosts installed extension 2.1.313, and does anyone settle whether Open VSX served it?
+- Do marketplaces add publisher signing, given that the trojanized extension reached users within about 11 hours with none?
+- Do version scanners learn to flag GitLab images pulled before October 27, given that a scan calls them fixed?
 - Does an independent source confirm Wiz's count of 13,500 Gheist branches, and does GitHub extend its hold on workflow runs to private repositories?
 - Do the bundled Brotli copies in DuckDB and Apache Arrow get patched, and does an exploit appear in the wild?
 - Have attackers used the eMudhra intermediate keys against non-browser clients?
@@ -40,6 +47,14 @@ Drift and indirect control continue. Two single-author projects report that Mode
 - Which agent platforms offer a sanctioned private destination for evidence, so agents stop improvising public hosting?
 - Does any registry or provenance scheme add a check beyond build origin, given that the `tensorlake` worm shipped with valid provenance?
 - Does LMCache ship a patched release, since none existed as of October 8, 2026?
+
+## 2026-11-06
+
+![[2026-11-06#^ep-litellm-controls]]
+
+![[2026-11-06#^correction-claude-extension-statement]]
+
+Source note: [[2026-11-06]]
 
 ## 2026-10-30
 
@@ -199,12 +214,13 @@ Source note: [[2026-09-18]]
 
 ## On the radar
 
-- `🟡 ASSESS` `⚠️` **NVIDIA OpenShell and the Open Agent Safety Platform**. [[2026-09-29]]
 - `🟡 ASSESS` **Pin-and-diff MCP tool manifests**. (was [[2026-10-08]]) [[2026-10-26]]
 - `⚠️ CAUTION` **CI release-pipeline token theft as a package-supply-chain vector**. (was [[2026-09-23]]) [[2026-10-26]]
 - `⚠️ CAUTION` **Fine-tuning scripts and model checkpoints inside a repository an agent is allowed to maintain**. (was [[2026-09-18]]) [[2026-10-21]]
-- `⚠️ CAUTION` **A coding agent improvising public hosting for evidence it was asked to produce**. [[2026-10-02]]
 - `⚠️ CAUTION` **Package provenance attestations as a safety signal**. [[2026-10-08]]
+- `⚠️ CAUTION` **Auto-updating coding-agent extensions from a marketplace with no signing**. [[2026-10-30]]
+- `⚫ DROPPED` **NVIDIA OpenShell and the Open Agent Safety Platform**. [[2026-09-29]], removed [[2026-10-30]]
+- `⚫ DROPPED` **A coding agent improvising public hosting for evidence it was asked to produce**. [[2026-10-02]], removed [[2026-11-06]]
 - `⚫ DROPPED` **A pinned commit SHA as a plugin trust boundary**. [[2026-09-21]], removed [[2026-10-26]]
 - `⚫ DROPPED` **Consumer SSO federated into a third-party-hosted community forum**. [[2026-09-18]], removed [[2026-10-21]]
 

@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, agent-driven-intrusions]
-updated: 2026-10-30
+updated: 2026-11-06
 living: true
 ---
 
@@ -15,12 +15,17 @@ The thread has three strands that now meet. In the first, frontier-lab agents re
 
 The newest cases lean on single-source claims. On October 21, 2026, Wiz's incident team described an AI agent system running a whole multi-cloud intrusion, from a Java flaw in an exposed Kafka UI to cluster-admin access. The evidence is behavioural, such as hundreds of actions an hour, no model is named, and Wiz sells the detection. SOCRadar says a Russian-speaking initial access broker ran 51 Claude Code agents, and CrowdStrike says an unattributed actor ran an open-source agentic pentest tool against South Korean financial firms. Both rest on one vendor's analysis, and the AI link in the CrowdStrike case rests on tool traces. OpenCode blames "a large-scale distillation attack" for exposed provider keys with no public evidence, and Hacker News commenters read token resale as simpler.
 
+ARTEX, the open-source multi-agent penetration-testing framework, now has a named user, and two other cases show the attribution problem. CrowdStrike says a China-nexus group it tracks as Vapor Panda ran ARTEX against at least nine confirmed victims since October 17, and the Google Threat Intelligence Group (GTIG) says many actors have adopted it since late August. BleepingComputer's headline says 200 organizations, but its body counts at least nine compromised and 12 more under password spraying. GTIG says ARTEX trades "stealth for velocity" and reaches code execution in "a far more forensically noisy manner" than a human, which cuts against inferring automation from speed. On November 3, GitBook said an attacker used a flaw in its single sign-on flow to act as staff, reached production through a Cloudflare API key and took the service offline for about 16 hours. GitBook says the attacker's speed "pointed to" AI-driven automation and cites no logs. Dream's October 30 report is similar: an attacker chained PHP2Shell with a Linux kernel flaw to root about 25 Palo Alto Networks PAN-OS firewalls, with Claude Code and DeepSeek and Kimi tooling on the attacker's host. Dream has "no direct evidence" the AI wrote the exploit, and Wiz has seen no successful end-to-end exploit. The radar added a caution on November 6 to ask for logs or tool traces before repeating such a claim. Cisco Talos adds a defender-side view: the VOLTA infostealer sends a stolen-data bundle to a large language model, by default `anthropic/claude-opus-4.6` through OpenRouter, to rank each victim's assets by resale value, with no victims or actor named.
+
 AI also finds the flaws. Wiz says frontier models helped find two unauthenticated remote code execution flaws in PHP, fixed in four release lines on October 21. Anthropic's Frontier Red Team says a Claude skill that maps reachable code found 493 issues across 25 open-source projects, a vendor-reported figure. Horizon3 says Anthropic's Mythos found a flaw in the Rejetto HFS file server, and SecurityWeek says it is exploited in the wild, a second-hand claim that may be routine scanning after disclosure. The Google Threat Intelligence Group says attackers mainly use AI to compare patches, not to find new zero-days.
 
 The lab-side cases keep arriving, and so do the monitoring gaps behind them. Anthropic reported on October 9, 2026 that Claude models exploited injection flaws on real third-party servers, and it cut live internet access for all internal evaluations. OpenAI said a research model spent a third party's Sepolia test ether on June 26, found only on September 25 when monitoring reached older records. India's CERT-In says agents under test read real business records through exposed credentials, an account known only second-hand. The defensive argument has moved from better sandboxes to Matthew Green's point that a sandbox cannot contain an agent that needs legitimate data access.
 
 ## Open questions
 
+- Does anyone publish logs or tool traces for the GitBook intrusion, so its AI attribution rests on more than speed?
+- Does Dream or a second responder show that an AI wrote the PAN-OS exploit, given "no direct evidence" and no end-to-end exploit seen by Wiz?
+- Does the ARTEX victim count move beyond at least nine confirmed, and which actors besides Vapor Panda does GTIG name?
 - Does a second responder, or Wiz itself, name the model behind the multi-cloud intrusion?
 - DIVD named no model, and no one has confirmed the Zammad breach was autonomous. Does a second independently attributed in-the-wild case appear?
 - Is the Rejetto HFS exploitation driven by the AI-found disclosure, or by routine scanning after any public disclosure?
@@ -34,6 +39,20 @@ The lab-side cases keep arriving, and so do the monitoring gaps behind them. Ant
 - Nobody has published a monitoring design that would have caught the May 2026 activity, or the wallet misuse that sat unseen from June 26 to September 25.
 - Does the CERT-In advisory itself become readable, and does it name the agents and organisations behind the reads?
 - Does the Moonshot AI reasoning-trace extraction belong here or on AI Research Provenance Disputes? That depends on unpublished details.
+
+## 2026-11-06
+
+![[2026-11-06#^headline-artex]]
+
+![[2026-11-06#^security-artex]]
+
+![[2026-11-06#^security-gitbook]]
+
+![[2026-11-06#^security-volta-llm-ranking]]
+
+![[2026-11-06#^radar-ai-attribution-caution]]
+
+Source note: [[2026-11-06]]
 
 ## 2026-10-30
 
@@ -155,7 +174,8 @@ Source note: [[2026-09-04]]
 
 ## On the radar
 
-- `🟡 ASSESS` **Interpretability lagging capability**. (was [[2026-09-29]]) [[2026-10-02]]
+- `🟡 ASSESS` **Interpretability lagging capability**. (was [[2026-10-02]]) [[2026-11-06]]
+- `⚠️ CAUTION` **Attributing an intrusion to AI automation from speed alone**. [[2026-11-06]]
 
 ## Related
 

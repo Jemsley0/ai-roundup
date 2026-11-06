@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, agentic-sdlc, governance]
-updated: 2026-10-30
+updated: 2026-11-06
 living: true
 ---
 
@@ -11,18 +11,27 @@ How large engineering orgs run many coding agents at once, and how vendors are p
 
 ## Where this stands
 
-The finding across sources holds: the hard problems are specification and plumbing, not model capability. The radar dropped the "Agentic SDLC Control Plane" on October 17, 2026 as a framework concept from one report and not something to pilot, and its concrete form, risk-tiered human approval, entered as its own entry. Forrester puts negative-return agent deployments at 41 percent unclear success criteria, 33 percent insufficient tool or data access, and 26 percent evaluation-coverage drift. The governance layer hides five separable problems: what an agent can reach, what it did, what it may do unasked, what it cost, and where its code executes. Three radar entries moved down to assess for lack of a second report: Coder's Agent Relay on October 21, and the coordinator session with an external task board and the repository zone map on October 26. Each had no replication or second team after 34 to 35 days.
+The finding across sources holds: the hard problems are specification and plumbing, not model capability. The radar dropped the "Agentic SDLC Control Plane" on October 17, 2026 as a framework concept from one report and not something to pilot, and its concrete form, risk-tiered human approval, entered as its own entry. Forrester puts negative-return agent deployments at 41 percent unclear success criteria, 33 percent insufficient tool or data access, and 26 percent evaluation-coverage drift. The governance layer hides five separable problems: what an agent can reach, what it did, what it may do unasked, what it cost, and where its code executes. Three radar entries moved down to assess for lack of a second report: Coder's Agent Relay on October 21, and the coordinator session with an external task board and the repository zone map on October 26. Each had no replication or second team after 34 to 35 days. The radar also dropped NVIDIA OpenShell on October 30 for no follow-up in 31 days, Port.io Context Lake on November 6 for no new evidence in 32 days, and Ramp Labs agent-ROI attribution on November 6 because its primary post was never found.
 
 Verification and approval are the cheapest levers so far. The Claude Code team says it moved most code reading to machines, with a classifier that sets zero, one or two human approvers from the change and a pool of verifier agents that votes before a finding posts. "An agent's approval never counts as a person's". It reports, vendor-only, that merged pull requests more than doubled from June to September while the revert share fell over 40%, with no baseline, cost or false-positive rate, and its authors say they lack circuit breakers. A read-only terminal verifier rejected 61 percent of invalid agent episodes for under a cent each. Varying the evidence source beats varying the model: a cross-model vote over shared evidence approved 62.9 percent of unsafe proposals, and over an independent source 22.9 percent. Cloudflare's `security-audit-skill`, which has a separate verifier agent check every finding, drew 15,072 stars in a week, and Cloudflare says one run finds roughly half of what repeated runs find. A NOMOS preprint reported compiling written policy into deterministic tool-call gates, with violations falling from 66.3% to 2.6% on one airline test, while a second preprint showed model-decided gates failing open. Both are single studies on author-built benchmarks. OpenSpec moved down to watch on October 21 after no follow-up in 34 days, and ImpactGate moved down to assess for lack of a second team.
 
-Policy enforcement keeps moving into the harness and closing fail-open paths, with new ways to open them. GitHub made Copilot local sandboxing generally available on October 7, made its Copilot model policy API generally available on October 19, and its managed-settings refresh now fails closed. Claude Code 2.1.295 added `onFailure: "block"`, 2.1.299 narrowed MCP allow rules, and 2.1.304 added `decider: "person"`. Version 2.1.305 (October 20) stops `allowedMcpServers` from filtering `managed-mcp.json` stdio servers that use `${VAR}` only in `env`, so administrators need a `deniedMcpServers` entry. Anthropic says 2.1.307 emits a `claude_code.safety_event` telemetry event for every tool call that a rule, a hook or the sandbox stopped, prompted or sent back. OpenAI says Codex CLI 0.164.0 (October 23) can require managed configuration from a server. Anthropic's Claude apps gateway has per-developer spend caps that fail open by default. Uber's MCP gateway starts every tool disabled until its owning team enables it. Runlayer sells a gateway for MCP servers and agents tied to the identity provider, with traction vendor-reported and pricing not public. Placebo-controlled testing of skills is the new evaluation habit: one 450-trial test found only 2 of 9 popular coding skills beat neutral text of the same length. Model churn is an operating cost too: Copilot retired six models on October 19 and deprecates three more on November 16.
+Policy enforcement keeps moving into the harness and closing fail-open paths, with new ways to open them. GitHub made Copilot local sandboxing generally available on October 7, made its Copilot model policy API generally available on October 19, and its managed-settings refresh now fails closed. Claude Code 2.1.295 added `onFailure: "block"`, 2.1.299 narrowed MCP allow rules, and 2.1.304 added `decider: "person"`. Version 2.1.305 (October 20) stops `allowedMcpServers` from filtering `managed-mcp.json` stdio servers that use `${VAR}` only in `env`, so administrators need a `deniedMcpServers` entry. Anthropic said 2.1.307 emitted a `claude_code.safety_event` telemetry event for every tool call that a rule, a hook or the sandbox stopped, prompted or sent back, and 2.1.312 (October 27) removed it. OpenAI says Codex CLI 0.164.0 (October 23) can require managed configuration from a server. Anthropic's Claude apps gateway has per-developer spend caps that fail open by default. Uber's MCP gateway starts every tool disabled until its owning team enables it. Runlayer sells a gateway for MCP servers and agents tied to the identity provider, with traction vendor-reported and pricing not public. Placebo-controlled testing of skills is the new evaluation habit: one 450-trial test found only 2 of 9 popular coding skills beat neutral text of the same length. Model churn is an operating cost too: Copilot retired six models on October 19 and deprecates three more on November 16.
+
+Harness controls kept widening this week, and cost became a governance control. GitHub made assisted permissions generally available on October 26: a model classifies each request, clearly safe ones proceed, and enterprise policy can block Allow All. Its plugin controls (October 28) let enterprises require, block or restrict plugins, and managed settings win. Claude Code 2.1.314 adds identity-provider group routing per gateway upstream, `guardrail_trace` for Bedrock upstreams and `permissions.blockWritesOutsideWorkingDirectories`. Codex CLI 0.165.0 and 0.166.0 add managed configuration loaders for custom config servers, plus managed OpenTelemetry and network proxy requirements. AgentCore command-line interface 1.0 now defaults `add policy-engine` to ENFORCE, not LOG_ONLY, when attachment mode is omitted, so grep scripts for calls without `--attach-mode`. Three vendors moved spend and approval controls to the group or organisation level in one week. Claude Code 2.1.316 to 2.1.319 added pooled group budgets and a cost-report endpoint, Devin launched Budgets on October 30, and Codex CLI 0.167.0 added command checkpoints needing "fresh human approval". None has an independent test. GitHub Enterprise now includes Copilot for every licensed user, with all AI usage metered against one enterprise budget and no per-seat allowance. Self-serve is not yet open, and no independent response exists. GitHub also says Copilot Fusion Max scored 60 on the Artificial Analysis Coding Agent Index, within two points of Claude Code with Opus 5.5 Max, at about half the cost per task (\$5.59 against \$11.42), billed per underlying model.
 
 Throughput decays at every gate, and the fleet-level data is vendor-reported. GitHub says its Copilot impact dashboard now offers an opt-in industry comparison, ranking agent-first adoption and agentic-user pull-request merge rate against peer medians. The metrics are GitHub's definitions and no results exist yet. Factory reports 52% of its enterprise users ran automated code review, with its reviewer covering 99.5% of mergeable pull requests. Jellyfish says 9% of pull requests at leading adopters merge without human review and gains taper at high token spend, though it sells measurement and calls its findings correlational. A Harvard working paper on Jellyfish data from 718 firms reportedly finds agent adoption raised code output 30% with no significant rise in resolved issues while review time rose 49%, second-hand from Ars Technica and Forkast. Customer reports arrive without denominators: Port says SPS Commerce processed more than 500 Jira tickets in four months with zero workflow incidents, and Cockroach Labs says a label-driven multi-agent workflow added Db2 migration support in under two days for \$4,172 in tokens. GitHub also says Copilot usage metrics undercounted agent activity for months and the data cannot be recovered. The practice conversation has moved to who holds judgement. An Ask HN on shipping AI-written code you do not understand drew 722 comments, and most top replies keep design human and let the model implement. Karri Saarinen of Linear argues agent-made, additive changes dilute a product into "an average of all those outputs" once nobody holds the shared point of view. Both Saarinen and Steve Huynh argue without data.
+
+Spend data and loop features turn "done" and "cost" into product claims, mostly with thin evidence. Ramp says company AI token spend stalled while usage climbed: 1.5% growth across August and September after 42% in July, then 8.9% from September 23 to October 23, against 37.1% more tokens. Parallel-agent cost tracks token volume and weekly quota, not session count, and the published figures are enterprise averages, such as Claude Code's "around \$13 per developer per active day". The Ralph loop, a bash loop that re-feeds one prompt to a coding agent until checks pass, is now a product feature. Claude Code `/goal` "sets a completion condition and Claude keeps working toward it without you prompting each step", and a separate model checks after each turn. That evaluator "doesn't run commands or read files independently". One analyst proposes a Stop hook that runs the real tests, and the radar holds it at assess on documentation and that analysis alone. Adoption is thin: a mining study found loops in 217 of 36,710 repositories and no systematic evidence of benefit. Peter Vanhee reports a nightly loop that never merges, with a \$25 cap per issue: 82 pull requests in 13 days, 74 merged, self-reported. T3 Code's orchestrator MCP server lets a coding agent spawn and schedule agents on other providers, capped at the parent's privileges, and its README says "very very early". Port.io's November 3 post, a vendor's secondary summary, says Uber's cost per session fell 52% from June to August and that cost alerts fire at 50%, 80% and 100% of expected spend. The same post shows the AI-authored share of pull requests swinging from 11% to over 70% by definition, and nothing is checked at the source.
 
 Products compete on where control sits. Dataiku's Agent Management, Komodor's operations platform and Huawei's AgentArts were all dropped from the radar after no follow-up, the Dataiku entry on October 26. Atlassian's Agent Context Controls, Cymphony's registry consolidation and Shopify's Helix checkpoint discipline sit at watch. NVIDIA moves enforcement to separate hardware, while an independent review says its software sandbox fails open without Landlock. GitHub forces an admin default for MCP and Copilot Code Review by October 22. IBM sells a self-hosted, air-gapped agent as governance by isolation, with its own 45% productivity figure. Glow Labs also reports agents leaking screenshots into public repositories, so a sanctioned private destination is now a governance control.
 
 ## Open questions
 
+- Does an independent test show whether a `/goal` evaluator that cannot run commands passes work that a Stop hook running the real tests would fail?
+- Does a second team report a nightly never-merge loop with a baseline, given that Vanhee's 82 pull requests and 74 merges are self-reported?
+- Does anyone measure pooled group budgets, Devin Budgets or Codex checkpoints against real overshoot, since none has an independent test?
+- Does Port.io's Uber figure of 52% lower cost per session hold at the source, given that the AI-authored share moved from 11% to over 70% by definition?
+- Does GitHub Enterprise self-serve open, and does the single enterprise AI budget change what teams use?
 - Does a second team replicate the coordinator-session pattern or the repository zone map, so either can return to trial?
 - Does GitHub publish results from the Copilot impact dashboard's industry comparison, and does anyone check its definitions against their own data?
 - Does Cloudflare's finding that one audit run catches about half of what repeated runs catch hold for other verifier-agent designs?
@@ -49,6 +58,26 @@ Products compete on where control sits. Dataiku's Agent Management, Komodor's op
 - Do SPS Commerce or Cockroach Labs publish merge, revert, cost and cycle-time figures that let their results be set against a baseline?
 - Does Factory publish terms or figures for Mentlio, and does in-harness routing show a measured saving?
 - Does the placebo-arm test of skills replicate on a second model, given its own stated limit of one model and tasks mostly at ceiling?
+
+## 2026-11-06
+
+![[2026-11-06#^sdlc-ramp-ai-spend]]
+
+![[2026-11-06#^sdlc-spend-controls]]
+
+![[2026-11-06#^sdlc-parallel-agent-cost]]
+
+![[2026-11-06#^spotlight-t3-code]]
+
+![[2026-11-06#^agent-ralph-goal]]
+
+![[2026-11-06#^radar-goal-stop-hook]]
+
+![[2026-11-06#^radar-nightly-loop]]
+
+![[2026-11-06#^radar-uber-factory]]
+
+Source note: [[2026-11-06]]
 
 ## 2026-10-30
 
@@ -437,17 +466,17 @@ Source note: [[2026-09-03]]
 - `🟡 ASSESS` **Placebo-controlled skill evaluation**. [[2026-10-08]]
 - `🟡 ASSESS` **ImpactGate structural-decay merge gate**. (was [[2026-09-16]]) [[2026-10-17]]
 - `🟡 ASSESS` **Coder Agent Relay self-hosted Claude Code execution**. (was [[2026-09-17]]) [[2026-10-21]]
-- `🟡 ASSESS` **Uber AI Software Factory**. (was [[2026-09-03]]) [[2026-10-05]]
-- `🟡 ASSESS` `⚠️` **NVIDIA OpenShell and the Open Agent Safety Platform**. [[2026-09-29]]
+- `🟡 ASSESS` **Uber AI Software Factory**. (was [[2026-10-05]]) [[2026-11-06]]
 - `🟡 ASSESS` **Risk-tiered human approval set by the change, with verifier-vote review (Claude Code team)**. [[2026-10-17]]
 - `🟡 ASSESS` **Runlayer**. [[2026-10-21]]
-- `🟡 ASSESS` **Approval and secrets held outside the working model (Duet, Muse Sentinel, OpenShell)**. (was [[2026-10-12]]) [[2026-10-26]]
+- `🟡 ASSESS` **Approval and secrets held outside the working model (Duet, Muse Sentinel, OpenShell)**. (was [[2026-10-26]]) [[2026-10-30]]
+- `🟡 ASSESS` **Command Stop hook that runs the real test suite as the goal-loop completion check**. [[2026-11-06]]
 - `◻️ WATCH` **Bend `LAWS.bend` proof-gated agent codegen**. (was [[2026-09-18]]) [[2026-10-21]]
 - `◻️ WATCH` **Dogwood temporal policy language**. (was [[2026-09-18]]) [[2026-10-21]]
 - `◻️ WATCH` **OpenSpec spec-driven development framework**. (was [[2026-09-17]]) [[2026-10-21]]
 - `◻️ WATCH` **Shopify Helix checkpoint discipline**. (was [[2026-09-11]]) [[2026-10-12]]
-- `◻️ WATCH` **Port.io Context Lake**. (was [[2026-09-03]]) [[2026-10-05]]
-- `◻️ WATCH` **Ramp Labs agent-ROI attribution**. (was [[2026-09-03]]) [[2026-10-05]]
+- `◻️ WATCH` **Nightly issue-to-PR loop that never merges, with spend cap and usage gate**. [[2026-11-06]]
+- `◻️ WATCH` **GitHub Enterprise with Copilot included and one enterprise AI budget**. [[2026-10-30]]
 - `◻️ WATCH` **Atlassian Agent Context Controls + DX (developer-experience vendor) for Agentic Development**. (was [[2026-09-11]]) [[2026-10-12]]
 - `◻️ WATCH` **Cymphony + agent/skill registry consolidation**. (was [[2026-09-09]]) [[2026-10-12]]
 - `⚫ DROPPED` **Datamimic deterministic synthetic test data over MCP**. [[2026-09-16]], removed [[2026-10-17]]
@@ -456,6 +485,9 @@ Source note: [[2026-09-03]]
 - `⚫ DROPPED` **Dataiku Agent Management**. [[2026-09-25]], removed [[2026-10-26]]
 - `⚫ DROPPED` **Agentic SDLC Control Plane**. [[2026-09-15]], removed [[2026-10-17]]
 - `⚫ DROPPED` **Single-vendor agent fleets**. [[2026-09-16]], removed [[2026-10-17]]
+- `⚫ DROPPED` **NVIDIA OpenShell and the Open Agent Safety Platform**. [[2026-09-29]], removed [[2026-10-30]]
+- `⚫ DROPPED` **Port.io Context Lake**. [[2026-09-03]], removed [[2026-11-06]]
+- `⚫ DROPPED` **Ramp Labs agent-ROI attribution**. [[2026-09-03]], removed [[2026-11-06]]
 
 ## Related
 

@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, frontier-lab-economics]
-updated: 2026-10-30
+updated: 2026-11-06
 living: true
 ---
 
@@ -11,9 +11,11 @@ How frontier labs make and lose money: revenue, losses, pricing power, initial p
 
 ## Where this stands
 
-Revenue at the top labs is large enough to reshape strategy, and the spending behind it makes any single profit line hard to read. Anthropic told investors it will post a second straight quarter of adjusted operating profit, about \$559M on \$11.5B of Q2 revenue. On October 21, 2026, the Wall Street Journal reported figures from Anthropic's draft S-1 that point the other way: \$16.3B of revenue, an \$80.7B net loss and \$9B of compute spend in the first half of 2026, \$450B of mostly noncancellable cloud commitments and a \$2T valuation target. Fortune and TechCrunch relayed those numbers as leaks. On October 26, Anthropic announced that it had filed its public Form S-1 for a Nasdaq listing under the symbol "ANT", naming Goldman Sachs and Morgan Stanley. The filing sets no share count or price range. This page has not yet checked the filed figures against the leaked ones, and the adjusted profit and the net loss measure different things. DeepSeek's annualized run rate doubled to roughly \$1B after an August price increase of 2.3x to 4.5x, and ByteDance's first-half revenue rose 30% to \$120B while profit fell under infrastructure spending. All of these figures are company-disclosed or leaked, and none is audited. On October 8 the Financial Times said OpenAI told investors its annualised revenue was "approaching \$50 billion", not the roughly \$70 billion in circulation.
+Revenue at the top labs is large enough to reshape strategy, and the spending behind it makes any single profit line hard to read. Anthropic told investors it will post a second straight quarter of adjusted operating profit, about \$559M on \$11.5B of Q2 revenue. On October 21, 2026, the Wall Street Journal reported figures from Anthropic's draft S-1 that point the other way: \$16.3B of revenue, an \$80.7B net loss and \$9B of compute spend in the first half of 2026, \$450B of mostly noncancellable cloud commitments and a \$2T valuation target. Fortune and TechCrunch relayed those numbers as leaks. On October 26, Anthropic announced that it had filed its public Form S-1 for a Nasdaq listing under the symbol "ANT", naming Goldman Sachs and Morgan Stanley. The filing sets no share count or price range. This page has not yet checked the filed figures against the leaked ones, and the adjusted profit and the net loss measure different things. The Decoder reported on November 6 that investors are balking at a \$1.5T valuation for the offering, against the \$2T target in the leaked draft. DeepSeek's annualized run rate doubled to roughly \$1B after an August price increase of 2.3x to 4.5x, and ByteDance's first-half revenue rose 30% to \$120B while profit fell under infrastructure spending. All of these figures are company-disclosed or leaked, and none is audited. On October 8 the Financial Times said OpenAI told investors its annualised revenue was "approaching \$50 billion", not the roughly \$70 billion in circulation.
 
 Spending and debt set the scale, and the warnings are now institutional. Anthropic's compute commitments are reported near \$517B through 2029. Goldman Sachs estimates a \$230B annual gap between 2026 hyperscaler AI capital spending and the revenue needed to break even, with debt covering about a third. The International Monetary Fund's October Global Financial Stability Report names a correction in AI-linked assets as a salient risk and counts 14 circular-financing deals since 2023, while saying banks stay resilient under a severe stress test. The Financial Times reports, headline only via Techmeme, a \$60B Anthropic chip-debt package with Blackstone. It also reports that Meta plans to raise \$95B for AI infrastructure, including \$35B of public equity, with Nvidia, AMD and Broadcom as cornerstone investors, again as a headline only. ByteDance signed a \$29.6B syndicated loan and Z.AI raised about \$5B through equity and a zero-coupon convertible bond. Character.AI's Chapter 11 filing on October 12 shows the small end: about \$5.3M of revenue against \$8.2M of net burn in August, from PPC Land and TechCrunch and not the filing. Two advocates, the Open Markets Institute and Matt Stoller, say the AI trade is deflating or about to, with unverified figures. Alex Tabarrok answers that real tech investment rose about 46% from mid-2023 to mid-2026 against about 3% for other real investment.
+
+Spending keeps rising, and the demand signal is mixed. Microsoft reported \$39.4B of additions to property and equipment in fiscal 2027 Q1, up from \$19.4B a year earlier, with Azure up 48%. NVIDIA and Oracle plan to expand Oracle's cloud with Vera Rubin systems to "multi-gigawatt scale", with no dollar figure. Ramp says company AI token spend has stalled while usage climbs: spend grew 1.5% across August and September after 42% in July, then 8.9% from September 23 to October 23, while token volume rose 37.1% and Anthropic's share of spend reached 60.5%. Ramp's economist attributes this to price cuts and cost controls, and the article gives no sample or method. Zvi Mowshowitz argued on October 27 that Anthropic is the best frontier lab and still fails the burden of building recursively self-improving AI. His verdict rests on value judgments about what counts as "sufficient", which he admits.
 
 Listing structure is where the labs diverge, and the public-market window shows strain. Anthropic is asking shareholders to approve a share class giving Dario Amodei and six co-founders 50.1% collective voting control, with valuation targets reported from \$965B to about \$2T. OpenAI pulled its 2026 listing plans. DeepSeek is heading to Shanghai. Nvidia-backed Firmus scrapped a roughly \$5 billion Australian IPO on October 9 (Reuters, via The Star), which is one data point on weak demand, not a trend, and it is an infrastructure operator rather than a lab.
 
@@ -22,7 +24,7 @@ Labs are also competing harder for customers and facing legal cost. The Informat
 ## Open questions
 
 - Do the filed S-1 figures match the WSJ's leaked figures, and how does an \$80.7B first-half net loss sit beside adjusted operating profit of about \$559M in Q2?
-- Where does Anthropic's listing price against the reported \$2T ceiling, and does the supervoting share class survive scrutiny?
+- Does Anthropic price its listing below the \$1.5T that investors are said to resist, or hold to the \$2T draft target, and does the supervoting share class survive scrutiny?
 - Does OpenAI confirm or deny the discounts of up to 90 percent, and does Anthropic's customer base move?
 - Does Meta close the \$95B raise on the reported terms, and does a second source confirm the \$35B of public equity?
 - Does the Presley rightsholders' suit over 274 songs name a damages figure or a licensing demand?
@@ -32,6 +34,16 @@ Labs are also competing harder for customers and facing legal cost. The Informat
 - Does OpenAI's Google Cloud channel shift revenue away from Microsoft and Amazon Web Services, and does OpenAI confirm an annualised revenue figure?
 - Does the Firmus withdrawal predict weaker demand for Anthropic's listing, or does it stay specific to a smaller infrastructure operator?
 - Does the reported Amazon talks to buy Decart close, and does a second report confirm what is currently one paywalled headline?
+- Does Ramp publish its sample and method, and does the stall in token spend show up in lab revenue figures?
+- Does Microsoft's quarterly capital spend track revenue growth, and does NVIDIA and Oracle's multi-gigawatt plan get a dollar figure?
+
+## 2026-11-06
+
+![[2026-11-06#^tertiary-anthropic-ipo]]
+
+![[2026-11-06#^sdlc-ramp-ai-spend]]
+
+Source note: [[2026-11-06]]
 
 ## 2026-10-30
 
@@ -153,4 +165,4 @@ Source note: [[2026-09-14]]
 
 ## Related
 
-[[Topics/DeepSeek|DeepSeek]] · [[Topics/Sovereign AI Compute|Sovereign AI Compute]] · [[Topics/Token Cost and Model Routing|Token Cost and Model Routing]]
+[[Topics/DeepSeek|DeepSeek]] · [[Topics/Sovereign AI Compute|Sovereign AI Compute]] · [[Topics/Token Cost and Model Routing|Token Cost and Model Routing]] · [[Topics/Data Center Backlash|Data Center Backlash]]
