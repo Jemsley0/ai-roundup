@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, semantic-layer]
-updated: 2026-11-06
+updated: 2026-11-16
 living: true
 ---
 
@@ -11,39 +11,54 @@ Portable semantics, ontologies, and the "context layer" that vendors are now bui
 
 ## Where this stands
 
-The vocabulary has stratified into three layers, drawn consistently enough to call an emerging consensus. The semantic layer is definitional and mostly static: it says what "monthly active users" means and generates governed SQL. The knowledge graph captures relationships between entities across the organisation. The context layer integrates both with freshness, ownership, policy and trust so an agent can act on them. One source uses a stricter definition of the middle layer, a formal inference-capable ontology, and treats building it as librarians' work. Sources also split on where the graph should live: Austin Kronz (Atlan, a vendor) argues that having a graph model and running a graph database are separate commitments, and gives no thresholds.
+The vocabulary has stratified into three layers, drawn consistently enough to call an emerging consensus. The semantic layer is definitional and mostly static: it says what "monthly active users" means and generates governed SQL. The knowledge graph captures relationships between entities across the organisation. The context layer integrates both with freshness, ownership, policy and trust so an agent can act on them. The radar holds "context layer over semantic layer, exposed to agents via MCP" at assess as the consolidating architecture across Atlan, Looker BI Agents, SAP Knowledge Graph, Databricks Genie Ontology and Zoho Analytics, and moved the entry again on November 16. One source uses a stricter definition of the middle layer, a formal inference-capable ontology, and treats building it as librarians' work. Sources also split on where the graph should live: having a graph model and running a graph database are separate commitments, and no one gives thresholds.
 
-The evidence for the context layer is still self-reported, and the newest items argue about who produces context, not only who consumes it. On October 9, 2026, LinkedIn Engineering said a shared data context layer lifted an agent's acceptable-answer rate from 25.9% to 79.5% in one business area. The figures come from "early evaluations" with no sample size or method. On October 16, Yali Sassoon of Snowplow, who says he is "not a neutral observer", argued that autonomous agents make a company faster only if they record what they tried, what ran and what happened. Prukalpa Sankar of Atlan argued context should be versioned, tested and rolled back like software, in an agenda post that answers none of its five questions. Both are vendors pointing at gaps they sell into.
+The evidence for the context layer is still self-reported. LinkedIn Engineering said a shared data context layer lifted an agent's acceptable-answer rate from 25.9% to 79.5% in one business area, from "early evaluations" with no sample size or method. Atlan's playbook benchmark of 107 questions scored 31.8% for a bare schema and 83.2% with generated metrics and trusted past queries, but identical reruns scored 86 and 80 correct, so gaps under about 5 points are noise. That benchmark is vendor-run, and the method is what holds up: certified metrics first, metrics written as SQL, and a golden question set before context work (trial). Atlan's draft AI Registry spec (v0.1, Apache-2.0) has a single-vendor origin, and the argument that context needs an open registry layer rests on skill-use studies, with a Vercel result cutting the other way. Jedify says its "context graph" Data Agents answer 87% of graded runs correctly, on 100 questions on one warehouse. This week added a limit from a regulated industry: Geethapriya Setty, a regulatory affairs manager writing personally on Atlan's vendor-hosted Context and Chaos, argues a past decision is precedent, not authority, and must pass three gates before an agent reuses it. Her prototype used about 25 invented assessments and matched her own judgments 75 to 80% of the time, so her judgment is the only benchmark. Eighth Rank's reverse engineering of an undocumented on-device personal knowledge graph on every Mac (181 entity classes, 278 predicates, confidence scores, no user correction path) is a deployed context graph that faces the same question.
 
-Atlan's October 28 Context Conference shows what the evidence is worth. Verizon's Steven Huang described one pipeline for documents, articles and tools and one for asset metadata, semantic models and query logs, with records stored as Resource Description Framework (RDF) triples and a runtime rule that the platform "only serves context and metadata". Onboarding of 16,000 documents is planned, with no result reported. Atlan's playbook benchmark of 107 questions scored 31.8% for a bare schema and 83.2% with generated metrics and trusted past queries, but identical reruns scored 86 and 80 correct, so gaps under about 5 points are noise. The benchmark is vendor-run, and the method is what holds up: certified metrics first, metrics written as SQL, and a golden question set before context work. Atlan's draft AI Registry spec (v0.1, Apache-2.0) has a single-vendor origin. On November 5, Prukalpa Sankar argued that context needs an open registry layer above open file formats, as data needed Apache Iceberg. Her evidence is skill-use studies, none tests a registry, and Vercel's result cuts the other way: a compressed docs index scored 100% where a skill scored 53%. Jedify says its Data Agents, built on a "context graph", cut tokens per SQL call about 50% and answer 87% of graded runs correctly. That is 100 questions on one warehouse, with an undisclosed Claude model and no independent test. A note on the term "digital twin" found four meanings, and only the industrial sense has a test: automated two-way data flow with a real system and a loop that changes it. The context-layer sense is decorative.
+Vendor products keep arriving ahead of numbers. Databricks says Genie Ontology is generally available (release note November 9, blog November 11), scoring 91% against 45% and 58% for two unnamed frontier agents on an invented energy-supplier workspace. That is vendor-run. A Databricks employee wrote in August that there is "not yet a full reviewable changelog", and the radar holds it at watch: a regulated workload needs a reviewable change log and an export path first. Snowflake made semantic view materializations generally available on November 11 and put many-to-many relationships in preview on November 13, each with a carve-out. Rewrites apply only to Semantic SQL, so Cortex Analyst and Cortex Agents do not benefit, `CREATE OR REPLACE SEMANTIC VIEW` drops every materialization, and the docs give no refresh billing. Zoho says Zoho Analytics now has built-in semantic and ontology layers, an MCP server and Apache Ossie portability at unchanged pricing, but three analysts say much of it repackages existing features, and the semantic model is still preview. Earlier entrants stay unmeasured: Graphify (a code and document graph whose question-answering accuracy of 45.3% trails supermemory's 49.7%, with one independent test finding it weaker than ripgrep), Neo4j's Context Engine (private preview, no price or benchmark) and Snowflake's Horizon Context (preview, Business Ontology "soon" with no date). Bedrock GraphRAG on Neptune Analytics stays at hold: S3 only, no autoscaling, no agentic retrieval, vendor accuracy figures. The radar dropped Kaelio ktx and Graphiti on November 16 after 35 to 38 days with no new evidence, so no benchmark now favours a graph over files or trees.
 
-Vendor products are arriving ahead of numbers, and the October 26 items follow that pattern. Graphify Labs says its open-core Graphify, a graph of code, docs and SQL schemas for coding agents, has the best recall on the LOCOMO memory benchmark of any system tested. The 0.497 recall covers only systems Graphify chose to run, its question-answering accuracy of 45.3% trails supermemory's 49.7%, and one independent test on a 605-file TypeScript repository found the graph far weaker than ripgrep. Neo4j says its Context Engine, a reusable layer on a predefined six-layer business ontology populated from Snowflake and Databricks, beats vector-only retrieval on accuracy and cost. It is a private preview announced October 20 with no public price, benchmark or named customer. Amazon Web Services (AWS) says only its fully managed Bedrock knowledge base type gets agentic retrieval, while GraphRAG stays on the customer-managed Neptune Analytics side, limited to S3 as a source with no autoscaling, and the accuracy figures are vendors'. Earlier, Snowflake's Horizon Context entered preview on October 12 and pulls metadata from 18 outside systems into Horizon Catalog, with no independent report. Snowflake announced Business Ontology on November 3 inside Horizon Context, with public preview "soon" and no date. It serves only approved definitions to agents, each concept carries an owner and approval status and links to the semantic views that implement it, and it exports to RDF and Apache Ossie. HFS Research's Ashish Chaturvedi says "Each core term needs a named owner", and the storage method is not stated. The radar dropped AWS Context (listed "Coming soon" with no price, regions or date) and Glue Data Catalog business context (a four-region preview holding descriptions and pointers, not metric formulas) on November 6, each with no follow-up in 32 days. Fabric IQ Ontology moved down to watch on October 17 after no news in 32 days.
+NVIDIA's Auto Ontology is the build-side counterpart. The Apache-2.0 library reads warehouse schemas, infers joins and suggests SQL attributes from query history, stores terms in Postgres with pgvector embeddings, and has people certify the draft before agents use it over MCP. It reached 13,214 GitHub stars on November 16, up from 8,778 on November 6, which measures popularity, not quality. Outside pull requests add MongoDB, SQL Server and Bedrock connectors, but the evaluation repository still publishes no results, and the README says the ingestion service's endpoints "have no authentication of their own". The radar holds it at assess, with a pilot on one non-PII schema.
 
-NVIDIA's Auto Ontology is the build-side counterpart. The Apache-2.0 library reads warehouse schemas, infers joins and suggests SQL attributes from query history. It stores terms, relationships and attributes in Postgres with pgvector embeddings, so the store is relational, not a graph database, and people certify the draft before agents use it over MCP, a command line or an API. The repo has 8,778 stars, which measures popularity, and a Hacker News thread drew 289 points. The README points to an evaluation repository that compares a schema dump against the ontology agent, with no published table. It says the ingestion service's endpoints "have no authentication of their own", and it contradicts itself on default models. The radar placed it at assess, with a pilot on one non-PII schema.
-
-On Snowflake's authored route, Semantic Studio reached general availability on September 30, 2026, and `DEFINE SEMANTIC VIEW` in the Database Change Management projects feature reached general availability the same day. Semantic Studio has no documented interface for an external agent, and it overwrites the live object on deploy without checking for intervening changes. Level of detail expressions entered preview in semantic views on November 2. They work in SQL only, and Cortex Analyst and Cortex Agents do not support them, so the preview adds nothing an agent can use yet. The agent-authored route works through `SYSTEM$CREATE_SEMANTIC_VIEW_FROM_YAML`, with `verify_only` first, then deploy, under a role scoped to one schema. Snowflake's managed MCP server has no authoring tool, so a wrapper stored procedure is the cleaner route. The radar dropped the agent-written YAML entry on November 6, after no follow-up in 35 days. On portability, Apache Ossie, the renamed Open Semantic Interchange, merged a vendor-neutral core specification on October 26 and added a four-level portability test on October 23. Only an `osi-0.1.1-rc1` tag exists, with no release and no published conversion scores, and the spec is at 0.3.0.dev0 with no release. The radar moved it up to assess on November 6, because Snowflake says Business Ontology exports to it and semantic views can import and export it, and NVIDIA's Auto Ontology imports and exports Ossie YAML through a converter in a separate repository. Snowflake does not state the stage of its import and export. Microsoft is not participating, and dbt's new Semantic Layer YAML specification and Fivetran's Context Layer point away from portability. Graphiti also sits at watch, because LinkedIn's Markdown layer, Agent Memory Repo and OptChat's summary tree use files or trees, not a graph, and no benchmark favours a graph.
+Portability is the open standards question, and Apache Ossie (the renamed Open Semantic Interchange) is its candidate. It merged a vendor-neutral core specification on October 26 and added a four-level portability test, but only an `osi-0.1.1-rc1` tag exists, with no release and no published conversion scores. Snowflake, NVIDIA Auto Ontology and Zoho now name it, and the radar holds it at assess on that basis. Microsoft is not participating, and dbt's new Semantic Layer YAML specification and Fivetran's Context Layer point away from portability. On Snowflake's authored route, Semantic Studio and declarative semantic-view deploy are generally available (trial), with level of detail expressions in preview in SQL only. Semantic Studio has no documented interface for an external agent and overwrites the live object on deploy without checking for intervening changes.
 
 ## Open questions
 
 - Does NVIDIA publish a table from its Auto Ontology evaluation repository, and does the ingestion service gain authentication?
+- Does Databricks publish a reviewable change log and an export path for Genie Ontology, and does anyone repeat its 91% result on a workspace Databricks did not build?
 - Does a second team rerun the Atlan playbook's golden-question method, given that identical reruns differed by six questions?
 - Does any test of an open registry layer, as Atlan's `ai-registry` draft proposes, show better agent outcomes than a skills folder?
-- Does Cortex Analyst or Cortex Agents add support for level of detail expressions in semantic views?
-- Does a blind 20-question test on one dbt repository show Graphify beating ripgrep, and does a second team reproduce its LOCOMO recall?
-- Does Neo4j publish a price, a benchmark on a customer's own questions, a described Snowflake connector and write-back for the Context Engine?
+- Does Setty's three-gate precedent test hold on a real decision set with an outside reviewer, and does any vendor give users a way to correct a deployed context graph?
+- Does Snowflake publish refresh billing for semantic view materializations, and does Cortex Analyst or Cortex Agents add support for materializations, level of detail expressions or many-to-many relationships?
+- Does Zoho's Ossie import of another vendor's semantic layer reach general availability and work on a Snowflake semantic view or a dbt model?
 - Does Apache Ossie cut a tagged release from 0.3.0.dev0 and publish conversion scores from its four-level portability test, and does Snowflake say the stage of its import and export?
 - A portability standard the largest BI vendor ignores is partial. Phase 2 targets native support on 50-plus platforms through Q4 2026, and nothing has shipped.
 - The new dbt Semantic Layer YAML specification has no published migration path, no support-length statement, and no stated relationship to Open Semantic Interchange.
+- Does a blind 20-question test on one dbt repository show Graphify beating ripgrep, and does a second team reproduce its LOCOMO recall?
+- Does Neo4j publish a price, a benchmark on a customer's own questions, a described Snowflake connector and write-back for the Context Engine?
 - Does a published question set or a second stack's replication confirm LinkedIn's result? Until then it is a pattern to watch, not evidence.
-- The 38 percent accuracy gain claimed for agents with unified multi-dimensional context over semantic definitions alone is vendor-adjacent and unaudited.
 - Does a practitioner report show Horizon Context column lineage surviving a dbt incremental model, and does Snowflake say which of its 18 sources are generally available?
-- Who produces the record of what an agent tried and did, and does any vendor publish a design for it beyond Snowplow's argument?
-- Does any vendor publish accuracy for a curated ontology layer alone, so Business Ontology and Databricks' curated core can be compared?
+- Who produces the record of what an agent tried and did, and does any vendor publish a design for it?
 - Does Snowflake date the Business Ontology public preview, state how it stores definitions, and add a propose-only privilege?
-- Does AWS publish pricing and regions for AWS Context, and do its third-party catalog connectors include Snowflake or Open Semantic Interchange?
 - Does Snowflake-native authoring in Semantic Studio beat repository YAML deployed by continuous integration? No practitioner comparison exists.
-- Does the procedure path plus a wrapper stored procedure pass the managed MCP server's read-only SQL filter, or must it be a separate tool?
 - Nobody has reconciled the strict-ontology position with the loose-knowledge-graph one, which imply work differing by an order of magnitude.
+
+## 2026-11-16
+
+![[2026-11-16#^headline-genie-ontology]]
+
+![[2026-11-16#^de-genie-ontology]]
+
+![[2026-11-16#^de-semantic-view-materializations]]
+
+![[2026-11-16#^tool-zoho-analytics]]
+
+![[2026-11-16#^ac-auto-ontology-followup]]
+
+![[2026-11-16#^ac-apple-knowledge-graph]]
+
+![[2026-11-16#^essay-precedent-three-gates]]
+
+Source note: [[2026-11-16]]
 
 ## 2026-11-06
 
@@ -285,17 +300,18 @@ Source note: [[2026-09-03]]
 
 - `🔵 TRIAL` **Snowflake Advanced Semantics / Semantic Studio**. (was [[2026-10-02]]) [[2026-11-06]]
 - `🔵 TRIAL` **Metrics written as SQL, tested against a golden question set before context work (Atlan analytics playbook)**. [[2026-10-30]]
-- `🟡 ASSESS` **NVIDIA Auto Ontology (open source, Apache-2.0)**. [[2026-11-06]]
-- `🟡 ASSESS` **Context layer over semantic layer, exposed to agents via MCP**. (was [[2026-09-11]]) [[2026-10-12]]
-- `🟡 ASSESS` **Apache Ossie / Open Semantic Interchange**. (was [[2026-10-12]]) [[2026-11-06]]
+- `🟡 ASSESS` **NVIDIA Auto Ontology (open source, Apache-2.0)**. (was [[2026-11-06]]) [[2026-11-16]]
+- `🟡 ASSESS` **Context layer over semantic layer, exposed to agents via MCP**. (was [[2026-10-12]]) [[2026-11-16]]
+- `🟡 ASSESS` **Apache Ossie / Open Semantic Interchange**. (was [[2026-11-06]]) [[2026-11-16]]
 - `◻️ WATCH` **Microsoft Fabric IQ Ontology**. (was [[2026-09-15]]) [[2026-10-17]]
-- `◻️ WATCH` **Kaelio ktx**. [[2026-10-09]]
-- `◻️ WATCH` **Graphiti / temporal knowledge graphs**. (was [[2026-09-11]]) [[2026-10-12]]
 - `◻️ WATCH` **Snowflake Horizon Context**. (was [[2026-10-17]]) [[2026-11-06]]
 - `◻️ WATCH` **Graphify (open core)**. [[2026-10-26]]
 - `◻️ WATCH` **Neo4j Context Engine**. [[2026-10-26]]
 - `◻️ WATCH` **Atlan AI Registry spec (draft v0.1)**. [[2026-10-30]]
+- `◻️ WATCH` **Databricks Genie Ontology**. [[2026-11-16]]
 - `🟠 HOLD` **Bedrock GraphRAG on Neptune Analytics**. [[2026-10-26]]
+- `⚫ DROPPED` **Kaelio ktx**. [[2026-10-09]], removed [[2026-11-16]]
+- `⚫ DROPPED` **Graphiti / temporal knowledge graphs**. [[2026-09-11]], removed [[2026-11-16]]
 - `⚫ DROPPED` **Agent-written semantic-view YAML deployed through `SYSTEM$CREATE_SEMANTIC_VIEW_FROM_YAML`**. [[2026-10-02]], removed [[2026-11-06]]
 - `⚫ DROPPED` **Glue Data Catalog business context**. [[2026-10-05]], removed [[2026-11-06]]
 - `⚫ DROPPED` **AWS Context**. [[2026-10-05]], removed [[2026-11-06]]
