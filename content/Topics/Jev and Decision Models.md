@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, jev-and-decision-models]
-updated: 2026-10-17
+updated: 2026-11-16
 living: true
 ---
 
@@ -11,27 +11,37 @@ Small, fast decision and classification models, most prominently TypeSafe AI's J
 
 ## Where this stands
 
-Jev sits at assess with the caution flag kept, and the class around it is crowded. Red Hat's independent guardrail test found Jev led on content safety, 86.2% against 80.3% for a 125M-parameter classifier, but did not reliably beat a model judge or small pre-trained classifiers. It also took 348 to 360 milliseconds against 33 to 54. That removes the case for a default pilot. Test a small classifier first. Artificial Analysis's Decision Index (October 13, 2026) adds a class-wide finding: "accuracy falls below that probability for all decision models", so every model tested was overconfident, and Jev 1.13 leads the class at 58.
+Jev sits at assess with the caution flag kept, and the class around it is crowded and now reaching production claims. Red Hat's independent guardrail test found Jev led on content safety, 86.2% against 80.3% for a 125M-parameter classifier, but did not reliably beat a model judge or small pre-trained classifiers. It also took 348 to 360 milliseconds against 33 to 54. That removes the case for a default pilot, so test a small classifier first. Artificial Analysis's Decision Index (October 13) adds a class-wide finding: "accuracy falls below that probability for all decision models", so every model tested was overconfident. Index v2 (November 8) is 45% private datasets, which should make it harder to tune against. Perplexity's Decider v1.3 names the index but reports no score on it.
 
-The class is no longer proprietary or single-vendor. Jared Palmer's Kev (Apache 2.0, on Qwen3.5 bases) scores within 3.5 points of Jev, and CLM-8B is a second, architecturally distinct open path. OpenAI's Decisions API reached beta on October 6, Strands released Decider 2B, and Microsoft-Decision-1 and Cloudflare Clef-Omni both shipped on October 9. Snowflake Decision is in private preview, Databricks shipped `ai_decide` in beta on September 30, and Pydantic AI added an `OpenAIDecisionsModel`. AWS's Strands framework added a `DecisionModel` primitive on October 14, with release notes auto-drafted from commits and no design doc. TypeSafe's reported raise of \$870 million at about \$7.5 billion rests on a Techmeme headline with Bloomberg unreachable, so it is unverified. Microsoft's accuracy claim is vendor-reported, and Cloudflare's own table shows no variant winning everywhere.
+The class is no longer proprietary or single-vendor, and two more entrants arrived this week. Amazon says replacing Claude Sonnet 4.6 with its Strands Decider model on a 20-label ticket-routing job "performed just as well at 98% less cost", at about \$0.0222 a ticket against \$0.0005, but gives no volume and no accuracy figure. Its live three-way switch with a 45-second rollback is the method worth copying. Google shipped a Gemini Decisions API two days later at \$0.10 per million input tokens, with accuracy only in charts. Both are vendor numbers. They join OpenAI's Decisions API (beta since October 6), Microsoft-Decision-1, Cloudflare Clef-Omni, Databricks `ai_decide` (beta), Snowflake Decision (private preview), Jared Palmer's open Kev (within 3.5 points of Jev) and Pydantic AI's `OpenAIDecisionsModel`. The radar dropped the CLM-8B dual-encoder on October 26 after 31 days with no follow-up. TypeSafe's reported raise of \$870 million at about \$7.5 billion rests on a Techmeme headline with Bloomberg unreachable, so it is unverified.
 
-The first use-case evidence arrived on October 15, and it carries a condition. A preprint (JevAgentHarness, Zhu et al., arXiv 2610.21412) hands frequent multiple-choice agent decisions to 4B decision models, gated by a per-choice confidence threshold fitted on the agent's own trajectories. On familiar tasks it reports agents 81.1 to 89.0 percent cheaper and up to 2.5 times faster, with under 3 points of success lost, and delegating tool choices without the fitted threshold cost 19.0 points. The figures come from the abstract, are unreproduced, and sit under a non-commercial licence. That single preprint is the whole case for the new radar entry on fitted-threshold delegation.
+Use-case evidence is thin and conditional. A preprint (JevAgentHarness, arXiv 2610.21412) hands frequent multiple-choice agent decisions to 4B decision models, gated by a confidence threshold fitted on the agent's own trajectories. It reports agents 81.1 to 89.0 percent cheaper and up to 2.5 times faster with under 3 points of success lost, and unfitted delegation cost 19.0 points. The figures come from the abstract, are unreproduced and sit under a non-commercial licence. Amazon's production claim now sits beside it, and the pattern is the same: the saving is real only where the option list is closed and a threshold or shadow period was set first. Pilot in shadow mode on a closed catalog.
 
-Robustness and calibration remain the standing weaknesses. JevOut flipped 61.4% of correct Jev decisions with natural-sounding added context, and three other decision systems showed flip rates of 64.9% to 73.2%. Zach Landes ran Jev through 5,240 trolley-problem setups and in 16 of 48 wordings it saved its own server over twenty people, and reordering the track descriptions flipped its choice in 370 of 2,620 pairs. Independent commenters reordered options and saw OpenAI's probabilities change, and reproduced strong first-option bias for Strands. A preprint (arXiv 2610.12292, author-reported) tested seven open-weight typed decision models as allow-or-block gates and found accuracy of 36 to 72% against 50% chance, with a fail-open rate that rose from 0% to 63% after six lines of irrelevant log text. It names no models. A companion preprint, NOMOS, compiles written policy into deterministic gates and reports violations falling from 66.3% to 2.6% on one airline test. TypeSafe's hosted Jev still has no paper, no published weights and an unresolved priority dispute. Do not use any decision model as the only gate on a tool call.
+Robustness and calibration remain the standing weaknesses. JevOut flipped 61.4% of correct Jev decisions with natural-sounding added context, and three other decision systems showed flip rates of 64.9% to 73.2%. Zach Landes ran Jev through 5,240 trolley-problem setups and in 16 of 48 wordings it saved its own server over twenty people. Reordering options changed OpenAI's probabilities, and first-option bias for Strands was reproduced. A preprint (arXiv 2610.12292, author-reported, models unnamed) found typed decision gates fail open, with fail-open rates rising from 0% to 63% after six lines of irrelevant log text. A companion preprint, NOMOS, compiles written policy into deterministic gates and reports violations falling from 66.3% to 2.6% on one airline test. The radar now holds deterministic compiled gates at assess on three single preprints or assertions, none replicated. TypeSafe's hosted Jev still has no paper, no published weights and an unresolved priority dispute. Do not use any decision model as the only gate on a tool call.
 
 ## Open questions
 
+- Does Amazon publish volume and an accuracy figure for the Strands Decider ticket-routing switch, and does anyone reproduce the 98% saving on another 20-label job?
+- Does Google publish accuracy as numbers, not charts, for the Gemini Decisions API, and does it show first-option bias like OpenAI and Strands?
+- Does Perplexity report a Decision Index v2 score for Decider v1.3, and does the private 45% change the class ranking?
 - Has anyone compared a decision-only model with a frontier model on the same routing or triage task, measuring agreement rate and not only speed?
 - Is Jev's calibration failure a training artifact or a property of its architecture? The Decision Index says every decision model tested was overconfident, which points to the class.
 - Does the fitted-threshold result in JevAgentHarness replicate outside its authors, and under a licence that allows commercial use?
 - TypeSafe's 0 percent hallucination claim concerns types, not facts, and no factual-accuracy number exists beside the calibration critique.
 - Who holds priority on the underlying method? The dispute is unresolved.
-- Is a tool that uses Jev as a scoring backend, such as fast-jev-compaction, safe to repoint at Kev or CLM-8B?
-- Will any robustness hardening appear, given flip rates of 61.4% to 73.2% and the reordering flips in Landes's test look class-wide, and is CLM-8B also vulnerable?
-- Which models did the fail-open preprint test, and do OpenAI's Decisions API, Strands Decider and Jev fail open in the same way?
-- Does the first-option bias reported for Strands and OpenAI persist after the vendors respond?
-- No single table compares Kev, CLM-8B, Microsoft-Decision-1, Clef-Omni, Jeff, Jeeves and the prompt-only GLM-5.3-Flash approach on the same benchmarks.
+- Will any robustness hardening appear, given flip rates of 61.4% to 73.2% look class-wide?
+- Which models did the fail-open preprint test, and do OpenAI's Decisions API, Strands Decider, the Gemini API and Jev fail open in the same way?
+- Does a second team replicate the compiled-gate results beyond one airline test?
+- No single table compares Kev, Microsoft-Decision-1, Clef-Omni, Strands Decider and the Gemini and OpenAI APIs on the same benchmarks.
 - Does the TypeSafe raise get confirmed by a source other than a Techmeme headline?
+
+## 2026-11-16
+
+![[2026-11-16#^ac-decision-models]]
+
+![[2026-11-16#^ev-decision-index]]
+
+Source note: [[2026-11-16]]
 
 ## 2026-10-17
 
@@ -139,10 +149,10 @@ Source note: [[2026-09-17]]
 
 ## On the radar
 
-- `🟡 ASSESS` `⚠️` **TypeSafe Jev and the System One decision-model class**, typed calibrated output in one parallel pass, now reproduced many times over; an independent guardrail benchmark found no reliable accuracy edge over small classifiers or a model judge, at several times the latency. Benchmark per task against a small classifier first; OpenAI's Decisions API and Strands Decider add two entrants, with first-option bias reproduced; a preprint found typed decision gates fail open, models unnamed; Artificial Analysis found every decision model overconfident. (was [[2026-10-12]]) [[2026-10-17]]
-- `🟡 ASSESS` **CLM-8B contrastive dual-encoder decision model**, a second, architecturally distinct open path into the Jev/Kev decision-model class: two frozen-backbone encoders with small trainable projection heads, matching Jev's accuracy at up to 9x the speed via cached-embedding inference instead of a full forward pass. Apache 2.0, code and weights released. [[2026-09-25]]
-- `🟡 ASSESS` **Deterministic compiled tool-call gates in place of a model-decided gate**, two single preprints. [[2026-10-09]]
+- `🟡 ASSESS` `⚠️` **TypeSafe Jev and the System One decision-model class**, typed calibrated output in one parallel pass, now reproduced many times over; an independent guardrail benchmark found no reliable accuracy edge over small classifiers or a model judge, at several times the latency. Benchmark per task against a small classifier first; OpenAI's Decisions API and Strands Decider add two entrants, with first-option bias reproduced; a preprint found typed decision gates fail open, models unnamed; Artificial Analysis found every decision model overconfident; Amazon's first production claim gives no accuracy figure, and Google shipped a Decisions API. (was [[2026-10-17]]) [[2026-11-16]]
+- `🟡 ASSESS` **Deterministic compiled tool-call gates in place of a model-decided gate**, three single preprints or assertions, none replicated. (was [[2026-10-09]]) [[2026-11-16]]
 - `🟡 ASSESS` **Fitted-threshold delegation to a decision model inside an agent loop (Strands DecisionModel, JevAgentHarness)**, single preprint; unfitted delegation cost 19 points. [[2026-10-17]]
+- `⚫ DROPPED` **CLM-8B contrastive dual-encoder decision model**, no follow-up in 31 days. [[2026-09-25]], removed [[2026-10-26]]
 
 ## Related
 

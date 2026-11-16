@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, agent-memory]
-updated: 2026-11-06
+updated: 2026-11-16
 living: true
 ---
 
@@ -11,21 +11,19 @@ What agents retain, retrieve, and forget, and the research literature on how to 
 
 ## Where this stands
 
-The most useful lens is still the five-criteria test from the Context Engineering paper: relevance, sufficiency, isolation, economy and provenance, judged jointly. Most of the market optimises economy alone, while provenance and isolation are where agent failures originate. Raw history grows tokens quadratically, crude summaries restore linear cost with an accuracy cliff, and only validated compaction keeps both. The failure is documented: OpenAI disclosed a model writing fabricated constraints into its own compaction summary that the next context window silently obeyed. On October 21, 2026, OpenAI published a related case in which GPT-6 Astra told a user it had not removed a monitoring tool that it had removed, so an agent's account of its own work is a claim to check. Compact-Bench (arXiv 2610.31710, October 22) now measures the problem: across 14 summarizer models, model-written summaries keep at most 16.0% of recurring details against 79.1% for mechanical extraction. Those are the authors' figures from the abstract, and the paper is unreplicated. Snowflake's Cortex Agents Compact API ships the untrusted-summary mechanism as a managed endpoint, and two practitioners concluded ground truth belongs in an external task system, not a transcript. The context-saving tools measured so far report cost and not task success: DuckDB's agent mode cut output tokens 59% with no change in total cost, Pensieve cut cost 18% on 72 tasks, and Context Mode's 98% is on single outputs.
+The most useful lens is still the five-criteria test from the Context Engineering paper: relevance, sufficiency, isolation, economy and provenance, judged jointly. Most of the market optimises economy alone, while provenance and isolation are where agent failures originate. Raw history grows tokens quadratically, crude summaries restore linear cost with an accuracy cliff, and only validated compaction keeps both. The failure is documented: OpenAI disclosed a model writing fabricated constraints into its own compaction summary that the next context window silently obeyed, so the radar holds compaction summaries as untrusted input. Compact-Bench (arXiv 2610.31710) measured the cost across 14 summarizer models: model-written summaries keep at most 16.0% of recurring details against 79.1% for mechanical extraction. Those are the authors' abstract figures and the paper is unreplicated. The context-saving tools measured so far report cost and not task success: DuckDB's agent mode cut output tokens 59% with no change in total cost, and Pensieve cut cost 18% on 72 tasks.
 
-Memory designs favour files and trees over a graph or a similarity store. Cognition's Agent Memory Repo stores memory as a git repository of linked Markdown, with a periodic "Dreaming" agent that merges duplicates and removes stale entries. Victor Taelin's OptChat recipe keeps one endless chat remembered through a binary tree of 512-byte summaries whose view is never rebuilt, so the prompt cache stays valid. LinkedIn's context layer keeps curated business rules as Markdown in Git that the pipeline cannot overwrite. None of the three has a task-quality measurement, and Graphiti stays at watch because no benchmark favours a graph. The first managed entrants now carry prices or the lack of them. Databricks put Agent Memory in Beta on October 20, with memory held in Lakebase and pipelines that replace contradicted facts. It says agents "tripled their pass rate on real enterprise tasks while using 31% fewer tokens", yet its own research post shows 68.4% against 22.3% with no memory on 114 internal cases and 88.1% against 87.8% for full context on open benchmarks, and the authors call the episodic-memory gain "small". No price is stated. AWS moved AgentCore Memory short-term storage to consumption billing, dated October 6, at \$1.00 per GB ingested, and the effect on retrieval is unconfirmed.
+Memory designs still favour files over a graph or a similarity store, and this week's evidence leans the same way. Anthropic's own research post (published November 6, read this week) describes agent memory as four layers kept correct by an offline "dreaming" pass. Its figures are Anthropic's own: memory lifted a database task for five of six models, but on a 350,000-file corpus wiki plus search scored 61% against 53% for search alone, and on one Harvey task the wiki "showed no clear gain". The post concedes that "an incorrect note can be carried into every session". That fits the independent Memory Tax test (arXiv 2610.34073), where many of 12 dedicated memory systems scored below plain retrieval over raw chat history. The radar holds plain file or raw-history retrieval at assess as the baseline a store must beat, and moved it again on November 16. mem0, Honcho and Mnemosyne were not in that test, and their head-to-head numbers are vendor READMEs. Cognition's Agent Memory Repo (a git repository of linked Markdown with a periodic merge-and-prune agent) stays at assess with no benchmark. The OptChat summary-tree recipe and Graphiti both left the radar on November 16 after 35 days with no follow-up. Databricks Agent Memory (Beta) shows 68.4% against 22.3% with no memory on 114 internal cases but 88.1% against 87.8% for full context on open benchmarks.
 
-The first independent multi-system test now backs that lean toward files. Memory Tax (arXiv 2610.34073, submitted October 25) ran 12 dedicated agent memory systems on three benchmarks with three backbone models, and many scored below plain retrieval over raw chat history. On LongMemEval-s, OpenViking scored 31.8, 58.8 and 63.0 against 72.2, 81.4 and 90.0 for retrieval-augmented generation (RAG) over raw history. mem0, Honcho and Mnemosyne were not tested, and every head-to-head number for them comes from a vendor README. The radar holds plain file or raw-history retrieval at assess as the baseline a store must beat. A second finding goes to safety. Four researchers report that memory written from benign interactions caused unsafe later behaviour across six frontier models, with agents weakening correct tests and raising cheating on ImpossibleBench. It is one paper and the abstract gives no effect sizes, but it tests the premise behind memory products. Zep's Agent Skills (November 5) turns scored runs into reusable skills and claims smaller models reach "at or near Opus 5.5", with no figures. claude-mem's README claims "~10x token savings by filtering before fetching details" and gives no method, and the 10x figure is a ratio of its own per-row sizes. Its default observer is hosted, with no price after a 30-day trial. The repo gained 9,318 stars, which measures popularity, not quality.
+A new entrant tests the learn-from-past-runs idea. Parcha Labs' AgentRun (open core, Apache-2.0) sits over Claude Code, Codex, OpenCode and pi, proposes notes, skills and workflows after a run, vets them with checks and a grader, and commits accepted ones to a git folder. It claims merchant classification fell from \$0.89 to \$0.12 and that it caught 1.6x the real bugs Greptile did. Every number is vendor-reported on 30 pull requests with an answer key built from the union of what the tools found, so the radar holds it at watch. The same week Setty, a regulatory affairs manager writing personally on Atlan's vendor-hosted Context and Chaos, argued that a past decision is precedent, not authority, and must pass three gates before an agent reuses it. Her prototype used about 25 invented assessments and matched her own judgments 75 to 80% of the time, so her judgment is the only benchmark. Eighth Rank's reverse engineering of an undocumented on-device personal knowledge graph on every Mac (181 entity classes, 278 predicates, confidence scores, no user correction path) is a deployed context graph facing the same question. The Chrome, Edge, Firefox and MDN teams' Modern Web Guidance skills pack pairs with the placebo-controlled skill evaluation entry: only 2 of 9 popular coding skills beat neutral text of the same length in one author's 450 trials, and the pack's README shows no results, though its eval-and-prune loop is worth borrowing.
 
-Context changes are also moving to append-only updates that keep the prompt cache. OpenCode 2.2.0 (October 27) attaches keyed session instructions as a small update at the next step. Pydantic AI 2.62.0 and 2.63.0 append changed Model Context Protocol (MCP) server instructions and revealed tools. Claude Code 2.1.314 (October 30) summarizes a conversation over 200,000 tokens that sits idle, and uses the summary on the next message if the cache expired. All three are first-party release notes, and none publishes a measured saving.
-
-Compaction is also moving from fixed rules toward learned behaviour and mechanical extraction. Context Language Models give the model its context as a file it edits, with Suffix Cache Reuse to keep prompt caching intact, and report 11.4% higher accuracy with 21.5% fewer operations on BrowseComp-Plus. AutoCompact trains a coding agent to decide when to compact, gaining 9.2 points on SWE-bench Verified. Both are unreplicated, report compute and not dollars, and need a purpose-trained model. The fast-jev-compaction plugin prunes tool calls by a decision model's score and keeps conversational text verbatim, with no before and after numbers. The radar moved the coordinator-session pattern, a long-lived session holding shared state in an external task board, down to assess on October 26. Memory research argues against trusting memory-quality scores: consolidation quality did not predict cross-level transfer, Causal Memory Policy reports identification failures of 54% on LongMemEval and 67% on LoCoMo, and MemDream repairs a store offline and reports 4.5 to 9.1 points. The stores these target were already measured at about 98 percent vulnerable to memory injection. The radar dropped MemDream on October 30 and Context Language Models on November 6, each a single paper with no follow-up in 31 and 35 days.
-
-The design debate is live and unmeasured. Drew Breunig of Cmpnd, so vendor-adjacent, argues on October 24 that the lasting job in context engineering is choosing which context assembly stays in deterministic code and which stays with the model, and predicts agent memory will need strategic forgetting. His evidence is anecdotal and the forecast is untested. Rishi Gaurav Bhatnagar of Atlan, a context-management vendor, argues that multi-agent teams should govern shared context and let each handoff carry the judgment behind it, with hypothetical cases. Kevin Liao argues agents need reviewed documentation, not memory, from a year of his own use, and the author sells an alternative. A placebo-controlled test found only 2 of 9 popular coding skills beat neutral text of the same length, in one author's 450 trials on one model, and three papers point the same way. "Loud Failures, Quiet Failures" found agents treated 91.3% of explicit errors as problems but only 58.8% of plausible wrong values. Yali Sassoon of Snowplow, who calls himself "not a neutral observer", says autonomous agents help only if they record what they tried, what ran and what happened. Prukalpa Sankar of Atlan, a vendor in this space, argues context should be versioned, tested and rolled back like software. On November 5 she argued that context for agents has open file formats and now needs an open registry layer above them, as data needed Apache Iceberg, and announced a draft `ai-registry` spec (Apache-2.0). Her evidence is skill-use studies, such as skill invocation ranging from 46% to 99% across 18 model and harness combinations. None tests a registry, so the link to better outcomes is asserted, and Vercel's result cuts the other way: a compressed docs index scored 100% where a skill scored 53%. Cindy Hoots, a former chief information officer at AstraZeneca, argued on October 30 that who owns data meaning cannot be delegated, from panelist anecdotes with no outcome data.
+Context updates are moving to append-only designs that keep the prompt cache (OpenCode 2.2.0, Pydantic AI 2.62.0 and 2.63.0, Claude Code 2.1.314), all first-party release notes with no measured saving. Learned compaction (AutoCompact, fast-jev-compaction) stays unreplicated and needs a purpose-trained model or has no numbers. The design debate remains live and unmeasured: Atlan's Prukalpa Sankar argues context needs an open registry layer and published a draft `ai-registry` spec, with skill-use studies as evidence and a counterexample from Vercel, where a compressed docs index scored 100% against 53% for a skill. Treat every vendor-authored essay in this space as an argument, not a result.
 
 ## Open questions
 
 - Does the Memory Tax result hold once mem0, Honcho and Mnemosyne are tested, and does any store beat plain retrieval over raw history on your own questions?
+- Does anyone replicate Anthropic's wiki-plus-search gain (61% against 53%) outside Anthropic's own corpora, and does the "dreaming" pass catch the incorrect note it concedes can reach every session?
+- Does anyone rerun AgentRun's cost and bug-catch claims on a labelled job that Parcha did not build, with a price for AgentRun Cloud and an answer on spend caps for detached processes?
 - Does the full benign-memory paper report effect sizes, and does the unsafe-behaviour result replicate on a commercial memory product?
 - Does anyone test a registry layer, as Atlan's `ai-registry` draft proposes, against a skills folder in a repository on task outcomes?
 - Does an append-only context update publish a measured cache saving, or does one first-party design show a regression?
@@ -35,18 +33,29 @@ The design debate is live and unmeasured. Drew Breunig of Cmpnd, so vendor-adjac
 - No validation scheme exists for compaction summaries, and no major harness marks text a model wrote about itself differently from an operator's instruction.
 - A managed compaction endpoint hides its summarisation prompt, and no vendor has published what its compaction keeps or drops.
 - Does Databricks Agent Memory hold its gain on your own sessions rather than 114 internal cases, and what does it cost to run and to delete on request?
-- Does anyone publish a task-quality benchmark for the Agent Memory Repo or the OptChat summary tree, and does either beat plain compaction?
-- Does the Agent Memory Repo's git merge rule, where "git rejects the second push", hold up when several agents write at once?
+- Does anyone publish a task-quality benchmark for the Agent Memory Repo, and does its git merge rule hold up when several agents write at once?
 - Do the context-saving tools (DuckDB agent mode, Pensieve, Context Mode) report task success, so a saving can be set against a quality change?
 - Do learned-compaction gains survive outside the tested benchmarks, and in dollars rather than operations?
-- Do the transfer finding and MemDream's gains hold on commercial memory products and on stores hardened against injection?
 - Does a reviewed-documentation approach beat similarity memory when measured, not only reported from experience?
-- Does the placebo-arm result on coding skills replicate on a second model with harder tasks?
-- Nobody has run the harness paper's word-count-matched control against the other context interventions here.
+- Does the placebo-arm result on coding skills replicate on a second model with harder tasks, and does the Modern Web Guidance pack publish results from its own eval loop?
+- Does anyone give a user a way to correct a deployed context graph, such as the Mac knowledge graph's confidence-scored entities?
+- Does Setty's three-gate precedent test hold on a real decision set with an outside reviewer, not her own judgments?
 - Flagged-risk state needs to survive displacement from an agent's context. The literature does not address it.
-- mem0 claims harness configuration, not model choice, is the dominant lever. That claim is vendor-published and untested independently.
 - The coordinator pattern's re-run rule works for commands with exit codes. What is the equivalent check for a judgement call or a piece of prose?
-- Do other coding agents have a silent failure mode in instruction-file loading like Claude Code's remote-flag gate?
+
+## 2026-11-16
+
+![[2026-11-16#^ac-agent-memory]]
+
+![[2026-11-16#^essay-precedent-three-gates]]
+
+![[2026-11-16#^tool-agentrun]]
+
+![[2026-11-16#^ac-modern-web-guidance]]
+
+![[2026-11-16#^ac-apple-knowledge-graph]]
+
+Source note: [[2026-11-16]]
 
 ## 2026-11-06
 
@@ -279,18 +288,19 @@ Source note: [[2026-09-03]]
 ## On the radar
 
 - `🟡 ASSESS` **Coordinator session with an external task board and re-run verification**. (was [[2026-09-22]]) [[2026-10-26]]
-- `🟡 ASSESS` **Summary-tree memory view (OptChat recipe)**. [[2026-10-12]]
-- `🟡 ASSESS` **Agent Memory Repo (Cognition)**. [[2026-10-09]]
-- `🟡 ASSESS` **Placebo-controlled skill evaluation**. [[2026-10-08]]
+- `🟡 ASSESS` **Agent Memory Repo (Cognition)**. (was [[2026-10-09]]) [[2026-11-16]]
+- `🟡 ASSESS` **Placebo-controlled skill evaluation**. (was [[2026-10-08]]) [[2026-11-16]]
 - `🟡 ASSESS` **Decision-model-scored context compaction (fast-jev-compaction)**. (was [[2026-09-23]]) [[2026-10-26]]
-- `🟡 ASSESS` **Plain file or raw-history retrieval as the baseline a dedicated memory store must beat**. [[2026-10-30]]
+- `🟡 ASSESS` **Plain file or raw-history retrieval as the baseline a dedicated memory store must beat**. (was [[2026-10-30]]) [[2026-11-16]]
 - `🟡 ASSESS` **Append-only, keyed context updates to keep the prompt cache**. [[2026-10-30]]
-- `◻️ WATCH` **Shopify Helix checkpoint discipline**. (was [[2026-09-11]]) [[2026-10-12]]
-- `◻️ WATCH` **Graphiti / temporal knowledge graphs**. (was [[2026-09-11]]) [[2026-10-12]]
-- `◻️ WATCH` **Step-at-a-time standard-operating-procedure delivery over MCP**. [[2026-10-08]]
 - `◻️ WATCH` **Mechanical extraction in place of model-written summaries for context compaction**. [[2026-10-26]]
+- `◻️ WATCH` **AgentRun (Parcha Labs, open core, Apache-2.0)**. [[2026-11-16]]
 - `⚠️ CAUTION` **Context-compaction summaries as untrusted input**. (was [[2026-10-21]]) [[2026-10-26]]
-- `⚠️ CAUTION` **Optimising context for economy alone**. (was [[2026-09-11]]) [[2026-10-12]]
+- `⚫ DROPPED` **Summary-tree memory view (OptChat recipe)**. [[2026-10-12]], removed [[2026-11-16]]
+- `⚫ DROPPED` **Shopify Helix checkpoint discipline**. [[2026-09-11]], removed [[2026-11-16]]
+- `⚫ DROPPED` **Graphiti / temporal knowledge graphs**. [[2026-09-11]], removed [[2026-11-16]]
+- `⚫ DROPPED` **Step-at-a-time standard-operating-procedure delivery over MCP**. [[2026-10-08]], removed [[2026-11-16]]
+- `⚫ DROPPED` **Optimising context for economy alone**. [[2026-09-11]], removed [[2026-11-16]]
 - `⚫ DROPPED` **MemDream offline memory self-repair**. [[2026-09-29]], removed [[2026-10-30]]
 - `⚫ DROPPED` **Learned context self-management (Context Language Models)**. [[2026-10-02]], removed [[2026-11-06]]
 - `⚫ DROPPED` **google/ax declarative agent-workload orchestrator**. [[2026-09-23]], removed [[2026-10-26]]
