@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, mcp]
-updated: 2026-11-16
+updated: 2026-11-23
 living: true
 ---
 
@@ -11,37 +11,46 @@ The protocol's move from a tool-calling spec to infrastructure: stateless core, 
 
 ## Where this stands
 
-The protocol is becoming governed infrastructure, and the newest evidence concerns the interface between server and caller. The current spec revision is still 2026-07-28: protocol-level sessions are gone, servers can be stateless, Tasks moved to an extension, and Enterprise-Managed Authorization is stable. On November 11 the maintainers moved specification releases to a six-month cadence, with the next on March 30, 2027, so no change to the spec is due for months. More than 10,000 public servers are active and the protocol sits in the Linux Foundation's Agentic AI Foundation, yet production use is thinly evidenced. Server Cards (SEP-2127) were dropped from the radar on November 16 after 39 days with no SDK or client support. Agent identity through Workload Identity Federation and DPoP stays at watch with no release in 33 days as of October 17. The Events extension (SEP-3415) has one experimental framework implementation, in Mastra. A proposal to make clients pin tool descriptions was closed for process on October 26, and a prototype digest is being revived under SEP-1766. The maintainers' local-server guide says "the transport is not a sandbox", yet 46.0% of 2,999 sampled repositories start local servers without a version pin.
+The protocol is becoming governed infrastructure, and the newest evidence concerns events and retries. The current spec revision is still 2026-07-28: protocol-level sessions are gone, servers can be stateless, Tasks moved to an extension, and Enterprise-Managed Authorization is stable. On November 11 the maintainers moved specification releases to a six-month cadence, with the next on March 30, 2027. More than 10,000 public servers are active and the protocol sits in the Linux Foundation's Agentic AI Foundation, yet production use is thinly evidenced. The Events extension (SEP-3415) merged as final on November 19 and is listed as Beta, with poll, push and signed-webhook modes, none mandatory. ChatGPT supports webhook delivery only, and no SDK release carries the extension yet. WorkOS, an authentication vendor, warns that "an event subscription is a credential" whose time to live is your revocation window. Anthropic's always-on agents guide (November 13) names an event inbox as "the source of truth" with one active worker. The radar holds both the webhook-mode extension and the inbox pattern at assess, because every source is a vendor and no one reports running them in production.
 
-The live gap is retries. Issue 3394 covers a lost response on a mutating `tools/call` that re-runs the effect, and it now has 56 comments and no maintainer reply. One vendor's own server ran an operation three times on the same key. On October 29 two contributors added `double-take` tests: across six payment toolkits and six models, money moved twice in 70 of 600 trials, and no toolkit put its own idempotency key on a money request. The results are contributor-reported against local fakes. The radar entry for an idempotency key per external call on mutating tools moved again on November 16, and the practical read is to give your own mutating tools a stable operation key and durable result lookup. The maintainers' new cadence does not address the issue, and the Tasks and Events Working Group has not taken it up.
+The live gap is still retries. Issue 3394 covers a lost response on a mutating `tools/call` that re-runs the effect. It remained open on November 23 with no visible maintainer reply. Participants now favor non-normative guidance first and a separate retry-identity proposal later, after an earlier normative `idempotencyKey` pull request closed on August 23 "on policy grounds". A community test contract merged a pull request on November 22. The `double-take` tests found money moving twice in 70 of 600 trials across six payment toolkits and six models, and no toolkit put its own idempotency key on a money request. Those results are contributor-reported against local fakes. The radar entry for an idempotency key per external call moved again on November 23, and the practical read is unchanged: give your own mutating tools a stable operation key and durable result lookup. The Events extension does not close this gap.
 
-Governance is the dominant commercial shape. Snowflake's Cortex AI Gateway (generally available since November 3, trace analytics and tools in preview) enforces policy per tool call, but dynamic routing is only "private preview soon". Databricks registers an MCP service as a Terraform-managed catalog object, ships its Genie One server through Unity Gateway with permissions checked per request, and screens MCP tool calls for jailbreaks in beta. AWS's Bedrock AgentCore Gateway is a managed MCP server. Eon reports one gateway for more than 100 developers, with Cedar policy size limits that forced a listing mode removing semantic tool search and a custom shim for OAuth. MoEngage says one AgentCore Gateway exposes about 400 private REST APIs from 25 teams, with a `search_tools` meta-tool because a full tool list costs over 20,000 tokens per connection, and no accuracy figure. Uber published a gateway design hosting over 800 servers and 5,000 tools, every tool disabled until its owner enables it. The Claude apps gateway spend caps entry was dropped on November 16 after 35 days with no follow-up. GitHub's Copilot default makes MCP access an org-wide toggle, and a coarse on/off switch and per-call enforcement are different controls that the spec addresses in neither case. Runlayer sells a gateway tied to the identity provider, with vendor-reported traction.
+Governance is the dominant commercial shape. Snowflake's Cortex AI Gateway (generally available since November 3) enforces policy per tool call, and its dynamic routing is only "private preview soon". Databricks registers an MCP service as a Terraform-managed catalog object and ships its Genie One server through Unity Gateway with permissions checked per request. AWS's Bedrock AgentCore Gateway is a managed MCP server, and Eon and MoEngage report the policy-size and tool-count walls it hits. Uber published a gateway design hosting over 800 servers and 5,000 tools, every tool disabled until its owner enables it. GitHub's Copilot default makes MCP access an org-wide toggle, and a coarse on/off switch and per-call enforcement are different controls that the spec addresses in neither case. The radar dropped Runlayer, the gateway tied to the identity provider, on November 23 because its traction was vendor-reported and no news arrived in 33 days.
 
-Evidence keeps pointing at servers, not agents, as the weak surface. The official Python client had an OAuth flaw that let a hostile server capture credentials, fixed in 1.30.0 and 2.2.0. Pydantic AI's maintainers say provider-native MCP configuration could expose tokens in OpenTelemetry traces, fixed in 2.58.0, and MCP Inspector 1.0.3 is a security release. Two single-author projects reported that tool definitions change silently, which supports pinning and diffing manifests, now with first-party backing from the maintainers' guide and Microsoft Agent Framework origin pinning. One commenter reports 6,911 of 14,089 changed tools in a registry scan changed `inputSchema`, a figure only that commenter has published. Prompt-injection detectors also failed to transfer between benchmarks, so a gateway's filter needs testing on your own tool outputs. The radar dropped step-at-a-time procedure delivery over MCP on November 16 after 39 days with no follow-up.
-
-Usage patterns are shifting, and nobody has measured the shift. Code-mode composition (Pi Codemode, OpenCode Code Mode, on for every server by default in OpenCode) lets the agent write code to sequence tool calls, and Microsoft Agent Framework 1.21.0 warns that nested calls can bypass per-call policy. The leanrea repository says one 8 KB skill file plus plain command-line tools matched a dedicated server, 74 of 75 against 75 at \$2.17 against \$3.36, but the author competes with that server and ran three repetitions on one model. MCP also carries curated meaning: a context layer over a semantic layer, exposed through MCP, is now the consolidating architecture across several vendors, and LinkedIn reports its shared data context layer raised acceptable answers from 25.9% to 79.5% in one business area, self-reported with no method. NVIDIA's Apache-2.0 Auto Ontology certifies an ontology before agents query it over MCP, and its README says the ingestion service's endpoints "have no authentication of their own".
+Evidence keeps pointing at servers, not agents, as the weak surface. The official Python client had an OAuth flaw that let a hostile server capture credentials, and Pydantic AI fixed MCP tokens leaking into traces in 2.58.0. Two single-author projects report that tool definitions change silently, which supports pinning and diffing manifests, now with first-party backing from the maintainers' local-server guide ("the transport is not a sandbox") and Microsoft Agent Framework origin pinning. A proposal to make clients pin tool descriptions closed for process on October 26, and a prototype digest is being revived under SEP-1766. The radar dropped three usage-pattern entries on November 23 after 33 to 37 days with no follow-up: code-mode composition, the skill plus command-line alternative to a server (one self-run benchmark), and MCP agent identity through Workload Identity Federation and DPoP, for which no specification or SDK release appeared. MCP also carries curated meaning: a context layer over a semantic layer, exposed through MCP, is the consolidating architecture across several vendors, and the radar entry moved on November 23 to add Databricks' vendor-run benchmark and Collate's Ontology Studio with its read-only MCP server.
 
 ## Open questions
 
-- Does an MCP maintainer answer issue 3394, now that one vendor's server ran an operation three times and `double-take` shows money moving twice in 70 of 600 trials, and does any toolkit add its own idempotency key or an "outcome unknown" result?
+- Does an MCP maintainer answer issue 3394, and does non-normative guidance or a separate retry-identity proposal follow, now that `double-take` shows money moving twice in 70 of 600 trials?
+- Does any toolkit add its own idempotency key or an "outcome unknown" result?
+- Does any SDK release carry the Events extension, and does anyone report running it in production?
+- Does WorkOS's point that an event subscription is a credential become guidance on expiry and revocation?
 - Does the working group define what a client pins, the description only or the full tool definition including `inputSchema`, and does SEP-1766 advance on a six-month cadence?
 - Does the March 30, 2027 release carry anything for retries, identity or Events, or only maintenance?
 - Does MoEngage or another gateway operator publish tool-selection accuracy for a `search_tools` meta-tool, and does it beat a full tool list?
 - Does any publisher other than one commenter report the share of changed tools that changed `inputSchema`?
 - Does NVIDIA publish an accuracy table for Auto Ontology, and does its ingestion service gain authentication?
 - Does T3 Code add a thread-level access boundary, and does any other orchestrator server publish how it caps child privileges?
-- If direct HTTP and command-line access is cheaper for the model but removes per-tool authorization and audit, what is the safe subset? Leanrea's single benchmark does not answer it.
-- Does any SDK or major client adopt the Events extension (SEP-3415), and does the identity track resume after 33 days without a release?
-- Registering a server as a catalog object and standardising identity through Workload Identity Federation overlap. Which is authoritative when they disagree?
+- If direct HTTP and command-line access is cheaper for the model but removes per-tool authorization and audit, what is the safe subset? The dropped leanrea benchmark does not answer it.
+- Does an agent-identity specification or SDK release appear now that the entry has left the radar?
 - Eon hit Cedar policy size limits and an OAuth shim on AgentCore Gateway. Do other gateway deployments meet the same two walls?
 - How does GitHub's on/off default interact with per-call enforcement from Snowflake, Databricks and AWS, and will other coding-agent vendors follow?
 - How many deployed clients have moved to the fixed Python client and passed an explicit `issuer=`?
 - Does tool-definition drift replicate outside two single-author projects, and does MCP's own quickstart move to pinned versions (issue 3431)?
 - How does code-composed tool calling compare with plain calls on cost, turns and failure rate, and can per-call policy reach nested calls?
-- Does Runlayer's on-behalf-of identity work under AWS request signing on AgentCore, and does any independent report on its scanners appear?
 - Does Snowflake move Cortex AI Gateway routing to public preview with a customer measurement on a real workload?
 - MCP does not say how much tool metadata and output reaches the model, so full schemas compete for context. This is a direct token-cost problem.
 - Server count is not usage, and production adoption remains thinly evidenced.
+
+## 2026-11-23
+
+![[2026-11-23#^headline-mcp-events]]
+
+![[2026-11-23#^ac-mcp-events]]
+
+![[2026-11-23#^ac-mcp-3394]]
+
+Source note: [[2026-11-23]]
 
 ## 2026-11-16
 
@@ -345,26 +354,27 @@ Source note: [[2026-09-03]]
 
 ## On the radar
 
-- `🔵 TRIAL` **Idempotency key per external call for mutating MCP tools**, after a lost response the model's retry moved money twice in 70 of 600 trials across six payment toolkits, and no toolkit sets its own key. (was [[2026-10-30]]) [[2026-11-16]]
-- `🔵 TRIAL` `⚠️` **Snowflake Cortex AI Gateway**. (was [[2026-10-09]]) [[2026-11-06]]
-- `🔵 TRIAL` **Databricks Unity Gateway API**. (was [[2026-09-17]]) [[2026-10-21]]
+- `🔵 TRIAL` **Idempotency key per external call for mutating MCP tools**. (was [[2026-11-16]]) [[2026-11-23]]
+- `🔵 TRIAL` `⚠️` **Snowflake Cortex AI Gateway**. (was [[2026-11-06]]) [[2026-11-23]]
+- `🔵 TRIAL` **Databricks Unity Gateway API**. (was [[2026-10-21]]) [[2026-11-23]]
 - `🔵 TRIAL` **Databricks Genie One MCP server**. (was [[2026-09-25]]) [[2026-10-26]]
-- `🔵 TRIAL` `⚠️` **Amazon Bedrock AgentCore Gateway**. (was [[2026-09-18]]) [[2026-10-21]]
-- `🔵 TRIAL` **AgentCore Gateway dimensional rate limits**. (was [[2026-09-18]]) [[2026-10-21]]
+- `🔵 TRIAL` `⚠️` **Amazon Bedrock AgentCore Gateway**. (was [[2026-10-21]]) [[2026-11-23]]
+- `🔵 TRIAL` **AgentCore Gateway dimensional rate limits**. (was [[2026-10-21]]) [[2026-11-23]]
 - `🟡 ASSESS` **Pin-and-diff MCP tool manifests**. (was [[2026-10-08]]) [[2026-10-26]]
-- `🟡 ASSESS` `⚠️` **Code-mode MCP composition (Pi Codemode, OpenCode Code Mode)**. (was [[2026-10-09]]) [[2026-10-17]]
-- `🟡 ASSESS` **Context layer over semantic layer, exposed to agents via MCP**. (was [[2026-10-12]]) [[2026-11-16]]
-- `🟡 ASSESS` **Runlayer**. [[2026-10-21]]
-- `🟡 ASSESS` **Skill plus plain command-line tools in place of an MCP server (leanrea)**. [[2026-10-21]]
+- `🟡 ASSESS` **Context layer over semantic layer, exposed to agents via MCP**. (was [[2026-11-16]]) [[2026-11-23]]
 - `🟡 ASSESS` **Append-only, keyed context updates to keep the prompt cache**. [[2026-10-30]]
-- `◻️ WATCH` **MCP agent identity (Workload Identity Federation + DPoP)**. (was [[2026-09-14]]) [[2026-10-17]]
-- `◻️ WATCH` **MCP Events extension (SEP-3415)**. [[2026-10-21]]
+- `🟡 ASSESS` **MCP Events extension (SEP-3415), webhook mode**. (was [[2026-10-21]]) [[2026-11-23]]
+- `🟡 ASSESS` **Event inbox with a single active worker as the source of truth for always-on agents**. [[2026-11-23]]
+- `⚫ DROPPED` **Code-mode MCP composition (Pi Codemode, OpenCode Code Mode)**. [[2026-10-09]], removed [[2026-11-23]]
+- `⚫ DROPPED` **Runlayer**. [[2026-10-21]], removed [[2026-11-23]]
+- `⚫ DROPPED` **Skill plus plain command-line tools in place of an MCP server (leanrea)**. [[2026-10-21]], removed [[2026-11-23]]
+- `⚫ DROPPED` **MCP agent identity (Workload Identity Federation + DPoP)**. [[2026-09-14]], removed [[2026-11-23]]
 - `⚫ DROPPED` **MCP Server Cards (SEP-2127)**. [[2026-10-08]], removed [[2026-11-16]]
 - `⚫ DROPPED` **Claude apps gateway spend caps**. [[2026-10-12]], removed [[2026-11-16]]
 - `⚫ DROPPED` **Cymphony + agent/skill registry consolidation**. [[2026-09-09]], removed [[2026-11-16]]
 - `⚫ DROPPED` **Step-at-a-time standard-operating-procedure delivery over MCP**. [[2026-10-08]], removed [[2026-11-16]]
-- `⚫ DROPPED` **MCP error messages that name the next tool call**. [[2026-09-29]], removed [[2026-10-30]]
 - `⚫ DROPPED` **BM25-first skill and tool retrieval (SkillSeek)**. [[2026-10-02]], removed [[2026-11-06]]
+- `⚫ DROPPED` **MCP error messages that name the next tool call**. [[2026-09-29]], removed [[2026-10-30]]
 - `⚫ DROPPED` **Datamimic deterministic synthetic test data over MCP**. [[2026-09-16]], removed [[2026-10-17]]
 
 ## Related
