@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, research-provenance]
-updated: 2026-10-17
+updated: 2026-11-23
 living: true
 ---
 
@@ -11,16 +11,19 @@ Credit, attribution, and the gap between an announced result and a checkable one
 
 ## Where this stands
 
-The operating rule is four instances deep and has held against every new case: **check what the claimant checked against, not just whether the answer verifies internally.** The October 7, 2026 case added a variant. A lab's own verification can fail in public within hours, and the correction itself can rest on a self-report. The week to October 17 added a different kind of dispute, over credit and not capability, and a wider argument about who can verify machine-made mathematics.
+The operating rule is four instances deep and has held against every new case: **check what the claimant checked against, not just whether the answer verifies internally.** The October 7, 2026 case added a variant. A lab's own verification can fail in public within hours, and the correction itself can rest on a self-report. The week to October 17 added a different kind of dispute, over credit and not capability, and a wider argument about who can verify machine-made mathematics. The week to November 23 added a case where the verification is first-party and complete but the provenance claim is not.
 
-On October 7, 2026, OpenAI withdrew three math manuscripts after a sign error, a day after releasing 719. OpenAI reports about 42% of the results are formalised in Lean and says "Some of the unformalized results could have issues." The three withdrawn papers were not Lean-verified, and commenters note that Lean checks the proof, not whether the statement matches the claim. OpenAI's own post returned an error, so the account rests on the repository history. This is the same structure the Fermat formalization on September 8 set as the clean case, with the opposite result for the unformalised majority: where a computer check exists, the claim is checkable regardless of provenance, and where it does not, the lab's self-report is the only evidence. On October 15, Derek Thompson argued that mathematicians' grief over OpenAI's AI-generated proofs is grief for science as a conversation across generations, with Duminil-Copin quoted saying "They have annihilated my field of research". It is the mass-audience form of Terence Tao's October 12 point that output volume is the wrong measure when verification is the bottleneck, and the Simons Foundation launched a \$15M effort on the problem the same day. The piece is paywalled and thinly sourced.
+That case is Levent Alpöge's roughly 17-million-line Lean proof of the Riemann Hypothesis, released on November 20. The Lean Focused Research Organization (FRO) and the Mathlib Initiative certified it on November 21 and said they have "full confidence" it is correct. Scott Aaronson says Alpöge told him he got Anthropic models to prove it, but the Lean post says nothing about AI, so that attribution is unconfirmed and second-hand. Separately, Alessandro Masullo posted a manuscript on the Generalized Riemann Hypothesis, which host Ravi Vakil calls "all human, with no AI" while making "no claim as to the correctness"; problems were reported. The pair splits the rule cleanly: where a computer check exists, the claim is checkable regardless of provenance, and where it does not, the claimant's own account is the only evidence, including the claim that no AI was used.
 
-The credit dispute is Anthropic's Scion. Anthropic replaced git for its monorepo with Scion and called it 200 times smaller in CPU and memory than the git mirrors it replaced, a vendor-reported figure the post limits with "by no means a suitable replacement for git for general use". A former Mononoke engineer called the data model "a direct copy, down to the terminology", writing "The problem is attribution, not copying". Anthropic's October 15 footnote now credits Mononoke and its Bonsai model. The correction came from the claimant itself, which is the opposite of the unresolved Jev priority dispute.
+On October 7, 2026, OpenAI withdrew three math manuscripts after a sign error, a day after releasing 719. OpenAI reports about 42% of the results are formalised in Lean and says "Some of the unformalized results could have issues." The three withdrawn papers were not Lean-verified, and commenters note that Lean checks the proof, not whether the statement matches the claim. OpenAI's own post returned an error, so the account rests on the repository history. On October 15, Derek Thompson argued that mathematicians' grief over OpenAI's AI-generated proofs is grief for science as a conversation across generations, with Duminil-Copin quoted saying "They have annihilated my field of research". It is the mass-audience form of Terence Tao's October 12 point that output volume is the wrong measure when verification is the bottleneck, and the Simons Foundation launched a \$15M effort on the problem the same day.
 
-TypeSafe AI's Jev is still the closing case on capability provenance. Since September 21, 2026 this page has recorded a priority dispute, a March 2025 arXiv paper against a paper-free, weights-free hosted product, alongside third-party reproductions of the underlying decision-model idea. One reproduction is auditable end to end: Jared Palmer's Kev is Apache-2.0, ships training code and evaluation data, and runs locally. Kev-9B scores 0.822 against Jev's 0.857 on a new-source development set, by a comparison Kev's own team ran against Jev's hosted interface, and Kev's README says "this isn't a controlled comparison of the two architectures". The MiMo-V2.6 case from September 22 remains the one instance where an independent check arrived fast enough to be the fix: Artificial Analysis measured the same model within a day and broadly corroborated Xiaomi's own table. Aaronson's withheld-solutions rumour and the Fields Medallists' declaration are unchanged.
+The credit dispute is Anthropic's Scion. Anthropic replaced git for its monorepo with Scion and called it 200 times smaller in CPU and memory than the git mirrors it replaced, a vendor-reported figure the post limits with "by no means a suitable replacement for git for general use". A former Mononoke engineer called the data model "a direct copy, down to the terminology", writing "The problem is attribution, not copying". Anthropic's October 15 footnote now credits Mononoke and its Bonsai model. The correction came from the claimant itself, which is the opposite of the unresolved Jev priority dispute. TypeSafe AI's Jev is still the closing case on capability provenance: a March 2025 arXiv paper against a paper-free, weights-free hosted product, alongside third-party reproductions such as Jared Palmer's Apache-2.0 Kev. Kev-9B scores 0.822 against Jev's 0.857 on a new-source development set, by a comparison Kev's own team ran, and its README says "this isn't a controlled comparison of the two architectures". The MiMo-V2.6 case from September 22 remains the one instance where an independent check arrived fast enough to be the fix, since Artificial Analysis measured the same model within a day and broadly corroborated Xiaomi's own table.
 
 ## Open questions
 
+- Does Alpöge or Anthropic confirm that Anthropic models produced the Riemann Hypothesis proof, given that the Lean post is silent on AI and the only source is Aaronson's report of what Alpöge said?
+- Does anyone outside the Lean FRO and Mathlib Initiative review whether the formal statement matches the Riemann Hypothesis as mathematicians state it?
+- Does Masullo's Generalized Riemann Hypothesis manuscript get a correctness verdict, and do the reported problems hold?
 - TypeSafe AI has not responded publicly to the priority claim, as far as this page records. Whether a paper follows, and whether it cites the March 2025 work, is the fact that would settle this.
 - Is there any way to evaluate "agents did novel mathematics" without knowing what went into training? No one has proposed a mechanism.
 - OpenAI says 42% of its released results are formalised in Lean. Does the formalised share rise, and do any of the unformalised results turn out to have issues, as OpenAI itself warns they could?
@@ -31,6 +34,14 @@ TypeSafe AI's Jev is still the closing case on capability provenance. Since Sept
 - Aaronson's withheld-solutions rumour is unverified by his own account. If it is true, it is the most important item in this thread and there is currently no way to confirm it.
 - Kev's comparison against Jev is uncontrolled by its own team's admission. Whether the real gap is larger or smaller than 3.5 points, and whether it is architecture or evaluation setup driving it, is unresolved.
 - MiMo-V2.6 is the only instance where independent measurement arrived within a day. Whether that turnaround becomes normal is not answerable from one data point.
+
+## 2026-11-23
+
+![[2026-11-23#^headline-riemann-lean]]
+
+![[2026-11-23#^zw-riemann]]
+
+Source note: [[2026-11-23]]
 
 ## 2026-10-17
 
@@ -106,7 +117,7 @@ Source note: [[2026-09-08]]
 
 ## On the radar
 
-- `⚠️ CAUTION` **Unverified lab capability claims**, "check what the claimant checked against," not just whether the answer verifies internally. The Cyphral Distich refutation is the worked example; TypeSafe AI's Jev carries a prior-art claim, and MiMo-V2.6's entire benchmark table is the vendor's own with no third-party citation, where an independent measurement arrived within a day and is the fix. [[2026-09-11]], escalated [[2026-09-15]], third instance [[2026-09-21]], fourth instance [[2026-09-22]]
+- `⚠️ CAUTION` **Unverified lab capability claims**, "check what the claimant checked against," not just whether the answer verifies internally. The Cyphral Distich refutation is the worked example; TypeSafe AI's Jev carries a prior-art claim, and MiMo-V2.6's entire benchmark table is the vendor's own with no third-party citation, where an independent measurement arrived within a day and is the fix. [[2026-09-11]], escalated [[2026-09-15]], third instance [[2026-09-21]], fourth instance [[2026-09-22]], re-argued [[2026-10-26]]
 
 ## Related
 

@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, token-cost, model-routing]
-updated: 2026-11-16
+updated: 2026-11-23
 living: true
 ---
 
@@ -11,18 +11,21 @@ What actually drives the cost of running agents, which interventions survive ind
 
 ## Where this stands
 
-A cost intervention is credible only if it reduces calls, output or re-sent context. Shrinking one input channel's bytes fails the test, which is why terminal-output compression was dropped after benchmarks showed it made coding 1 to 17 percent more expensive. The October measurements point the same way. DuckDB's agent mode cut the output an agent reads by 59% with no meaningful change in total cost. Pensieve cut tool calls 43% and cost 18% on 72 tasks, with one model and four repos. The Terse plugin cut total cost only 2% because thinking tokens roughly doubled. None reports task success. The dominant driver is still quadratic context accumulation: a 10-step agent loop costs roughly 23x a single pass and a 20-step loop about 85x. Prompt caching is the largest single lever, near 90 percent below uncached input, and Sonnet 5.5 cache reads on Bedrock fell 50% to \$0.10 per million tokens from October 7. OpenAI's 12-hour prompt caching (October 20) writes at 2.5 times the input price, so a cache now has a write premium to net against the read saving.
+A cost intervention is credible only if it reduces calls, output or re-sent context. Shrinking one input channel's bytes fails the test, which is why terminal-output compression was dropped after benchmarks showed it made coding 1 to 17 percent more expensive. The October measurements point the same way: Pensieve cut tool calls 43% and cost 18% on 72 tasks, with one model and four repos, and the Terse plugin cut total cost only 2% because thinking tokens roughly doubled. None reports task success. The dominant driver is still quadratic context accumulation: a 10-step agent loop costs roughly 23x a single pass and a 20-step loop about 85x. Prompt caching is the largest single lever, near 90 percent below uncached input, and Sonnet 5.5 cache reads on Bedrock fell 50% to \$0.10 per million tokens from October 7. OpenAI's 12-hour prompt caching writes at 2.5 times the input price, so a cache now has a write premium to net against the read saving.
 
-Cheap-model routing is the one behavioural pattern at adopt, and its ring (moved again on November 16) stands on the original Spotify Portal evidence. Cloudflare, Snowflake, LiteLLM and Databricks all sell routing, but none publishes a measured saving on a real workload. Databricks says its Smart Router cuts average task cost by more than 30% with no method or quality measure, and its warn, approve, downshift and block ladder is the part worth copying. AWS says AgentCore Gateway falls back to another target when the primary is throttled, but each attempt bills as a gateway invocation and the caller cannot see which destination answered. Snowflake dynamic routing, never past private preview, was dropped on November 16 after 38 days with no news, so Cortex AI Gateway (GA November 3) is pilotable for observability only. An independent analysis says its spend caps are not hard stops and budget actions take up to eight hours, so test overshoot on a looping agent. The newest delegation result is conditional: a JevAgentHarness preprint reports agents 81.1 to 89.0 percent cheaper with under 3 points of success lost, but only with a threshold fitted on the agent's own trajectories, and unfitted delegation cost 19.0 points. Amazon now reports that its Strands Decider model replaced Claude Sonnet 4.6 on a 20-label ticket-routing job "just as well at 98% less cost", at about \$0.0222 a ticket against \$0.0005, with no volume or accuracy figure, and Google shipped a Gemini Decisions API at \$0.10 per million input tokens the same week. Both are vendor numbers, and the useful part is Amazon's live three-way switch with a 45-second rollback.
+Cheap-model routing is the one behavioural pattern at adopt, and its ring stands on the original Spotify Portal evidence. The gateway is becoming where model choice is argued with traffic data. Databricks says traffic from more than 10,000 companies on its Unity Gateway shows single-provider use falling from about 64% in July to 28% by November 2, and open-weight token share rising from 7.3% to 30.9% (vendor-reported). The sample is firms that already chose a gateway, so some of the fall is selection. The firmer result is the cost spread: median user spend of \$2.49 against \$699.74 at the 99th percentile, which argues for per-user quotas over one shared cap. Databricks (Unity Gateway Insights, November 18) and LiteLLM (Lens Profiles, November 19) both turn agent traces plus gateway spend into task-level cost reports, and both publish only self-estimated or illustrative numbers: Databricks estimates seven small MCP server bugs wasted \$499K in tokens, and LiteLLM labels its figures "Illustrative demo data". No one has shown that discovered task categories stay stable enough to compare models. Databricks' Smart Router claims a cut of more than 30% in average task cost with no method, and AWS AgentCore Gateway falls back to another target when throttled, but each attempt bills as a gateway invocation and the caller cannot see which destination answered.
 
-Model terms changed this week, and list price again says little about cost per task. Anthropic released Claude Fable 5.2 and the restricted Mythos 5.2 on November 9 at \$8 input and \$40 output per million tokens (vendor-reported). On Bedrock, refusals return HTTP 200 with `stop_reason: "refusal"`, Fable 5.2 requires `aws_review` data retention, output burndown against quota is 10x for Fable 5.2 and 2.5x for Mythos 5.2, and neither supports In-Region routing. The radar holds Fable 5.2 on Bedrock at assess. Gemini 4 Carbon costs \$2 and \$10 until November 30, then \$4 and \$20. Meta's Muse Ember is \$0.10 and \$0.50, and Alibaba's Qwen4-Max-Preview opened November 11 on a subscription plan only, per secondary reports. Earlier measurements still apply. Artificial Analysis put Sonnet 5.5 near \$7.60 per task, about 50% above Sonnet 5 at the same list price. Gemini 4 Argon spends 62,000 output tokens per task against 27,000 for GPT-6 Astra. Haiku 5.5 (radar: trial, with caution) lists at \$0.10 and \$0.50 per million tokens up to 100,000 prompt tokens and a five-times step above that, counts about 30% more tokens, and measured near three times GPT-6 Luna per task, with no Bedrock price yet. GPT-6.1 Terra on Bedrock adds a 10% In-Region fee and a 10x output burndown. DeepSeek V4.1 Flash stays at trial. Cost checks belong at the chosen thinking effort, not at list price.
+Spend caps need a correction. The November 6 edition said Cortex AI Gateway budget actions take up to eight hours. Snowflake's cost-management page says budget evaluation is periodic, so spend can pass a threshold before an action runs, up to 6.5 hours, or one hour with the low-latency option, while quota blocks apply within minutes. Only per-user quotas block, so test overshoot on a looping agent before relying on a budget as a cap; the radar entry moved on November 23. Decision models are the newest cost claim. Amazon says its Strands Decider replaced Claude Sonnet 4.6 on a 20-label ticket-routing job "just as well at 98% less cost", at about \$0.0222 a ticket against \$0.0005, with no volume or accuracy figure, and Google shipped a Gemini Decisions API at \$0.10 per million input tokens. Both are vendor numbers, and the useful part is Amazon's live three-way switch with a 45-second rollback. The fitted-threshold delegation preprint (agents 81.1 to 89.0 percent cheaper, but only with a threshold fitted on the agent's own trajectories, and 19.0 points lost unfitted) left the radar on November 23 after 37 days with no follow-up.
 
-Spend data and controls remain averages and self-reports. Ramp says company AI token spend grew 8.9% from September 23 to October 23 while token volume rose 37.1%, with no sample or method. Claude Code's docs put the average at about \$13 per developer per active day, and agent teams use roughly 7x more tokens in plan mode. A gist says Claude Code's background `agent_summary` call took 16.4% of one team's spend, and Anthropic put it at about 2% fleet-wide, with no audit of either share. Pooled group budgets (Claude Code 2.1.316 to 2.1.319), Devin Budgets and Codex CLI checkpoints moved control to the group level, and none has an independent test. Bedrock cost attribution can miss Anthropic spend under a Bedrock-only filter, and LiteLLM proxy spend rows for timed-out and retried requests were mispriced until 1.106.2. The Claude apps gateway spend caps entry was dropped on November 16 after 35 days with no follow-up, so the fail-closed setting lives in the action items. dbt State at \$0.094 per daily active target table counts each skipped test as a table. Epoch AI's 47 percent quarterly cost decline remains the background trend.
+Model terms keep changing, and list price again says little about cost per task. OpenAI released GPT-6.2 Astra at \$8 input and \$40 output per million tokens and GPT-6.2 Sol at \$2 and \$10 on November 17, as reported by aiweekly.co, because the first-party page was not reachable. Google released Gemini 4 Neon on November 18 at \$3 and \$15 (vendor-reported). Anthropic's Claude Fable 5.2 and the restricted Mythos 5.2 launched November 9 at \$8 and \$40, and on Bedrock refusals return HTTP 200, Fable 5.2 requires `aws_review` data retention, output burndown against quota is 10x for Fable 5.2 and 2.5x for Mythos 5.2, and neither supports In-Region routing (assess). Gemini 4 Carbon costs \$2 and \$10 until November 30, then \$4 and \$20. Haiku 5.5 (trial, with caution) lists at \$0.10 and \$0.50 up to 100,000 prompt tokens, counts about 30% more tokens, and measured near three times GPT-6 Luna per task. GPT-6.1 Terra on Bedrock adds a 10% In-Region fee and a 10x output burndown, and DeepSeek V4.1 Flash stays at trial. Artificial Analysis put Sonnet 5.5 near \$7.60 per task, and Gemini 4 Argon spends 62,000 output tokens per task against 27,000 for GPT-6 Astra. Cost checks belong at the chosen thinking effort, not at list price. Other spend data remains averages and self-reports: Ramp says company AI token spend grew 8.9% while token volume rose 37.1%, and dbt State at \$0.094 per daily active target table counts each skipped test as a table.
 
 ## Open questions
 
-- Does a measured overshoot test show how far past a Cortex AI Gateway spend cap a looping agent runs, given budget actions that take up to eight hours?
+- Does a measured overshoot test show how far past a per-user quota or a budget a looping agent runs on Cortex AI Gateway, given evaluation that can lag up to 6.5 hours?
+- Does Databricks publish the method behind its gateway sample, and does the fall in single-provider use hold outside firms that already chose a gateway?
+- Do Unity Gateway Insights or Lens Profiles publish real, non-illustrative task-category figures, and do the categories stay stable enough to compare models?
 - Does Amazon publish volume and an accuracy figure for the Strands Decider switch, and does Google publish accuracy as numbers for the Gemini Decisions API?
+- What do GPT-6.2 Astra and Sol cost per task at the chosen effort once OpenAI's first-party page is readable, and what does Gemini 4 Neon cost?
 - What does Claude Fable 5.2 cost per task at the chosen effort, and does the 10x output burndown make it cheaper or dearer than Mythos 5.2 in practice?
 - Does Gemini 4 Carbon's price doubling on November 30 change the routing choice, and does Qwen4-Max-Preview get a pay-per-token price?
 - Does Devin publish numeric quotas for its plans, and what does SWE-2 cost per task once the free period for self-serve plans ends on November 30?
@@ -32,16 +35,27 @@ Spend data and controls remain averages and self-reports. Ramp says company AI t
 - Does Databricks publish a method, task set and quality measure for the Smart Router's claimed 30% cost cut?
 - What failover latency does AgentCore Gateway add when a primary is throttled, and how do callers audit which destination answered?
 - There is no good public writeup of cache-hit-rate engineering for agent loops. Does OpenAI's 2.5 times cache-write price change the break-even?
-- Does Anthropic's lower-cost-per-task claim for Sonnet 5.5 hold at any thinking effort, or only below maximum?
 - Is Gemini 4 Argon's cost advantage still there when introductory pricing doubles and its higher token use is counted?
 - What does Haiku 5.5 cost on Bedrock, and does its cost per task still beat the alternatives once the tokenizer and the 100,000-token step are counted?
-- Does the fitted-threshold delegation result replicate outside its authors, and what does fitting cost on a real agent?
 - Does HydraFusion's per-task workflow choice beat a fixed model choice on cost and quality once numbers appear?
 - Nobody has published what happens when selectable reasoning effort and external routing are used together.
 - Do hard spending caps by default become standard on usage-billed services, and what do revenue-critical applications do instead?
 - Does anyone publish a measured dbt State bill, with skipped tests counted, for a test-heavy project?
-- Do the context-saving tools report task success, so a saving can be set against a quality change?
 - The token-inflation audit has been run once, by its authors, against unnamed providers. Nobody has reproduced it or published an output-length commitment.
+
+## 2026-11-23
+
+![[2026-11-23#^ep-databricks-ai-index]]
+
+![[2026-11-23#^ep-gateway-trace-analytics]]
+
+![[2026-11-23#^tert-gpt62]]
+
+![[2026-11-23#^tert-gemini-neon]]
+
+![[2026-11-23#^correction-cortex-gateway-lag]]
+
+Source note: [[2026-11-23]]
 
 ## 2026-11-16
 
@@ -344,15 +358,15 @@ Source note: [[2026-09-08]]
 ## On the radar
 
 - `🟢 ADOPT` **Cheap-model routing (Spotify Portal)**. (was [[2026-10-12]]) [[2026-11-16]]
-- `🟢 ADOPT` `⚠️` **dbt State**. (was [[2026-09-21]]) [[2026-10-21]]
-- `🔵 TRIAL` `⚠️` **Snowflake Cortex AI Gateway**. (was [[2026-10-09]]) [[2026-11-06]]
+- `🟢 ADOPT` `⚠️` **dbt State**. (was [[2026-10-21]]) [[2026-11-23]]
+- `🔵 TRIAL` `⚠️` **Snowflake Cortex AI Gateway**. (was [[2026-11-06]]) [[2026-11-23]]
 - `🔵 TRIAL` **DeepSeek V4.1 Flash**. (was [[2026-10-12]]) [[2026-11-16]]
 - `🔵 TRIAL` `⚠️` **Claude Haiku 5.5 as the subagent and compaction tier**. (was [[2026-10-08]]) [[2026-11-16]]
 - `🔵 TRIAL` `⚠️` **GPT-6.1 Terra on Bedrock**. [[2026-10-30]]
 - `🟡 ASSESS` `⚠️` **Claude Fable 5.2 on Bedrock**. [[2026-11-16]]
 - `🟡 ASSESS` `⚠️` **TypeSafe Jev and the System One decision-model class**. (was [[2026-10-17]]) [[2026-11-16]]
-- `🟡 ASSESS` **Fitted-threshold delegation to a decision model inside an agent loop (Strands DecisionModel, JevAgentHarness)**. [[2026-10-17]]
-- `◻️ WATCH` **Laminar flow-1 trace-error detection**. [[2026-10-21]]
+- `⚫ DROPPED` **Fitted-threshold delegation to a decision model inside an agent loop (Strands DecisionModel, JevAgentHarness)**. [[2026-10-17]], removed [[2026-11-23]]
+- `⚫ DROPPED` **Laminar flow-1 trace-error detection**. [[2026-10-21]], removed [[2026-11-23]]
 - `⚫ DROPPED` **Snowflake dynamic model routing**. [[2026-09-16]], removed [[2026-11-16]]
 - `⚫ DROPPED` **Claude apps gateway spend caps**. [[2026-10-12]], removed [[2026-11-16]]
 - `⚫ DROPPED` **Agent-aware CLI output (DuckDB agent mode)**. [[2026-10-12]], removed [[2026-11-16]]
@@ -360,11 +374,11 @@ Source note: [[2026-09-08]]
 - `⚫ DROPPED` **StepFun Step 5 Preview**. [[2026-09-21]], removed [[2026-10-26]]
 - `⚫ DROPPED` **MiMo-V2.6-Pro and MiMo-V2.6-Flash**. [[2026-09-22]], removed [[2026-10-26]]
 - `⚫ DROPPED` **1.5-bit quantised local inference (dlab inference framework)**. [[2026-09-22]], removed [[2026-10-26]]
-- `⚫ DROPPED` **Cognition SWE-2 selectable reasoning effort**. [[2026-09-14]], removed [[2026-10-17]]
-- `⚫ DROPPED` **Gemini 3.8 Live Extended Thinking**. [[2026-09-16]], removed [[2026-10-17]]
 - `⚫ DROPPED` **Qwen3.8-Omni-Flash**. [[2026-09-18]], removed [[2026-10-21]]
 - `⚫ DROPPED` **One-token-ahead prerouter expert prefetch (Edge0)**. [[2026-09-18]], removed [[2026-10-21]]
 - `⚫ DROPPED` **Ternary weights with FP16 group-wise scaling (Bonsai 2 27B)**. [[2026-09-18]], removed [[2026-10-21]]
+- `⚫ DROPPED` **Cognition SWE-2 selectable reasoning effort**. [[2026-09-14]], removed [[2026-10-17]]
+- `⚫ DROPPED` **Gemini 3.8 Live Extended Thinking**. [[2026-09-16]], removed [[2026-10-17]]
 - `⚫ DROPPED` **Terminal-output compression (RTK et al.)**. [[2026-09-11]]
 
 ## Related

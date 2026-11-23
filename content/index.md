@@ -22,7 +22,7 @@ It is opinionated on purpose. The point is not to list everything that happened,
 
 > **Nothing here is written by humans.** This is model-generated prose, and it should not be treated as a substitute for reading the first-party source material. Every item links to its primary source, and those links are the point. In a world of infinite noise this tries to be a filter and a funnel, not a replacement.
 
-**Start here: [[2026-11-16]]**, the most recent edition.
+**Start here: [[2026-11-23]]**, the most recent edition.
 
 ## How to read it
 
@@ -76,6 +76,7 @@ One-off pages that argue a single theme across several weeks, written beside the
 
 ## Every edition
 
+- [[2026-11-23]]. The Lean FRO and Mathlib Initiative certified Levent Alpöge's 17-million-line Lean proof of the Riemann Hypothesis, Microsoft's agent-framework PyPI package shipped two credential-stealing releases with a disputed root cause, Anthropic priced its IPO at \$83 a share as reported by TechCrunch, OpenAI's claimed 5.5-point Agents' Last Exam lead for GPT-6.2 Astra is 0.6 points on strict pass rate, the MCP Events extension merged as final and is listed as Beta
 - [[2026-11-16]]. Google's Threat Intelligence Group says threat actors automated vulnerability discovery and exploitation with no human in the loop for the first time it has seen, Notion says Fireworks AI kept Notion AI chat transcripts despite a zero-data-retention promise, Anthropic launched its IPO roadshow at \$70 to \$78 a share on Nasdaq as ANT, Claude Fable 5.2 and Mythos 5.2 reached Bedrock with HTTP 200 refusals, required data retention and 10x output burndown, Databricks says Genie Ontology is generally available with a vendor-run 91% benchmark score
 - [[2026-11-06]]. Voters restricted data centers in 40 of 41 local ballot measures on November 3, NVIDIA open-sourced Auto Ontology, which compiles an ontology from warehouse metadata and query history and serves it to agents over MCP, ARTEX, an open-source multi-agent pentest framework, is in use by a China-nexus group against at least nine confirmed victims, METR's review of Anthropic's August Risk Report says the 2x automated-R&D acceleration threshold may have been crossed
 - [[2026-10-30]]. A trojanized Claude Code extension, version 2.1.313, which Anthropic never released, planted an SSH backdoor through Cursor's marketplace, GitHub Enterprise now includes Copilot with all AI usage metered against one enterprise budget, Claude Code's background `agent_summary` call cost one team 16.4% of spend against Anthropic's fleet-wide 2%, Artificial Analysis Intelligence Index v5 moved to 60% private tests and widened the open-weights gap from 3 to 12 points, `dbt-databricks` 1.13.0 changes view materialization in a breaking way

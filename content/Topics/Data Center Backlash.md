@@ -1,7 +1,7 @@
 ---
 type: topic
 tags: [topic, data-center-backlash]
-updated: 2026-11-16
+updated: 2026-11-23
 living: true
 ---
 
@@ -15,9 +15,9 @@ Opposition to data centers became an electoral fact on November 3. Voters limite
 
 The polling had pointed this way for six weeks. A Senate Intelligence Committee chairman's letter on September 25 framed opponents as a possible foreign-influence network, and the same item carried a figure that 71% of Americans oppose an AI data center in their area, a majority in every party. An ABC News, Washington Post and Ipsos poll on October 26 put opposition to new data centers at 66%. The House passed the Ratepayer Protection Act 417 to 3 on September 17, which makes cost allocation to residents a bipartisan concern rather than a partisan one.
 
-The cost question underneath is contested, and this week two more studies disagreed. Cornell (Nature Energy, November 9) says data centers paid about 38% of the infrastructure cost of their growth in 2025, and wholesale prices rose about 10% or more in the worst hubs. A Harvard Business School and Wharton working paper says data centers explain about 4% of the residential increase. They measure different things, who pays for new infrastructure against retail price change, and both were read through press summaries. Earlier papers split too: one found a modest decline in average retail rates, one a 2.7% rise and one a 3 to 5% rise in wholesale prices. The Bureau of Labor Statistics put electricity up 4.4% over 12 months in September and attributed none of it to data centers. PJM's market monitor puts about \$29 billion of data-center-driven grid costs on 67 million ratepayers, a figure not yet checked against the monitor's own report, and said on November 12 that the December capacity auction will clear at the maximum price and add \$5 billion to \$10 billion to bills. Capacity prices rose more than 80% in the first nine months of 2026. Three Democratic senators say seven developers resist paying for grid upgrades that exist only because of their sites, a partisan advocacy report.
+The cost question underneath is contested, and two studies disagreed on November 16. Cornell (Nature Energy, November 9) says data centers paid about 38% of the infrastructure cost of their growth in 2025, and wholesale prices rose about 10% or more in the worst hubs. A Harvard Business School and Wharton working paper says data centers explain about 4% of the residential increase. They measure different things, who pays for new infrastructure against retail price change, and both were read through press summaries. Earlier papers split too: one found a modest decline in average retail rates, one a 2.7% rise and one a 3 to 5% rise in wholesale prices. The Bureau of Labor Statistics put electricity up 4.4% over 12 months in September and attributed none of it to data centers. PJM's market monitor puts about \$29 billion of data-center-driven grid costs on 67 million ratepayers, a figure not yet checked against the monitor's own report, and said on November 12 that the December capacity auction will clear at the maximum price and add \$5 billion to \$10 billion to bills. Capacity prices rose more than 80% in the first nine months of 2026. Three Democratic senators say seven developers resist paying for grid upgrades that exist only because of their sites, a partisan advocacy report.
 
-Money and secrecy complicate the picture on both sides. 80% of Virginia localities signed non-disclosure agreements with developers, and the same senators' report says developers seek NDAs and tax breaks. In Texas, Gov. Greg Abbott took about \$9M from data-center-related donors since July 2025, \$2.8M of it after he paused data-center grid approvals.
+The newest angle is emissions, from an advocacy source. The Better Data Center Project, a group with unnamed funders, estimates that 87% of Anthropic's 2028 power comes from gas and 11% from coal, a mid-case 32 million tonnes of carbon dioxide equivalent a year. Its own page carries caveats, including about 25% uncertainty on one site's capacity, and the item drew 1,024 Hacker News points. Money and secrecy complicate the picture on both sides. 80% of Virginia localities signed non-disclosure agreements with developers, and the same senators' report says developers seek NDAs and tax breaks. In Texas, Gov. Greg Abbott took about \$9M from data-center-related donors since July 2025, \$2.8M of it after he paused data-center grid approvals.
 
 ## Open questions
 
@@ -27,7 +27,14 @@ Money and secrecy complicate the picture on both sides. 80% of Virginia localiti
 - Does anyone settle the electricity-price question with data that separates data-center load from other causes, and do the Cornell and Harvard-Wharton papers reconcile once read in full?
 - Does the December PJM capacity auction clear at the maximum price, and does the monitor's \$5 billion to \$10 billion estimate hold in the result?
 - Does PJM's monitor publish the \$29 billion figure in its own report?
+- Does an independent source, or Anthropic's suppliers and utilities, confirm the Better Data Center Project's 87% gas and 11% coal split and its 32 million tonne estimate?
 - Do developers keep spending on state-level ads, as in Ohio, or shift to negotiated community-benefit terms?
+
+## 2026-11-23
+
+![[2026-11-23#^soc-anthropic-power]]
+
+Source note: [[2026-11-23]]
 
 ## 2026-11-16
 
